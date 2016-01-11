@@ -1,0 +1,53 @@
+\input{preamble}
+
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{url}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\thesisTitle
+  {Joseph Heron}
+  {Method Level Change Prediction Using Change History}
+  {Master of Science}
+  {Computer Science}
+  {University of Ontario Institute of Technology}
+  {Dr. Jeremy Bradbury}
+  {April}
+  {2015}
+
+\include{abstract}
+\include{acknowledgements}
+
+% Include lists in singlespacing
+\singlespacing
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+\printglossary[style=list]
+\clearpage
+\doublespacing
+
+\pagenumbering{arabic}
+
+% Include the Chapters
+\include{introduction}
+\include{background}
+\include{approach}
+\include{experiments}
+\include{related_works}
+\include{conclusions}
+
+\bibliographystyle{acm}
+\bibliography{references}
+
+\end{document}

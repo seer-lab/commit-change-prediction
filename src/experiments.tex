@@ -1,0 +1,198 @@
+\chapter{Experiments}
+\label{chap:experiments}
+
+\section{Sample Data}
+\label{sec:sample_data}
+
+%TODO place the tables in better positions.
+
+One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
+
+%The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Owner & Project & Start Date & End Date & \# of Commits & \# of Developers \\
+        \hline
+        ACRA & acra & 2010-04-18 & 2015-06-05 & 404 & 32 \\
+        apache & storm & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
+        facebook & fresco & 2015-03-26 & 2015-10-30 & 313 & 47 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Experiment projects}
+\label{tab:project_summary}
+\end{table}
+% acra start -> 15:52:18-04 end -> 09:02:56-04
+% storm start -> 05:20:45-04 end -> 16:16:02-05
+% fresco start -> 22:05:16-04 end -> 14:07:11-04
+
+Several projects were experimented on to test the purposed method. As noted, acra was primarily used for exploring and initial testing of the approach. Once confident in the results achieved with acra other projects were tested. The complete list of projects that were tested is found in table \ref{tab:project_summary}. Some simple statistics about the project are also provided such as the start and end date of each project, the number of commits that involved some change to Java code and the number of developers involved. The number of commits excludes any commit that lacked a change to a file containing Java code. Since were are only interested in files with Java code all other files are ignored. This gives a more accurate size of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Simply, all individuals who committed or authored commits to the project were included in this category. 
+% NOTE the number of commits is the number of commits that contained Java code and thus was useful towards parsing.
+% Note the number of developers is the total number of developers who both committed or authored commits, aka people who made pull requests are included.
+
+    %--- TODO get the number of commits, developers, and some other nice summary stats to provide comparability between different repositories. Create a table of these
+
+The experimental process for testing the various feature sets on acra was to use split the repository into four even quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
+    %- Alternatively the periods could be distributed such to make the number of commits equal between the sections. Further testing is needed to determine which method is more ideal.
+
+The model was trained to categorize whether a vector would be have a commit within the next 6 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
+
+%238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
+\begin{table}
+\begin{center}
+    \begin{tabularx}{\linewidth}{|l|X|l|l|}
+        \hline
+        Feature & Description & Data & Example Vector \\
+        \hline
+        $name$ & The name of the file & Main.java & 3 \\ \hline
+        $signature$ & The method name related to the change details & void work() \{ & 46\\ \hline
+        $change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \hline
+        $committer$ & The individual who committed the change & bob & 5 \\ \hline
+        $freq_{change}$ & The number of changes this method has been involved divided by the number of commits up till this point & 0.0464 & 0.0464 \\ \hline
+        $change_{prev}$ & A list of whether the method changed or not for the last 5 commits & \{3,3,0,3,1\} & \{1,1,0,1,1\} \\ \hline
+        $\Delta t$ & A set of time deltas between the last 5 commits that involved the method & \{68,416,569,772,898\} & \{68,416,569,772,898\} \\
+        \hline
+        $change_{next\_6}$ & Identifies whether at least one change occurred within the next 6 commits for the given method & 0 & 0\\
+        \hline
+    \end{tabularx}
+\end{center}
+    \caption{Candidate features for \gls{svm} model}
+    \label{tab:candidate_features}
+\end{table}
+%& \{68,1816,5469,7772,8198\} 
+
+% Name => Methods within a file are likely going to have similar change patterns
+% Signature => A method change history will likely be unique
+% Change_i => Whether the method changed or not at the current commit may provide insight as to whether the next 6 commits will feature a change as well.
+% committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
+% freq_change => Helps identify how likely the file is to change
+
+The table \ref{tab:candidate_features} contains each feature described in further detail. An example of each feature is provided to further illustrate them. As stated in the previous section \ref{sec:analysis}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the $name$ value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both $signature$ and $committer$ will be mapped from their respective values ``void work() \{'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
+
+Another small change made to the data to create a vector for the \gls{svm} model was to apply equation \ref{eq:change_type} to the values of $change_i$ and $change_{prev}$. As in table \ref{tab:candidate_features}, the value of $change_i$ is initially 3 which indicates a modification occurred. This is becomes 1 since modifying the method is a type of change. Likewise this is also applied to each entry in the $change_{prev}$ changing it into a bit vector.
+
+\begin{equation} 
+\label{eq:change_type}
+C = \left\{\begin{matrix}
+1 & change > 0 \\
+0 & otherwisetime delta
+\end{matrix}\right.
+\end{equation}
+
+Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly $\Delta t$ shows the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in equation \ref{eq:time_delta}. These two features then expanded to add a new category for each entry in the set. The ordering is maintained since each each entry maps to a previous commit in order.
+
+\begin{equation}
+\label{eq:time_delta}
+\Delta t_{i} = t(c_i) - t(c_{i-1}), i > 1
+\end{equation}
+
+% TODO place in a better spot.
+$freq_{change}$ is calculated as by taking the number commits which involve changes to the current method ($c_i$) divided by the the number of commits that current number of commits ($c_{cur}$).
+\begin{equation}
+\label{eq:freq_change}
+freq_{change} = \frac{|c_i|}{|c_{cur}|}
+\end{equation}
+
+% TODO provide how to calculate the other features.
+
+%TODO write algorithm for mapping names
+
+%** Check if cross validation is the correct term **
+Cross validation was then applied, taking a sample from each period of the project. Two sample sizes were tested, 100 and 1000. It was quickly discovered that maintaining a even distribution vectors categorized as positive (\textit{1}) and negative (\textit{0}) greatly improved the performance of the model. Therefore it is fair more ideal to keep even sets of each category or as close as possible. A simple example of an evaluation set that is even would be one where if the total size of the evaluation set is 100, 50 of the training vectors would be categorized as positive and 50 more would be categorized as negative.
+
+The model was then trained with the sample extracted within the time period of the first period. Once the model was trained the next period's sample set is used to test the model. The prediction made by the model is compared against the actual results. The number of correct predictions is tallied and divided by the sample size. 
+
+% <<< TODO create a diagram which shows how the data is partitioned and then tested. E.g. first quarter is used as training set, second is used as test set.
+    %<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
+
+The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 6 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 6 commits then it will leverage data from the next quarter to provide it's prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 6 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
+
+%This actually makes the argument for distributing the quarters based on number of commits. Of course all of this only truly effects the validation of the method rather and less the actual usage by the user.
+
+It should be noted that while the data set is split into quarters (4 parts) in order for a test to be applied to a quarter it must have data to test with that occurs after. Therefore the final quarter data sample cannot be used to train the model since by definition no data follows the final quarter.
+
+\section{Results}
+
+% TODO re-work this section
+The model was trained using various feature sets to determine which feature sets were ideal. Firstly, feature sets that the data could not be separated for any model were marked and not tested further. The vast majority of the tests with the 1000 sample size were inseparable.
+    %- it seems that 1000 sample size is not a optimal one for training or most of these features.
+All of the tests with a 1000 sample size had predictions rates between 40\%-70\%. Of which most were closer to 50\% providing around the same prediction accuracy of that of a coin.
+While the sample set size of 1000 provide rather disappointing, the sample size of 100 performed far better. If the candidate feature sets that could not be separated for every quarter are removed the range is 50\%-90\%. However if the two lowest candidates are dropped the range can be adjusted to 70\%-90\%. Of this the best candidates can be chosen and focused on further.
+
+The experiment for the top three candidates feature sets was run five times to test whether the results collected for them was not an outlier. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. This was performed for the 3 feature sets that scored the highest overall in the first set of experiments. The results proved rather similar with a variation that was to be expected.
+
+%%%%%%%%%%%%
+
+The goal of the \gls{svm} is to provide a good prediction of whether the a vector will fit in one category or the other. The more often the SVM correctly categorizes different vectors within the data set the better the prediction accuracy. For example, if the \gls{svm} is only able to correctly categorize half of the vectors, and fails to categorize the other half, then the model would have a $50\%$ prediction accuracy rate. A prediction of a single vector is verified by using a sample data set of which the actual category can be determined. Since the data set is split into four quarters, the category (of whether a method will be changed in the next 6 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter. Since their category has already been categorized the prediction ($p_i$) that the model provides can be compared against the actual ($a_i$) value shown in \ref{eq:vector_accuracy}.
+% Ensure this doesn't overlap to much with the above section which discusses cross-validation.
+
+
+\begin{equation} 
+\label{eq:vector_accuracy}
+v_i = \left\{\begin{matrix}
+1 & p_i = a_i\\ 
+0 & p_i \ne a_i
+\end{matrix}\right.
+\end{equation}
+
+The prediction accuracy ($P_{accuracy}$) can then be calculated using \ref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
+
+\begin{equation}
+\label{eq:prediction_accuracy}
+P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
+\end{equation}
+
+\begin{table}
+\begin{center}
+
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
+        acra & 0.824 & 0.806 & 0.87   \\ \hline
+        storm & 0.912 & 0.918 & 0.912 \\ \hline
+        fresco & 0.964 & 0.946 & 0.944 \\ \hline
+    \end{tabular}
+    \caption{Prediction accuracy with sample size of 100}
+    \label{tab:test_signature_change_freq_100}
+\end{center}
+
+\end{table}
+
+
+An experiment was run using the feature set of $\{signature, change_i, freq_{change}\}$. The test was run five times with a new random sample each time. The average prediction accuracy of each test was calculated for each project and is shown in table \ref{tab:test_signature_change_freq_100}. The results from the first project are rather standard as numerous other tests were done in order to attempt to find the best feature set for this particular data set. So the particular feature set used performed the best out of all the other feature sets tested. This is just one of the 18 other feature sets that were tested. Of those 19, 8 of them provided a training set which could not be separated and had $43\% \leq P_{accuracy} \leq 68\%$ with an average of $52.7\%$. These prediction scores are fairly abysmal providing on average a very slight advantage over a simple coin toss. Two more of 18 of candidate feature sets were ruled out because they also had a fairly low score of around $52\% \leq P_{accuracy} \leq 77\%$ and an average of $62.6\%$. Finally, the remaining candidate feature sets 8 of the 18 had an accuracy of $72\% \leq P_{accuracy} \leq 90\%$ with an average around $80.8\%$. 
+
+The top 3 candidates feature sets were tested and proved to have fairly similar results. The set $\{signature, change_i, freq_{change}\}$ was the smallest feature set and also provided the best results and was selected to test on other repositories. This was to test whether the candidate feature set was generally usable or only worked for the test repository \textit{acra}. This feature set was then tested on other GitHub project repositories. The results for the tests involving the other projects are also shown in table \ref{tab:test_signature_change_freq_100}. While an effort was made to optimize the candidate feature set to perform the best on the \textit{acra} dataset the other project's perform even better.
+
+In particular the project \textit{storm} has a very high prediction score and is much larger than the other two projects shown in table \ref{tab:project_summary}.
+
+It should be noted that while the \gls{svm} model when trained with a random sample size of 100 performed well, when a sample size of 1000 was used the prediction accuracy was greatly reduced. It would seem that a smaller sample size may prove more helpful regardless of the size of the project. 
+
+% TODO maybe run some tests where the sample test size is much larger to see how it performs.
+
+% TODO create a table outlining the other combinations.
+
+%%%%%%%%%%%%%%%%%%
+
+%\subsubsection{Detrimental Features}
+
+% TODO write about which features were tested and found to not benefit as part of the feature set.
+    % - e.g. committer, name.. 
+While initially a larger set of features (the candidate features) was considered, early tests showed poor results and indicated that some of the features may be detrimental. This is not entirely surprising since an \gls{svm} is very dependent on the features fitting within specific requirements outlined earlier in section \ref{sec:analysis}. Some of the features appeared at first to be acceptable but with further testing and understanding proved to be determinant to the vector in training the model.
+
+An incrementing unique integer, $commit_id$, was assigned to each commit. Initially this number was used as part of the candidate feature set. However further investigation determined $commit_id$ would only negatively affect the results. Given that each commit was provided a unique incrementing value only methods changed in the same commit would be given the same number. While this may seem initially useful tests showed the opposite. % TODO cite experimental data showing such.
+
+Other candidate features that were tested more extensively also proved to have a poor effect on the \gls{svm} model. The candidate features that appeared to have a negative impact on the \gls{svm} model were $committer$, $change_{prev}$, $\Delta t$. The fact that these features had a negative impact does not necessary mean that they are unrelated to the changes that occur to methods. However, in conjunction with other candidate features the model created consistently made inaccurate predictions.
+
+%\subsubsection{Valuable Features}
+
+While the previous candidate features performed poorly, candidate features $signature$, $change_i$, $freq_{change}$ and $name$ all were apart of feature sets that performed very well. 
+
+$name$ was found to not have a large impact and slight detrimental impact on performance but while included still achieved a rather high prediction score. 
+
+%features $signature$, $change_i$ and $freq_{change}$
+% test_signature-change-freq sample size 100
+
+% TODO add histogram of work.
