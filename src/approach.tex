@@ -5,16 +5,17 @@
 \section{Mining}
 
 % TODO ensure this is accurate.dfdsf
-\gls{oss} generally is software that is provided with the ability access the source code and make modifications to the source code. While certain licenses provide some restrictions on the ability to redistribute the software the main point of the source code of the software being freely available is key. \gls{oss} projects vary greatly in the scope and capability. Several very popular \gls{oss} projects are listed in table \ref{tab:oss_projects}.
+\gls{oss} generally is software that is provided with the ability access the source code and make modifications to the source code. While certain licenses provide some restrictions on the ability to redistribute the software the main point of the source code of the software being freely available is key. The scope and capability of \gls{oss} projects vary greatly. Several very popular \gls{oss} projects are listed in table \ref{tab:oss_projects}.
 
-\begin{table}
+%TODO make sure footnotes fit in better.
+\begin{table}[h!]
 \begin{minipage}{\textwidth} 
 \begin{center}
     \begin{tabular}{|l|l|l|}
         \hline
         Owner & Project & Description \\
         \hline
-        %TODO make sure footnotes fit in better.
+
         Mozilla & Firefox\footnote{\url{https://www.mozilla.org/en-US/firefox/desktop/}} & Internet Browser \\
         Linux & Linux Kernel\footnote{\url{https://www.kernel.org/}} & Operation System Kernel \\
         VideoLAN & VLC\footnote{\url{http://www.videolan.org/vlc/index.html}} & Media Player \\
@@ -33,24 +34,24 @@
 %PostgreSQL => PostgreSQL License
 %git => GNU General Public License v2, GNU Lesser General Public License 2.1
 
-The development of large software projects (regardless of them being \gls{oss}) have often made use of \gls{vcs}. A \gls{vcs} helps the developers of the project manage the changes of the project and facilitate the collaboration between developers. A \gls{vcs} will keep an current version of the project and keep track of the previous version of the project as well. This may be done through keeping a copy of each version of the project or by keeping track of all each change made to the project. \gls{svn} and git would be two examples of \gls{vcs}s.
+The development of large software projects (whether \gls{oss} or not) have often made use of \gls{vcs}. A \gls{vcs} helps the developers of the project manage the changes of the project and facilitate the collaboration between developers. A \gls{vcs} will keep an current version of the project and keep track of the previous version of the project as well. This may be done through keeping a copy of each version of the project or by keeping track of all each change made to the project. \gls{svn} and git would be two examples of \gls{vcs}s.
 
-Git is a \gls{dvcs} which differs slightly from normal \gls{svn} which is simply a \gls{vcs}. Git however uses provides a complete repository for the client which can work independent of network connection and thus also without a centralized server. The distributed aspect of git allows for easier use for all involved parities, however typically a centralized server is used to maintain communication between all interested parties.
+Git is a \gls{dvcs} and differs greatly from \gls{svn} which is a normal \gls{vcs}. Git will provide the user with a complete copy of the repository to be that can be worked on independent of network connection and thus also without a centralized server. The distributed aspect of git allows for easier use for all involved parities. The one main issue with a \gls{dvcs} is that the users will require a means to communicate to transfer changes made to the repository. Therefore typically one centralized server is used to maintain communication between all interested parties.
 
-Git has grown in popularity since it was created and is at the core of several version control management sites such as GitHub \footnote{\url{https://github.com/}}, BitBucket \footnote{\url{https://bitbucket.org/}} and GitLab \footnote{\url{https://gitlab.com/}}. These platforms tend to be fairly supportive of \gls{oss} projects through providing their services free of charge. For example, GitHub provides unlimited public repositories completely free. While these projects do not have to be licensed with an open source license they will publicly visible.
+Git has grown in popularity since it was created and is at the core of several \gls{vcm} sites such as GitHub \footnote{\url{https://github.com/}}, BitBucket \footnote{\url{https://bitbucket.org/}} and GitLab \footnote{\url{https://gitlab.com/}}. These platforms tend to be fairly supportive of \gls{oss} projects through providing their services free of charge. For example, GitHub provides unlimited public repositories completely free. While these projects do not have to be licensed with an open source license typically they will be since they are already publicly visible.
 
 % GitLab -> https://gitlab.com/
 % GitHub -> https://github.com/
 % BitBucket -> https://bitbucket.org/
 
-GitHub is the most popular of the version control management websites and hosts numerous very popular \gls{oss} projects including, the Linus Kernel, Swift\footnote{\url{https://swift.org/}} and React\footnote{\url{https://facebook.github.io/react/}}. GitHub also provides a public \gls{api} to allow for access to the data related to project repositories which is discussed further below. % TODO link to that.
-Given the popularity for hosting \gls{oss} and the availability of the project data, GitHub is a obvious choice for mining project data of \gls{oss}.
+GitHub is the most popular of the \gls{vcm} websites and hosts numerous very popular \gls{oss} projects including, the Linus Kernel, Swift\footnote{\url{https://swift.org/}} and React\footnote{\url{https://facebook.github.io/react/}}. GitHub also provides a public \gls{api} to allow for access to the data related to project repositories which is discussed further below. % TODO link to that.
+Given the popularity of GitHub for use by developers and the availability of the project data, GitHub is a obvious choice for mining project data. Especially since the target for mining software was to capture \gls{oss} projects to for testing. Publicly visible projects are also publicly accessible through the \gls{api} and the majority are open source.
 
 %%%%%%%%%%
 
-Git provides a simple interface to manage the repository regardless of which site is the central server. Therefore regardless which site the project resides on users can easily use it as long as they know the git interface. Git in essences is a file storage for the project as it changes. These changes are broken up into commits. A commit is a set of changes that a developer has made at a certain time. The developer has full control what gets committed, when it gets committed and even modified at a later date. Git also makes use of \textit{branches} which provide the ability to further control the flow of the project development. 
+Git provides a simple interface to manage the repository regardless of which site is the central server. Therefore regardless which site the project resides on users can easily interact with the project as long as they know the git interface. Git in essences is a file storage for the project that keeps track of changes made to the project. A \textit{commit} is a set of changes that a developer has made at a certain time. The developer has full control what gets committed, when it gets committed and even modified at a later date. Therefore the date of the commit merely means when the developer notified Git that a change was made.
 
-A branch is a series of commits that will make up a part of the project. In figure \ref{fig:network_diagram}, each dot would represent a commit and a set of dots connected by the same colored lines are the same branch. Branches are distinct from each other allowing for different versions of the project to be maintained and developed. The \textit{master} branch is the main branch from which all branches stem from and is generally where projects are developed on. On a similar note, a \textit{tag} is a branch that is frozen to allow for future reference. Often tags are uses to mark a significant point in the development history such as a project release. Finally, when two differently colored lines converge into a single dot then the two branches have been \textit{merged}. A merge indicates that the differences between the two branches are consolidated based on the developer's discretion.
+A branch is a series of commits that are often related. In figure \ref{fig:network_diagram}, each dot would represent a commit and a set of dots connected by the same colored lines are a branch. Branches can be considered different paths or deviations in the development from each other allowing for different versions of the project to be maintained and developed. The \textit{master} branch is the main branch, represented with black, from which all branches usually stem from and is generally where projects are developed on. On a similar note, a \textit{tag} is a branch that is frozen to allow for future reference. Often tags are uses to mark a significant point in the development history such as a project release. Finally, when two differently branches converge into a single dot then the two branches have been \textit{merged}. A merge indicates that the differences between the two branches are consolidated based on the developer's discretion.
 
 \begin{figure}[!ht]
     \centering
@@ -59,21 +60,24 @@ A branch is a series of commits that will make up a part of the project. In figu
     \label{fig:network_diagram}
 \end{figure}
 
-A commit consists of files that have been changed, more specifically a patch file. The patch file consists of a series of differences between the previous commit and this new commit. These patch files are key since they contain the actual changes made to the project and thus are the major point of interest.
+A commit consists of files that have been changed, more specifically a list of \textit{patch} files which each outline the changes made to their corresponding file. The patch file consists of a series of differences between the previous version of the file and this new version of the file. These patch files are key since they contain the actual changes made to the project and thus are the major point of interest.
 
-%TODO re-factor this
-The data collection targets open source projects that use GitHub. Specifically projects that are predominately written in Java. The overall method is not language specific however for the purpose of simplifying the implementation it was restricted to only allow for Java. The data collection simply collects all the project's development history realized through the changes made to the project. This includes the information related to developers, commits, tags (releases) and files in the project. The data is kept unprocessed and stored directly into a relational database (MySQL) which allows the data to be used and manipulated without requiring access to GitHub again. This was ideal during the more initial phase of the research allowing for various methods of analysis to be applied on the data set without requiring the data to be collected. The collection of data can take long to perform and depends largely on the size of the project. The collection process also allows for a partial of newly added project changes after the initial collection of the project. This allows for the project change data to be updated after the project has received new changes. These maintenance collections will often be much smaller and require a smaller amount of time to collect.
+In order to be able to predict changes within a project some project data must first be collected. The data collection is targeted towards open source projects that use GitHub. Specifically projects that are predominately written in Java. The overall method is not language specific however for the purpose of simplifying the implementation it was restricted to only allow for Java. The data collection simply collects all the project's development history realized through the changes made to the project. This includes the information related to developers, commits, tags (releases) and files in the project.
+
+The data is kept unprocessed and stored directly into a relational database (MySQL) which allows the data to be used and manipulated without requiring access to GitHub again. This was ideal during the more initial phase of the research allowing for various methods of analysis to be applied on the data set without requiring the data to be download again. The collection of data can take long to perform and depends largely on the size of the project. The collection process also allows for a partial collection of newly added project changes after the initial collection of the project. This allows for the changes made to the project after the initial collection of project data to be collected as well. These maintenance collections will often be much smaller and require a smaller amount of time to collect.
+
 
 %<<< TODO create a table which outlines the data elements >>>
 % TODO create a figure of an api return
 
-In order to collect data from GitHub's web \gls{api} is required. The GitHub \gls{api} allows for access to complete set of information stored in GitHub. Accessing the data through the \gls{api} allows for the process to be automated and vastly simplifies the process. This data set can be rather large since it includes a snapshot of the commit as well as all the change data and developer data related. In order to collect data the repository name and the name of the user who owns the repository must be known.
+The method chosen for collecting data for GitHub projects was using GitHub's web \gls{api}. The GitHub \gls{api} allows for access to the complete set of publicly available information stored in GitHub. Accessing the data through the \gls{api} allows for the process to be automated and vastly simplifies the process. This data set can be rather large since it includes a snapshot of the commit, all the change data and developer data related. In order to collect data the repository name and the name of the user who owns the repository must be known.
 
 % TODO talk about the collection script - how it takes a project, collects all the commits and then goes commit by commit extracting the necessary 
 
-%TODO re-factor this
 % TODO integrate this with above explanation of VCS and git
-Some aspects of the GitHub project's data set are not collected as they were deemed unnecessary however it could easily be extended to collect the other aspects. The aspects not collected are the issues, branches, forks and pull requests. The issues data outlines the problems reported in the project by users or developers of that project. GitHub allows for issues to be optional and thus some projects do not offer issue reporting through GitHub. Branches are also directly related to the project and they are essentially different workspaces for the developers. They allow for development of different versions (such as a development version compared to a stable version). The simplicities sake this project assumes that the main branch (master) is the development branch and the target of the analysis. Of course other branches could be analyzed however the perspective of the other branches typically originates from the master branch. A similar sub data set not collected or used is forks of the repository. For GitHub a fork is an externally created branch. This allows for a developer who does not own the project (but can view it) take a copy of the project and work on it without affecting the original. Forks differ slightly from branches in that they typically denote a deviation from the original project that is unlikely to be reconciled. Finally, pull requests facilitate external developers making small changes and are typically fixes to found problems or desired feature implementation. The owner of the repository can then decide to integrate the changes made in the pull request into the repository.
+Some aspects of the GitHub project's data set are not collected as they were deemed unnecessary however it could easily be extended to collect the other aspects. The aspects not collected are the issues, branches, forks and pull requests. The issues data outlines the problems reported in the project by users or developers of that project. GitHub allows for issues to be optional and thus some projects do not offer issue reporting through GitHub. Branches are also directly related to the project and they are essentially different workspaces for the developers. They allow for development of different versions (such as a development version compared to a stable version). The simplicities sake this project assumes that the main branch (master) is the development branch and the target of the analysis. Of course other branches could be analyzed however the perspective of the other branches typically originates from the master branch.
+
+A similar sub-data set not collected or used is forks of the repository. For GitHub a fork is an externally created branch. This allows for a developer who does not own the project (but can view it) make a copy of the project and work on it without affecting the original. Forks differ slightly from branches in that they typically denote a deviation from the original project that is unlikely to be reconciled. Finally, pull requests facilitate external developers making small changes and are typically fixes to found problems or desired feature implementation. The owner of the repository can then decide to integrate the changes made the original repository.
 
 
 %- TODO explain a little more
@@ -86,10 +90,11 @@ Some aspects of the GitHub project's data set are not collected as they were dee
 
 \section{Storage}
 
-As mentioned above the data is stored in a MySQL relational database which leverages \gls{sql}. There are two databases used for the collection and the analysis. One stores the raw mined data, whereas the second stores the analyzed data in a more convenient layout to be used later. A third database was added for the change prediction and uses a different relational database implementation because of some limitations within MySQL. This third database is in PostgreSQL, which is more advanced than MySQL and is simply a clone of the second database. The specific limitations that were encountered will be discussed more fully later on in this section.
+As mentioned above the data is stored in a MySQL relational database which leverages \gls{sql}. There are two databases used for the collection and the analysis. One stores the raw mined data, whereas the second stores the analyzed data in a more convenient layout to be used later. A third database was later added for the change prediction and uses a different relational database implementation because of some limitations within MySQL. This third database uses PostgreSQL, which has some more advanced features than MySQL and is simply a clone of the second database. The specific limitations that were encountered will be discussed more fully later on in this section.
 
 % TODO add a figure of the database schema.
 
+%TODO re-factor this
 The first database called \textit{github\_data} and stores the semi-raw data collected from GitHub's \gls{api}. This database contains 8 tables which store various aspects about the projects that were considered potentially important for the analysis later on. The tables of primary concern are \textit{repositories}, \textit{commits}, \textit{users}, \textit{files} and \textit{tags} tables. While not all of the data available from GitHub's \gls{api} is collected primary aspects are and the database could be extended to store more of the dataset if necessary. The only real difference between the raw data and the data stored in the \textit{github\_data} database is a slight layout changes and removing invalid or inaccessible data.
 
 After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the section \ref{sec:parsing}. This database, \textit{project\_stats}, is very similar in layout to the first database some extra tables have been added and a few data items have been removed. Mostly the storage expansions have been to hold change information calculated from the analysis of the data.
@@ -108,28 +113,28 @@ When the data has been collected and stored it can then be analyzed to extract m
 % - Fix by zooming in and then refreshing the page, make sure to get a piece of code that is not to wide.
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=1.0\textwidth]{images/added_example}
+        \includegraphics[width=0.80\textwidth]{images/added_example}
     \caption{Newly added method}
     \label{fig:added_method}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=1.0\textwidth]{images/deleted_method}
+        \includegraphics[width=0.80\textwidth]{images/deleted_method}
     \caption{Removed method}
     \label{fig:removed_method}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=1.0\textwidth]{images/simple_complex}
+        \includegraphics[width=0.80\textwidth]{images/simple_complex}
     \caption{Mixed changed method}
     \label{fig:changed_method}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=1.0\textwidth]{images/unchanged_example}
+        \includegraphics[width=0.80\textwidth]{images/unchanged_example}
     \caption{Unchanged method}
     \label{fig:unchanged_method}
 \end{figure}

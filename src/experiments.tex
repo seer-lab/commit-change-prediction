@@ -29,16 +29,17 @@ One thing that should be noted for the experiments that were run. Since all of t
 % storm start -> 05:20:45-04 end -> 16:16:02-05
 % fresco start -> 22:05:16-04 end -> 14:07:11-04
 
-Several projects were experimented on to test the purposed method. As noted, acra was primarily used for exploring and initial testing of the approach. Once confident in the results achieved with acra other projects were tested. The complete list of projects that were tested is found in table \ref{tab:project_summary}. Some simple statistics about the project are also provided such as the start and end date of each project, the number of commits that involved some change to Java code and the number of developers involved. The number of commits excludes any commit that lacked a change to a file containing Java code. Since were are only interested in files with Java code all other files are ignored. This gives a more accurate size of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Simply, all individuals who committed or authored commits to the project were included in this category. 
+Several projects were experimented on to test the purposed method. As noted, acra was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other projects using the feature sets that performed better. The complete list of projects that were tested is found in table \ref{tab:project_summary}. Some simple statistics about the project are also provided such as the start and end date of each project, the number of commits that involved changes to Java source files and the number of developers involved. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. This gives a more accurate size of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals who committed or authored commits to the current project. 
+    % An effort was made to not count individuals twice however some users may have changed their user name and thus showed up several times.
 % NOTE the number of commits is the number of commits that contained Java code and thus was useful towards parsing.
 % Note the number of developers is the total number of developers who both committed or authored commits, aka people who made pull requests are included.
 
     %--- TODO get the number of commits, developers, and some other nice summary stats to provide comparability between different repositories. Create a table of these
 
-The experimental process for testing the various feature sets on acra was to use split the repository into four even quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
+The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
     %- Alternatively the periods could be distributed such to make the number of commits equal between the sections. Further testing is needed to determine which method is more ideal.
 
-The model was trained to categorize whether a vector would be have a commit within the next 6 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
+The \gls{svm} model was trained to categorize whether the current method would be changed within the next 6 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
 
 %238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
 \begin{table}
@@ -70,19 +71,19 @@ The model was trained to categorize whether a vector would be have a commit with
 % committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
 % freq_change => Helps identify how likely the file is to change
 
-The table \ref{tab:candidate_features} contains each feature described in further detail. An example of each feature is provided to further illustrate them. As stated in the previous section \ref{sec:analysis}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the $name$ value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both $signature$ and $committer$ will be mapped from their respective values ``void work() \{'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
+The table \ref{tab:candidate_features} lists each feature with a more detailed description. An example of each feature is provided to further illustrate them. As stated in the previous section \ref{sec:analysis}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the $name$ value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both $signature$ and $committer$ will be mapped from their respective values ``void work() \{'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point values if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
 
-Another small change made to the data to create a vector for the \gls{svm} model was to apply equation \ref{eq:change_type} to the values of $change_i$ and $change_{prev}$. As in table \ref{tab:candidate_features}, the value of $change_i$ is initially 3 which indicates a modification occurred. This is becomes 1 since modifying the method is a type of change. Likewise this is also applied to each entry in the $change_{prev}$ changing it into a bit vector.
+Another small change made to the data to create a vector for the \gls{svm} model was to apply equation \ref{eq:change_type} to the values of $change_i$ and $change_{prev}$. As in table \ref{tab:candidate_features}, the value of $change_i$ is initially 3 which indicates a modification occurred. Since a modification is a type of change $C(change_i) = 1$ which is the value used by the vector. Likewise this is also applied to each entry in the $change_{prev}$ changing it into a bit vector.
 
 \begin{equation} 
 \label{eq:change_type}
 C = \left\{\begin{matrix}
 1 & change > 0 \\
-0 & otherwisetime delta
+0 & otherwise
 \end{matrix}\right.
 \end{equation}
 
-Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly $\Delta t$ shows the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in equation \ref{eq:time_delta}. These two features then expanded to add a new category for each entry in the set. The ordering is maintained since each each entry maps to a previous commit in order.
+Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly $\Delta t$ shows the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in equation \ref{eq:time_delta}. These two features then expanded to add a new category for each entry in the set. The ordering is maintained since each entry maps to a previous commit in order.
 
 \begin{equation}
 \label{eq:time_delta}
@@ -90,7 +91,7 @@ Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are 
 \end{equation}
 
 % TODO place in a better spot.
-$freq_{change}$ is calculated as by taking the number commits which involve changes to the current method ($c_i$) divided by the the number of commits that current number of commits ($c_{cur}$).
+$freq_{change}$ is calculated as by taking the number commits which involve changes to the current method ($c_i$) divided by the current number of commits ($c_{cur}$).
 \begin{equation}
 \label{eq:freq_change}
 freq_{change} = \frac{|c_i|}{|c_{cur}|}
@@ -108,7 +109,7 @@ The model was then trained with the sample extracted within the time period of t
 % <<< TODO create a diagram which shows how the data is partitioned and then tested. E.g. first quarter is used as training set, second is used as test set.
     %<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
 
-The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 6 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 6 commits then it will leverage data from the next quarter to provide it's prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 6 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
+The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 6 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 6 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 6 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
 %This actually makes the argument for distributing the quarters based on number of commits. Of course all of this only truly effects the validation of the method rather and less the actual usage by the user.
 
@@ -120,9 +121,9 @@ It should be noted that while the data set is split into quarters (4 parts) in o
 The model was trained using various feature sets to determine which feature sets were ideal. Firstly, feature sets that the data could not be separated for any model were marked and not tested further. The vast majority of the tests with the 1000 sample size were inseparable.
     %- it seems that 1000 sample size is not a optimal one for training or most of these features.
 All of the tests with a 1000 sample size had predictions rates between 40\%-70\%. Of which most were closer to 50\% providing around the same prediction accuracy of that of a coin.
-While the sample set size of 1000 provide rather disappointing, the sample size of 100 performed far better. If the candidate feature sets that could not be separated for every quarter are removed the range is 50\%-90\%. However if the two lowest candidates are dropped the range can be adjusted to 70\%-90\%. Of this the best candidates can be chosen and focused on further.
+While the results from the sample set size of 1000 rather disappointing, the sample size of 100 performed far better. If the candidate feature sets that could not be separated for every quarter are removed the range is 50\%-90\%. However if the two lowest candidates are dropped the range can be adjusted to 70\%-90\%. Of this the best candidates can be chosen and focused on further.
 
-The experiment for the top three candidates feature sets was run five times to test whether the results collected for them was not an outlier. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. This was performed for the 3 feature sets that scored the highest overall in the first set of experiments. The results proved rather similar with a variation that was to be expected.
+The experiment for the top three candidates feature sets were run five times to account for the random sampling. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. This was performed for the 3 feature sets that scored the highest overall in the first set of experiments. The results proved rather similar with a variation that was to be expected.
 
 %%%%%%%%%%%%
 
@@ -153,7 +154,6 @@ P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
         Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
         acra & 0.824 & 0.806 & 0.87   \\ \hline
         storm & 0.912 & 0.918 & 0.912 \\ \hline
-        fresco & 0.964 & 0.946 & 0.944 \\ \hline
     \end{tabular}
     \caption{Prediction accuracy with sample size of 100}
     \label{tab:test_signature_change_freq_100}
