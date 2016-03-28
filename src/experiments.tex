@@ -19,6 +19,8 @@ One thing that should be noted for the experiments that were run. Since all of t
         ACRA & acra & 2010-04-18 & 2015-06-05 & 404 & 32 \\
         apache & storm & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
         facebook & fresco & 2015-03-26 & 2015-10-30 & 313 & 47 \\
+        square & dagger & 2012-06-25 & 2016-01-30 & 38 & 39 \\
+        deeplearning4j & deeplearning4j & 2013-11-27 & 2016-02-13 & 62 & 62 \\
         \hline
     \end{tabular}
 \end{center}
@@ -39,9 +41,10 @@ Several projects were experimented on to test the purposed method. As noted, acr
 The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
     %- Alternatively the periods could be distributed such to make the number of commits equal between the sections. Further testing is needed to determine which method is more ideal.
 
-The \gls{svm} model was trained to categorize whether the current method would be changed within the next 6 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
+The \gls{svm} model was trained to categorize whether the current method would be changed within the next 5 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
 
 %238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
+% TODO update this list based on new candidates
 \begin{table}
 \begin{center}
     \begin{tabularx}{\linewidth}{|l|X|l|l|}
@@ -56,7 +59,7 @@ The \gls{svm} model was trained to categorize whether the current method would b
         $change_{prev}$ & A list of whether the method changed or not for the last 5 commits & \{3,3,0,3,1\} & \{1,1,0,1,1\} \\ \hline
         $\Delta t$ & A set of time deltas between the last 5 commits that involved the method & \{68,416,569,772,898\} & \{68,416,569,772,898\} \\
         \hline
-        $change_{next\_6}$ & Identifies whether at least one change occurred within the next 6 commits for the given method & 0 & 0\\
+        $change_{next\_6}$ & Identifies whether at least one change occurred within the next 5 commits for the given method & 0 & 0\\
         \hline
     \end{tabularx}
 \end{center}
@@ -67,7 +70,7 @@ The \gls{svm} model was trained to categorize whether the current method would b
 
 % Name => Methods within a file are likely going to have similar change patterns
 % Signature => A method change history will likely be unique
-% Change_i => Whether the method changed or not at the current commit may provide insight as to whether the next 6 commits will feature a change as well.
+% Change_i => Whether the method changed or not at the current commit may provide insight as to whether the next 5 commits will feature a change as well.
 % committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
 % freq_change => Helps identify how likely the file is to change
 
@@ -78,8 +81,8 @@ Another small change made to the data to create a vector for the \gls{svm} model
 \begin{equation} 
 \label{eq:change_type}
 C = \left\{\begin{matrix}
-1 & change > 0 \\
-0 & otherwise
+1 & \text{if} change > 0 \\
+0 & \text{otherwise}
 \end{matrix}\right.
 \end{equation}
 
@@ -101,15 +104,34 @@ freq_{change} = \frac{|c_i|}{|c_{cur}|}
 
 %TODO write algorithm for mapping names
 
-%** Check if cross validation is the correct term **
-Cross validation was then applied, taking a sample from each period of the project. Two sample sizes were tested, 100 and 1000. It was quickly discovered that maintaining a even distribution vectors categorized as positive (\textit{1}) and negative (\textit{0}) greatly improved the performance of the model. Therefore it is fair more ideal to keep even sets of each category or as close as possible. A simple example of an evaluation set that is even would be one where if the total size of the evaluation set is 100, 50 of the training vectors would be categorized as positive and 50 more would be categorized as negative.
+During the initial phase of determining a suitable set of features the project was divided into four sections, equally long based on time. This allowed for the first dataset quarter (quarter one) to be used to train the model and the second dataset (quarter two) to be used to test the model. Similarly quarter two would be used for training and then dataset three (quarter three) would be used for tested. Finally quarter three would be used for training and the fourth dataset (quarter four) would be used for testing. This allowed for the candidate features to be tested and limited the amount of data necessary to extract from the dataset since the datasets were reused.
 
 The model was then trained with the sample extracted within the time period of the first period. Once the model was trained the next period's sample set is used to test the model. The prediction made by the model is compared against the actual results. The number of correct predictions is tallied and divided by the sample size. 
 
+% TODO create simple picture of data set split into four quarters.
 % <<< TODO create a diagram which shows how the data is partitioned and then tested. E.g. first quarter is used as training set, second is used as test set.
     %<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
 
-The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 6 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 6 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 6 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
+The size of the datasets was initially set to one of two arbitrary values, either 100 or 1000. These values were picked for convince and provided in the later experiments to be unhelpful. However in the initial experiments the size of 100 proved to be more useful since it tended to be separable at least for some candidate feature sets. The sample size of 1000 however rarely separable and was not used soon after this was discovered. 
+
+
+%%%%%%
+A more rigorous test was designed to account for that the categorization used the future 5 commits. For the tests the future 5 commits are always known otherwise the prediction could not be tested. Therefore the end of the quarter is not the actual end since the vector must also know about 5 commits following. Therefore the actual end of the quarter is $c_i - 5$ where $c_i$ is the last commit in the given quarter. This therefore necessitates a \textit{gap} to be created between the two training tests as shown in %\ref{}.
+
+% TODO shown an example of this with IMAGES!
+
+Another issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. The test is then designed around a given date with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
+
+% TODO show a diagram of $t$ => training commit count and $p$ prediction test commit count
+% |cur-gap-t       cur-gap|   cur|              cur+p|
+
+The final change that was accounted for was to change the population sample size from a fixed number to a percentage. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
+
+% TODO show a final picture with population size as a percentage.
+
+% TODO access this stuff below. Remember It's now 5 commits not 6 and also a lot of this stuff is no longer relevant.
+
+The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
 %This actually makes the argument for distributing the quarters based on number of commits. Of course all of this only truly effects the validation of the method rather and less the actual usage by the user.
 
@@ -118,24 +140,24 @@ It should be noted that while the data set is split into quarters (4 parts) in o
 \section{Results}
 
 % TODO re-work this section
-The model was trained using various feature sets to determine which feature sets were ideal. Firstly, feature sets that the data could not be separated for any model were marked and not tested further. The vast majority of the tests with the 1000 sample size were inseparable.
-    %- it seems that 1000 sample size is not a optimal one for training or most of these features.
-All of the tests with a 1000 sample size had predictions rates between 40\%-70\%. Of which most were closer to 50\% providing around the same prediction accuracy of that of a coin.
-While the results from the sample set size of 1000 rather disappointing, the sample size of 100 performed far better. If the candidate feature sets that could not be separated for every quarter are removed the range is 50\%-90\%. However if the two lowest candidates are dropped the range can be adjusted to 70\%-90\%. Of this the best candidates can be chosen and focused on further.
+% TODO talk about the new experiments, aka can't really work on this until I'm finished some good experiments
 
 The experiment for the top three candidates feature sets were run five times to account for the random sampling. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. This was performed for the 3 feature sets that scored the highest overall in the first set of experiments. The results proved rather similar with a variation that was to be expected.
 
 %%%%%%%%%%%%
-
-The goal of the \gls{svm} is to provide a good prediction of whether the a vector will fit in one category or the other. The more often the SVM correctly categorizes different vectors within the data set the better the prediction accuracy. For example, if the \gls{svm} is only able to correctly categorize half of the vectors, and fails to categorize the other half, then the model would have a $50\%$ prediction accuracy rate. A prediction of a single vector is verified by using a sample data set of which the actual category can be determined. Since the data set is split into four quarters, the category (of whether a method will be changed in the next 6 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter. Since their category has already been categorized the prediction ($p_i$) that the model provides can be compared against the actual ($a_i$) value shown in \ref{eq:vector_accuracy}.
+% This part is fine.
+The goal of the \gls{svm} is to provide a good prediction of whether the a vector will fit in one category or the other. The more often the SVM correctly categorizes different vectors within the data set the better the prediction accuracy. For example, if the \gls{svm} is only able to correctly categorize half of the vectors, and fails to categorize the other half, then the model would have a $50\%$ prediction accuracy rate. A prediction of a single vector is verified by using a sample dataset of which the actual category can be determined. The test dataset categorizations are represented as the set of $p$ and the predicted categorization the model is represented as $a$. Equation \ref{eq:vector_accuracy} shows how each the accuracy of each vector is determined.
 % Ensure this doesn't overlap to much with the above section which discusses cross-validation.
+
+% TODO remove
+%Since the data set is split into four quarters, the category (of whether a method will be changed in the next 5 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter.
 
 
 \begin{equation} 
 \label{eq:vector_accuracy}
 v_i = \left\{\begin{matrix}
-1 & p_i = a_i\\ 
-0 & p_i \ne a_i
+1 & \text{if } p_i = a_i\\ 
+0 & \text{otherwise}
 \end{matrix}\right.
 \end{equation}
 
@@ -154,6 +176,7 @@ P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
         Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
         acra & 0.824 & 0.806 & 0.87   \\ \hline
         storm & 0.912 & 0.918 & 0.912 \\ \hline
+        %fresco & 0.964 & 0.946 & 0.944 \\ \hline
     \end{tabular}
     \caption{Prediction accuracy with sample size of 100}
     \label{tab:test_signature_change_freq_100}
@@ -161,7 +184,7 @@ P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
 
 \end{table}
 
-
+%%% Rework below.
 An experiment was run using the feature set of $\{signature, change_i, freq_{change}\}$. The test was run five times with a new random sample each time. The average prediction accuracy of each test was calculated for each project and is shown in table \ref{tab:test_signature_change_freq_100}. The results from the first project are rather standard as numerous other tests were done in order to attempt to find the best feature set for this particular data set. So the particular feature set used performed the best out of all the other feature sets tested. This is just one of the 18 other feature sets that were tested. Of those 19, 8 of them provided a training set which could not be separated and had $43\% \leq P_{accuracy} \leq 68\%$ with an average of $52.7\%$. These prediction scores are fairly abysmal providing on average a very slight advantage over a simple coin toss. Two more of 18 of candidate feature sets were ruled out because they also had a fairly low score of around $52\% \leq P_{accuracy} \leq 77\%$ and an average of $62.6\%$. Finally, the remaining candidate feature sets 8 of the 18 had an accuracy of $72\% \leq P_{accuracy} \leq 90\%$ with an average around $80.8\%$. 
 
 The top 3 candidates feature sets were tested and proved to have fairly similar results. The set $\{signature, change_i, freq_{change}\}$ was the smallest feature set and also provided the best results and was selected to test on other repositories. This was to test whether the candidate feature set was generally usable or only worked for the test repository \textit{acra}. This feature set was then tested on other GitHub project repositories. The results for the tests involving the other projects are also shown in table \ref{tab:test_signature_change_freq_100}. While an effort was made to optimize the candidate feature set to perform the best on the \textit{acra} dataset the other project's perform even better.

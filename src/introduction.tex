@@ -1,4 +1,28 @@
 \chapter{Introduction}
 \label{chap:introduction}
 
-Introduction here with example \gls{api} and citation~\cite{Ran12}
+% intro
+
+% Garbage.
+This thesis generally covers topics relating to effort estimation and planning of project development. The development of a software project can vary greatly based on the scope of the project. Larger scale projects that have a complex task or set of tasks to accomplish often require a long period of time with a committed team of developers. Even once a project completely performs a task further development is needed to maintain the project for the remainder of its life.
+
+For the development of software in a commercial setting the ability for managers to identify the cost of a project is essential for effective business decisions. Effort estimation is one possible avenue for project managers to leverage to identify the complexity of a project and associated cost of that project.
+
+The ability of developers or managers to extract more information from a project is essential to helping them make more informed decisions about the development of the project. For example if a developer can identify a location within a project that is very likely to receive changes in future development then the development may be more inclined carefully consider the types of changes necessary to make.
+
+% Thesis statement
+We propose a tool that assists in managing the development of a software project by predicting which changes will occur. This work explores leveraging change prediction of the source code using the change history to assist in the development of large scale projects.
+
+% Contributions
+Our contributions are in mining of \gls{oss}, visualization of a project's change history, machine learning change prediction, data collect which can be used and extended.
+
+% ---Explain
+Mining of open source projects has been widely however the actual processing of the data will vary depending on the application. Analysis of change data requires extracting data for a large set of data.
+
+Visualization of the data collected allows for a more accessible look at the data to provide potential insights.
+
+The change prediction process leverages machine learning techniques to train based on the data collected through mining GitHub.
+
+% Organization
+% TODO talk about how the rest of the paper is organized.
+In chapter \ref{chap:background} more details are given related to the foundation of this work. Primarily this will cover the data that is collected for the analysis. The following chapter \ref{chap:approach} discusses the change prediction approach from how the data is collected and stored to what methods are used for to predict change within the project. Chapter \ref{chap:experiments} reports the experiments conducted and their results. The related work is covered in chapter \ref{chap:related_works} providing a catalog of various works that this research builds on.

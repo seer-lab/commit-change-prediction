@@ -1,4 +1,119 @@
 \chapter{Related Work}
 \label{chap:related_works}
 
-Related works here
+There are several different areas of study that are related to this work. Some are more closely related than others and will receive more attention accordingly. A quick summary of the fields that are related are as follows: 
+
+% TODO run libsvm analysis on best candidate feature set.
+
+% TODO work on.
+% - Data Mining
+%   - MSR is a great place for these types of works.
+% - Repository/Version History analysis
+%   - Analyzing the changes made to the project to some end.
+% - Prediction systems
+%   - Change prediction
+%   - Predicting whether change will occur or which changes will occur given using some data set.
+
+%21/20-25
+
+% Change Prediction, version history as resource
+
+% \begin{table}
+% \begin{center}
+%     \begin{tabular}{|l|l|l|l|l|l|}
+%         \hline
+%         Author & AI Technique & Source & Data & Goal & Accuracy \\
+%         \hline
+%         Ying et al. & N/A - Uses previous changes & CVS & Change Patterns & Related source code that should change & Mozilla: \{ P:50\% R:20\%-30\% \} Eclipse: \{ P:30\% R:10\%-20\% \} \\
+%         Kagdi and Maletic & N/A - Impact Analysis & SVN & Current and historical dependencies & Software change & N/A \\
+%         Hassan and Holt & Heuristics & CVS and Perforce & Change History & (Varies) Developer Co-Changes and Entity Co-Change and Entity Co-Call Use Define (CUD) and Entity Co-Change File & Accuracy \\
+%         \hline
+%     \end{tabular}
+% \end{center}
+% \caption{Experiment projects}
+% \label{tab:project_summary}
+% \end{table}
+
+
+
+% ~ denotes an approximation based on a graph.
+%  ** Best performance
+
+% Author & AI Technique & Source & Data & Goal & Accuracy
+
+% Ying et al. & N/A - Uses previous changes & CVS & Change Patterns & Related source code that should change & Mozilla: { Precision: 0.50, Recall: 0.20-0.30} Eclipse: { Precision: 0.30 Recall: 0.10-0.20 }
+
+% Kagdi and Maletic & N/A - Impact Analysis & SVN & Current and historical dependencies & Software change & N/A
+
+% Hassan and Holt & Heuristics & CVS and Perforce & Change History & (Several Methods) Developer Co-Changes (DEV), History Entity Co-Change (HIS), Entity Co-Call Use Define (CUD), Entity Co-Change File (FIL) and Hybrid (HYB) & DEV: {Precision: 0.01, Recall: 0.74 }, HIS { Precision: 0.06, Recall: 0.87 }, CUD { Precision: 0.02, Recall: 0.42}, FIL { Precision: 0.12, Recall: 0.83 }, HYB(80, 10) { Precision: 0.49, Recall: 0.51 }**, HYV(80,30) { Precision: 0.35~, Recall: 0.65~ } HYB(60,30) { Precision: 0.25~, Recall: 0.75~ } & Very Related
+
+% Bantelay et al. & Impact Analysis & Mylyn and CVS & Interactions (through Mylyn) and commit history and relationships (CVS) & Commit Prediction
+
+% Thwin and Quah & Neural Networks (Ward Neural Network and General Regression Neural Network (GRNN)) & Source Code (Static Analysis from Project) & Object Oriented static metrics (inheritance, complexity, cohesion, coupling and memory metrics) & 1: Number of defects in a class, 2: number of lines changed per class & Correlation is tested rather than accuracy. 1: (R^2: 0.88, r: 0.94; R^2: 0.86: r: 0.94) 2: (R^2: 0.71, r: 0.86; R^2: 0.56, 0.76)
+
+
+% Jalbert & Support Vector Machine & Source Code (Static Analysis from Project) & source code static metrics and test suite static metrics & predict test suite mutation score & approx 0.71
+
+
+    % Change given a set of changes.
+Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
+
+Kagdi and Maletic also leverage version history changes to perform software change predictions \cite{Kagdi2007}. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. 
+
+In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. \cite{Hassan2004} The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one.
+
+Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project \cite{Bantelay2013}. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together.
+
+Giger et al. attempt to build off of previous work in change prediction (proneness) by providing predictions relating to more refined entities \cite{Giger2012}. The syntax changes are recorded but an attempt is made to capture semantic changes on the statement level \cite{Giger2012}.
+
+Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
+
+    % Close source, prediction
+Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
+
+% Change prediction (proneness), visualization
+Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
+
+% Change prediction (proneness)
+Koru and Liu study and describe change-prone classes found within open source projects \cite{GunesKoru2007}.
+
+% impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
+Wilkerson attempts to classify different types of changes that occur to a project throughout its development \cite{Wilkerson2012}. The classification can then be used to identify the impact that a given change will have on other aspects of the project.
+
+    % Defect prediction, change attributes, static attributes
+Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+
+    % predict software quality based on code metrics
+Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+
+% MSR, guiding future changes
+Zimmermann et al. map the changes that certain developers make and who change certain functions to the functions they also change \cite{Zimmermann2005a}. 
+
+% Prediction of something
+Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
+
+% Change analysis
+Maletic and Collard investigate changes with a software project's development cycle. The changes are extracted and stored in an more easily usable representation \cite{Maletic2004}.
+
+% MSR Change extraction of changes
+Canfora et al. propose a method for extracting and refining the changes made throughout the life a project to be used in more effective analyses \cite{Canfora2007c}.
+
+Hemmati et al. take a comprehensive look at the research related to \gls{msr} to determine best practices and point towards future work \cite{Hemmati2013}.
+
+    % (TODO check) Close source, identifying areas likely to have change
+Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change.
+
+    % Bug localization through prediction, change history, defect history, temporal decay.
+Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
+
+% MSR in general
+Hassan cover the different metrics and uses of \gls{msr} \cite{Hassan2006}.
+
+% Validation of Change history research, benchmark
+Dit et al. provide a benchmark dataset to help in the testing and comparing of various methods for improving software maintenance tasks \cite{Dit2013}.
+
+% - Recommendation systems
+%   - Change recommendation.
+%   - Recommending to the user which changes *should be made* based on some analysis. (loosely tied because the end result is accomplishing this).
+
+
