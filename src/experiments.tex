@@ -13,21 +13,23 @@ One thing that should be noted for the experiments that were run. Since all of t
 % TODO write a description of each project
 % TODO consider placing this into introduction
 \begin{table}
+\begin{minipage}{\textwidth}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
         Owner & Project & Start Date & End Date & \# of Commits & \# of Developers \\
         \hline
-        ACRA & acra & 2010-04-18 & 2015-06-05 & 404 & 32 \\
-        apache & storm & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
-        facebook & fresco & 2015-03-26 & 2015-10-30 & 313 & 47 \\
-        square & dagger & 2012-06-25 & 2016-01-30 & 496 & 39 \\
-        deeplearning4j & deeplearning4j & 2013-11-27 & 2016-02-13 & 3523 & 62 \\
+        ACRA & acra\footnote{\url{https://github.com/ACRA/acra}} & 2010-04-18 & 2015-06-05 & 404 & 32 \\
+        apache & storm\footnote{\url{https://github.com/apache/storm}} & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
+        facebook & fresco\footnote{\url{https://github.com/facebook/fresco}} & 2015-03-26 & 2015-10-30 & 313 & 47 \\
+        square & dagger\footnote{\url{https://github.com/square/dagger}} & 2012-06-25 & 2016-01-30 & 496 & 39 \\
+        deeplearning4j & deeplearning4j\footnote{\url{https://github.com/deeplearning4j/deeplearning4j}} & 2013-11-27 & 2016-02-13 & 3523 & 62 \\
         \hline
     \end{tabular}
 \end{center}
 \caption{Experiment projects}
 \label{tab:project_summary}
+\end{minipage}
 \end{table}
 % acra start -> 15:52:18-04 end -> 09:02:56-04
 % storm start -> 05:20:45-04 end -> 16:16:02-05
@@ -307,24 +309,8 @@ freq_{change} = \frac{|c_i|}{|c_{cur}|}
 
 %TODO write algorithm for mapping names
 
-% TODO remove these paragraphs since they are outlined in the subsections above.
-%During the initial phase of determining a suitable set of features the project was divided into four sections, equally long based on time. This allowed for the first dataset quarter (quarter one) to be used to train the model and the second dataset (quarter two) to be used to test the model. Similarly quarter two would be used for training and then dataset three (quarter three) would be used for tested. Finally quarter three would be used for training and the fourth dataset (quarter four) would be used for testing. This allowed for the candidate features to be tested and limited the amount of data necessary to extract from the dataset since the datasets were reused.
-
-%The model was then trained with the sample extracted within the time period of the first period. Once the model was trained the next period's sample set is used to test the model. The prediction made by the model is compared against the actual results. The number of correct predictions is tallied and divided by the sample size. 
-
-%<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
-
-%The size of the datasets was initially set to one of two arbitrary values, either 100 or 1000. These values were picked for convince and provided in the later experiments to be unhelpful. However in the initial experiments the size of 100 proved to be more useful since it tended to be separable at least for some candidate feature sets. The sample size of 1000 however rarely separable and was not used soon after this was discovered. 
-
-%%%%%%
-%A more rigorous test was designed to account for that the categorization used the future 5 commits. For the tests the future 5 commits are always known otherwise the prediction could not be tested. Therefore the end of the quarter is not the actual end since the vector must also know about 5 commits following. Therefore the actual end of the quarter is $c_i - 5$ where $c_i$ is the last commit in the given quarter. This therefore necessitates a \textit{gap} to be created between the two training tests as shown in %\ref{}.
-
-% TODO shown an example of this with IMAGES!
-
+% TODO put this into the subsection experiment 8-9
 Another issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. The test is then designed around a given date with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
-
-% TODO show a diagram of $t$ => training commit count and $p$ prediction test commit count
-% |cur-gap-t       cur-gap|   cur|              cur+p|
 
 The final change that was accounted for was to change the population sample size from a fixed number to a percentage. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -334,16 +320,12 @@ The final change that was accounted for was to change the population sample size
 
 The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
-%This actually makes the argument for distributing the quarters based on number of commits. Of course all of this only truly effects the validation of the method rather and less the actual usage by the user.
-
-It should be noted that while the data set is split into quarters (4 parts) in order for a test to be applied to a quarter it must have data to test with that occurs after. Therefore the final quarter data sample cannot be used to train the model since by definition no data follows the final quarter.
-
 \section{Results}
 
 % TODO re-work this section
-% TODO talk about the new experiments, aka can't really work on this until I'm finished some good experiments
+% TODO most of this section is out of date and needs to be done.
 
-The experiment for the top three candidates feature sets were run five times to account for the random sampling. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. This was performed for the 3 feature sets that scored the highest overall in the first set of experiments. The results proved rather similar with a variation that was to be expected.
+For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score.
 
 %%%%%%%%%%%%
 % This part is fine.
