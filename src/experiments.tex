@@ -162,6 +162,21 @@ Finally the last few tests in this experiment set included a new feature. This f
 
 At the end of this set of tests it was apparent that a deeper understanding of the candidate features was necessary to improve the results. Therefore an analysis of each candidate feature was performed both on the quality of the feature and the possible relationship with others. \gls{svm} models are particularly sensitive towards dependencies between the variables. It was also necessary to properly convert data into a format that could be used by the database. This was talked about in more detail in section \ref{subsec:svm_prediction}.
 
+\begin{table}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Project & Sample Size (n) & Accuracy \\
+        \hline  
+        acra & 100 & $70\%$ \\
+        acra & 1000 & $52\%$ \\
+        \hline
+    \end{tabular}
+\end{center}
+    \caption{Experiment 5 Results}
+    \label{tab:experiment_5_results}
+\end{table}
+
 \subsection{Experiment 6}
 
 After analyzing the candidate features a more ideal set of features was created. The tests were preformed again using sample sizes of $100$ and $1000$. After the changes were made to the data, the performance improved however some of the features did not prove as useful. However the improvement was marginal and therefore necessitated shift in focus from the features to the prediction method. Specificity the data sampling method was inspected to attempt improve the prediction results. Instead of breaking the data set into four even sets based on the date range the data was divided into two even sets based on date as shown in figure \ref{fig:exp_6_data_range}
@@ -173,7 +188,57 @@ After analyzing the candidate features a more ideal set of features was created.
     \label{fig:exp_6_data_range}
 \end{figure}
 
+The results of the experiment are outlined in table \ref{tab:experiment_6_results}. The larger sample with $n = 1000$ is far worse than with $n = 100$. This however was a worse result than when the data set was divided into 4 equal parts.
 
+\begin{table}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Project & Sample Size (n) & Accuracy \\
+        \hline
+        acra & 100 & $60\%$ \\
+        acra & 1000 & $47\%$ \\
+        \hline
+    \end{tabular}
+\end{center}
+    \caption{Experiment 6 Results}
+    \label{tab:experiment_6_results}
+\end{table}
+
+\subsection{Experiment 7}
+
+Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then figure \ref{fig:exp_7_data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
+    \caption{Experiment 7 Data Sample Range}
+    \label{fig:exp_7_data_range}
+\end{figure}
+
+Another change to the sampling method was to sample a percentage of the data within the sample rather than a fixed amount. The sample ranges provided a larger range of data to sample and thus sticking to a arbitrary amount of tuples was updated. This however introduced biasing issues with the data set since typically one category or the other had the majority of tuples within the sample. Fixing this issue is talked about in further detail in section \ref{sec:random_forest_predictions}. Similar to the previous sampling techniques the data set was sampled randomly. Therefore the percentage of data sampled had a large impact on how long it took to train the model but typically also on the prediction results of the model. 
+
+% TODO discuss the results
+
+\subsection{Experiment 8}
+
+After more or less establishing a data sampling model the candidate feature set was looked at again in an attempt to improve the prediction results. A few of the candidate features were removed and a minimum candidate feature set was determined which provided the best results for the current test project \textit{acra}.
+
+% TODO show some results
+
+% TODO outline the candidate feature set that performed the best for SVM
+
+The optimal value of $m$ is a more challenging issue since for project which have a large amount of rapid change occurring in the project larger value seems to provide a more positive result. Where as smaller projects or ones that have a slower rate of change tend to do far better with a smaller value of $m$. 
+
+\subsection{Experiment 9}
+
+After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. Random Forest as discussed in greater detail in section \ref{sec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
+
+Random forest while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
+
+% TODO provide some results.
+
+% TODO consolidate the stuff below into what is written above.
 
 %The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
 
@@ -242,19 +307,17 @@ freq_{change} = \frac{|c_i|}{|c_{cur}|}
 
 %TODO write algorithm for mapping names
 
-During the initial phase of determining a suitable set of features the project was divided into four sections, equally long based on time. This allowed for the first dataset quarter (quarter one) to be used to train the model and the second dataset (quarter two) to be used to test the model. Similarly quarter two would be used for training and then dataset three (quarter three) would be used for tested. Finally quarter three would be used for training and the fourth dataset (quarter four) would be used for testing. This allowed for the candidate features to be tested and limited the amount of data necessary to extract from the dataset since the datasets were reused.
+% TODO remove these paragraphs since they are outlined in the subsections above.
+%During the initial phase of determining a suitable set of features the project was divided into four sections, equally long based on time. This allowed for the first dataset quarter (quarter one) to be used to train the model and the second dataset (quarter two) to be used to test the model. Similarly quarter two would be used for training and then dataset three (quarter three) would be used for tested. Finally quarter three would be used for training and the fourth dataset (quarter four) would be used for testing. This allowed for the candidate features to be tested and limited the amount of data necessary to extract from the dataset since the datasets were reused.
 
-The model was then trained with the sample extracted within the time period of the first period. Once the model was trained the next period's sample set is used to test the model. The prediction made by the model is compared against the actual results. The number of correct predictions is tallied and divided by the sample size. 
+%The model was then trained with the sample extracted within the time period of the first period. Once the model was trained the next period's sample set is used to test the model. The prediction made by the model is compared against the actual results. The number of correct predictions is tallied and divided by the sample size. 
 
-% TODO create simple picture of data set split into four quarters.
-% <<< TODO create a diagram which shows how the data is partitioned and then tested. E.g. first quarter is used as training set, second is used as test set.
-    %<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
+%<<< TODO create a table outlining the results obtained from either the best feature set, top n feature sets or a few selected feature sets (e.g. top, and not very good ones) >>>
 
-The size of the datasets was initially set to one of two arbitrary values, either 100 or 1000. These values were picked for convince and provided in the later experiments to be unhelpful. However in the initial experiments the size of 100 proved to be more useful since it tended to be separable at least for some candidate feature sets. The sample size of 1000 however rarely separable and was not used soon after this was discovered. 
-
+%The size of the datasets was initially set to one of two arbitrary values, either 100 or 1000. These values were picked for convince and provided in the later experiments to be unhelpful. However in the initial experiments the size of 100 proved to be more useful since it tended to be separable at least for some candidate feature sets. The sample size of 1000 however rarely separable and was not used soon after this was discovered. 
 
 %%%%%%
-A more rigorous test was designed to account for that the categorization used the future 5 commits. For the tests the future 5 commits are always known otherwise the prediction could not be tested. Therefore the end of the quarter is not the actual end since the vector must also know about 5 commits following. Therefore the actual end of the quarter is $c_i - 5$ where $c_i$ is the last commit in the given quarter. This therefore necessitates a \textit{gap} to be created between the two training tests as shown in %\ref{}.
+%A more rigorous test was designed to account for that the categorization used the future 5 commits. For the tests the future 5 commits are always known otherwise the prediction could not be tested. Therefore the end of the quarter is not the actual end since the vector must also know about 5 commits following. Therefore the actual end of the quarter is $c_i - 5$ where $c_i$ is the last commit in the given quarter. This therefore necessitates a \textit{gap} to be created between the two training tests as shown in %\ref{}.
 
 % TODO shown an example of this with IMAGES!
 
