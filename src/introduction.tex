@@ -17,7 +17,16 @@ We propose a tool that assists in managing the development of a software project
 Our contributions are in mining of \gls{oss}, visualization of a project's change history, machine learning change prediction, data collect which can be used and extended.
 
 % ---Explain
-Mining of open source projects has been widely however the actual processing of the data will vary depending on the application. Analysis of change data requires extracting data for a large set of data.
+
+Mining of open source projects has been widely used to help research into various software topics relating to project development and quality assurance. This research is vital to improving the development process of software projects. By improving the development of software projects more may succeed in accomplishing their outlined goal. The project development process will take time to complete. The time it takes for the project to be completed relies on numerous factors including project scope, man power, experience. Over the course of the project development changes will be made to project. Changes can be made to almost any part of the project including design, number of developers and type of developers. These changes will in most cases have a measurable impact on the project (or at least they are intended to). In case of adding more developers the intended result may be to increase project capabilities within a shorter span of time than previously. Even with an intended result, the actual result may differ and should be measured to determine the effectiveness of a given change.
+
+The developers of the project must therefore manage changes made to the project to ensure that the changes that are made result in the expected outcome. Keeping track of every change to a project can be difficult because of external changes which are beyond the control of the developers. However for the majority of the changes within the project they can be kept track by using a \gls{vcs}. With proper use of a \gls{vcs} the important changes made to the project will be available. With this change data the impact of changes can be measured and provide insights into how the project changes. However first the data must be collected and then processed into a usable form.
+
+The source code level changes with a project map directly to functionality changes. Whether the such a change is new, fixed or removed functionality. Simply observing source code line changes can encounter a large amount of noise within which can make tracking the desired changes more difficult.
+
+One such change that can be made to the software project would be source code changes. These changes are very fine grain since they will account for almost all functionality changes with the project. 
+
+however the actual processing of the data will vary depending on the application. Analysis of change data requires extracting data for a large set of data.
 
 Visualization of the data collected allows for a more accessible look at the data to provide potential insights.
 

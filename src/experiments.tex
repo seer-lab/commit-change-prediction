@@ -10,6 +10,8 @@ One thing that should be noted for the experiments that were run. Since all of t
 
 %The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
 
+% TODO write a description of each project
+% TODO consider placing this into introduction
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -19,8 +21,8 @@ One thing that should be noted for the experiments that were run. Since all of t
         ACRA & acra & 2010-04-18 & 2015-06-05 & 404 & 32 \\
         apache & storm & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
         facebook & fresco & 2015-03-26 & 2015-10-30 & 313 & 47 \\
-        square & dagger & 2012-06-25 & 2016-01-30 & 38 & 39 \\
-        deeplearning4j & deeplearning4j & 2013-11-27 & 2016-02-13 & 62 & 62 \\
+        square & dagger & 2012-06-25 & 2016-01-30 & 496 & 39 \\
+        deeplearning4j & deeplearning4j & 2013-11-27 & 2016-02-13 & 3523 & 62 \\
         \hline
     \end{tabular}
 \end{center}
@@ -31,17 +33,153 @@ One thing that should be noted for the experiments that were run. Since all of t
 % storm start -> 05:20:45-04 end -> 16:16:02-05
 % fresco start -> 22:05:16-04 end -> 14:07:11-04
 
-Several projects were experimented on to test the purposed method. As noted, acra was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other projects using the feature sets that performed better. The complete list of projects that were tested is found in table \ref{tab:project_summary}. Some simple statistics about the project are also provided such as the start and end date of each project, the number of commits that involved changes to Java source files and the number of developers involved. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. This gives a more accurate size of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals who committed or authored commits to the current project. 
+The complete list of projects that were tested is found in table \ref{tab:project_summary}. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current project.
+
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Project & \# of Methods & \# of Methods & Avg \# of & Avg \# of Methods \\
+         & & Changes & Commits / Year & Change / Commit \\
+        \hline
+        acra & 1309 & 3605 & 67.33 & 9.51 \\
+        storm & 14599 & 50037 & 489 & 24.03 \\
+        fresco & 3463 & 4139 & 313 & 14.73 \\
+        dagger & 1827 & 6314 & 99.2 & 13.70 \\
+        deeplearning4j & 29896 & 82198 & 880.75 & 24.33 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Project Change Statistics}
+\label{tab:project_stats}
+\end{table}
+
+Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
+
+The first project acra is a Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application. The second project, apache's storm, real time computational system for continuous streams of data. This project is one of the larger projects and has a large development community. The third project, facebook's fresco, is the smallest project with the shortest development period. This project provides a library for using images on Android to attempt to solve limited memory issues with mobile devices. The fourth project, square's dagger, is a Java application used to satisfy dependencies for classes to replace the factory model of development. The final project, deeplearning4j, is a distributed neural network library that integrates Hadoop and Spark. This application is the largest of the 5 projects and provides a large wealth of data to analyze.
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Project & Avg \# of & Avg \# of & Avg \# of & Max & Min \\
+         & Methods Change & Changes & Commits / & Commits & Commits \\
+         & / Year & / Method & Developer & / Year & / Year \\
+        \hline
+        acra & 600.83 & 4.52 & 13.93 & 119 & 33 \\
+        storm & 10007.4 & 5.93 & 15.47 & 948 & 118 \\
+        fresco & 4139 & 1.49 & 156.5 & 313 & 313 \\
+        dagger & 1578.5 & 5.64 & 16 & 236 & 4 \\
+        deeplearning4j & 20549.5 & 5.69 & 65.24 & 2018 & 65 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Project Change Statistics 2}
+\label{tab:project_stats_2}
+\end{table}
+
+In order to get a more detailed understand of the selected projects numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. The size of the project is represented through number of commits, methods. The size of the development team is also provided. The length of each project is shown and most of the measures average on a yearly term.
+
+% TODO reference the table
+Several average measures were also taken which detail the amount of change that occurs within the project. The average number of commits per project coupled with the average number of changes per commit clearly indicates the amount of changes that are occurring with in the project. The rate at which methods are change provides good insight into the growth of a project. While some changes may involve the addition of new methods, others may include the removal of methods or the modification of methods. The other measures relating to the amount of change occurring with a project on average are the number of methods changed per year and the number of changes per method. Each of these further outline how the changes are being made to the project on average.
+
+A few of the measures are related to the number of developers. These while provided are not the primary focus. The information provided by tracking developer interactions with each other or the repository could be integrated into future work.
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Project & Max \# of & Min \# of & Max \# of & Min \# of & Max \# of & Min \# of \\
+         & Methods & Methods & Change / & Change / & Commits / & Commits / \\
+         & Changed & Changed & Method & Method & Developer & Developer \\
+         & / Year & / Year & & & & \\
+        \hline
+        acra & 1503 & 183 & 52 & 1 & 229 & 1 \\
+        storm & 26526 & 2152 & 314 & 1 & 622 & 1\\
+        fresco & 4139 & 4139 & 33 & 1 & 269 & 44 \\
+        dagger & 3374 & 171 & 65 & 1 & 157 & 1 \\
+        deeplearning4j & 35869 & 4377 & 345 & 1 & 1987 & 1 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Project Change Statistics 3}
+\label{tab:project_stats_3}
+\end{table}
+
+While the purposed method was being developed ACRA's acra project was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other projects using the feature sets that performed better.
+
     % An effort was made to not count individuals twice however some users may have changed their user name and thus showed up several times.
 % NOTE the number of commits is the number of commits that contained Java code and thus was useful towards parsing.
 % Note the number of developers is the total number of developers who both committed or authored commits, aka people who made pull requests are included.
 
     %--- TODO get the number of commits, developers, and some other nice summary stats to provide comparability between different repositories. Create a table of these
 
-The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
+
+\subsection{Experiment 1}
+
+% TODO look for test results for this one
+The first set of experiments were preliminary and used \gls{svm} as the approach for prediction algorithm. They attempted to predict whether a given method would change within the next 6 commits. The test was done one using ACRA's acra (hence forth just called \textit{acra}). The data set was divided into four sections based on the date length. So each section of the data was the project's lifespan divided by 4 long. The sampling method from the data set $data_i$ was to use the first $n$ tuples ordered by date. The value of $n$ was tested at 100 and 1000. The data set $data_i$ contained tuples which had changes and ones that had no changes.
+
+$|data_i| = \frac{|date_f - date_s|}{4}$
+
+The results of these experiments were not particularly promising scoring accuracy, precision, recall and recall around $50\%$ or below. The experiment was run such that $data_i$ would be used for training and $data_{i+1}$ would be used for testing. For example $data_1$ would be used to train $model_{1,2}$ and $data_2$ would be used to test the $model_{1,2}$. A slight variation was also tested where $data_i$ trained $model_i$ and was tested use each data set $data_j$ that had $j > i$. This however still provided poor results similar to the original experiment. Figure \ref{fig:exp_1_data_range} shows how the data is distributed.
+
+% TODO consider updating this to use the dates in the x axis.
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/exp_1_data}
+    \caption{Experiment 1 Data Sample Range}
+    \label{fig:exp_1_data_range}
+\end{figure}
+
+\subsection{Experiment 2}
+
+% TODO show results
+To address the fixed data sampling used previously random sampling was employed. The number of samples $n$ was not changed from the first experiment. The prediction results improved slightly. The \gls{svm} model also reported an error relating to \textit{max number of iterations reached}. This error indicates that the \gls{svm} model is having trouble effectively separating the two categorizations of data into two distinct sets. Such warnings could mean that the features used for training the model are not linearly separable.
+
+% TODO show a picture of how the data was divided.
+
+\subsection{Experiment 3}
+
+% TODO talk about using easy.py
+Further investigation into \gls{svm} lead to a research tool that provided grid search for optimizing the parameters used for a \gls{svm}. The results of these experiments offered improvements over the previous, however required a long time to find the right parameters and works the best with the dataset $data_i$ that was used to find the parameters.
+
+\subsection{Experiment 4}
+
+% TODO get experiment results
+Modified the candidate features set to test the \gls{svm} with. Added ones like change frequency, average time between commits, number of commits since last change, time since last change and previous change type. Dropped commit author in favor of using just committer. Finally changed the prediction to predict the whether a change will occur within the next 5 commits. In terms of the methodology, 2 variations were tested. The first one was predicting changes to a methods within the same package. The second one was prediction changes to a method within the same file. Neither of these changes provided substantial improvements since they reduced the available sample size, $|data_i|$, down so that the no reasonable predictions could be made from the reduced set.
+
+\subsection{Experiment 5}
+
+The next set of experiments required more complex features which necessitated more complex queries from the database. In fact the database interface in use, MySQL, was unable to implement some of the queries. MySQL only allows 2 levels of nested queries and has a more restrictive data type set. An alternative database interface PostgreSQL was used as a replacement for MySQL. PostgreSQL offers fair more sophisticated data types as well as \gls{cte}. The migration from MySQL to PostgreSQL was simplified through the use of pgloader as mentioned in section \ref{sec:storage}. 
+
+Another change was the even out the number of samples collected from each category. The data set $data_i$ tended to provide unbalanced categorization of the data. The same number of samples from each $n/2$ was collected to prevent biasing in the data set. A \gls{svm} model like most other machine learning algorithms is susceptible to category biasing. This will occur when the training set consists of $80\%$ of one category and $20\%$ of another. The model will train such that it always predicts the first category. This works out well if the data is always unbalanced in the same way however it will fail to predict the smaller category entirely. Therefore providing an even sample of each category ($50\%$ each) will prevent poor prediction results.
+
+Another result of determining that the data set was unbalanced in terms of the categorization was to calculate both precision and recall of the results. Accuracy alone only provides a very simple measure of how well the model predicted the samples from $data_{i+1}$. A clearer understanding is available with these three measures. Also with each provided an attempt can be made to optimize all three.
+
+Finally the last few tests in this experiment set included a new feature. This feature was the difference in time between the previous commit with a change and the latest commit. This feature was not particularly useful however and caused the data to become inseparable.
+
+At the end of this set of tests it was apparent that a deeper understanding of the candidate features was necessary to improve the results. Therefore an analysis of each candidate feature was performed both on the quality of the feature and the possible relationship with others. \gls{svm} models are particularly sensitive towards dependencies between the variables. It was also necessary to properly convert data into a format that could be used by the database. This was talked about in more detail in section \ref{subsec:svm_prediction}.
+
+\subsection{Experiment 6}
+
+After analyzing the candidate features a more ideal set of features was created. The tests were preformed again using sample sizes of $100$ and $1000$. After the changes were made to the data, the performance improved however some of the features did not prove as useful. However the improvement was marginal and therefore necessitated shift in focus from the features to the prediction method. Specificity the data sampling method was inspected to attempt improve the prediction results. Instead of breaking the data set into four even sets based on the date range the data was divided into two even sets based on date as shown in figure \ref{fig:exp_6_data_range}
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/exp_6_data_range}
+    \caption{Experiment 6 Data Sample Range}
+    \label{fig:exp_6_data_range}
+\end{figure}
+
+
+
+%The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
+
     %- Alternatively the periods could be distributed such to make the number of commits equal between the sections. Further testing is needed to determine which method is more ideal.
 
-The \gls{svm} model was trained to categorize whether the current method would be changed within the next 5 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
+%The \gls{svm} model was trained to categorize whether the current method would be changed within the next 5 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
 
 %238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
 % TODO update this list based on new candidates

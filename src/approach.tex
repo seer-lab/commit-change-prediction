@@ -17,7 +17,7 @@ The data is kept unprocessed and stored directly into a relational database (MyS
 
 The method chosen for collecting data for GitHub projects was using GitHub's web \gls{api}. The GitHub \gls{api} allows for access to the complete set of publicly available information stored in GitHub. Accessing the data through the \gls{api} allows for the process to be automated and vastly simplifies the process. This dataset can be rather large since it includes a snapshot of the commit, all the change data and developer data related. In order to collect data the repository name and the name of the user who owns the repository must be known.
 
- To actually collect the data from GitHub a ruby script was used. This collection is built around a Ruby library, \textit{github_api}, which is a convenient wrapper for GitHub's web \gls{api}. The script systematically collects the desired data related from a given GitHub project to be stored locally. As noted above the collection can take a bit of time to complete since it must go commit by commit to collect the necessary data.
+To actually collect the data from GitHub a ruby script was used. This collection is built around a Ruby library, \textit{github\_api}, which is a convenient wrapper for GitHub's web \gls{api}. The script systematically collects the desired data related from a given GitHub project to be stored locally. As noted above the collection can take a bit of time to complete since it must go commit by commit to collect the necessary data.
 
 % TODO integrate this with above explanation of VCS and git
 Some aspects of the GitHub project's dataset are not collected as they were deemed unnecessary however it could easily be extended to collect the other aspects. The aspects not collected are the issues, branches, forks and pull requests. The issues data outlines the problems reported in the project by users or developers of that project. GitHub allows for issues to be optional and thus some projects do not offer issue reporting through GitHub. Branches are also directly related to the project and they are essentially different workspaces for the developers. They allow for development of different versions (such as a development version compared to a stable version). The simplicities sake this project assumes that the main branch (master) is the development branch and the target of the analysis. Of course other branches could be analyzed however the perspective of the other branches typically originates from the master branch.
@@ -34,18 +34,33 @@ A similar sub-data set not collected or used is forks of the repository. For Git
 %        - pull requests
 
 \section{Storage}
+\label{sec:storage}
 
 As mentioned above the data is stored in a MySQL relational database which leverages \gls{sql}. There are two databases used for the collection and the analysis. One stores the raw mined data, whereas the second stores the analyzed data in a more convenient layout to be used later. A third database stores the same data as the second however it uses relational database implementation because of some limitations within MySQL. This third database uses PostgreSQL, which has some more advanced features than MySQL and is simply a clone of the second database. The specific limitations that were encountered will be discussed more fully later on in this section.
 
-% TODO add a figure of the database schema.
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/github_data_schema}
+    \caption{GitHub Data Schema}
+    \label{fig:github_data_schema}
+\end{figure}
+
+% TODO add a figure of the database schema. ********** REALLY DO!
 %TODO re-factor this
 The first database called \textit{github\_data} and stores the semi-raw data collected from GitHub's \gls{api}. This database contains 8 tables which store various aspects about the projects that are considered potentially important for the analysis later on. The tables of primary concern are \textit{repositories}, \textit{commits}, \textit{users}, \textit{files} and \textit{tags} tables. The data collection from GitHub's \gls{api} collects primary aspects related to the desired analysis. Other aspects are available from the \gls{api} and if need the database could be extended to store more elements as necessary. In some cases data from the \gls{api} is not available for one reason or another (usually inaccessible files or such) these are simply removed or a note is made of them depending on their importance. For example, files that do not contain Java code are not essential and if inaccessible are ignored. If a Java file is inaccessible a note is made as this is a greater concern. These files can be retrieved if enough information is available (previous version and corresponding patch file). In the case that insufficient information is available the analysis can still be applied but will likely adversely effected the result.
 
 After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the section \ref{sec:parsing}. This database, \textit{project\_stats}, is very similar in layout to the first database except some extra tables have been added and a few data items have been removed. Mostly the storage expansions have been to hold change information calculated from the analysis of the data.
 
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/project_stats_schema}
+    \caption{Project Stats Schema}
+    \label{fig:project_stats_schema}
+\end{figure}
+
 The final database uses PostgreSQL because of limitations within the MySQL implementation. Some of the candidate features, discussed in further detail in section \ref{sec:sample_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL.
 
-In order to transfer the data over to PostgreSQL, a simple program called \textit{pgloader} was used to transfer the MySQL database over to PostgreSQL. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. Once the database is copied over to PostgreSQL it is ready to be used for to perform change prediction.
+In order to transfer the data over to PostgreSQL, a simple program called \textit{pgloader}\footnote{\url{http://pgloader.io/}} was used to transfer the MySQL database over to PostgreSQL. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. Once the database is copied over to PostgreSQL it is ready to be used for to perform change prediction.
 
 \section{Parsing}
 \label{sec:parsing}
@@ -98,6 +113,7 @@ The more difficult method to identify is one which has been modified. Again use 
 \label{sec:analysis}
 
 \subsection{SVM Predictions}
+\label{subsec:svm_prediction}
 % TODO talk even more about how to pick better features.
 
 A \gls{svm} is used to predict what type of change will occur based on a set of features provided. A feature is a data extracted from the project represented as a floating point number. In order to be useful a feature must in some way characterize the the category that it is assigned to. The feature must also not rely on the category that it belongs to in order to be calculated. For example, given a category of the method change within the next 5 commits or not, then the features must not rely on knowledge of future changes to the project. If the features fail to effectively characterize the category they are assigned to then the \gls{svm} may have poor predictions. It is also necessary for the features to independent of each other to not negatively affect the categorization.
@@ -121,7 +137,7 @@ A \gls{svm} is used to predict what type of change will occur based on a set of 
 % \end{table}
 
 % TODO Format parts of this.
-\gls{svm} requires all feature data be encoded as floating point numbers. For any numerical data the conversion to floating point is trivial. However, for more complex data the conversion is a little more difficult. Categorical data can be mapped into a unique vector entry per category. For example, if a feature can be 1 of 3 options: 0, 1 or 2 then it can be converted into three entries in the feature vector. Encoding the value 2 the sub-vector of the feature set would be [0, 0, 1] where 1 indicates a field that feature is present in the data for this vector, and 0 indicates the feature is not present. Data that is in the form of a string can be converted to a floating point number by assigning a unique number for each string (similar to hashing). The one downside to this method is that the numbers corresponding to each string maintain no numerical properties. In essence the data becomes categorical, such that if \'bob\' is mapped to 1 and \'sally\' is mapped to 2 there is no relationship between 1 and 2. Ideally, this data would then be further converted using the previously described method however if the set of possible strings is large then it may be unreasonable to convert it. For example, if there are 100 possible strings then that would add 100 new entries to a single vector.
+\gls{svm} requires all feature data be encoded as floating point numbers. For any numerical data the conversion to floating point is trivial. However, for more complex data the conversion is a little more difficult. Categorical data can be mapped into a unique vector entry per category. For example, if a feature can be 1 of 3 options: 0, 1 or 2 then it can be converted into three entries in the feature vector. Encoding the value 2 the sub-vector of the feature set would be [0, 0, 1] where 1 indicates a field that feature is present in the data for this vector, and 0 indicates the feature is not present. Data that is in the form of a string can be converted to a floating point number by assigning a unique number for each string (similar to hashing). The one downside to this method is that the numbers corresponding to each string maintain no numerical properties. In essence the data becomes categorical, such that if \textit{bob} is mapped to 1 and \textit{sally} is mapped to 2 there is no relationship between 1 and 2. Ideally, this data would then be further converted using the previously described method however if the set of possible strings is large then it may be unreasonable to convert it. For example, if there are 100 possible strings then that would add 100 new entries to a single vector.
 
 %<<< TODO svm diagrams >>>
 
