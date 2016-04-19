@@ -1,7 +1,7 @@
 \chapter{Related Work}
 \label{chap:related_works}
 
-There are several different areas of study that are related to this work. Some are more closely related than others and will receive more attention accordingly. A quick summary of the fields that are related are as follows: 
+%There are several different areas of study that are related to this work. Some are more closely related than others and will receive more attention accordingly. A quick summary of the fields that are related are as follows: 
 
 % TODO run libsvm analysis on best candidate feature set.
 
@@ -54,8 +54,28 @@ There are several different areas of study that are related to this work. Some a
 
 % Jalbert & Support Vector Machine & Source Code (Static Analysis from Project) & source code static metrics and test suite static metrics & predict test suite mutation score & approx 0.71
 
+\section{Prediction}
+% TODO actually write about each of the papers.
 
-    % Change given a set of changes.
+% Close source, prediction
+
+Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
+
+% Defect prediction, change attributes, static attributes
+Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+
+% predict software quality based on code metrics
+Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+
+% Prediction of something
+Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
+
+% Bug localization through prediction, change history, defect history, temporal decay.
+Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
+
+\subsection{Change Prediction}
+A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013}, \cite{Chaturvedi2014}, \cite{Giger2012}, \cite{Hassan2004}, \cite{Kagdi2007}, \cite{Ying2004}. 
+
 Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
 
 Kagdi and Maletic also leverage version history changes to perform software change predictions \cite{Kagdi2007}. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. 
@@ -68,9 +88,6 @@ Giger et al. attempt to build off of previous work in change prediction (pronene
 
 Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
 
-    % Close source, prediction
-Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
-
 % Change prediction (proneness), visualization
 Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
 
@@ -80,17 +97,13 @@ Koru and Liu study and describe change-prone classes found within open source pr
 % impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
 Wilkerson attempts to classify different types of changes that occur to a project throughout its development \cite{Wilkerson2012}. The classification can then be used to identify the impact that a given change will have on other aspects of the project.
 
-    % Defect prediction, change attributes, static attributes
-Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+% (TODO check) Close source, identifying areas likely to have change
+Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
 
-    % predict software quality based on code metrics
-Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+\section{Data Mining}
 
 % MSR, guiding future changes
 Zimmermann et al. map the changes that certain developers make and who change certain functions to the functions they also change \cite{Zimmermann2005a}. 
-
-% Prediction of something
-Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
 
 % Change analysis
 Maletic and Collard investigate changes with a software project's development cycle. The changes are extracted and stored in an more easily usable representation \cite{Maletic2004}.
@@ -100,12 +113,6 @@ Canfora et al. propose a method for extracting and refining the changes made thr
 
 Hemmati et al. take a comprehensive look at the research related to \gls{msr} to determine best practices and point towards future work \cite{Hemmati2013}.
 
-    % (TODO check) Close source, identifying areas likely to have change
-Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
-
-    % Bug localization through prediction, change history, defect history, temporal decay.
-Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
-
 % MSR in general
 Hassan cover the different metrics and uses of \gls{msr} \cite{Hassan2006}.
 
@@ -113,20 +120,20 @@ Hassan cover the different metrics and uses of \gls{msr} \cite{Hassan2006}.
 Dit et al. provide a benchmark dataset to help in the testing and comparing of various methods for improving software maintenance tasks \cite{Dit2013}.
 
 
+\section{Machine Learning}
 
+\subsection{Support Vector Machines}
+
+% TODO get some papers related to support vector machines.
+
+\subsection{Random Forests}
+
+% TODO expand this section
 
 \gls{rf}s are commonly used to on data that has been mined from some source to make predictions \cite{Alam2013}, \cite{Granitto2007}, \cite{Stojanova}, \cite{Yu2011}. Westland et al. provide a detailed description of \gls{rf} and \gls{svm}. \gls{svm} % TODO discuss svm models related to the paper. \cite{Westland2011}
 
 \gls{rf} provide key features bootstrap aggregation and feature importance \cite{Westland2011}. Bootstrap aggregation as discussed in greater detail in section \ref{sec:random_forest_predictions} which overall helps create more stable and accurate results. The feature importance ratings are able to be calculated by the \gls{rf} and can help assess the quality of each feature \cite{Verikas2011}.
 
 As discussed in section \ref{sec:random_forest_predictions}, imbalanced data sets can be tricky to deal with causing a negative impact on the model's prediction capabilities. Work has been done to investigate using \gls{rf} with imbalanced data sets \cite{Khoshgoftaar2007}. % TODO comment of the results of the paper. 
-
-
-% TODO talk a bit about why this is the case.
-
-
-% - Recommendation systems
-%   - Change recommendation.
-%   - Recommending to the user which changes *should be made* based on some analysis. (loosely tied because the end result is accomplishing this).
 
 
