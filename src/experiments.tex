@@ -4,20 +4,18 @@
 \section{Sample Data}
 \label{sec:sample_data}
 
-%TODO place the tables in better positions.
-
 One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
 
 %The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
 
-% TODO write a description of each project
 % TODO consider placing this into introduction
-\begin{table}
+\begin{table}[h!]
 \begin{minipage}{\textwidth}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Owner & Project & Start Date & End Date & \# of Commits & \# of Developers \\
+        Owner & Project & Start Date & End Date & \# of & \# of \\
+         & & & & Commits & Developers \\
         \hline
         ACRA & acra\footnote{\url{https://github.com/ACRA/acra}} & 2010-04-18 & 2015-06-05 & 404 & 32 \\
         apache & storm\footnote{\url{https://github.com/apache/storm}} & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
@@ -31,13 +29,10 @@ One thing that should be noted for the experiments that were run. Since all of t
 \label{tab:project_summary}
 \end{minipage}
 \end{table}
-% acra start -> 15:52:18-04 end -> 09:02:56-04
-% storm start -> 05:20:45-04 end -> 16:16:02-05
-% fresco start -> 22:05:16-04 end -> 14:07:11-04
 
 The complete list of projects that were tested is found in table \ref{tab:project_summary}. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current project.
 
-
+%TODO place the tables in better positions.
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -114,9 +109,6 @@ While the purposed method was being developed ACRA's acra project was primarily 
     % An effort was made to not count individuals twice however some users may have changed their user name and thus showed up several times.
 % NOTE the number of commits is the number of commits that contained Java code and thus was useful towards parsing.
 % Note the number of developers is the total number of developers who both committed or authored commits, aka people who made pull requests are included.
-
-    %--- TODO get the number of commits, developers, and some other nice summary stats to provide comparability between different repositories. Create a table of these
-
 
 \subsection{Experiment 1}
 
@@ -234,9 +226,9 @@ The optimal value of $m$ is a more challenging issue since for project which hav
 
 \subsection{Experiment 9}
 
-After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. Random Forest as discussed in greater detail in section \ref{sec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
+After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. \gls{rf} as discussed in greater detail in section \ref{sec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
 
-Random forest while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
+\gls{rf} while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
 
 % TODO provide some results.
 
@@ -329,7 +321,8 @@ For each experiment where the used random sampling the experiment was performed 
 
 %%%%%%%%%%%%
 % This part is fine.
-The goal of the \gls{svm} is to provide a good prediction of whether the a vector will fit in one category or the other. The more often the SVM correctly categorizes different vectors within the data set the better the prediction accuracy. For example, if the \gls{svm} is only able to correctly categorize half of the vectors, and fails to categorize the other half, then the model would have a $50\%$ prediction accuracy rate. A prediction of a single vector is verified by using a sample dataset of which the actual category can be determined. The test dataset categorizations are represented as the set of $p$ and the predicted categorization the model is represented as $a$. Equation \ref{eq:vector_accuracy} shows how each the accuracy of each vector is determined.
+The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in equation \ref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \ref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
+
 % Ensure this doesn't overlap to much with the above section which discusses cross-validation.
 
 % TODO remove
@@ -344,45 +337,58 @@ v_i = \left\{\begin{matrix}
 \end{matrix}\right.
 \end{equation}
 
-The prediction accuracy ($P_{accuracy}$) can then be calculated using \ref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
-
 \begin{equation}
 \label{eq:prediction_accuracy}
 P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
 \end{equation}
 
-\begin{table}
-\begin{center}
+The precision of a model is the measure of how correct the model predicts that a change will occur when it predicts that a change will occur. Given the true positives $tp$, represents the number of predictions that the model correctly identified as having a change and the false positives $fp$ is the number of times the model incorrect predicted a change to occur when it in fact did not. The equation for calculating precision is show in equation \ref{eq:precision}.
 
-    \begin{tabular}{|l|c|c|c|}
-        \hline
-        Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
-        acra & 0.824 & 0.806 & 0.87   \\ \hline
-        storm & 0.912 & 0.918 & 0.912 \\ \hline
-        %fresco & 0.964 & 0.946 & 0.944 \\ \hline
-    \end{tabular}
-    \caption{Prediction accuracy with sample size of 100}
-    \label{tab:test_signature_change_freq_100}
-\end{center}
+\begin{equation} 
+\label{eq:precision}
+P_{precision} = \frac{tp}{tp+fp}
+\end{equation}
 
-\end{table}
+The recall of the model is the measure of how correct the model predicts that change will occur out of all the times changes really occurred. Again using $tp$ as the number of true positives, and false negatives $fn$ which is the number of times the model fails to predict that a change will occur. The recall can be calculated using the equation \ref{eq:recall}
 
-%%% Rework below.
-An experiment was run using the feature set of $\{signature, change_i, freq_{change}\}$. The test was run five times with a new random sample each time. The average prediction accuracy of each test was calculated for each project and is shown in table \ref{tab:test_signature_change_freq_100}. The results from the first project are rather standard as numerous other tests were done in order to attempt to find the best feature set for this particular data set. So the particular feature set used performed the best out of all the other feature sets tested. This is just one of the 18 other feature sets that were tested. Of those 19, 8 of them provided a training set which could not be separated and had $43\% \leq P_{accuracy} \leq 68\%$ with an average of $52.7\%$. These prediction scores are fairly abysmal providing on average a very slight advantage over a simple coin toss. Two more of 18 of candidate feature sets were ruled out because they also had a fairly low score of around $52\% \leq P_{accuracy} \leq 77\%$ and an average of $62.6\%$. Finally, the remaining candidate feature sets 8 of the 18 had an accuracy of $72\% \leq P_{accuracy} \leq 90\%$ with an average around $80.8\%$. 
+\begin{equation} 
+\label{eq:recall}
+P_{recall} = \frac{tp}{tp+fn}
+\end{equation}
 
-The top 3 candidates feature sets were tested and proved to have fairly similar results. The set $\{signature, change_i, freq_{change}\}$ was the smallest feature set and also provided the best results and was selected to test on other repositories. This was to test whether the candidate feature set was generally usable or only worked for the test repository \textit{acra}. This feature set was then tested on other GitHub project repositories. The results for the tests involving the other projects are also shown in table \ref{tab:test_signature_change_freq_100}. While an effort was made to optimize the candidate feature set to perform the best on the \textit{acra} dataset the other project's perform even better.
+% \begin{table}
+% \begin{center}
 
-In particular the project \textit{storm} has a very high prediction score and is much larger than the other two projects shown in table \ref{tab:project_summary}.
+%     \begin{tabular}{|l|c|c|c|}
+%         \hline
+%         Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
+%         acra & 0.824 & 0.806 & 0.87   \\ \hline
+%         storm & 0.912 & 0.918 & 0.912 \\ \hline
+%         %fresco & 0.964 & 0.946 & 0.944 \\ \hline
+%     \end{tabular}
+%     \caption{Prediction accuracy with sample size of 100}
+%     \label{tab:test_signature_change_freq_100}
+% \end{center}
 
-It should be noted that while the \gls{svm} model when trained with a random sample size of 100 performed well, when a sample size of 1000 was used the prediction accuracy was greatly reduced. It would seem that a smaller sample size may prove more helpful regardless of the size of the project. 
+% \end{table}
 
-% TODO maybe run some tests where the sample test size is much larger to see how it performs.
+% TODO remove the parts that are incorrect and add in more about the newer experiment results.
+%An experiment was run using the feature set of $\{signature, change_i, freq_{change}\}$. The test was run five times with a new random sample each time. The average prediction accuracy of each test was calculated for each project and is shown in table \ref{tab:test_signature_change_freq_100}. The results from the first project are rather standard as numerous other tests were done in order to attempt to find the best feature set for this particular data set. So the particular feature set used performed the best out of all the other feature sets tested. This is just one of the 18 other feature sets that were tested. Of those 19, 8 of them provided a training set which could not be separated and had $43\% \leq P_{accuracy} \leq 68\%$ with an average of $52.7\%$. These prediction scores are fairly abysmal providing on average a very slight advantage over a simple coin toss. Two more of 18 of candidate feature sets were ruled out because they also had a fairly low score of around $52\% \leq P_{accuracy} \leq 77\%$ and an average of $62.6\%$. Finally, the remaining candidate feature sets 8 of the 18 had an accuracy of $72\% \leq P_{accuracy} \leq 90\%$ with an average around $80.8\%$. 
+
+%The top 3 candidates feature sets were tested and proved to have fairly similar results. The set $\{signature, change_i, freq_{change}\}$ was the smallest feature set and also provided the best results and was selected to test on other repositories. This was to test whether the candidate feature set was generally usable or only worked for the test repository \textit{acra}. This feature set was then tested on other GitHub project repositories. The results for the tests involving the other projects are also shown in table \ref{tab:test_signature_change_freq_100}. While an effort was made to optimize the candidate feature set to perform the best on the \textit{acra} dataset the other project's perform even better.
+
+%In particular the project \textit{storm} has a very high prediction score and is much larger than the other two projects shown in table \ref{tab:project_summary}.
+
+%It should be noted that while the \gls{svm} model when trained with a random sample size of 100 performed well, when a sample size of 1000 was used the prediction accuracy was greatly reduced. It would seem that a smaller sample size may prove more helpful regardless of the size of the project. 
 
 % TODO create a table outlining the other combinations.
 
 %%%%%%%%%%%%%%%%%%
 
 %\subsubsection{Detrimental Features}
+
+% TODO rework this stuff, since some of this has been covered earlier on in the experiments section.
+% Also the results part has been redone so this part most likely needs it too.
 
 % TODO write about which features were tested and found to not benefit as part of the feature set.
     % - e.g. committer, name.. 
