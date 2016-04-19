@@ -218,7 +218,12 @@ The project's tags are shown at the bottom of each graph optionally to potential
 % TODO fit in the commit information shown
 As a further guide marker the commit information is provided (when viewing either line at the commit view, method level or statement level). This information allows for a direct link to the project and can be a handy tool for referring back to the software repository.
 
-% TODO sample image of visualization
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/lines_visual_acra}
+    \caption{Line Change Visualization for acra}
+    \label{fig:line_visual_acra}
+\end{figure}
 
 \subsection{Method Change}
 
@@ -227,7 +232,12 @@ The visualization of line changes was very noisy and proved difficult to use. In
 
 It should be noted that at the method level comment changes are ignored. Instead the focus is placed on that of the three types of changes. The visualization for the method level uses a bar graph since it provided a more clear picture of the relationship between commits. Rather than as the first visualization did imply that a relationship was to be drawn between different commits of the same type only changes of the same time are grouped together. The contrast in magnitude between each type of change and each commit is also more clear and defines the visualization.
 
-% TODO show image
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/method_visual_acra}
+    \caption{Method Change Visualization for acra}
+    \label{fig:method_visual_acra}
+\end{figure}
 
 \subsection{Method Statement Change}
 
@@ -237,7 +247,12 @@ The view itself classifies changes into several categories, first their is \text
 
 The more complicated categories are introduced as part of the modification classifications. These all stem from the method level modifications. A modified method will contain some changes which can be statement additions or deletions. Therefore modifications are divided into modifications that are additions and ones that are deletions. The final filter is again based on statements being either comments are code. So finally we have the categories: \textit{Modified Code Added}, \textit{Modified Comment Added}, \textit{Modified Code Deleted} and \textit{Modified Comment Deleted}.
 
-% TODO show image
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/statement_visual_acra}
+    \caption{Method Statement Change Visualization for acra}
+    \label{fig:statement_visual_acra}
+\end{figure}
 
 % Decided whether to keep the other names or update them to these ones (on the site as well).
 %So finally we have the categories: \textit{Modified Code Addition}, \textit{Modified Comment Addition}, \textit{Modified Code Deletion} and \textit{Modified Comment Deletion}.
