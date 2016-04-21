@@ -1,6 +1,174 @@
 \chapter{Related Work}
 \label{chap:related_works}
 
+
+\section{Data Mining}
+
+Data collection from some original source provides access to a data set that may not be initially available. This data source could also be in a state that is not convenient or feasible for use without leveraging data mining techniques to transform the data to a more accessible state. The source of the data can vary greatly based on the interests for the individual(s) collecting the data. Data mining has mostly focused on single source mining and multiple data sources. Data mining in general has however also taken a large focus on data collection from software repositories which can be either single or multiple source \cite{Hemmati2013}, \cite{Hassan2006}, ... %TODO list other msr based papers.
+% TODO find other work of data mining
+
+% MSR, guiding future changes
+Zimmermann et al. map the changes that certain developers make and who change certain functions to the functions they also change \cite{Zimmermann2005a}. 
+
+% Change analysis
+Maletic and Collard investigate changes with a software project's development cycle. The changes are extracted and stored in an more easily usable representation \cite{Maletic2004}.
+
+% MSR Change extraction of changes
+Canfora et al. propose a method for extracting and refining the changes made throughout the life a project to be used in more effective analyses \cite{Canfora2007c}.
+
+Hemmati et al. take a comprehensive look at the research related to \gls{msr} to determine best practices and point towards future work \cite{Hemmati2013}.
+
+% MSR in general
+Hassan cover the different metrics and uses of \gls{msr} \cite{Hassan2006}.
+
+% Validation of Change history research, benchmark
+Dit et al. provide a benchmark dataset to help in the testing and comparing of various methods for improving software maintenance tasks \cite{Dit2013}.
+
+% TODO MERGE this with related work
+\subsection{Mining Open Source Software Repositories}
+
+% TODO ensure this is accurate.
+\gls{oss} generally is software that provides with the ability access the source code and make modifications to the source code. While certain licenses provide some restrictions on the ability to redistribute the software the main point of the source code of the software being freely available is key. The scope and capability of \gls{oss} projects vary greatly. Several very popular \gls{oss} projects are listed in table \ref{tab:oss_projects}.
+
+%TODO make sure footnotes fit in better.
+\begin{table}[h!]
+\begin{minipage}{\textwidth}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Owner & Project & Description \\
+        \hline
+        Mozilla & Firefox\footnote{\url{https://www.mozilla.org/en-US/firefox/desktop/}} & Internet Browser \\
+        Linux & Linux Kernel\footnote{\url{https://www.kernel.org/}} & Operation System Kernel \\
+        VideoLAN & VLC\footnote{\url{http://www.videolan.org/vlc/index.html}} & Media Player \\
+        PostgreSQL & PostgreSQL\footnote{\url{http://www.postgresql.org/}} & Object-Relational Database Management System \\
+        git & git\footnote{\url{https://git-scm.com/}} & Version Control System \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Open Source Software Projects}
+\label{tab:oss_projects}
+\end{minipage}
+\end{table}
+%Firefox => MPL 2.0
+%Linux Kernel => GPL v2, plus various closed-source binary blobs
+%VLC => GPLv2+ (player), LGPLv2.1+ (engine)
+%PostgreSQL => PostgreSQL License
+%git => GNU General Public License v2, GNU Lesser General Public License 2.1
+
+The development of large software projects (whether \gls{oss} or not) often make use of \gls{vcs}. A \gls{vcs} helps the developers of the project manage the changes of the project and facilitate the collaboration between developers. A \gls{vcs} will keep an current version of the project and keep track of the previous version of the project as well. This may be done through keeping a copy of each version of the project or by keeping track of all each change made to the project. \gls{svn} and git would be two examples of \gls{vcs}s.
+
+Git is a \gls{dvcs} and differs greatly from \gls{svn} which is a normal \gls{vcs}. Git will provide the user with a complete copy of the repository that is worked on independent of network connection. The independence of each repository also allows for a repository to be developed without a centralized server. The distributed aspect of git tends to allows for easier use for all involved parities. The one main issue with a \gls{dvcs} is that while decentralization is useful, developers will require some method to collaborate and communicate to transfer changes made to the repository. Therefore typically one centralized server is used to maintain communication between all interested parties.
+
+Git has grown in popularity since it was created and is at the core of several \gls{vcm} sites such as GitHub \footnote{\url{https://github.com/}}, BitBucket \footnote{\url{https://bitbucket.org/}} and GitLab \footnote{\url{https://gitlab.com/}}. These platforms tend to be fairly supportive of \gls{oss} projects through providing their services free of charge. For example, GitHub provides unlimited public repositories completely free. While these projects do not have to be licensed with an open source license typically they will be since they are already publicly visible.
+
+% GitLab -> https://gitlab.com/
+% GitHub -> https://github.com/
+% BitBucket -> https://bitbucket.org/
+
+GitHub is the most popular of the \gls{vcm} websites and hosts numerous very popular \gls{oss} projects including, the Linus Kernel, Swift\footnote{\url{https://swift.org/}} and React\footnote{\url{https://facebook.github.io/react/}}. GitHub also provides a public \gls{api} to allow for access to the data related to project repositories which is discussed further below. % TODO link to that.
+Given the popularity of GitHub for use by developers and the availability of the project data, GitHub is an obvious choice for mining project data. Especially since the goal of mining software is to capture \gls{oss} project data to both explore and test analysis methods. Publicly visible projects are also publicly accessible through the \gls{api} and the majority are open source.
+
+%%%%%%%%%%
+
+Git provides a simple interface to manage the repository regardless of which site is the central server. Therefore regardless which site the project resides on users can easily interact with the project as long as they know the git interface. Git in essences is a file storage for the project that keeps track of changes made to the project. A \textit{commit} is a set of changes that a developer has made at a certain time. The developer has full control what gets committed, when it gets committed and even modified at a later date.
+%This results in the date of the commit merely identifying when the developer formally notified Git that a change was made.
+
+A branch is a series of commits that are often related. In figure \ref{fig:network_diagram}, each dot would represent a commit and a set of dots connected by the same colored lines are a branch. Branches can be considered different paths or deviations in the development from each other allowing for different versions of the project to be maintained and developed. The \textit{master} branch is the main branch, represented with black, from which all branches usually stem from and is generally where projects are developed on. On a similar note, a \textit{tag} is a branch that is frozen to allow for future reference. Tags are often uses to mark a significant point in the development history such as a project release. Finally, when two differently branches converge into a single dot then the two branches have been \textit{merged}. A merge indicates that the differences between the two branches are consolidated based on the developer's discretion.
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/network}
+    \caption{Network diagrams}
+    \label{fig:network_diagram}
+\end{figure}
+
+A commit consists of files that have been changed, more specifically a list of \textit{patch} files which each outline the changes made to their corresponding file. The patch file consists of a series of differences between the previous version of the file and this new version of the file. These patch files are key since they contain the actual changes made to the project and thus are the major point of interest.
+
+% TODO fix close
+
+\section{Machine Learning}
+
+% Rase, realizing software engineering learning
+Machine learning is a complex method for software algorithms to attempt to determine patterns within the data. One such problem example would be an algorithm to detect certain people within an image. For an individual such a task may seem trivial however for a software system to detect it is far more difficult. Algorithms that can determine patterns and mimic them from abstract set of data is useful when such patterns are extremely complex. There are numerous algorithms which apply machine learning approaches. Each approach has both advantages or disadvantages. Some examples of machine learning algorithms are \gls{svm}, \gls{rf} and \gls{ann}. The three provided examples are also commonly used for data mining \cite{Alam2013}, \cite{Granitto2007}, \cite{Stojanova}, \cite{Westland2011}, \cite{Yu2011}, \cite{Huang2007} %TODO get some papers for svm and ann
+
+\subsection{Support Vector Machines}
+
+\gls{svm} are used \cite{Jalbert2012}
+
+% TODO get some papers related to support vector machines.
+
+\subsection{Random Forests}
+
+% TODO expand this section
+
+\gls{rf}s are commonly used to on data that has been mined from some source to make predictions \cite{Alam2013}, \cite{Granitto2007}, \cite{Stojanova}, \cite{Yu2011}. Westland et al. provide a detailed description of \gls{rf} and \gls{svm}. \gls{svm} % TODO discuss svm models related to the paper. \cite{Westland2011}
+
+\gls{rf} provide key features bootstrap aggregation and feature importance \cite{Westland2011}. Bootstrap aggregation as discussed in greater detail in section \ref{sec:random_forest_predictions} which overall helps create more stable and accurate results. The feature importance ratings are able to be calculated by the \gls{rf} and can help assess the quality of each feature \cite{Verikas2011}.
+
+As discussed in section \ref{sec:random_forest_predictions}, imbalanced data sets can be tricky to deal with causing a negative impact on the model's prediction capabilities. Work has been done to investigate using \gls{rf} with imbalanced data sets \cite{Khoshgoftaar2007}. % TODO comment of the results of the paper. 
+
+
+\section{Software Development Prediction}
+% TODO actually write about each of the papers.
+
+% Close source, prediction
+
+Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
+
+% Defect prediction, change attributes, static attributes
+Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+
+% predict software quality based on code metrics
+Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+
+% Prediction of something
+Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
+
+% Bug localization through prediction, change history, defect history, temporal decay.
+Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
+
+\subsection{Change Prediction}
+% Related work stuff here or later
+
+The development of large scale projects can take a long time and involve a huge time investment from the developers. The development of the project will cause for the developers to make changes to projects. Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed.
+
+Changes to the project are the means by which all development occurs. The ability to analyze and predict changes within a project could give deep insights into the development of a project.
+
+
+A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013}, \cite{Chaturvedi2014}, \cite{Giger2012}, \cite{Hassan2004}, \cite{Kagdi2007}, \cite{Ying2004}. 
+
+Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
+
+Kagdi and Maletic also leverage version history changes to perform software change predictions \cite{Kagdi2007}. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. 
+
+In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. \cite{Hassan2004} The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one.
+
+Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project \cite{Bantelay2013}. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together.
+
+Giger et al. attempt to build off of previous work in change prediction (proneness) by providing predictions relating to more refined entities \cite{Giger2012}. The syntax changes are recorded but an attempt is made to capture semantic changes on the statement level \cite{Giger2012}.
+
+Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
+
+% Change prediction (proneness), visualization
+Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
+
+% Change prediction (proneness)
+Koru and Liu study and describe change-prone classes found within open source projects \cite{GunesKoru2007}.
+
+% impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
+Wilkerson attempts to classify different types of changes that occur to a project throughout its development \cite{Wilkerson2012}. The classification can then be used to identify the impact that a given change will have on other aspects of the project.
+
+% (TODO check) Close source, identifying areas likely to have change
+Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
+
+
+
+
+
+
+% TODO talk about previous work on change prediction. cause. 
+
 %There are several different areas of study that are related to this work. Some are more closely related than others and will receive more attention accordingly. A quick summary of the fields that are related are as follows: 
 
 % TODO run libsvm analysis on best candidate feature set.
@@ -53,87 +221,3 @@
 
 
 % Jalbert & Support Vector Machine & Source Code (Static Analysis from Project) & source code static metrics and test suite static metrics & predict test suite mutation score & approx 0.71
-
-\section{Prediction}
-% TODO actually write about each of the papers.
-
-% Close source, prediction
-
-Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
-
-% Defect prediction, change attributes, static attributes
-Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
-
-% predict software quality based on code metrics
-Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
-
-% Prediction of something
-Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
-
-% Bug localization through prediction, change history, defect history, temporal decay.
-Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
-
-\subsection{Change Prediction}
-A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013}, \cite{Chaturvedi2014}, \cite{Giger2012}, \cite{Hassan2004}, \cite{Kagdi2007}, \cite{Ying2004}. 
-
-Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
-
-Kagdi and Maletic also leverage version history changes to perform software change predictions \cite{Kagdi2007}. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. 
-
-In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. \cite{Hassan2004} The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one.
-
-Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project \cite{Bantelay2013}. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together.
-
-Giger et al. attempt to build off of previous work in change prediction (proneness) by providing predictions relating to more refined entities \cite{Giger2012}. The syntax changes are recorded but an attempt is made to capture semantic changes on the statement level \cite{Giger2012}.
-
-Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
-
-% Change prediction (proneness), visualization
-Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
-
-% Change prediction (proneness)
-Koru and Liu study and describe change-prone classes found within open source projects \cite{GunesKoru2007}.
-
-% impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
-Wilkerson attempts to classify different types of changes that occur to a project throughout its development \cite{Wilkerson2012}. The classification can then be used to identify the impact that a given change will have on other aspects of the project.
-
-% (TODO check) Close source, identifying areas likely to have change
-Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
-
-\section{Data Mining}
-
-% MSR, guiding future changes
-Zimmermann et al. map the changes that certain developers make and who change certain functions to the functions they also change \cite{Zimmermann2005a}. 
-
-% Change analysis
-Maletic and Collard investigate changes with a software project's development cycle. The changes are extracted and stored in an more easily usable representation \cite{Maletic2004}.
-
-% MSR Change extraction of changes
-Canfora et al. propose a method for extracting and refining the changes made throughout the life a project to be used in more effective analyses \cite{Canfora2007c}.
-
-Hemmati et al. take a comprehensive look at the research related to \gls{msr} to determine best practices and point towards future work \cite{Hemmati2013}.
-
-% MSR in general
-Hassan cover the different metrics and uses of \gls{msr} \cite{Hassan2006}.
-
-% Validation of Change history research, benchmark
-Dit et al. provide a benchmark dataset to help in the testing and comparing of various methods for improving software maintenance tasks \cite{Dit2013}.
-
-
-\section{Machine Learning}
-
-\subsection{Support Vector Machines}
-
-% TODO get some papers related to support vector machines.
-
-\subsection{Random Forests}
-
-% TODO expand this section
-
-\gls{rf}s are commonly used to on data that has been mined from some source to make predictions \cite{Alam2013}, \cite{Granitto2007}, \cite{Stojanova}, \cite{Yu2011}. Westland et al. provide a detailed description of \gls{rf} and \gls{svm}. \gls{svm} % TODO discuss svm models related to the paper. \cite{Westland2011}
-
-\gls{rf} provide key features bootstrap aggregation and feature importance \cite{Westland2011}. Bootstrap aggregation as discussed in greater detail in section \ref{sec:random_forest_predictions} which overall helps create more stable and accurate results. The feature importance ratings are able to be calculated by the \gls{rf} and can help assess the quality of each feature \cite{Verikas2011}.
-
-As discussed in section \ref{sec:random_forest_predictions}, imbalanced data sets can be tricky to deal with causing a negative impact on the model's prediction capabilities. Work has been done to investigate using \gls{rf} with imbalanced data sets \cite{Khoshgoftaar2007}. % TODO comment of the results of the paper. 
-
-
