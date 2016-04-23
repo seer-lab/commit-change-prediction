@@ -97,18 +97,19 @@ Bhattacharyya et al. provide a detailed description of \gls{rf} and \gls{svm}.
 \subsection{Support Vector Machines}
 \label{subsec:svm_prediction}
 
-% TODO talk even more about how to pick better features.
+\gls{svm} models are more easily modified to fit data from different sources since they flexible and robust than more classical linear regression models *cite*. %TODO consider citing 
 
 A \gls{svm} is used to predict what type of change will occur based on a set of features provided. A feature is a data extracted from the project represented as a floating point number. In order to be useful a feature must in some way characterize the the category that it is assigned to. The feature must also not rely on the category that it belongs to in order to be calculated. For example, given a category of the method change within the next 5 commits or not, then the features must not rely on knowledge of future changes to the project. If the features fail to effectively characterize the category they are assigned to then the \gls{svm} may have poor predictions. It is also necessary for the features to independent of each other to not negatively affect the categorization.
 
 
 \gls{svm} has been widely used for making predictions for various aspects including predicting battery charge state \cite{Anton2013}, pharmaceutical data \cite{Burbidge2001}, software faults \cite{Gondra2008, Erturk2015, Malhotra2015, Kim2008, Moeyersoms2015, Neuhaus2007}, bug localization \cite{Murphy2007, Neuhaus2007}, software mutation testing score \cite{Jalbert2012}, financial stocks \cite{Kim2003}, credit score \cite{Huang2007}, credit card fraud \cite{Westland2011}, solar power output \cite{Zeng2016}.
 
-
-Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim et al. outline a approach that uses a \gls{svm} to predict changes that will occur within the project. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults. The models are trained using project metrics as well as the project's historical fault data.
+Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim et al. outline a approach that uses a \gls{svm} to predict changes that will occur within the project. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults. The models are trained using project metrics as well as the project's historical fault data. Zeng and Qiao use a \gls{svm} to provide short-term predict solar power output. The \gls{svm} model outperformed both an autoregressive and a neural network model. Anton et al. propose a method for predicting the state of charge of a battery using \gls{svm} model.
 
 Bhattacharyya et al. uses \gls{rf}, \gls{svm}, logistic regression to detect credit card fraud. Both \gls{rf} and \gls{svm} are able to predict a large number of fraudulent credit card transactions.
 
+
+% TODO talk even more about how to pick better features.
 %<<< TODO Example feature vector >>>
 
 % \begin{table}
@@ -171,20 +172,23 @@ A \gls{rf} is a collection of decisions trees trained on random samples of the i
 \section{Software Development Prediction}
 % TODO actually write about each of the papers.
 
+%TODO work this together 
+Software development prediction contains numerous areas of study which generally attempt to improve projects by focusing on their development and providing feedback to the developers through predictions. Some of these areas include, fault detection \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score \cite{Jalbert2012}. While there may be a large overlap in the objective for these studies often they will vary in what is used to make the prediction.
+
 % Close source, prediction
-Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
+%Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
 
 % Defect prediction, change attributes, static attributes
-Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+%Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
 
 % predict software quality based on code metrics
-Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+%Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
 
 % Prediction of something
-Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
+%Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
 
 % Bug localization through prediction, change history, defect history, temporal decay.
-Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
+%Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
 
 \subsection{Change Prediction}
 % Related work stuff here or later
