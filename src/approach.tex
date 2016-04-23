@@ -108,67 +108,6 @@ The more difficult method to identify is one which has been modified. Again use 
 
 %<<< TODO create a table which outlines the metrics stored >>>
 
-\section{Analysis}
-\label{sec:analysis}
-
-\subsection{SVM Predictions}
-\label{subsec:svm_prediction}
-% TODO talk even more about how to pick better features.
-
-A \gls{svm} is used to predict what type of change will occur based on a set of features provided. A feature is a data extracted from the project represented as a floating point number. In order to be useful a feature must in some way characterize the the category that it is assigned to. The feature must also not rely on the category that it belongs to in order to be calculated. For example, given a category of the method change within the next 5 commits or not, then the features must not rely on knowledge of future changes to the project. If the features fail to effectively characterize the category they are assigned to then the \gls{svm} may have poor predictions. It is also necessary for the features to independent of each other to not negatively affect the categorization.
-
-%<<< TODO Example feature vector >>>
-
-% \begin{table}
-% \begin{center}
-%     \begin{tabular}{|l l l l l l l|l|}
-%         \hline
-        
-%         Features &  &  &  &  &  &  & Description \\
-%         \hline
-%         $name$ & $signature$ & $change_i$ & $committer$ & $freq_{change}$ & $change_{prev}$ & $t_\Delta$ & $change_{next\_6}$ \\
-%         %0.0 & 0.1 & 0.0\\
-%         \hline
-%     \end{tabular}
-% \end{center}
-% \caption{Example Feature Vector}
-% \label{tab:example_feature_vector}
-% \end{table}
-
-% TODO Format parts of this.
-\gls{svm} requires all feature data be encoded as floating point numbers. For any numerical data the conversion to floating point is trivial. However, for more complex data the conversion is a little more difficult. Categorical data can be mapped into a unique vector entry per category. For example, if a feature can be 1 of 3 options: 0, 1 or 2 then it can be converted into three entries in the feature vector. Encoding the value 2 the sub-vector of the feature set would be [0, 0, 1] where 1 indicates a field that feature is present in the data for this vector, and 0 indicates the feature is not present. Data that is in the form of a string can be converted to a floating point number by assigning a unique number for each string (similar to hashing). The one downside to this method is that the numbers corresponding to each string maintain no numerical properties. In essence the data becomes categorical, such that if \textit{bob} is mapped to 1 and \textit{sally} is mapped to 2 there is no relationship between 1 and 2. Ideally, this data would then be further converted using the previously described method however if the set of possible strings is large then it may be unreasonable to convert it. For example, if there are 100 possible strings then that would add 100 new entries to a single vector.
-
-%<<< TODO svm diagrams >>>
-
-The categorization is used for the prediction, where each value of the category relates to a unique prediction type. For example, a simple binary categorization could simply 1 or 0 where 1 predicts the event will occur and 0 predicts that the event will not occur. In essence an \gls{svm} is tasked with separating a dataset into two different categories given a sample set of data that has already been categorized into two subsets. Given the categorization of the sample dataset the \gls{svm} model is trained to allow for categorization of new data. The categorization of any new vectors (that were not used for training) is called a prediction and is made by the \gls{svm} model created through the training. More specifically, the sample dataset is a dataset extracted from the target dataset. The sample dataset is then categorized based on the predetermined criteria (the prediction goal). This dataset along with the categorization for each vector in the dataset is the training dataset, and is then used to \textit{train} the \gls{svm} model. Once the model has been trained, the \gls{svm} model is ready to be used for making classification predictions. The data for each feature can be extracted from the new dataset, allowing for the model to classify each new vector. Given that the \gls{svm} model is accurate and reliable the results can then be used towards making predictions about the dataset. For example if the classification is that of predicting change to occur within the next six commits the developer may wish to be careful with the use of the method or assess the method's quality and determine if any issues within the method need to be addressed.
-
-A lower prediction score often relates to the data from the feature set poorly characterizing the categories. Similarly a warning will be given if the dataset is in-separate. In this case, the dataset for each category may be too similar and cannot be properly split into the two category subsets. In both cases a change to the feature set may help, whether that is a decrease or increase of features in the set. Some features are detrimental to the model, especially two features related to one another. Other potential steps would be to modify the data to ...
-% *** TODO determine best practices for data something like mean of 1 and std of 1. ***
-
-More details about the specific features used will be given a little later on. Features are descriptive aspects of the dataset that are classified into the predetermined categories. Since these features relate directly to the category understanding of the classification critical and can help determine which features should be used. For example for a classification of whether a change will occur within the next few commits, a useful feature may be the frequency by which a method changes within the project. Picking a descriptive feature set is paramount to providing a strong prediction of future data.
-
-%<<< TODO create a figure to outline the various features and their meaning >>>
-
-Most of this was done using database queries or user defined functions created in the database language.
-
-\subsection{Random Forest Predictions}
-\label{sec:random_forest_predictions}
-
-Another machine learning technique investigated was \gls{rf}s. A \gls{rf} leverages numerous decision trees to provide attempt to improve prediction capabilities. Therefore to fully understand a \gls{rf} first an understanding of decision trees is necessary. A decision tree is a technique which will create a tree based on a data set that has been classified. Once the decision tree model is created it can be used to predict or categorize data that has not yet to be classified. In the tree model the leafs will be categorizations where as the connections between inner nodes are the decisions by which the categorizations are made.
-
-One issue with decisions trees and more generally machine learning techniques in general is unbalanced data sets for training the model. The data set used rarely provided even sample sizes of each set therefore without taking necessary pro-cautions the algorithm will bias the results. In the worse case the model will classify any input data as the larger data classification.
-
-In case of unbalanced datasets there are several methods to help provide stronger predictions. The most obvious and easiest to attempt would be to sample more data. However if the dataset in general follows this trend then some more advanced techniques can used to improve the model.
-
-% Note when remarking about model quality this refers to accuracy and recall of the model
- 
-The first method would be to \textit{undersample} larger category this will even out both of the categories. This will remove some of the input values within the dataset to reduce the set size. However if there are very few samples of the smaller category the performance will suffer as well. A second method of \textit{oversampling} is useful in the case were the data samples are small. The input data from the smaller category is selected to be duplicated in the set to increase the size of the set. This helpful since it will increase the size of the dataset but could lead to bias based on the data selected from the smaller dataset. The selection method for which input vectors to over or under sample can be based off on the data's statistical distribution or made by random choice. Another advantage of these over and under sampling is that they can also be used together to in the case of a large disparity between the category's set size. 
-
-% Bootstrapping aggregation
-Another method which is used to help provide more reliable predictions is \textit{Bootstrap Aggregation}. Similar to normal sampling methods it will take the initial dataset. However rather than using the dataset as is the dataset will be uniformly sampled $n$ times and repeated $m$ times to create $m$ datasets of $n$ values. These newly created datasets will then be used to train $m$ models. Finally, when attempting to categorize a new input data it will be given to every model and the prediction result will be aggregated to provide a more accurate results. For some machine learning methods such as \gls{svm} this method will improve the results and help with unbalanced datasets.
-
-A \gls{rf} is a collection of decisions trees trained on random samples of the initial dataset. So the \gls{rf} will take an input dataset and then train $m$ decisions trees using $m$ randomly sampled sub-datasets of the initial dataset. This helps improve the model created and makes \gls{rf}s far easier to use. Another bonus of \gls{rf}s is that the importance of each feature is assessed during the training of the model. The importance outlines the quality of each feature in providing the prediction. Therefore in order to properly understand the feature importance the accuracy, precision and recall of the model should be determined by running a test dataset to determine the quality of the model.
-
 % TODO place the visualization in a better location
 \section{Visualization}
 
