@@ -104,7 +104,7 @@ A \gls{svm} is used to predict what type of change will occur based on a set of 
 
 \gls{svm} has been widely used for making predictions for various aspects including predicting battery charge state \cite{Anton2013}, pharmaceutical data \cite{Burbidge2001}, software faults \cite{Gondra2008, Erturk2015, Malhotra2015, Kim2008, Moeyersoms2015, Neuhaus2007}, bug localization \cite{Murphy2007, Neuhaus2007}, software mutation testing score \cite{Jalbert2012}, financial stocks \cite{Kim2003}, credit score \cite{Huang2007}, credit card fraud \cite{Westland2011}, solar power output \cite{Zeng2016}.
 
-Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim et al. outline a approach that uses a \gls{svm} to predict changes that will occur within the project. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults. The models are trained using project metrics as well as the project's historical fault data. Zeng and Qiao use a \gls{svm} to provide short-term predict solar power output. The \gls{svm} model outperformed both an autoregressive and a neural network model. Anton et al. propose a method for predicting the state of charge of a battery using \gls{svm} model.
+Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim et al. outline a approach that uses a \gls{svm} to predict changes that will occur within the project. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults. The models are trained using project metrics as well as the project's historical fault data. Zeng and Qiao use a \gls{svm} to provide short-term predict solar power output. The \gls{svm} model outperformed both an autoregressive and a neural network model. Anton et al. propose a method for predicting the state of charge of a battery using \gls{svm} model. Neuhaus et al. mines vulnerability databases and version archives determine components within the software that were vulnerable. A \gls{svm} was then used to predict other component that were also vulnerable. Several feature selection techniques have been assessed by Shivaji et al. for bug prediction methods. Features which are less useful to the prediction are removed to reduce the set to only the essential features. Kim investigates the possible use of \gls{svm} as a prediction model for financial forecasting. The model was used to predict whether the stock price would go up or down for the next day.
 
 Bhattacharyya et al. uses \gls{rf}, \gls{svm}, logistic regression to detect credit card fraud. Both \gls{rf} and \gls{svm} are able to predict a large number of fraudulent credit card transactions.
 
@@ -172,8 +172,10 @@ A \gls{rf} is a collection of decisions trees trained on random samples of the i
 \section{Software Development Prediction}
 % TODO actually write about each of the papers.
 
+The development of large scale projects can take a long time and involve a huge time investment from the developers. The development of the project will cause for the developers to make changes to projects. Changes made to a project may introduce new faults, increase functionality and fix previous problems. Therefore changes to a project can be both positive or negative. The developers of a project must control how a project is changed to attempt to limit the number of negative changes and increase the positive changes. Beyond ensuring that the project is developed correctly the developers typically have a limited amount of time to spend on the project and therefore must allocate their time wisely. Software development prediction models are used to help developers allocate their time more effectively. For example a developer may have a list of features that should be added to the project. However implementing the most fundamental features first will help ensure that these features are more likely to be completed.
+
 %TODO work this together 
-Software development prediction contains numerous areas of study which generally attempt to improve projects by focusing on their development and providing feedback to the developers through predictions. Some of these areas include, fault detection \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score \cite{Jalbert2012}. While there may be a large overlap in the objective for these studies often they will vary in what is used to make the prediction.
+Software development prediction contains numerous areas of study which generally attempt to improve projects by focusing on their development and providing feedback to the developers through predictions. Some of these areas include predicting: fault detection \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score \cite{Jalbert2012}, software changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. While there may be a large overlap in the objective for these studies often they will vary in what is used to make the prediction.
 
 % Close source, prediction
 %Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
@@ -193,12 +195,14 @@ Software development prediction contains numerous areas of study which generally
 \subsection{Change Prediction}
 % Related work stuff here or later
 
-The development of large scale projects can take a long time and involve a huge time investment from the developers. The development of the project will cause for the developers to make changes to projects. Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed.
+
+
+Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed.
 
 Changes to the project are the means by which all development occurs. The ability to analyze and predict changes within a project could give deep insights into the development of a project.
 
 
-A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013}, \cite{Chaturvedi2014}, \cite{Giger2012}, \cite{Hassan2004}, \cite{Kagdi2007}, \cite{Ying2004}. 
+A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. 
 
 Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
 
@@ -212,10 +216,13 @@ Giger et al. attempt to build off of previous work in change prediction (pronene
 
 Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
 
+
+\section{Change Analysis}
+
 % Change prediction (proneness), visualization
 Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
 
-% Change prediction (proneness)
+% Change characterization
 Koru and Liu study and describe change-prone classes found within open source projects \cite{GunesKoru2007}.
 
 % impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
