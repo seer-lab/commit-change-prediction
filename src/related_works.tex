@@ -177,6 +177,12 @@ The development of large scale projects can take a long time and involve a huge 
 %TODO work this together 
 Software development prediction contains numerous areas of study which generally attempt to improve projects by focusing on their development and providing feedback to the developers through predictions. Some of these areas include predicting: fault detection \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score \cite{Jalbert2012}, software changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. While there may be a large overlap in the objective for these studies often they will vary in what is used to make the prediction.
 
+\subsection{Fault Prediction}
+
+Fault prediction is a key area of study for software development since the goal is to provide insight into where issues within the project are located. Identifying these areas can be very beneficial to the developers in saving time from searching for bugs. Rather the developers are able to use their time on fixing those issues. Therefore accurate identification of faulty code improves both development efficiency and software product quality. In order to predict these faults studies used one or more of the following; change metrics \cite{Moser2008, Sisman2012, Nagappan2007}, code metrics \cite{Moser2008, Thwin2005}, defect history \cite{Sisman2012}, software dependencies \cite{Nagappan2007}.
+
+Fault predictions using static and change metrics are studied by Moser et al. The change metrics used outperformed the static metrics in accuracy, and recall. Sisman and Kak alternatively look specifically at change metrics using \gls{ir} framework to provide the predictions. The prediction framework also uses a time sensitive factor to bias towards more recent changes for predictions. Nagappan and Ball attempted to predict post release project failures for commercial projects. These predictions were done using a software dependency analysis as well as using churn metrics from the project's development. Their method proved to be capable in predicting these failures providing an ability to mitigate these failures from occurring.
+
 % Close source, prediction
 %Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
 
@@ -195,41 +201,19 @@ Software development prediction contains numerous areas of study which generally
 \subsection{Change Prediction}
 % Related work stuff here or later
 
+Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed. Changes to the project are the means by which all development occurs. The ability to analyze and predict changes within a project could give deep insights into the development of a project. A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}.
 
-
-Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed.
-
-Changes to the project are the means by which all development occurs. The ability to analyze and predict changes within a project could give deep insights into the development of a project.
-
-
-A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. 
-
-Ying et al. present a method that predicts which parts of the system will change given a set of changes \cite{Ying2004}. The prediction method leverages the change history.
-
-Kagdi and Maletic also leverage version history changes to perform software change predictions \cite{Kagdi2007}. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. 
-
-In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. \cite{Hassan2004} The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one.
-
-Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project \cite{Bantelay2013}. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together.
-
-Giger et al. attempt to build off of previous work in change prediction (proneness) by providing predictions relating to more refined entities \cite{Giger2012}. The syntax changes are recorded but an attempt is made to capture semantic changes on the statement level \cite{Giger2012}.
-
-Chaturvedi et al. attempt to predict the complexity of the project given it's change history using an entropy analysis \cite{Chaturvedi2014}.
+Ying et al. present a method that predicts which parts of the system will change given a set of changes or change propagation. The prediction is done using the project's change history. The results of the prediction method were mixed with some projects recording a stronger precision and recall and others recording a far lower results. Kagdi and Maletic also leverage version history changes to perform software change predictions. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one. Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together. Giger et al. attempt to build off of previous work in change proneness by providing predictions relating to more refined entities. While typical change analysis will involve the use of syntactic changes. However Giger et al. suggest that extracting and tracking semantic change could prove to be more helpful and accessible for developers for predicting future changes within a project. Chaturvedi et al. attempt to predict the complexity of code changes to a project. The project's change history is analyzed and the entropy is calculated. The future amount of changes necessary, the complexity of code changes, is then predicted. 
 
 
 \section{Change Analysis}
 
-% Change prediction (proneness), visualization
-Further work in change analysis was done by Bieman et al. in studying the change-proneness of different entities within a software project \cite{Bieman2003}. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works.
+Changes that occur within a project are made to achieve a goal or task. Whether the task is high level such as implement a new features for the program or lower level like fix a syntactical bug. Investigations into how changes are made or used can help provide a better understanding for making a better changes or better use of the changes.
 
-% Change characterization
-Koru and Liu study and describe change-prone classes found within open source projects \cite{GunesKoru2007}.
-
-% impact of changes aka precursor to predicting changes. Providing a type of rudimentary prediction by taxonomy.
-Wilkerson attempts to classify different types of changes that occur to a project throughout its development \cite{Wilkerson2012}. The classification can then be used to identify the impact that a given change will have on other aspects of the project.
+Bieman et al. study the change-proneness of different entities within a software project. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works. Koru and Liu study and describe change-prone classes found within open source projects. Providing further details into characteristics of different changes that are made to a software project throughout development. Similarly Wilkerson attempts to classify different types of changes that occur to a project throughout development. The classification can then be used to identify the impact that a given change will have on other aspects of the project. Snipes et al. provide a tool that attempts to locate areas within the source code that have a large amount of changes. These areas could be classified as underdevelopment and are likely to be very unstable given the amount of change occurring within them.
 
 % (TODO check) Close source, identifying areas likely to have change
-Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
+%Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
 
 
 
