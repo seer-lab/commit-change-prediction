@@ -22,6 +22,11 @@ Mining of open source projects has been widely used to help research into variou
 
 The developers of the project must therefore manage changes made to the project to ensure that the changes that are made result in the expected outcome. Keeping track of every change to a project can be difficult because of external changes which are beyond the control of the developers. However for the majority of the changes within the project they can be kept track by using a \gls{vcs}. With proper use of a \gls{vcs} the important changes made to the project will be stored. This can help keep previous releases of the software available or even help resolve a bug that was introduced in a recent change. With numerous developers a \gls{vcs} can also help improve how these developers interact and share the changes that they are making.
 
+% TODO talk about project development
+% - limited time
+% - project costs
+% - open source difference
+
 The impact of changes can be measured and provide insights into how the project changes. However first the data must be collected and then processed into a usable form.
 
 The source code level changes with a project map directly to functionality changes. Whether the such a change is new, fixed or removed functionality. Simply observing source code line changes can encounter a large amount of noise within which can make tracking the desired changes more difficult.
@@ -33,6 +38,19 @@ however the actual processing of the data will vary depending on the application
 Visualization of the data collected allows for a more accessible look at the data to provide potential insights.
 
 The change prediction process leverages machine learning techniques to train based on the data collected through mining GitHub.
+
+% TODO talk about data mining
+
+Data mining is the act of collecting data from one or more sources to make use of. While the actual use of the data once collected can vary greatly from visualizing to modeling. Data can also be collected in several forms including continuous streams of data, sporadic data and one time collection. Depending on what type of data is being collected and the purpose of the collection the means of collection may also vary. Another concern related to data mining is that of big data. If a source provides a wealth of data then extra measures should be taken to manage the size of the data set. Without diligent management a data set can become unwieldy with massive overhead that is entirely avoidable.
+
+% TODO talk about machine learning and how it can be used.
+
+	% TODO provide some citations about usages
+Machine learning techniques are widely used to support the completion of difficult tasks. A machine learning algorithm is generally an algorithm that attempts to detect and mimic patterns within a data set. There are numerous different machine learning algorithms including \gls{svm}, \gls{rf}, \gls{ann}. Each technique provides advantages and disadvantages depending on the purpose and the data set in use. The primary focus will be on \gls{svm} and \gls{rf} since they are used as part of the proposed work.
+	% TODO explain svm and rf in further details.
+
+% TODO talk about the role of visualization?
+
 
 % Organization
 % TODO talk about how the rest of the paper is organized.
