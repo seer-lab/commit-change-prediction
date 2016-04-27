@@ -2,28 +2,26 @@
 \label{chap:introduction}
 
 % intro
+Software has become wide spread and integrated with mobile devices providing people with a easy to use device that can always be with them. Developers are also able to create applications which can reach a wider audience through the use of application market places such as the Google Play Store, Apple App Store. In other cases such as web development system are expected to be working constantly. The applications must provide maximum availability with minimal number of issues as possible. Developing large scale applications is a difficult task that when executed incorrectly can lead to massive losses for all parties involved in the project. 
+% TODO maybe mention the number of projects that typically fail.
 
-% Garbage.
+During the development of a project a large number of changes will be applied to the original source code. These changes can introduce features, issues or fixes to the project. Predicting where changes will occur within the project can help developers of a project keep track of sections of the software project that need more attention. Such a case may also require a reflection on the design of the section to improve the software project.
+
+\section{Objective \& Methodology}
+
+% TODO integrate into other paragraphs
 This thesis generally covers topics relating to effort estimation and planning of project development. The development of a software project can vary greatly based on the scope of the project. Larger scale projects that have a complex task or set of tasks to accomplish often require a long period of time with a committed team of developers. Even once a project completely performs a task further development is needed to maintain the project for the remainder of its life.
 
 For the development of software in a commercial setting the ability for managers to identify the cost of a project is essential for effective business decisions. Effort estimation is one possible avenue for project managers to leverage to identify the complexity of a project and associated cost of that project.
 
 The ability of developers or managers to extract more information from a project is essential to helping them make more informed decisions about the development of the project. For example if a developer can identify a location within a project that is very likely to receive changes in future development then the development may be more inclined carefully consider the types of changes necessary to make.
 
-% Thesis statement
-We propose a tool that assists in managing the development of a software project by predicting which changes will occur. This work explores leveraging change prediction of the source code using the change history to assist in the development of large scale projects.
-
-% Contributions
-Our contributions are in mining of \gls{oss}, visualization of a project's change history, machine learning change prediction, data collect which can be used and extended.
-
-% ---Explain
-
+% Possible reduce.
 Mining of open source projects has been widely used to help research into various software topics relating to project development and quality assurance. This research is vital to improving the development process of software projects. By improving the development of software projects more may succeed in accomplishing their outlined goal. The project development process will take time to complete. The time it takes for the project to be completed relies on numerous factors including project scope, man power, experience. Over the course of the project development changes will be made to project. Changes can be made to almost any part of the project including design, number of developers and type of developers. These changes will in most cases have a measurable impact on the project (or at least they are intended to). In case of adding more developers the intended result may be to increase project capabilities within a shorter span of time than previously. Even with an intended result, the actual result may differ and should be measured to determine the effectiveness of a given change.
 
 The developers of the project must therefore manage changes made to the project to ensure that the changes that are made result in the expected outcome. Keeping track of every change to a project can be difficult because of external changes which are beyond the control of the developers. However for the majority of the changes within the project they can be kept track by using a \gls{vcs}. With proper use of a \gls{vcs} the important changes made to the project will be stored. This can help keep previous releases of the software available or even help resolve a bug that was introduced in a recent change. With numerous developers a \gls{vcs} can also help improve how these developers interact and share the changes that they are making. Some commonly used \gls{vcs} include Git \footnote{\url{https://git-scm.com/}}, \gls{svn}\footnote{\url{https://subversion.apache.org/}}.
 
 The impact of changes can be measured and provide insights into how the project changes. However first the data must be collected and then processed into a usable form. One such change that can be made to the software project would be source code changes. These changes are very fine grain since they will account for almost all functionality changes with the project. The source code level changes with a project can be map directly to functionality changes. Whether the such a change is new, fixed or removed functionality. Simply observing source code line changes can encounter a large amount of noise within which can make tracking the desired changes more difficult. Visualization of the data collected allows for a more accessible look at the data to provide potential insights.
-
 
 
 % TODO talk about project development
@@ -40,15 +38,33 @@ Data mining is the act of collecting data from one or more sources to make use o
 % TODO talk about machine learning and how it can be used.
 
 	% TODO provide some citations about usages
-Machine learning techniques are widely used to support the completion of difficult tasks. A machine learning algorithm is generally an algorithm that attempts to detect and mimic patterns within a data set. There are numerous different machine learning algorithms including \gls{svm}, \gls{rf}, \gls{ann}. Each technique provides advantages and disadvantages depending on the purpose and the data set in use. The primary focus will be on \gls{svm} and \gls{rf} since they are used as part of the proposed work.
+Machine learning techniques are widely used to support the completion of difficult tasks. A machine learning algorithm is generally an algorithm that attempts to detect and mimic patterns within a data set. There are numerous different machine learning algorithms including \gls{svm}, \gls{rf}, \gls{ann}. Each technique provides advantages and disadvantages depending on the purpose and the data set in use. The primary focus will be on \gls{svm} and \gls{rf} since they are used as part of the proposed work. 
+
+A \gls{svm} is a tool algorithm that attempts to classify data into two different categories. This algorithm is a supervized learning technique which requires a training data set to build the model for categorizing. The training set will conists of data samples from each classification. After creating the model for a \gls{svm} new data vectors can be provided to the model and be classified into one of the two categories. The model will be constructed by attempting to linearly separate the data into two distinct groups. If the data cannot be separated linearly then the data is mapped to a higher dimension to be properly separated. While separating the data points from each category the model may reclassify data points which are more correctly fix in the other set. This feature allows for some error to be present within the training set without causing further errors.% TODO maybe talk about wide use of svms in research and industry?
+
+A \gls{rf} is another supervised learning technique that requires a training data set to create an prediction model. The foundation of a random forest is that of decision trees. A single decision tree creates a tree structure were each internal node in the tree represents a decision where in the final destination is the outcome. \gls{rf} extend decision trees to address the tendency for decision trees to overfit the data. A \gls{rf} uses several decision trees as well as a modified version of bootstrap aggregation to get more robust predictions.
+
+
+% TODO create an image of a simple decision tree
+
 	% TODO explain svm and rf in further details.
 
 The change prediction process leverages machine learning techniques to train based on the data collected through mining GitHub. Analysis of change data requires extracting data for a large set of data. The model requires a subset of the data to be used for the training of the model and another subset that is distinct from the first to actually use the model.
 
 % TODO talk about the role of visualization?
 
+% Thesis statement
+% TODO place this in a better position and integrate it better.
+We propose a tool that assists in managing the development of a software project by predicting which changes will occur. This work explores leveraging change prediction of the source code using the change history to assist in the development of large scale projects.
 
+\section{Contributions}
+
+% TODO expand this section
+
+% Contributions
+Our contributions are in mining of \gls{oss}, visualization of a project's change history, machine learning change prediction, data collect which can be used and extended.
+
+\section{Organization}
 % Organization
-% TODO talk about how the rest of the paper is organized.
 
 The rest of the this thesis is organized into 4 more chapters. \hyperref[chap:related_works]{Literature Review}, \hyperref[chap:approach]{Approach}, \hyperref[chap:experiments]{Experiments} and finally the \hyperref[chap:conclusions]{Conclusion}. In chapter \ref{chap:related_works} more details are given related to the foundation of this work. Primarily this will cover the data that is collected for the analysis. The following chapter \ref{chap:approach} discusses the change prediction approach from how the data is collected and stored to what methods are used for to predict change within the project. Chapter \ref{chap:experiments} reports the experiments conducted and their results. Finally the paper the conclusion summarizes the results and contributions and proposes future work to build of the thesis.
