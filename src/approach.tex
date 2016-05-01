@@ -48,7 +48,7 @@ As mentioned above the data is stored in a MySQL relational database which lever
 %TODO re-factor this
 The first database called \textit{github\_data} and stores the semi-raw data collected from GitHub's \gls{api}. This database contains 8 tables which store various aspects about the projects that are considered potentially important for the analysis later on. The tables of primary concern are \textit{repositories}, \textit{commits}, \textit{users}, \textit{files} and \textit{tags} tables. The data collection from GitHub's \gls{api} collects primary aspects related to the desired analysis. Other aspects are available from the \gls{api} and if need the database could be extended to store more elements as necessary. In some cases data from the \gls{api} is not available for one reason or another (usually inaccessible files or such) these are simply removed or a note is made of them depending on their importance. For example, files that do not contain Java code are not essential and if inaccessible are ignored. If a Java file is inaccessible a note is made as this is a greater concern. These files can be retrieved if enough information is available (previous version and corresponding patch file). In the case that insufficient information is available the analysis can still be applied but will likely adversely effected the result.
 
-After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the section \ref{sec:parsing}. This database, \textit{project\_stats}, is very similar in layout to the first database except some extra tables have been added and a few data items have been removed. Mostly the storage expansions have been to hold change information calculated from the analysis of the data.
+After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the \autoref{sec:parsing}. This database, \textit{project\_stats}, is very similar in layout to the first database except some extra tables have been added and a few data items have been removed. Mostly the storage expansions have been to hold change information calculated from the analysis of the data.
 
 \begin{figure}[!ht]
     \centering
@@ -57,7 +57,7 @@ After storing the data in the \textit{github\_data} database, the analysis proce
     \label{fig:project_stats_schema}
 \end{figure}
 
-The final database uses PostgreSQL because of limitations within the MySQL implementation. Some of the candidate features, discussed in further detail in section \ref{sec:sample_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL.
+The final database uses PostgreSQL because of limitations within the MySQL implementation. Some of the candidate features, discussed in further detail in \autoref{sec:sample_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL.
 
 In order to transfer the data over to PostgreSQL, a simple program called \textit{pgloader}\footnote{\url{http://pgloader.io/}} was used to transfer the MySQL database over to PostgreSQL. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. Once the database is copied over to PostgreSQL it is ready to be used for to perform change prediction.
 
@@ -115,7 +115,7 @@ The more difficult method to identify is one which has been modified. Again use 
 
 After collecting an analyzing the data the key features are extracted from the collected data. In order to to better understand resulting data it was visualized. The first visualization simply showed the changes recorded on a per line basis. These changes were divided into several closely related subcategories of additions, deletions and modifications. Additions identify changes that are new and do not have a corresponding set of deleted code. Similarly deletions refers to changes that remove code without a corresponding set of additions. Finally modifications are a set of changes which contain a set of additions and deletions that are related.
 
-In a modification the changes are related through the \gls{ld} calculation. This distance calculation will determine the edit distance between two strings. Where edit distance is defined as the number of characters difference between two different strings. For example, \gls{ld} between \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. While this provides a good initial method for comparison between two string values the value must be normalized to allow for more general use. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in equation \ref{eq:normalized_ld}.
+In a modification the changes are related through the \gls{ld} calculation. This distance calculation will determine the edit distance between two strings. Where edit distance is defined as the number of characters difference between two different strings. For example, \gls{ld} between \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. While this provides a good initial method for comparison between two string values the value must be normalized to allow for more general use. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in \autoref{eq:normalized_ld}.
 
 % TODO note that a_i is an addition line and that d_j is a deletion line
 % TODO clarify change block with picture
@@ -126,14 +126,14 @@ NLD(a_i, d_j) = \frac{LD(a_i, d_j)}{\max(|a_i|,|d_j|)}
 \end{equation}
 
 % TODO show distance calculation and paper cite this.
-Modifications were assumed to only take place in a series of changes that involved both additions and deletions shown in figure \ref{fig:changed_method} and with an \gls{nld} below a defined threshold $\Delta_m$.
+Modifications were assumed to only take place in a series of changes that involved both additions and deletions shown in \autoref{fig:changed_method} and with an \gls{nld} below a defined threshold $\Delta_m$.
 
 \begin{equation}
 \label{eq:similarity_threshold}
 m(a_i, d_j) = NLD(a_i, d_j) < \Delta_m
 \end{equation}
 
-In order to account for larger method signatures a threshold $\alpha$ was created to separate small and large method signatures. Therefore the equation \ref{eq:similarity_threshold} was updated accordingly shown in equation \ref{eq:complete_similarity_threshold}.
+In order to account for larger method signatures a threshold $\alpha$ was created to separate small and large method signatures. Therefore the \autoref{eq:similarity_threshold} was updated accordingly shown in \autoref{eq:complete_similarity_threshold}.
 
 \begin{equation}
 \label{eq:complete_similarity_threshold}
