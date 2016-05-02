@@ -1,8 +1,8 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
-\section{Sample Data}
-\label{sec:sample_data}
+\section{Experimental Project Data}
+\label{sec:experimental_project_data}
 
 One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
 
@@ -112,161 +112,129 @@ While the purposed method was being developed ACRA's acra project was primarily 
 
 % TODO merge the different experiment notes sections into one subsection
 
-\subsection{Experiment Factors}
-% TODO outline the different factors used in the experiments. Also even outline other factors that are not changed either.
+% \subsection{Experiment 1}
 
-% Factors:
-% Sliding Window
-% Extended sampling ranges
-% Training Range
-% Testing Range
-% Sample Range by Commit (or by date)
-% Oversampling
-% Undersampling
-% Dynamic Size of sampling
-% Sampling Percent
-% Sampling Randomly
-% Window
-% SVM or Forest Parameters
+% % TODO look for test results for this one
+% The first set of experiments were preliminary and used \gls{svm} as the approach for prediction algorithm. They attempted to predict whether a given method would change within the next 6 commits. The test was done one using ACRA's acra (hence forth just called \textit{acra}). The data set was divided into four sections based on the date length. So each section of the data was the project's lifespan divided by 4 long. The sampling method from the data set $data_i$ was to use the first $n$ tuples ordered by date. The value of $n$ was tested at 100 and 1000. The data set $data_i$ contained tuples which had changes and ones that had no changes.
 
-The sliding window factor is one of core aspects related to extracting samples from the data set. When using the sliding window to sample the data the data is divided as shown in \autoref{fig:exp_7_data_range}. The training sample is where the training data set is sampled from. The testing sample is where the testing data is sampled from. 
+% $|data_i| = \frac{|date_f - date_s|}{4}$
 
-A data set with an extended sampling range will extend the sampling range beyond the original size for either the training sample or the testing sample. The training range can be expanded to include earlier samples to increase the sample space.
+% The results of these experiments were not particularly promising scoring accuracy, precision, recall and recall around $50\%$ or below. The experiment was run such that $data_i$ would be used for training and $data_{i+1}$ would be used for testing. For example $data_1$ would be used to train $model_{1,2}$ and $data_2$ would be used to test the $model_{1,2}$. A slight variation was also tested where $data_i$ trained $model_i$ and was tested use each data set $data_j$ that had $j > i$. This however still provided poor results similar to the original experiment. \autoref{fig:exp_1_data_range} shows how the data is distributed.
 
-The training and testing sampling range are defined as the number of commits from which the samples can be taken. In \autoref{fig:exp_7_data_range}, both the training and testing sample ranges are set to 30 commits. These two values can differ from one another but tend to be kept the same for most of the experiments.
+% % TODO consider updating this to use the dates in the x axis.
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/exp_1_data}
+%     \caption{Experiment 1 Data Sample Range}
+%     \label{fig:exp_1_data_range}
+% \end{figure}
 
-Two other factors in the experiments was handling the data set bias. The two methods are oversampling and undersampling of data elements. Most of the time a data set will contain more samples in one category than the other. When the number of samples in each category is very close this will have little effect on the model. However in cases were the data is highly skewed to one classification over the other the model will simply predict the larger classification. Use of oversampling will take more samples (duplicates) from the smaller classification to be closer in size to the larger classification. Alternatively, undersampling will use remove samples from the larger classification to become closer in size to the smaller classification.
-% Discussed further in section in approach
-
-Another feature assessed was that of the sample size. The sample size was determined by the sample ratio. When sampling if the ratio is at 50 \% then only half of the values retrieved will be used to train or test. For some of the larger data sets sampling 100 \% of the data from the range would take a lot longer. Therefore sampling a percentage of the data set is commonly used to decrease the training time. However in the case of using a percentage of the sample range the data should to be sampled randomly to provide a more stable model. Therefore each data entry in the sample has the same chance to be within the training or test data set.
-
-For each project data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. As shown in \autoref{fig:exp_7_data_range}, the window is shown starting at the 30th commit which would also be called the 30th window.
-
-Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses three parameters; C, gamma and esp. % TODO explain each of them in a bit more details.
-
-\subsection{Experiment 1}
-
-% TODO look for test results for this one
-The first set of experiments were preliminary and used \gls{svm} as the approach for prediction algorithm. They attempted to predict whether a given method would change within the next 6 commits. The test was done one using ACRA's acra (hence forth just called \textit{acra}). The data set was divided into four sections based on the date length. So each section of the data was the project's lifespan divided by 4 long. The sampling method from the data set $data_i$ was to use the first $n$ tuples ordered by date. The value of $n$ was tested at 100 and 1000. The data set $data_i$ contained tuples which had changes and ones that had no changes.
-
-$|data_i| = \frac{|date_f - date_s|}{4}$
-
-The results of these experiments were not particularly promising scoring accuracy, precision, recall and recall around $50\%$ or below. The experiment was run such that $data_i$ would be used for training and $data_{i+1}$ would be used for testing. For example $data_1$ would be used to train $model_{1,2}$ and $data_2$ would be used to test the $model_{1,2}$. A slight variation was also tested where $data_i$ trained $model_i$ and was tested use each data set $data_j$ that had $j > i$. This however still provided poor results similar to the original experiment. \autoref{fig:exp_1_data_range} shows how the data is distributed.
-
-% TODO consider updating this to use the dates in the x axis.
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=1.0\textwidth]{images/exp_1_data}
-    \caption{Experiment 1 Data Sample Range}
-    \label{fig:exp_1_data_range}
-\end{figure}
-
-\subsection{Experiment 2}
+%\subsection{Experiment 2}
 
 % TODO show results
-To address the fixed data sampling used previously random sampling was employed. The number of samples $n$ was not changed from the first experiment. The prediction results improved slightly. The \gls{svm} model also reported an error relating to \textit{max number of iterations reached}. This error indicates that the \gls{svm} model is having trouble effectively separating the two categorizations of data into two distinct sets. Such warnings could mean that the features used for training the model are not linearly separable.
+%To address the fixed data sampling used previously random sampling was employed. The number of samples $n$ was not changed from the first experiment. The prediction results improved slightly. The \gls{svm} model also reported an error relating to \textit{max number of iterations reached}. This error indicates that the \gls{svm} model is having trouble effectively separating the two categorizations of data into two distinct sets. Such warnings could mean that the features used for training the model are not linearly separable.
 
 % TODO show a picture of how the data was divided.
 
-\subsection{Experiment 3}
+% \subsection{Experiment 3}
 
-% TODO talk about using easy.py
-Further investigation into \gls{svm} lead to a research tool that provided grid search for optimizing the parameters used for a \gls{svm}. The results of these experiments offered improvements over the previous, however required a long time to find the right parameters and works the best with the dataset $data_i$ that was used to find the parameters.
+% % TODO talk about using easy.py
+% Further investigation into \gls{svm} lead to a research tool that provided grid search for optimizing the parameters used for a \gls{svm}. The results of these experiments offered improvements over the previous, however required a long time to find the right parameters and works the best with the dataset $data_i$ that was used to find the parameters.
 
-\subsection{Experiment 4}
+% \subsection{Experiment 4}
 
-% TODO get experiment results
-Modified the candidate features set to test the \gls{svm} with. Added ones like change frequency, average time between commits, number of commits since last change, time since last change and previous change type. Dropped commit author in favor of using just committer. Finally changed the prediction to predict the whether a change will occur within the next 5 commits. In terms of the methodology, 2 variations were tested. The first one was predicting changes to a methods within the same package. The second one was prediction changes to a method within the same file. Neither of these changes provided substantial improvements since they reduced the available sample size, $|data_i|$, down so that the no reasonable predictions could be made from the reduced set.
+% % TODO get experiment results
+% Modified the candidate features set to test the \gls{svm} with. Added ones like change frequency, average time between commits, number of commits since last change, time since last change and previous change type. Dropped commit author in favor of using just committer. Finally changed the prediction to predict the whether a change will occur within the next 5 commits. In terms of the methodology, 2 variations were tested. The first one was predicting changes to a methods within the same package. The second one was prediction changes to a method within the same file. Neither of these changes provided substantial improvements since they reduced the available sample size, $|data_i|$, down so that the no reasonable predictions could be made from the reduced set.
 
-\subsection{Experiment 5}
+% \subsection{Experiment 5}
 
-The next set of experiments required more complex features which necessitated more complex queries from the database. In fact the database interface in use, MySQL, was unable to implement some of the queries. MySQL only allows 2 levels of nested queries and has a more restrictive data type set. An alternative database interface PostgreSQL was used as a replacement for MySQL. PostgreSQL offers fair more sophisticated data types as well as \gls{cte}. The migration from MySQL to PostgreSQL was simplified through the use of pgloader as mentioned in \autoref{sec:storage}. 
+% The next set of experiments required more complex features which necessitated more complex queries from the database. In fact the database interface in use, MySQL, was unable to implement some of the queries. MySQL only allows 2 levels of nested queries and has a more restrictive data type set. An alternative database interface PostgreSQL was used as a replacement for MySQL. PostgreSQL offers fair more sophisticated data types as well as \gls{cte}. The migration from MySQL to PostgreSQL was simplified through the use of pgloader as mentioned in \autoref{sec:storage}. 
 
-Another change was the even out the number of samples collected from each category. The data set $data_i$ tended to provide unbalanced categorization of the data. The same number of samples from each $n/2$ was collected to prevent biasing in the data set. A \gls{svm} model like most other machine learning algorithms is susceptible to category biasing. This will occur when the training set consists of $80\%$ of one category and $20\%$ of another. The model will train such that it always predicts the first category. This works out well if the data is always unbalanced in the same way however it will fail to predict the smaller category entirely. Therefore providing an even sample of each category ($50\%$ each) will prevent poor prediction results.
+% Another change was the even out the number of samples collected from each category. The data set $data_i$ tended to provide unbalanced categorization of the data. The same number of samples from each $n/2$ was collected to prevent biasing in the data set. A \gls{svm} model like most other machine learning algorithms is susceptible to category biasing. This will occur when the training set consists of $80\%$ of one category and $20\%$ of another. The model will train such that it always predicts the first category. This works out well if the data is always unbalanced in the same way however it will fail to predict the smaller category entirely. Therefore providing an even sample of each category ($50\%$ each) will prevent poor prediction results.
 
-Another result of determining that the data set was unbalanced in terms of the categorization was to calculate both precision and recall of the results. Accuracy alone only provides a very simple measure of how well the model predicted the samples from $data_{i+1}$. A clearer understanding is available with these three measures. Also with each provided an attempt can be made to optimize all three.
+% Another result of determining that the data set was unbalanced in terms of the categorization was to calculate both precision and recall of the results. Accuracy alone only provides a very simple measure of how well the model predicted the samples from $data_{i+1}$. A clearer understanding is available with these three measures. Also with each provided an attempt can be made to optimize all three.
 
-Finally the last few tests in this experiment set included a new feature. This feature was the difference in time between the previous commit with a change and the latest commit. This feature was not particularly useful however and caused the data to become inseparable.
+% Finally the last few tests in this experiment set included a new feature. This feature was the difference in time between the previous commit with a change and the latest commit. This feature was not particularly useful however and caused the data to become inseparable.
 
-At the end of this set of tests it was apparent that a deeper understanding of the candidate features was necessary to improve the results. Therefore an analysis of each candidate feature was performed both on the quality of the feature and the possible relationship with others. \gls{svm} models are particularly sensitive towards dependencies between the variables. It was also necessary to properly convert data into a format that could be used by the database. This was talked about in more detail in \autoref{subsec:svm_prediction}.
+% At the end of this set of tests it was apparent that a deeper understanding of the candidate features was necessary to improve the results. Therefore an analysis of each candidate feature was performed both on the quality of the feature and the possible relationship with others. \gls{svm} models are particularly sensitive towards dependencies between the variables. It was also necessary to properly convert data into a format that could be used by the database. This was talked about in more detail in \autoref{subsec:svm_prediction}.
 
-\begin{table}
-\begin{center}
-    \begin{tabular}{|l|l|l|}
-        \hline
-        Project & Sample Size (n) & Accuracy \\
-        \hline  
-        acra & 100 & $70\%$ \\
-        acra & 1000 & $52\%$ \\
-        \hline
-    \end{tabular}
-\end{center}
-    \caption{Experiment 5 Results}
-    \label{tab:experiment_5_results}
-\end{table}
+% \begin{table}
+% \begin{center}
+%     \begin{tabular}{|l|l|l|}
+%         \hline
+%         Project & Sample Size (n) & Accuracy \\
+%         \hline  
+%         acra & 100 & $70\%$ \\
+%         acra & 1000 & $52\%$ \\
+%         \hline
+%     \end{tabular}
+% \end{center}
+%     \caption{Experiment 5 Results}
+%     \label{tab:experiment_5_results}
+% \end{table}
 
-\subsection{Experiment 6}
+% \subsection{Experiment 6}
 
-After analyzing the candidate features a more ideal set of features was created. The tests were preformed again using sample sizes of $100$ and $1000$. After the changes were made to the data, the performance improved however some of the features did not prove as useful. However the improvement was marginal and therefore necessitated shift in focus from the features to the prediction method. Specificity the data sampling method was inspected to attempt improve the prediction results. Instead of breaking the data set into four even sets based on the date range the data was divided into two even sets based on date as shown in \autoref{fig:exp_6_data_range}
+% After analyzing the candidate features a more ideal set of features was created. The tests were preformed again using sample sizes of $100$ and $1000$. After the changes were made to the data, the performance improved however some of the features did not prove as useful. However the improvement was marginal and therefore necessitated shift in focus from the features to the prediction method. Specificity the data sampling method was inspected to attempt improve the prediction results. Instead of breaking the data set into four even sets based on the date range the data was divided into two even sets based on date as shown in \autoref{fig:exp_6_data_range}
 
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=1.0\textwidth]{images/exp_6_data_range}
-    \caption{Experiment 6 Data Sample Range}
-    \label{fig:exp_6_data_range}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/exp_6_data_range}
+%     \caption{Experiment 6 Data Sample Range}
+%     \label{fig:exp_6_data_range}
+% \end{figure}
 
-The results of the experiment are outlined in \autoref{tab:experiment_6_results}. The larger sample with $n = 1000$ is far worse than with $n = 100$. This however was a worse result than when the data set was divided into 4 equal parts.
+%The results of the experiment are outlined in \autoref{tab:experiment_6_results}. The larger sample with $n = 1000$ is far worse than with $n = 100$. This however was a worse result than when the data set was divided into 4 equal parts.
 
-\begin{table}
-\begin{center}
-    \begin{tabular}{|l|l|l|}
-        \hline
-        Project & Sample Size (n) & Accuracy \\
-        \hline
-        acra & 100 & $60\%$ \\
-        acra & 1000 & $47\%$ \\
-        \hline
-    \end{tabular}
-\end{center}
-    \caption{Experiment 6 Results}
-    \label{tab:experiment_6_results}
-\end{table}
+% \begin{table}
+% \begin{center}
+%     \begin{tabular}{|l|l|l|}
+%         \hline
+%         Project & Sample Size (n) & Accuracy \\
+%         \hline
+%         acra & 100 & $60\%$ \\
+%         acra & 1000 & $47\%$ \\
+%         \hline
+%     \end{tabular}
+% \end{center}
+%     \caption{Experiment 6 Results}
+%     \label{tab:experiment_6_results}
+% \end{table}
 
-\subsection{Experiment 7}
+% \subsection{Experiment 7}
 
-Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then \autoref{fig:exp_7_data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
+% Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then \autoref{fig:data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
 
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
-    \caption{Experiment 7 Data Sample Range}
-    \label{fig:exp_7_data_range}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
+%     \caption{Experiment 7 Data Sample Range}
+%     \label{fig:data_range}
+% \end{figure}
 
-Another change to the sampling method was to sample a percentage of the data within the sample rather than a fixed amount. The sample ranges provided a larger range of data to sample and thus sticking to a arbitrary amount of tuples was updated. This however introduced biasing issues with the data set since typically one category or the other had the majority of tuples within the sample. Fixing this issue is talked about in further detail in \autoref{subsec:random_forest_predictions}. Similar to the previous sampling techniques the data set was sampled randomly. Therefore the percentage of data sampled had a large impact on how long it took to train the model but typically also on the prediction results of the model. 
+% Another change to the sampling method was to sample a percentage of the data within the sample rather than a fixed amount. The sample ranges provided a larger range of data to sample and thus sticking to a arbitrary amount of tuples was updated. This however introduced biasing issues with the data set since typically one category or the other had the majority of tuples within the sample. Fixing this issue is talked about in further detail in \autoref{subsec:random_forest_predictions}. Similar to the previous sampling techniques the data set was sampled randomly. Therefore the percentage of data sampled had a large impact on how long it took to train the model but typically also on the prediction results of the model. 
 
 % TODO discuss the results
 
-\subsection{Experiment 8}
+% \subsection{Experiment 8}
 
-After more or less establishing a data sampling model the candidate feature set was looked at again in an attempt to improve the prediction results. A few of the candidate features were removed and a minimum candidate feature set was determined which provided the best results for the current test project \textit{acra}.
+% After more or less establishing a data sampling model the candidate feature set was looked at again in an attempt to improve the prediction results. A few of the candidate features were removed and a minimum candidate feature set was determined which provided the best results for the current test project \textit{acra}.
 
-% TODO show some results
+% % TODO show some results
 
-% TODO outline the candidate feature set that performed the best for SVM
+% % TODO outline the candidate feature set that performed the best for SVM
 
-The optimal value of $m$ is a more challenging issue since for project which have a large amount of rapid change occurring in the project larger value seems to provide a more positive result. Where as smaller projects or ones that have a slower rate of change tend to do far better with a smaller value of $m$. 
+% The optimal value of $m$ is a more challenging issue since for project which have a large amount of rapid change occurring in the project larger value seems to provide a more positive result. Where as smaller projects or ones that have a slower rate of change tend to do far better with a smaller value of $m$. 
 
-\subsection{Experiment 9}
+% \subsection{Experiment 9}
 
-After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. \gls{rf} as discussed in greater detail in \autoref{subsec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
+% After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. \gls{rf} as discussed in greater detail in \autoref{subsec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
 
-\gls{rf} while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
+% \gls{rf} while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
 
-% TODO provide some results.
+\section{Experimental Setup}
 
-% TODO consolidate the stuff below into what is written above.
+\subsection{Prediction Features}
 
 %The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
 
@@ -346,22 +314,12 @@ The final change that was accounted for was to change the population sample size
 
 The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
-\section{Results}
+\subsection{Prediction Performance}
 
-% TODO re-work this section
-% TODO most of this section is out of date and needs to be done.
-
+% TODO this isn't necessary for cases when the entire sample is used.
 For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score.
 
-%%%%%%%%%%%%
-% This part is fine.
 The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in \autoref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
-
-% Ensure this doesn't overlap to much with the above section which discusses cross-validation.
-
-% TODO remove
-%Since the data set is split into four quarters, the category (of whether a method will be changed in the next 5 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter.
-
 
 \begin{equation} 
 \label{eq:vector_accuracy}
@@ -389,6 +347,77 @@ The recall of the model is the measure of how correct the model predicts that ch
 \label{eq:recall}
 P_{recall} = \frac{tp}{tp+fn}
 \end{equation}
+
+
+\section{\gls{svm} Experiments}
+\label{sec:svm_experiments}
+
+\subsection{Experiment Factors}
+% TODO outline the different factors used in the experiments. Also even outline other factors that are not changed either.
+
+% Factors:
+% Sliding Window
+% Extended sampling ranges
+% Training Range
+% Testing Range
+% Sample Range by Commit (or by date)
+% Oversampling
+% Undersampling
+% Dynamic Size of sampling
+% Sampling Percent
+% Sampling Randomly
+% Window
+% SVM or Forest Parameters
+
+Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then \autoref{fig:data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
+    \caption{Experiment 7 Data Sample Range}
+    \label{fig:data_range}
+\end{figure}
+
+The sliding window factor is one of core aspects related to extracting samples from the data set. When using the sliding window to sample the data the data is divided as shown in \autoref{fig:data_range}. The training sample is where the training data set is sampled from. The testing sample is where the testing data is sampled from. 
+
+A data set with an extended sampling range will extend the sampling range beyond the original size for either the training sample or the testing sample. The training range can be expanded to include earlier samples to increase the sample space.
+
+The training and testing sampling range are defined as the number of commits from which the samples can be taken. In \autoref{fig:data_range}, both the training and testing sample ranges are set to 30 commits. These two values can differ from one another but tend to be kept the same for most of the experiments.
+
+Two other factors in the experiments was handling the data set bias. The two methods are oversampling and undersampling of data elements. Most of the time a data set will contain more samples in one category than the other. When the number of samples in each category is very close this will have little effect on the model. However in cases were the data is highly skewed to one classification over the other the model will simply predict the larger classification. Use of oversampling will take more samples (duplicates) from the smaller classification to be closer in size to the larger classification. Alternatively, undersampling will use remove samples from the larger classification to become closer in size to the smaller classification.
+% Discussed further in section in approach
+
+Another feature assessed was that of the sample size. The sample size was determined by the sample ratio. When sampling if the ratio is at 50 \% then only half of the values retrieved will be used to train or test. For some of the larger data sets sampling 100 \% of the data from the range would take a lot longer. Therefore sampling a percentage of the data set is commonly used to decrease the training time. However in the case of using a percentage of the sample range the data should to be sampled randomly to provide a more stable model. Therefore each data entry in the sample has the same chance to be within the training or test data set.
+
+For each project data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. As shown in \autoref{fig:data_range}, the window is shown starting at the 30th commit which would also be called the 30th window.
+
+Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses three parameters; C, gamma and esp. % TODO explain each of them in a bit more details.
+
+\subsection{\gls{svm} Discussion}
+\label{subsec:svm_discussion}
+
+\section{\gls{rf} Experiments}
+\label{sec:rf_experiments}
+
+\subsection{Factor}
+
+\subsection{\gls{rf} Discussion}
+\label{subsec:rf_discussion}
+
+%\section{Results}
+
+% TODO re-work this section
+% TODO most of this section is out of date and needs to be done.
+
+
+
+%%%%%%%%%%%%
+% This part is fine.
+
+% Ensure this doesn't overlap to much with the above section which discusses cross-validation.
+
+% TODO remove
+%Since the data set is split into four quarters, the category (of whether a method will be changed in the next 5 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter.
 
 % \begin{table}
 % \begin{center}
@@ -426,17 +455,17 @@ P_{recall} = \frac{tp}{tp+fn}
 
 % TODO write about which features were tested and found to not benefit as part of the feature set.
     % - e.g. committer, name.. 
-While initially a larger set of features (the candidate features) was considered, early tests showed poor results and indicated that some of the features may be detrimental. This is not entirely surprising since an \gls{svm} is very dependent on the features fitting within specific requirements outlined earlier in \autoref{subsec:svm_prediction}. Some of the features appeared at first to be acceptable but with further testing and understanding proved to be determinant to the vector in training the model.
+%While initially a larger set of features (the candidate features) was considered, early tests showed poor results and indicated that some of the features may be detrimental. This is not entirely surprising since an \gls{svm} is very dependent on the features fitting within specific requirements outlined earlier in \autoref{subsec:svm_prediction}. Some of the features appeared at first to be acceptable but with further testing and understanding proved to be determinant to the vector in training the model.
 
-An incrementing unique integer, $commit_id$, was assigned to each commit. Initially this number was used as part of the candidate feature set. However further investigation determined $commit_id$ would only negatively affect the results. Given that each commit was provided a unique incrementing value only methods changed in the same commit would be given the same number. While this may seem initially useful tests showed the opposite. % TODO cite experimental data showing such.
+%An incrementing unique integer, $commit_id$, was assigned to each commit. Initially this number was used as part of the candidate feature set. However further investigation determined $commit_id$ would only negatively affect the results. Given that each commit was provided a unique incrementing value only methods changed in the same commit would be given the same number. While this may seem initially useful tests showed the opposite. % TODO cite experimental data showing such.
 
-Other candidate features that were tested more extensively also proved to have a poor effect on the \gls{svm} model. The candidate features that appeared to have a negative impact on the \gls{svm} model were $committer$, $change_{prev}$, $\Delta t$. The fact that these features had a negative impact does not necessary mean that they are unrelated to the changes that occur to methods. However, in conjunction with other candidate features the model created consistently made inaccurate predictions.
+%Other candidate features that were tested more extensively also proved to have a poor effect on the \gls{svm} model. The candidate features that appeared to have a negative impact on the \gls{svm} model were $committer$, $change_{prev}$, $\Delta t$. The fact that these features had a negative impact does not necessary mean that they are unrelated to the changes that occur to methods. However, in conjunction with other candidate features the model created consistently made inaccurate predictions.
 
 %\subsubsection{Valuable Features}
 
-While the previous candidate features performed poorly, candidate features $signature$, $change_i$, $freq_{change}$ and $name$ all were apart of feature sets that performed very well. 
+% While the previous candidate features performed poorly, candidate features $signature$, $change_i$, $freq_{change}$ and $name$ all were apart of feature sets that performed very well. 
 
-$name$ was found to not have a large impact and slight detrimental impact on performance but while included still achieved a rather high prediction score. 
+% $name$ was found to not have a large impact and slight detrimental impact on performance but while included still achieved a rather high prediction score. 
 
 %features $signature$, $change_i$ and $freq_{change}$
 % test_signature-change-freq sample size 100
