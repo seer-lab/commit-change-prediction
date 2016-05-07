@@ -57,7 +57,7 @@ After storing the data in the \textit{github\_data} database, the analysis proce
     \label{fig:project_stats_schema}
 \end{figure}
 
-The final database uses PostgreSQL because of limitations within the MySQL implementation. Some of the candidate features, discussed in further detail in \autoref{sec:sample_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL.
+The final database uses PostgreSQL because of limitations within the MySQL implementation. Some of the candidate features, discussed in further detail in \autoref{sec:experimental_project_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL.
 
 In order to transfer the data over to PostgreSQL, a simple program called \textit{pgloader}\footnote{\url{http://pgloader.io/}} was used to transfer the MySQL database over to PostgreSQL. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. Once the database is copied over to PostgreSQL it is ready to be used for to perform change prediction.
 
