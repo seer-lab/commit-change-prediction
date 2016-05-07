@@ -314,44 +314,6 @@ The final change that was accounted for was to change the population sample size
 
 The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
-\subsection{Prediction Performance}
-
-% TODO this isn't necessary for cases when the entire sample is used.
-For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score.
-
-The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in \autoref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
-
-\begin{equation} 
-\label{eq:vector_accuracy}
-v_i = \left\{\begin{matrix}
-1 & \text{if } p_i = a_i\\ 
-0 & \text{otherwise}
-\end{matrix}\right.
-\end{equation}
-
-\begin{equation}
-\label{eq:prediction_accuracy}
-P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
-\end{equation}
-
-The precision of a model is the measure of how correct the model predicts that a change will occur when it predicts that a change will occur. Given the true positives $tp$, represents the number of predictions that the model correctly identified as having a change and the false positives $fp$ is the number of times the model incorrect predicted a change to occur when it in fact did not. The equation for calculating precision is show in \autoref{eq:precision}.
-
-\begin{equation} 
-\label{eq:precision}
-P_{precision} = \frac{tp}{tp+fp}
-\end{equation}
-
-The recall of the model is the measure of how correct the model predicts that change will occur out of all the times changes really occurred. Again using $tp$ as the number of true positives, and false negatives $fn$ which is the number of times the model fails to predict that a change will occur. The recall can be calculated using the \autoref{eq:recall}
-
-\begin{equation} 
-\label{eq:recall}
-P_{recall} = \frac{tp}{tp+fn}
-\end{equation}
-
-
-\section{\gls{svm} Experiments}
-\label{sec:svm_experiments}
-
 \subsection{Experiment Factors}
 % TODO outline the different factors used in the experiments. Also even outline other factors that are not changed either.
 
@@ -393,22 +355,360 @@ For each project data set there are numerous windows that be can be used. The wi
 
 Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses three parameters; C, gamma and esp. % TODO explain each of them in a bit more details.
 
-\subsection{\gls{svm} Discussion}
+\subsection{Prediction Performance}
+
+% TODO this isn't necessary for cases when the entire sample is used.
+For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. In the case when $100\%$ of the sample is used then only one sample is is taken since there will be no variations within the sample set.
+
+The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in \autoref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
+
+\begin{equation} 
+\label{eq:vector_accuracy}
+v_i = \left\{\begin{matrix}
+1 & \text{if } p_i = a_i\\ 
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
+
+\begin{equation}
+\label{eq:prediction_accuracy}
+P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
+\end{equation}
+
+The precision of a model is the measure of how correct the model predicts that a change will occur when it predicts that a change will occur. Given the true positives $tp$, represents the number of predictions that the model correctly identified as having a change and the false positives $fp$ is the number of times the model incorrect predicted a change to occur when it in fact did not. The equation for calculating precision is show in \autoref{eq:precision}.
+
+\begin{equation} 
+\label{eq:precision}
+P_{precision} = \frac{tp}{tp+fp}
+\end{equation}
+
+The recall of the model is the measure of how correct the model predicts that change will occur out of all the times changes really occurred. Again using $tp$ as the number of true positives, and false negatives $fn$ which is the number of times the model fails to predict that a change will occur. The recall can be calculated using the \autoref{eq:recall}
+
+\begin{equation} 
+\label{eq:recall}
+P_{recall} = \frac{tp}{tp+fn}
+\end{equation}
+
+\section{\gls{svm} Experiments}
+\label{sec:svm_experiments}
+
+The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. 
+
+\subsection{Window Range Experiments}
+
+%TODO fill out details of experiments
+
+For this experiment the variable was the size of the sample window range in commits. In \autoref{tab:window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
+
+% TODO use a better way of showing this like a table with dots.
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
+         & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+    \end{tabular}
+    \caption{Window Range Experiment Features}
+    \label{tab:window_range_experiment_features}
+\end{center}
+
+\end{table}
+
+%% TODO create a table to show this information.
+% Extend Window: No% Sample by Commit Range: Yes
+% Over Sampling: No
+% Under Sampling: Yes
+% Sample Rate: 100%
+% Window Offset: 5
+% SVM c: 10
+% SVM gamma: 8
+% SVM esp: 0.001
+
+As noted above the independent variable for this experiment is the sample window range. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:window_range_experiment_setup}.
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|cc|}
+        \hline
+        Extended & Over & Under & Sample & Window & SVM & \\
+        Window & Sampling & Sampling & Rate & Offset & C & gamma \\ \hline
+        No & No & Yes & $100\%$ & 5 & 10 & 8 \\ \hline
+    \end{tabular}
+    \caption{Window Range Experiment Setup}
+    \label{tab:window_range_experiment_setup}
+\end{center}
+
+\end{table}
+
+The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the sample window range. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_rf} has the strongest performance out of all the projects. The best performance for acra is at sample window range at 80 commits width.
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_1/acra_sample_range}
+        \caption{Sample Window Range for acra}
+        \label{fig:test_1_acra_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_1/dagger_sample_range}
+        \caption{Sample Window Range for dagger}
+        \label{fig:test_1_dagger_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_1/fresco_sample_range}
+        \caption{Sample Window Range for fresco}
+        \label{fig:test_1_fresco_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_1/storm_sample_range}
+        \caption{Sample Window Range for storm}
+        \label{fig:test_1_storm_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.45\textwidth]{images/svm/test_1/deeplearning4j_sample_range}
+    \caption{Sample Window Range for deeplearning4j}
+    \label{fig:test_1_deeplearning4j_rf}
+\end{figure}
+
+Alternatively, dagger has abysmal performance with the exception of a sample window range of 60. Fresco prediction performance does not particularly differ greatly. Also, it should be noted that the experiments with a sample window range of 120 and 130 since both resulted in a undefined precision and recall of 0 and accuracy of $0.5$.
+
+Apache had slight variations, however the precision and accuracy never exceeded $0.55$. Finally, deeplearning4j does not have very good performance with low recall results. As shown in the plots, the sample window range has a significant impact on the performance of the model. While the actual width varies widely per project, there are projects with a width that fares worse and others that fare far better.
+
+Overall there was no clear value for the sample window range which held consistent positive results. Generally speaking, projects that were smaller; acra, dagger, fresco, appeared to get positive results with smaller windows. Alternatively, larger projects; storm and deeplearning4j both did fairly poorly with the test range from 60 to 130. The largest project, deeplearning4j also has a slight positive trend towards the end of the range. However, storm does have a negative trend towards the end of the range.
+
+The precision and accuracy remain fairly stable throughout this experiment. While the value of these attributes changes with different values of the sample window range these changes tend to be fairly close and follow a general trend. However for dagger in \autoref{fig:test_1_dagger_rf} the performance of accuracy and precision drops from $0.6 - 0.7$ range to $0.4 - 0.45$ range. The accuracy and precision also do however remain rather stable for the remainder of the experiments in this set.
+
+Finally, the recall for the prediction is very unstable. While both accuracy and precision are very closely related and so will be likely close in value. Recall however will vary from a very low value to a very high value. For example in \autoref{fig:test_1_fresco_rf} the value of recall at sample window range of $60$ is $0.1$ and then jumps to $0.9$ at sample window range of $70$. \autoref{fig:test_1_storm_rf} and \autoref{fig:test_1_deeplearning4j_rf} both also have large changes in the recall but none as drastic as shown in fresco. 
+
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/test_1/dagger_sample_range}
+%     \caption{Sample Window Range for dagger}
+%     \label{fig:test_1_dagger}
+% \end{figure}
+
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/test_1/fresco_sample_range}
+%         \caption{Sample Window Range for fresco}
+%         \label{fig:test_1_fresco}
+% \end{figure}
+
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=1.0\textwidth]{images/test_1/storm_sample_range}
+%         \caption{Sample Window Range for storm}
+%         \label{fig:test_1_storm}
+% \end{figure}
+
+% \subsection{Sample Window Range Experiments 2}
+
+% For this experiment the variable was the size of the sample window range in commits. In \autoref{tab:window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
+
+% \begin{table}[h]
+% \begin{center}
+
+%     \begin{tabular}{|c|c|c|c|c|c|c|c|}
+%         \hline
+%         Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
+%          & & & & $\Delta_{freq}$ & & & Next \\ \hline
+%         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\ \hline
+%     \end{tabular}
+%     \caption{Window Range Experiment Features}
+%     \label{tab:window_range_experiment_features}
+% \end{center}
+
+% \end{table}
+
+% %% TODO create a table to show this information.
+% % Extend Window: No% Sample by Commit Range: Yes
+% % Over Sampling: No
+% % Under Sampling: Yes
+% % Sample Rate: 100%
+% % Window Offset: 5
+% % SVM c: 10
+% % SVM gamma: 8
+% % SVM esp: 0.001
+
+% As noted above the independent variable for this experiment is the sample window range. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:window_range_experiment_setup}.
+
+% \begin{table}[h]
+% \begin{center}
+
+%     \begin{tabular}{|c|c|c|c|c|cc|}
+%         \hline
+%         Extended & Over & Under & Sample & Window & SVM & \\
+%         Window & Sampling & Sampling & Rate & Offset & C & gamma \\ \hline
+%         No & No & Yes & $100\%$ & 5 & 10 & 8 \\ \hline
+%     \end{tabular}
+%     \caption{Window Range Experiment Setup}
+%     \label{tab:window_range_experiment_setup}
+% \end{center}
+
+% \end{table}
+
+% % TODO talk about results
+
+% \begin{figure}[!ht]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/acra_sample_range}
+%         \caption{Sample Window Range for acra}
+%         \label{fig:test_2_acra}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/dagger_sample_range}
+%         \caption{Sample Window Range for dagger}
+%         \label{fig:test_2_dagger}
+%     \end{minipage}
+% \end{figure}
+
+% \begin{figure}[!ht]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/fresco_sample_range}
+%         \caption{Sample Window Range for fresco}
+%         \label{fig:test_2_fresco}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/storm_sample_range}
+%         \caption{Sample Window Range for storm}
+%         \label{fig:test_2_storm}
+%     \end{minipage}
+% \end{figure}
+
+% \begin{figure}[!ht]
+%     \centering
+%         \includegraphics[width=0.45\textwidth]{images/svm/test_2/deeplearning4j_sample_range}
+%     \caption{Sample Window Range for deeplearning4j}
+%     \label{fig:test_2_deeplearning4j}
+% \end{figure}
+
+
+
+% TODO add a few more experiments.
+
+\subsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
-\section{\gls{rf} Experiments}
+\section{Random Forest Experiments}
 \label{sec:rf_experiments}
 
 \subsection{Factor}
 
-\subsection{\gls{rf} Discussion}
+\subsection{Sample Window Experiments}
+
+The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:window_range_experiment_features}. Is the same as the first \gls{svm} experiment the candidate feature set.
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
+         & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+    \end{tabular}
+    \caption{Window Range Experiment Features}
+    \label{tab:rf_window_range_experiment_features}
+\end{center}
+
+\end{table}
+
+%% TODO create a table to show this information.
+% Extend Window: No% Sample by Commit Range: Yes
+% Over Sampling: No
+% Under Sampling: Yes
+% Sample Rate: 100%
+% Window Offset: 5
+% SVM c: 10
+% SVM gamma: 8
+% SVM esp: 0.001
+
+The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Extended & Over & Under & Sample & Window & \gls{rf} \\
+        Window & Sampling & Sampling & Rate & Offset & Size \\ \hline
+        No & No & Yes & $100\%$ & 5 & 10000 \\ \hline
+    \end{tabular}
+    \caption{Window Range Experiment Setup}
+    \label{tab:window_range_experiment_setup}
+\end{center}
+
+\end{table}
+
+The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_1/acra_sample_range}
+        \caption{Sample Window Range for acra using RF}
+        \label{fig:test_1_acra_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_1/dagger_sample_range}
+        \caption{Sample Window Range for dagger using RF}
+        \label{fig:test_1_dagger_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_1/fresco_sample_range}
+        \caption{Sample Window Range for fresco using RF}
+        \label{fig:test_1_fresco_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_1/storm_sample_range}
+        \caption{Sample Window Range for storm using RF}
+        \label{fig:test_1_storm_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.45\textwidth]{images/rf/test_1/deeplearning4j_sample_range}
+    \caption{Sample Window Range for deeplearning4j using RF}
+    \label{fig:test_1_deeplearning4j_rf}
+\end{figure}
+
+
+\subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
 
 %\section{Results}
 
 % TODO re-work this section
 % TODO most of this section is out of date and needs to be done.
-
 
 
 %%%%%%%%%%%%
