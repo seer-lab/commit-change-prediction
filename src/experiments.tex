@@ -398,7 +398,7 @@ The experiment is setup to have a set of parameters that can be set. These param
 
 %TODO fill out details of experiments
 
-For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
+For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
 
 % TODO use a better way of showing this like a table with dots.
 \begin{table}[h]
@@ -411,7 +411,7 @@ For this experiment the variable was the size of the \gls{swr} in commits. In \a
         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
     \end{tabular}
     \caption{\gls{swr} Experiment Features}
-    \label{tab:window_range_experiment_features}
+    \label{tab:svm_window_range_experiment_features}
 \end{center}
 
 \end{table}
@@ -426,7 +426,7 @@ For this experiment the variable was the size of the \gls{swr} in commits. In \a
 % SVM gamma: 8
 % SVM esp: 0.001
 
-As noted above the independent variable for this experiment is the \gls{swr}. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:window_range_experiment_setup}.
+As noted above the independent variable for this experiment is the \gls{swr}. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:svm_window_range_experiment_setup}.
 
 \begin{table}[h]
 \begin{center}
@@ -438,7 +438,7 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
         No & No & Yes & $100\%$ & 5 & 10 & 8 \\ \hline
     \end{tabular}
     \caption{\gls{swr} Experiment Setup}
-    \label{tab:window_range_experiment_setup}
+    \label{tab:svm_window_range_experiment_setup}
 \end{center}
 
 \end{table}
@@ -465,7 +465,6 @@ The results for the experiments are shown with the precision, recall and accurac
     \centering
 
     \begin{minipage}[b]{0.45\linewidth}
-        % add 120, 130
         \includegraphics[width=1.0\textwidth]{images/svm/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{svm}}
         \label{fig:test_1_fresco_svm}
@@ -480,7 +479,6 @@ The results for the experiments are shown with the precision, recall and accurac
 
 \begin{figure}[h]
     \centering
-    %TODO add 130
         \includegraphics[width=0.45\textwidth]{images/svm/test_1/deeplearning4j_sample_range}
     \caption{\gls{swr} for deeplearning4j using \gls{svm}}
     \label{fig:test_1_deeplearning4j_svm}
@@ -567,7 +565,6 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 
 % \begin{figure}[!ht]
 %     \centering
-
 %     \begin{minipage}[b]{0.45\linewidth}
 %         \includegraphics[width=1.0\textwidth]{images/svm/test_2/acra_sample_range}
 %         \caption{\gls{swr} for acra}
@@ -604,7 +601,96 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 %     \label{fig:test_2_deeplearning4j}
 % \end{figure}
 
+\subsection{Feature Set Experiments}
 
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|cc|}
+        \hline
+        Extended & Over & Under & Sample & Window & \gls{swr} & SVM & \\
+        Window & Sampling & Sampling & Rate & Offset &  & C & gamma \\ \hline
+        No & No & Yes & $100\%$ & 5 & 90 & 10 & 8 \\ \hline
+    \end{tabular}
+    \caption{\gls{swr} Experiment Setup}
+    \label{tab:svm_feature_experiment_setup}
+\end{center}
+
+\end{table}
+
+%% TODO create a table to show this information.
+% Extend Window: No% Sample by Commit Range: Yes
+% Over Sampling: No
+% Under Sampling: Yes
+% Sample Rate: 100%
+% Window Offset: 5
+% SVM c: 10
+% SVM gamma: 8
+% SVM esp: 0.001
+
+%The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Feature & Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
+        Set & & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
+        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
+        3 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        4 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        5 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ \\ \hline
+        %6 & $\bullet$ & & & & $\bullet$ & $\bullet$ & $\bullet$ & \\ 
+    \end{tabular}
+    \caption{\gls{swr} Experiment Features}
+    \label{tab:svm_feature_experiment_sets}
+\end{center}
+
+\end{table}
+
+%The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_3/acra_sample_range}
+        \caption{Feature for acra using \gls{svm}}
+        \label{fig:test_3_acra_svm}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_3/dagger_sample_range}
+        \caption{Feature for dagger using \gls{svm}}
+        \label{fig:test_3_dagger_svm}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
+        \caption{Feature for fresco using \gls{svm}}
+        \label{fig:test_3_fresco_svm}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
+        \caption{Feature for storm using \gls{svm}}
+        \label{fig:test_3_storm_svm}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.45\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
+    \caption{Feature for deeplearning4j using \gls{svm}}
+    \label{fig:test_3_deeplearning4j_svm}
+\end{figure}
 
 % TODO add a few more experiments.
 
@@ -617,6 +703,7 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 \subsection{Factor}
 
 \subsection{Window Range Experiments}
+\label{sec:rf_swr_experiment}
 
 The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:window_range_experiment_features}. Is the same as the first \gls{svm} experiment the candidate feature set.
 
@@ -645,7 +732,7 @@ The independent variable for this set of experiments is the sample window size m
 % SVM gamma: 8
 % SVM esp: 0.001
 
-The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
 \begin{table}[h]
 \begin{center}
@@ -657,7 +744,7 @@ The parameter for this experiment are outlined in \autoref{tab:window_range_expe
         No & No & Yes & $100\%$ & 5 & 10000 \\ \hline
     \end{tabular}
     \caption{\gls{swr} Experiment Setup}
-    \label{tab:window_range_experiment_setup}
+    \label{tab:rf_window_range_experiment_setup}
 \end{center}
 
 \end{table}
@@ -668,7 +755,6 @@ The results for the experiments with the independent variable sample window size
     \centering
 
     \begin{minipage}[b]{0.45\linewidth}
-        % TODO add 130
         \includegraphics[width=1.0\textwidth]{images/rf/test_1/acra_sample_range}
         \caption{\gls{swr} for acra using \gls{rf}}
         \label{fig:test_1_acra_rf}
@@ -685,14 +771,12 @@ The results for the experiments with the independent variable sample window size
     \centering
 
     \begin{minipage}[b]{0.45\linewidth}
-        % TODO add 60
         \includegraphics[width=1.0\textwidth]{images/rf/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{rf}}
         \label{fig:test_1_fresco_rf}
     \end{minipage}
 \quad
     \begin{minipage}[b]{0.45\linewidth}
-        % TODO add 60
         \includegraphics[width=1.0\textwidth]{images/rf/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{rf}}
         \label{fig:test_1_storm_rf}
@@ -706,6 +790,100 @@ The results for the experiments with the independent variable sample window size
     \label{fig:test_1_deeplearning4j_rf}
 \end{figure}
 
+
+\subsection{Feature Set Experiments}
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Extended & Over & Under & Sample & Window & \gls{swr} & \gls{rf} \\
+        Window & Sampling & Sampling & Rate & Offset &  & Size \\ \hline
+        No & No & Yes & $100\%$ & 5 & 90 & 10000 \\ \hline
+    \end{tabular}
+    \caption{Candidate Feature Experiment Setup}
+    \label{tab:rf_feature_experiment_setup}
+\end{center}
+
+\end{table}
+
+%% TODO create a table to show this information.
+% Extend Window: No% Sample by Commit Range: Yes
+% Over Sampling: No
+% Under Sampling: Yes
+% Sample Rate: 100%
+% Window Offset: 5
+% SVM c: 10
+% SVM gamma: 8
+% SVM esp: 0.001
+
+%The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+
+This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{rf_feature_experiment_setup}. The value of $90$ for \gls{swr} was selected based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \autoref{sec:rf_swr_experiment}. 
+
+The candidate feature sets are outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Feature & Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
+        Set & & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
+        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
+        3 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        4 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        5 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ \\ \hline
+        %6 & $\bullet$ & & & & $\bullet$ & $\bullet$ & $\bullet$ & \\ 
+    \end{tabular}
+    \caption{Candidate Feature Sets}
+    \label{tab:rf_feature_experiment_sets}
+\end{center}
+
+\end{table}
+
+Generally the experiment results were not particularly strong. In \autoref{fig:test_3_acra_rf} the performance for candidate feature sets 1, 2, 3, 5 were all high and is the performs the best out of all the other projects. For dagger in \autoref{fig:test_3_dagger_rf} the result for candidate feature set 1 is high where as the rest are far worse. The remainder of the projects the accuracy and precision are less than $0.6$. In \autoref{fig:test_3_fresco_rf} and \autoref{fig:test_3_storm_rf} the recall is far more consistently high. However deeplearning4j has generally low results for accuracy, precision and recall.
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_3/acra_sample_range}
+        \caption{Feature for acra using \gls{rf}}
+        \label{fig:test_3_acra_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_3/dagger_sample_range}
+        \caption{Feature for dagger using \gls{rf}}
+        \label{fig:test_3_dagger_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_3/fresco_sample_range}
+        \caption{Feature for fresco using \gls{rf}}
+        \label{fig:test_3_fresco_rf}
+    \end{minipage}
+\quad
+    \begin{minipage}[b]{0.45\linewidth}
+        \includegraphics[width=1.0\textwidth]{images/rf/test_3/storm_sample_range}
+        \caption{Feature for storm using \gls{rf}}
+        \label{fig:test_3_storm_rf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.45\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
+    \caption{Feature for deeplearning4j using \gls{rf}}
+    \label{fig:test_3_deeplearning4j_rf}
+\end{figure}
 
 \subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
