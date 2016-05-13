@@ -54,7 +54,13 @@ The complete list of projects that were tested is found in \autoref{tab:project_
 
 Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
 
-The first project acra is a Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application. The second project, apache's storm, real time computational system for continuous streams of data. This project is one of the larger projects and has a large development community. The third project, facebook's fresco, is the smallest project with the shortest development period. This project provides a library for using images on Android to attempt to solve limited memory issues with mobile devices. The fourth project, square's dagger, is a Java application used to satisfy dependencies for classes to replace the factory model of development. The final project, deeplearning4j, is a distributed neural network library that integrates Hadoop and Spark. This application is the largest of the 5 projects and provides a large wealth of data to analyze.
+\begin{enumerate}
+\item \textbf{acra} is a Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application.
+\item \textbf{storm} from apache real time computational system for continuous streams of data. This project is one of the larger projects and has a large development community.
+\item \textbf{fresco} from facebook is the smallest project with the shortest development period. This project provides a library for using images on Android to attempt to solve limited memory issues with mobile devices.
+\item \textbf{dagger} from square is a Java application used to satisfy dependencies for classes to replace the factory model of development.
+\item \textbf{deeplearning4j} is a distributed neural network library that integrates Hadoop and Spark. This application is the largest of the 5 projects and provides a large wealth of data to analyze.
+\end{enumerate}
 
 \begin{table}
 \begin{center}
@@ -248,17 +254,21 @@ While the purposed method was being developed ACRA's acra project was primarily 
 \begin{center}
     \begin{tabularx}{\linewidth}{|l|X|l|l|}
         \hline
-        Feature & Description & Data & Example Vector \\
+        Feature & Description & Data & Example \\
+         & & & Vector \\
         \hline
         $name$ & The name of the file & Main.java & 3 \\ \hline
-        $signature$ & The method name related to the change details & void work() \{ & 46\\ \hline
-        $change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \hline
-        $committer$ & The individual who committed the change & bob & 5 \\ \hline
-        $freq_{change}$ & The number of changes this method has been involved divided by the number of commits up till this point & 0.0464 & 0.0464 \\ \hline
-        $change_{prev}$ & A list of whether the method changed or not for the last 5 commits & \{3,3,0,3,1\} & \{1,1,0,1,1\} \\ \hline
-        $\Delta t$ & A set of time deltas between the last 5 commits that involved the method & \{68,416,569,772,898\} & \{68,416,569,772,898\} \\
+        $sig$ & The method signature related to the change details & void work() \{ & 46\\ \hline
+        %$change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \hline
+        $com$ & The individual who committed the change & bob & 5 \\ \hline
+        $f_{\Delta}$ & The number of changes this method has been involved within the \gls{swr} divided by the \gls{swr} & 0.0464 & 0.0464 \\ \hline
+        $sf_{\Delta}$ & The number of changes this method has been involved in within the last 10 commits divided by the 10. & 0.1 & 0.1 \\ \hline
+        $t_\Delta$ & The time between the current commit $c_i$ and the previous commit $c_{i-1}$ & 2148 & 2148 \\ \hline
+
+        $length$ & The length of the method in this commit & 10 & 10 \\ \hline
+        $change_{t-1}$ & Whether the previous 5 commits had a change occur & 1 & 1 \\
         \hline
-        $change_{next\_6}$ & Identifies whether at least one change occurred within the next 5 commits for the given method & 0 & 0\\
+        $change_{t}$ & Identifies whether at least one change occurred within the next 5 commits for the given method & 0 & 0\\
         \hline
     \end{tabularx}
 \end{center}
@@ -314,7 +324,7 @@ The final change that was accounted for was to change the population sample size
 
 The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
-\subsection{Experiment Factors}
+%\subsection{Experiment Factors}
 % TODO outline the different factors used in the experiments. Also even outline other factors that are not changed either.
 
 % Factors:
@@ -335,10 +345,13 @@ Reorganized the data sampling method to sample based on commit ranges rather tha
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
-    \caption{Experiment 7 Data Sample Range}
+        %Generated from http://jsfiddle.net/dxxgjewj/2/
+        \includegraphics[width=1.0\textwidth]{images/exp_data_range}
+    \caption{Sampling Window Layout}
     \label{fig:data_range}
 \end{figure}
+
+% TODO include a table/list about each of the features (similar to tab:candidate_features)
 
 The sliding window factor is one of core aspects related to extracting samples from the data set. When using the sliding window to sample the data the data is divided as shown in \autoref{fig:data_range}. The training sample is where the training data set is sampled from. The testing sample is where the testing data is sampled from. 
 
@@ -382,7 +395,7 @@ The precision of a model is the measure of how correct the model predicts that a
 P_{precision} = \frac{tp}{tp+fp}
 \end{equation}
 
-The recall of the model is the measure of how correct the model predicts that change will occur out of all the times changes really occurred. Again using $tp$ as the number of true positives, and false negatives $fn$ which is the number of times the model fails to predict that a change will occur. The recall can be calculated using the \autoref{eq:recall}
+The recall of the model is the measure of how correct the model predicts that change will occur out of all the times changes really occurred. Again using $tp$ as the number of true positives, and false negatives $fn$ which is the number of times the model fails to predict that a change will occur. The recall can be calculated using the \autoref{eq:recall}.
 
 \begin{equation} 
 \label{eq:recall}
@@ -395,10 +408,11 @@ P_{recall} = \frac{tp}{tp+fn}
 The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. 
 
 \subsection{Window Range Experiments}
+\label{sec:svm_swr_experiment}
 
 %TODO fill out details of experiments
 
-For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
+For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
 
 % TODO use a better way of showing this like a table with dots.
 \begin{table}[h]
@@ -406,14 +420,14 @@ For this experiment the variable was the size of the \gls{swr} in commits. In \a
 
     \begin{tabular}{|c|c|c|c|c|c|c|c|}
         \hline
-        Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
-         & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+         %& & & & & & & \\
+        \hline
         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
     \end{tabular}
     \caption{\gls{swr} Experiment Features}
     \label{tab:svm_window_range_experiment_features}
 \end{center}
-
 \end{table}
 
 %% TODO create a table to show this information.
@@ -445,41 +459,71 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 
 The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width.
 
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/acra_sample_range}
+%         \caption{\gls{swr} for acra using \gls{svm}}
+%         \label{fig:test_1_acra_svm}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/dagger_sample_range}
+%         \caption{\gls{swr} for dagger using \gls{svm}}
+%         \label{fig:test_1_dagger_svm}
+%     \end{minipage}sliding window factor
+% \end{figure}
+
+% TODO improve the image placement.
 \begin{figure}[h]
     \centering
 
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_1/acra_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_1/acra_sample_range}
         \caption{\gls{swr} for acra using \gls{svm}}
         \label{fig:test_1_acra_svm}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_1/dagger_sample_range}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{svm}}
         \label{fig:test_1_dagger_svm}
-    \end{minipage}
 \end{figure}
+
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/fresco_sample_range}
+%         \caption{\gls{swr} for fresco using \gls{svm}}
+%         \label{fig:test_1_fresco_svm}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/storm_sample_range}
+%         \caption{\gls{swr} for storm using \gls{svm}}
+%         \label{fig:test_1_storm_svm}
+%     \end{minipage}
+% \end{figure}
 
 \begin{figure}[h]
     \centering
-
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_1/fresco_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{svm}}
         \label{fig:test_1_fresco_svm}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_1/storm_sample_range}
-        \caption{\gls{swr} for storm using \gls{svm}}
-        \label{fig:test_1_storm_svm}
-    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-        \includegraphics[width=0.45\textwidth]{images/svm/test_1/deeplearning4j_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_1/storm_sample_range}
+        \caption{\gls{swr} for storm using \gls{svm}}
+        \label{fig:test_1_storm_svm}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_1/deeplearning4j_sample_range}
     \caption{\gls{swr} for deeplearning4j using \gls{svm}}
     \label{fig:test_1_deeplearning4j_svm}
 \end{figure}
@@ -524,8 +568,9 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 
 %     \begin{tabular}{|c|c|c|c|c|c|c|c|}
 %         \hline
-%         Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
-%          & & & & $\Delta_{freq}$ & & & Next \\ \hline
+%         Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+%         % & & & & $\Delta_{freq}$ & & & Next \\
+%            \hline
 %         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\ \hline
 %     \end{tabular}
 %     \caption{Window Range Experiment Features}
@@ -614,7 +659,7 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
         Window & Sampling & Sampling & Rate & Offset &  & C & gamma \\ \hline
         No & No & Yes & $100\%$ & 5 & 90 & 10 & 8 \\ \hline
     \end{tabular}
-    \caption{\gls{swr} Experiment Setup}
+    \caption{Feature Experiment Setup}
     \label{tab:svm_feature_experiment_setup}
 \end{center}
 
@@ -641,16 +686,17 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
 
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
         \hline
-        Feature & Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
-        Set & & & & & $\Delta_{freq}$ & & & Next \\ \hline
-        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
-        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
-        3 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
-        4 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        Feature & Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
+        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
+        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
+        3 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        4 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
         5 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ \\ \hline
         %6 & $\bullet$ & & & & $\bullet$ & $\bullet$ & $\bullet$ & \\ 
     \end{tabular}
-    \caption{\gls{swr} Experiment Features}
+    \caption{Candidate Feature Sets}
     \label{tab:svm_feature_experiment_sets}
 \end{center}
 
@@ -658,41 +704,70 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
 
 The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Like wise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
 
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/acra_sample_range}
+%         \caption{Feature for acra using \gls{svm}}
+%         \label{fig:test_3_acra_svm}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/dagger_sample_range}
+%         \caption{Feature for dagger using \gls{svm}}
+%         \label{fig:test_3_dagger_svm}
+%     \end{minipage}
+% \end{figure}
+
 \begin{figure}[h]
     \centering
 
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_3/acra_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/acra_sample_range}
         \caption{Feature for acra using \gls{svm}}
         \label{fig:test_3_acra_svm}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_3/dagger_sample_range}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{svm}}
         \label{fig:test_3_dagger_svm}
-    \end{minipage}
 \end{figure}
+
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
+%         \caption{Feature for fresco using \gls{svm}}
+%         \label{fig:test_3_fresco_svm}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
+%         \caption{Feature for storm using \gls{svm}}
+%         \label{fig:test_3_storm_svm}
+%     \end{minipage}
+% \end{figure}
 
 \begin{figure}[h]
     \centering
-
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/fresco_sample_range}
         \caption{Feature for fresco using \gls{svm}}
         \label{fig:test_3_fresco_svm}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
-        \caption{Feature for storm using \gls{svm}}
-        \label{fig:test_3_storm_svm}
-    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-        \includegraphics[width=0.45\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/storm_sample_range}
+        \caption{Feature for storm using \gls{svm}}
+        \label{fig:test_3_storm_svm}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{svm}}
     \label{fig:test_3_deeplearning4j_svm}
 \end{figure}
@@ -717,8 +792,9 @@ The independent variable for this set of experiments is the sample window size m
 
     \begin{tabular}{|c|c|c|c|c|c|c|c|}
         \hline
-        Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
-         & & & & $\Delta_{freq}$ & & & Next \\ \hline
+        Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
     \end{tabular}
     \caption{\gls{swr} Experiment Features}
@@ -756,41 +832,55 @@ The parameter for this experiment are outlined in \autoref{tab:rf_window_range_e
 
 The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
 
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/rf/test_1/acra_sample_range}
+%         \caption{\gls{swr} for acra using \gls{rf}}
+%         \label{fig:test_1_acra_rf}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/rf/test_1/dagger_sample_range}
+%         \caption{\gls{swr} for dagger using \gls{rf}}
+%         \label{fig:test_1_dagger_rf}
+%     \end{minipage}
+% \end{figure}
+
 \begin{figure}[h]
     \centering
-
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_1/acra_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/acra_sample_range}
         \caption{\gls{swr} for acra using \gls{rf}}
         \label{fig:test_1_acra_rf}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_1/dagger_sample_range}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{rf}}
         \label{fig:test_1_dagger_rf}
-    \end{minipage}
 \end{figure}
+
 
 \begin{figure}[h]
     \centering
 
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_1/fresco_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{rf}}
         \label{fig:test_1_fresco_rf}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_1/storm_sample_range}
-        \caption{\gls{swr} for storm using \gls{rf}}
-        \label{fig:test_1_storm_rf}
-    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-        \includegraphics[width=0.45\textwidth]{images/rf/test_1/deeplearning4j_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
+        \caption{\gls{swr} for storm using \gls{rf}}
+        \label{fig:test_1_storm_rf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/deeplearning4j_sample_range}
     \caption{\gls{swr} for deeplearning4j using \gls{rf}}
     \label{fig:test_1_deeplearning4j_rf}
 \end{figure}
@@ -832,12 +922,13 @@ Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_expe
 
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
         \hline
-        Feature & Com & Sig & Name & $\Delta_{freq}$ & Short & $t_{i} - t_{i-1}$ & Length & Has \\
-        Set & & & & & $\Delta_{freq}$ & & & Next \\ \hline
-        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
-        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
-        3 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
-        4 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        Feature & Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
+        1 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\
+        2 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\
+        3 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
+        4 & & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & $\bullet$ \\
         5 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ \\ \hline
         %6 & $\bullet$ & & & & $\bullet$ & $\bullet$ & $\bullet$ & \\ 
     \end{tabular}
@@ -851,45 +942,57 @@ Generally the experiment results were not particularly strong. In \autoref{fig:t
 
 \begin{figure}[h]
     \centering
-
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_3/acra_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/acra_sample_range}
         \caption{Feature for acra using \gls{rf}}
         \label{fig:test_3_acra_rf}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_3/dagger_sample_range}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{rf}}
         \label{fig:test_3_dagger_rf}
-    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_3/fresco_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/fresco_sample_range}
         \caption{Feature for fresco using \gls{rf}}
         \label{fig:test_3_fresco_rf}
-    \end{minipage}
-\quad
-    \begin{minipage}[b]{0.45\linewidth}
-        \includegraphics[width=1.0\textwidth]{images/rf/test_3/storm_sample_range}
-        \caption{Feature for storm using \gls{rf}}
-        \label{fig:test_3_storm_rf}
-    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-        \includegraphics[width=0.45\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/storm_sample_range}
+        \caption{Feature for storm using \gls{rf}}
+        \label{fig:test_3_storm_rf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{rf}}
     \label{fig:test_3_deeplearning4j_rf}
 \end{figure}
 
 \subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
+
+\section{Threats to Validity}
+\label{sec:threat_validity}
+
+% TODO WRITE
+
+
+
+
+
+
+
+
+
+
+
 
 %\section{Results}
 
