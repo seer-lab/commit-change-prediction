@@ -476,7 +476,7 @@ The results for the experiments are shown with the precision, recall and accurac
 % \end{figure}
 
 % TODO improve the image placement.
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/acra_sample_range}
@@ -484,7 +484,7 @@ The results for the experiments are shown with the precision, recall and accurac
         \label{fig:test_1_acra_svm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{svm}}
@@ -507,14 +507,14 @@ The results for the experiments are shown with the precision, recall and accurac
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{svm}}
         \label{fig:test_1_fresco_svm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{svm}}
@@ -702,7 +702,7 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
 
 \end{table}
 
-The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Like wise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
+The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Likewise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
 
 % \begin{figure}[h]
 %     \centering
@@ -720,7 +720,7 @@ The first project, acra, performs well with accuracy and precision maintaining a
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/acra_sample_range}
@@ -728,7 +728,7 @@ The first project, acra, performs well with accuracy and precision maintaining a
         \label{fig:test_3_acra_svm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{svm}}
@@ -751,31 +751,93 @@ The first project, acra, performs well with accuracy and precision maintaining a
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/fresco_sample_range}
         \caption{Feature for fresco using \gls{svm}}
         \label{fig:test_3_fresco_svm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/storm_sample_range}
         \caption{Feature for storm using \gls{svm}}
         \label{fig:test_3_storm_svm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{svm}}
     \label{fig:test_3_deeplearning4j_svm}
 \end{figure}
 
-% TODO add a few more experiments.
+\subsection{Oversampling Experiment}
+
+\gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
+
+The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all 3 were attempted to be maximized rather than just two of the three.
+
+
+
+%TODO identify the swr for each one.
+
+\begin{figure}[!h]
+    \centering
+
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/acra_sample_range}
+        \caption{Oversampling for acra using \gls{svm}}
+        \label{fig:test_4_acra_svm}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/dagger_sample_range}
+        \caption{Oversampling for dagger using \gls{svm}}
+        \label{fig:test_4_dagger_svm}
+\end{figure}
+
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
+%         \caption{Feature for fresco using \gls{svm}}
+%         \label{fig:test_3_fresco_svm}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
+%         \caption{Feature for storm using \gls{svm}}
+%         \label{fig:test_3_storm_svm}
+%     \end{minipage}
+% \end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/fresco_sample_range}
+        \caption{Oversampling for fresco using \gls{svm}}
+        \label{fig:test_4_fresco_svm}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/storm_sample_range}
+        \caption{Oversampling for storm using \gls{svm}}
+        \label{fig:test_4_storm_svm}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/deeplearning4j_sample_range}
+    \caption{Oversampling for deeplearning4j using \gls{svm}}
+    \label{fig:test_4_deeplearning4j_svm}
+\end{figure}
 
 \subsection{SVM Discussion}
 \label{subsec:svm_discussion}
+
+Overall for the experiments the factor that had the greatest impact was that of the \gls{swr}.
 
 \section{Random Forest Experiments}
 \label{sec:rf_experiments}
@@ -973,6 +1035,60 @@ Generally the experiment results were not particularly strong. In \autoref{fig:t
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{rf}}
     \label{fig:test_3_deeplearning4j_rf}
+\end{figure}
+
+\subsection{Oversampling Experiment}
+
+\begin{figure}[!h]
+    \centering
+
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/acra_sample_range}
+        \caption{Oversampling for acra using \gls{rf}}
+        \label{fig:test_4_acra_rf}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/dagger_sample_range}
+        \caption{Oversampling for dagger using \gls{rf}}
+        \label{fig:test_4_dagger_rf}
+\end{figure}
+
+% \begin{figure}[h]
+%     \centering
+
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/rf/test_3/fresco_sample_range}
+%         \caption{Feature for fresco using \gls{rf}}
+%         \label{fig:test_3_fresco_rf}
+%     \end{minipage}
+% \quad
+%     \begin{minipage}[b]{0.45\linewidth}
+%         \includegraphics[width=1.0\textwidth]{images/rf/test_3/storm_sample_range}
+%         \caption{Feature for storm using \gls{rf}}
+%         \label{fig:test_3_storm_rf}
+%     \end{minipage}
+% \end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/fresco_sample_range}
+        \caption{Oversampling for fresco using \gls{rf}}
+        \label{fig:test_4_fresco_rf}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/storm_sample_range}
+        \caption{Oversampling for storm using \gls{rf}}
+        \label{fig:test_4_storm_rf}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/deeplearning4j_sample_range}
+    \caption{Oversampling for deeplearning4j using \gls{rf}}
+    \label{fig:test_4_deeplearning4j_rf}
 \end{figure}
 
 \subsection{Random Forest Discussion}
