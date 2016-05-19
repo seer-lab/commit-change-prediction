@@ -405,7 +405,18 @@ P_{recall} = \frac{tp}{tp+fn}
 \section{SVM Experiments}
 \label{sec:svm_experiments}
 
-The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. 
+The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable.
+
+This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
+\begin{enumerate}
+\item The \gls{swr} which is the size of range which the samples are taken from.
+\item The set of features used to train the machine learning model.
+\item The distribution of the data through use of \gls{os}.
+\end{enumerate}
+
+% TODO talk about the sub research questions
+%   - Experiments are to determine what has the largest impact on the performance of the prediction algorithms.
+% Relate back to original thesis question.
 
 \subsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
@@ -777,7 +788,6 @@ The first project, acra, performs well with accuracy and precision maintaining a
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
 
 The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all 3 were attempted to be maximized rather than just two of the three.
-
 
 
 %TODO identify the swr for each one.
