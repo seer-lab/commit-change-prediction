@@ -248,66 +248,6 @@ While the purposed method was being developed ACRA's acra project was primarily 
 
 %The \gls{svm} model was trained to categorize whether the current method would be changed within the next 5 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
 
-%238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
-% TODO update this list based on new candidates
-\begin{table}
-\begin{center}
-    \begin{tabularx}{\linewidth}{|l|X|l|l|}
-        \hline
-        Feature & Description & Data & Example \\
-         & & & Vector \\
-        \hline
-        $name$ & The name of the file & Main.java & 3 \\ \hline
-        $sig$ & The method signature related to the change details & void work() \{ & 46\\ \hline
-        %$change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \hline
-        $com$ & The individual who committed the change & bob & 5 \\ \hline
-        $f_{\Delta}$ & The number of changes this method has been involved within the \gls{swr} divided by the \gls{swr} & 0.0464 & 0.0464 \\ \hline
-        $sf_{\Delta}$ & The number of changes this method has been involved in within the last 10 commits divided by the 10. & 0.1 & 0.1 \\ \hline
-        $t_\Delta$ & The time between the current commit $c_i$ and the previous commit $c_{i-1}$ & 2148 & 2148 \\ \hline
-
-        $length$ & The length of the method in this commit & 10 & 10 \\ \hline
-        $change_{t-1}$ & Whether the previous 5 commits had a change occur & 1 & 1 \\
-        \hline
-        $change_{t}$ & Identifies whether at least one change occurred within the next 5 commits for the given method & 0 & 0\\
-        \hline
-    \end{tabularx}
-\end{center}
-    \caption{Candidate features for \gls{svm} model}
-    \label{tab:candidate_features}
-\end{table}
-%& \{68,1816,5469,7772,8198\} 
-
-% Name => Methods within a file are likely going to have similar change patterns
-% Signature => A method change history will likely be unique
-% Change_i => Whether the method changed or not at the current commit may provide insight as to whether the next 5 commits will feature a change as well.
-% committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
-% freq_change => Helps identify how likely the file is to change
-
-The \autoref{tab:candidate_features} lists each feature with a more detailed description. An example of each feature is provided to further illustrate them. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the $name$ value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both $signature$ and $committer$ will be mapped from their respective values ``void work() \{'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point values if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
-
-Another small change made to the data to create a vector for the \gls{svm} model was to apply \autoref{eq:change_type} to the values of $change_i$ and $change_{prev}$. As in \autoref{tab:candidate_features}, the value of $change_i$ is initially 3 which indicates a modification occurred. Since a modification is a type of change $C(change_i) = 1$ which is the value used by the vector. Likewise this is also applied to each entry in the $change_{prev}$ changing it into a bit vector.
-
-\begin{equation} 
-\label{eq:change_type}
-C = \left\{\begin{matrix}
-1 & \text{if} change > 0 \\
-0 & \text{otherwise}
-\end{matrix}\right.
-\end{equation}
-
-Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly $\Delta t$ shows the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in \autoref{eq:time_delta}. These two features then expanded to add a new category for each entry in the set. The ordering is maintained since each entry maps to a previous commit in order.
-
-\begin{equation}
-\label{eq:time_delta}
-\Delta t_{i} = t(c_i) - t(c_{i-1}), i > 1
-\end{equation}
-
-% TODO place in a better spot.
-$freq_{change}$ is calculated as by taking the number commits which involve changes to the current method ($c_i$) divided by the current number of commits ($c_{cur}$).
-\begin{equation}
-\label{eq:freq_change}
-freq_{change} = \frac{|c_i|}{|c_{cur}|}
-\end{equation}
 
 % TODO provide how to calculate the other features.
 
@@ -359,10 +299,12 @@ A data set with an extended sampling range will extend the sampling range beyond
 
 The training and testing sampling range are defined as the number of commits from which the samples can be taken. In \autoref{fig:data_range}, both the training and testing sample ranges are set to 30 commits. These two values can differ from one another but tend to be kept the same for most of the experiments.
 
-Two other factors in the experiments was handling the data set bias. The two methods are oversampling and undersampling of data elements. Most of the time a data set will contain more samples in one category than the other. When the number of samples in each category is very close this will have little effect on the model. However in cases were the data is highly skewed to one classification over the other the model will simply predict the larger classification. Use of oversampling will take more samples (duplicates) from the smaller classification to be closer in size to the larger classification. Alternatively, undersampling will use remove samples from the larger classification to become closer in size to the smaller classification.
-% Discussed further in section in approach
+Two other factors in the experiments was handling the data set bias. The two methods are \gls{os} and undersampling of data elements. Most of the time a data set will contain more samples in one category than the other. When the number of samples in each category is very close this will have little effect on the model. However in cases were the data is highly skewed to one classification over the other the model will simply predict the larger classification. Use of \gls{os} will take more samples (duplicates) from the smaller classification to be closer in size to the larger classification. Alternatively, undersampling will use remove samples from the larger classification to become closer in size to the smaller classification.
 
-Another feature assessed was that of the sample size. The sample size was determined by the sample ratio. When sampling if the ratio is at 50 \% then only half of the values retrieved will be used to train or test. For some of the larger data sets sampling 100 \% of the data from the range would take a lot longer. Therefore sampling a percentage of the data set is commonly used to decrease the training time. However in the case of using a percentage of the sample range the data should to be sampled randomly to provide a more stable model. Therefore each data entry in the sample has the same chance to be within the training or test data set.
+% Discussed further in section in approach
+Undersampling is applied to a data set by measuring the number of samples that are in each category. The larger of the two is reduced by discarding samples until the data set is the same size as the smaller data set. This will make so that the model can be trained without causing a bias within the model. Alternatively for \gls{os}, after calculating the number of samples in each category the smaller category is expanded by re-sampling values from the data set until both categories are equal in size. When both approaches are used together the smaller category is expanded to at most twice it's original size. If after \gls{os} the smaller category is still smaller the larger category set is reduced to the size of the smaller category. When selecting values for re-sampling or removal the selection process is random to ensure the distribution of the data is preserved. For example, if category $a$, with $|a| = 100$ and category $b$ with $|b| = 1000$. \gls{os} will be applied to category $a$ since $|a| < |b|$. Therefore $a$ will apply random re-sampled until $|a_n| = |a| \times 2$ or $|a_n| = |b|$. Once one of the conditions is met \gls{os} is complete. Next undersampling is applied to the larger category $b$, were samples are randomly removed from $b$ until $|b_n| = |a_n|$.
+
+Another feature assessed was that of the sample size. The sample size was determined by the sample ratio. When sampling if the ratio is at 50 \% then only half of the values retrieved will be used to train or test. For some of the larger data sets sampling 100 \% of the data from the range would take a lot longer. Therefore sampling a percentage of the data set is commonly used to decrease the training time. However in the case of using a percentage of the sample range the data should to be sampled randomly to provide a more stable model. Therefore each data entry in the sample has the same chance to be within the training or test data set. Using the example from above, $a$ and $b$ have been oversampled and undersampled such that their new size is represented by $|a_n|$ and $|b_n|$ respectively. Given that a sample ratio of $50\%$ is used then both sets $a$ and $b$ would be reduced by the ratio by randomly sampling from each set to create new sets. The size of each set would be $|a_n| * r$ where $r$ is the ratio value.  
 
 For each project data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. As shown in \autoref{fig:data_range}, the window is shown starting at the 30th commit which would also be called the 30th window.
 
@@ -692,7 +634,7 @@ This experiment uses different sets of candidate feature to test to explore the 
 
 The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
 
-\begin{table}[h]
+\begin{table}[ht]
 \begin{center}
 
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -783,14 +725,36 @@ The first project, acra, performs well with accuracy and precision maintaining a
     \label{fig:test_3_deeplearning4j_svm}
 \end{figure}
 
-\subsection{Oversampling Experiment}
+\subsection{SVM Oversampling Experiment}
+\label{sec:svm_os_experiment}
 
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
 
-The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all 3 were attempted to be maximized rather than just two of the three.
-
+The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
 
 %TODO identify the swr for each one.
+
+\begin{table}[ht]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Project & \multicolumn{1}{c}{\gls{swr}} & \\
+         & \multicolumn{1}{c}{Best} & \multicolumn{1}{c|}{Worst} \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
+        acra & 90 & 130 \\
+        dagger & 60 & 70 \\
+        fresco & 130 & 90 \\
+        storm & 80 & 130 \\
+        deeplearning4j & 120 & 130 \\ \hline
+    \end{tabular}
+    \caption{Best And Worst Results From SWR experiments for SVM}
+    \label{tab:svm_best_worst_swr_experiment_sets}
+\end{center}
+\end{table}
+
+The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect of \gls{os}. In the plots for this section the performance of the \gls{svm} model from the experiment in \autoref{sec:svm_swr_experiment} is represented by either \textit{best} or \textit{worst}. Alternatively, the values for the performance of the \gls{svm} model when using \gls{os} is represented by either \textit{best-O} or \textit{worst-O}. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the value of \gls{swr} used for to obtain best and worst. For the experiments the \gls{swr} will be set to the corresponding value from \autoref{tab:svm_best_worst_swr_experiment_sets}. Therefore the project \textit{acra}, the trail for \textit{best} and \textit{best-O} both use an \gls{swr} of $90$. Furthermore, for \textit{worst} and \textit{worst-O} will use an \gls{swr} of $130$.
 
 \begin{figure}[!h]
     \centering
@@ -843,6 +807,8 @@ The experiment below took the best and worst trials from \autoref{sec:svm_swr_ex
     \caption{Oversampling for deeplearning4j using \gls{svm}}
     \label{fig:test_4_deeplearning4j_svm}
 \end{figure}
+
+The majority of the experiments there is little to no impact whether \gls{os} was used or not. The only experiment that \gls{os} had a noticeable impact was deeplearning4j. In \autoref{fig:test_4_deeplearning4j_svm} the performance of both the best and the worst with \gls{os} is worse with the exception of a slight improvement for the recall in the best trials.
 
 \subsection{SVM Discussion}
 \label{subsec:svm_discussion}
@@ -1049,6 +1015,30 @@ Generally the experiment results were not particularly strong. In \autoref{fig:t
 
 \subsection{Oversampling Experiment}
 
+The set up is similar to that of the experiment in \autoref{sec:svm_os_experiment}. The best and worst trails are taken from the previous experiment in \autoref{sec:rf_swr_experiment}. The value of the \gls{swr} was recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. 
+
+\begin{table}[ht]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Project & \multicolumn{1}{c}{\gls{swr}} & \\
+         & \multicolumn{1}{c}{Best} & \multicolumn{1}{c|}{Worst} \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
+        acra & 90 & 130 \\
+        dagger & 90 & 80 \\
+        fresco & 60 & 70 \\
+        storm & 60 & 70 \\
+        deeplearning4j & 100 & 80 \\ \hline
+    \end{tabular}
+    \caption{Best And Worst Results From SWR Experiments for RF}
+    \label{tab:rf_best_worst_swr_experiment_sets}
+\end{center}
+\end{table}
+
+The experiments are then conducted using \gls{os} with the \gls{swr} for the best and worst. The results with \gls{os} are represented in the figures by either \textit{best-O} or \textit{worst-O}. The results without \gls{os} from the previous experiment are represented with \textit{best} and \textit{worst}.
+
 \begin{figure}[!h]
     \centering
 
@@ -1057,12 +1047,17 @@ Generally the experiment results were not particularly strong. In \autoref{fig:t
         \label{fig:test_4_acra_rf}
 \end{figure}
 
+The results for acra showed a slight improvement for both the best and worst case when using \gls{os} in \autoref{fig:test_4_acra_rf}. While the improvements were marginal they are still present nonetheless. Similarly, fresco in \autoref{fig:test_4_fresco_rf} also had a slight improvement in the performance for all three parameters for both \textit{best-O} and \textit{worst-O}.
+
 \begin{figure}[!h]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/dagger_sample_range}
         \caption{Oversampling for dagger using \gls{rf}}
         \label{fig:test_4_dagger_rf}
 \end{figure}
+
+While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
+
 
 % \begin{figure}[h]
 %     \centering
@@ -1100,6 +1095,11 @@ Generally the experiment results were not particularly strong. In \autoref{fig:t
     \caption{Oversampling for deeplearning4j using \gls{rf}}
     \label{fig:test_4_deeplearning4j_rf}
 \end{figure}
+
+Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the improvements were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount. 
+% TODO reference how the over sampling is done.
+
+While only the extremes, best and worst, were tested further tests could be done to test more typical values.
 
 \subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}

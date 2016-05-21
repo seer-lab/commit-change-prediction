@@ -1,10 +1,112 @@
 \chapter{Prediction with Commit Data}
 \label{chap:prediction}
 
-% TODO talk about the predictions
+\section{Prediction Data}
+\label{sec:prediction_data}
 
-% Outline svm and rf and how the data is used to make predictions based on the visualization
+% TODO talk about the data used for the predictions
+	% - This will mostly be referencing the data storage section
 
-The visualization of the data collected about the projects help provide insights into data set. The visualizations created provided a more general look of the data collected. While other visualizations could be created to provide for refined views a perdiction tool was selected to provide support to developers more directly. Rather than present the data to allow for the developers to identify trends and patterns within the data set machine learning algorithms were employeed. These advanced algorithms are commonly used in research for pattern recognition. %TODO cite.
+The data used for predicting changes with a project is originally from the visualizations. For more information about the specific information collected see  \autoref{sec:collection}, \autoref{sec:storage} and \autoref{sec:parsing}. More briefly, the commit data collected from the target \gls{oss} project is used to make predictions. The goal is to predict whether a method within a project will change within the next five commits. As outlined in \autoref{sec:parsing}, the different types of changes can be either additions, deletions, additions and deletions or no change at all.
 
-This leads back to the research question of this work, can changes within a project be predicted using machine learning algorithms. The 
+%238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
+\begin{table}
+\begin{center}
+    \begin{tabularx}{\linewidth}{|l|X|l|l|}
+        \hline
+        Feature & Description & Data & Example \\
+         & & & Vector \\
+        \hline
+        Com & The individual who committed the change & bob & 5 \\ \hline
+        Name & The name of the file & Main.java & 3 \\ \hline
+        Sig & The method signature related to the change details & void getValue() & 46\\ \hline
+        %$change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \h$f_{\Delta}$line
+        
+        $f_{\Delta}$ & The number of changes this method has been involved within the \gls{swr} divided by the \gls{swr} & 0.0464 & 0.0464 \\ \hline
+        $sf_{\Delta}$ & The number of changes this method has been involved in within the last 10 commits divided by the 10. & 0.1 & 0.1 \\ \hline
+        $t_\Delta$ & The time between the current commit $c_i$ and the previous commit $c_{i-1}$ & 2148 & 2148 \\ \hline
+
+        Length & The length of the method in this commit & 10 & 10 \\ \hline
+        $change_{t-1}$ & Whether a change has occurred in the previous 5 commits & 3 & 1 \\
+        \hline
+        $change_{t}$ & Identifies whether at least one change occurred within the next 5 commits for the given method & 0 & 0\\
+        \hline
+    \end{tabularx}
+\end{center}
+    \caption{Candidate features for \gls{svm} model}
+    \label{tab:candidate_features}
+\end{table}
+
+% Name => Methods within a file are likely going to have similar change patterns
+% Signature => A method change history will likely be unique
+% Change_i => Whether the method changed or not at the current commit may provide insight as to whether the next 5 commits will feature a change as well.
+% committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
+% freq_change => Helps identify how likely the file is to change
+
+The \autoref{tab:candidate_features} lists each feature used for training the prediction model. An example of each feature is provided to further illustrate them. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the \textit{Name} value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both \textit{Com} and \textit{Sig} will be mapped from their respective values ``void getValue()'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point values if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
+
+Another small change made to the data to create a vector for the prediction model was to apply \autoref{eq:change_type} to the values of $change_{t-1}$. As in \autoref{tab:candidate_features}, the value of $change_{t-1}$ is initially a vector which indicates the type of change to occur in the last 5 commits. After applying \autoref{eq:change_type} to each element of the vector the vector will be changed into a bit vector. Finally the sum of the vector was calculated using \autoref{change_reduce}, and the final value is retrieved using \autoref{eq:change_prev}
+
+\begin{equation} 
+\label{eq:change_type}
+C = \left\{\begin{matrix}
+1 & \text{if} change > 0 \\
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
+
+\begin{equation} 
+\label{eq:change_reduce}
+reduce = \sum_{i=t-5}^{t}{c_i}
+\end{equation}
+
+\begin{equation} 
+\label{eq:change_prev}
+P = \left\{\begin{matrix}
+1 & \text{if} reduce > 0 \\
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
+
+$f_{\Delta}$ is calculated by taking the number commits which involve changes to the current method ($c_i$) divided by the current number of commits ($c_{cur}$).
+
+\begin{equation}
+\label{eq:freq_change}
+f_{\Delta} = \frac{|c_i|}{|c_{cur}|}
+\end{equation}
+
+$sf_{\Delta}$ is calculated by reducing the range sampled from to $10$. Then counting the number of times the method changes within the previous $10$ commits and dividing it by 10.
+
+%Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly 
+
+$t_\Delta$ is the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in \autoref{eq:time_delta}. For the feature only the latest time difference is used.
+
+\begin{equation}
+\label{eq:time_delta}
+\Delta t_{i} = t(c_i) - t(c_{i-1}), i > 1
+\end{equation}
+
+\section{Prediction Method}
+\label{sec:prediction_method}
+
+% How the visualization helped 	
+The visualization of the data collected about the projects help provide insights into data set. With the data visualized a more general look of the data collected is available. While creating the method for predicting change within the project the visualizations provided a helpful resource. An analysis
+
+% TODO talk about the machine learning algorithms more specifically:
+% - Which are we using
+% - Why did we choose them
+% - what parameters they use
+	% - What we set those parameters to
+	% - and why
+
+\section{Implementation}
+% TODO talk about how to set up the predictions for use (actual implementation)
+	% - including what to expect from the approach and so on.
+
+%The 
+
+% TODO set up the next chapter where we discuss the experiments 
+
+%learning algorithms were employeed. These advanced algorithms are commonly used in research for pattern recognition. %TODO cite.
+
+%This leads back to the research question of this work, can changes within a project be predicted using machine learning algorithms. The 
