@@ -249,20 +249,24 @@ While the purposed method was being developed ACRA's acra project was primarily 
 %The \gls{svm} model was trained to categorize whether the current method would be changed within the next 5 commits. This of course can generalize to whether a vector will have a commit within the next \textit{n} commits. Obviously each candidate feature leverages historical or current information and thus a vector can be generated without future information.
 
 
-% TODO provide how to calculate the other features.
-
 %TODO write algorithm for mapping names
 
-% TODO put this into the subsection experiment 8-9
-Another issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. The test is then designed around a given date with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
+% TODO discuss sampling range methods
 
-The final change that was accounted for was to change the population sample size from a fixed number to a percentage. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
+
+
+%An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
+
+% TODO provide an actual start to this subsection
+The test is then designed around a given date with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
+
+%The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
 % TODO show a final picture with population size as a percentage.
 
 % TODO access this stuff below. Remember It's now 5 commits not 6 and also a lot of this stuff is no longer relevant.
 
-The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
+%The initial thought was to provide a few different features that appeared to be unique and potentially provided useful information for whether the method will change within the next 5 commits. Of course since this measurement is calculated, if a vector within the sample set is within the last 5 commits then it will leverage data from the next quarter to provide its prediction. This has not been mitigated and could provide a unrealistic improvement in the prediction score if members of the next sample fall into the first 5 commits. The way to mitigate this would be to provide a buffer between the two sets when the second test is used for testing purposes. The second set would be restricted further, such that the changes must come from after the 6th commit from the start date of the quarter. The first commit would be the one that takes place on or right after (if no commit falls on that date) the start date. The next 5 commits would also be excluded from the test sample set.
 
 %\subsection{Experiment Factors}
 % TODO outline the different factors used in the experiments. Also even outline other factors that are not changed either.
@@ -281,7 +285,7 @@ The initial thought was to provide a few different features that appeared to be 
 % Window
 % SVM or Forest Parameters
 
-Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then \autoref{fig:data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
+The sample range is taken from the current commit $c_i$ to $c_{i-g-m}$ in the case that $i > m$. $m$ denotes the size of \gls{swr} in commits and $g$ is the number of commits the change is predicted within. For example if the model is predict a change that occurs within the next 5 commits ($g = 5$) and $m = 30$ then \autoref{fig:data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The \gls{swr} for the testing data set is labeled as the \textit{Testing Sampling} 
 
 \begin{figure}[!ht]
     \centering
@@ -308,7 +312,8 @@ Another feature assessed was that of the sample size. The sample size was determ
 
 For each project data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. As shown in \autoref{fig:data_range}, the window is shown starting at the 30th commit which would also be called the 30th window.
 
-Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses three parameters; C, gamma and esp. % TODO explain each of them in a bit more details.
+% TODO explain each of them in a bit more details.
+Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses three parameters; C, gamma and esp.
 
 \subsection{Prediction Performance}
 
@@ -348,6 +353,8 @@ P_{recall} = \frac{tp}{tp+fn}
 \label{sec:svm_experiments}
 
 The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable.
+
+% TODO talk about how performance is used to discuss the accuracy, precision and recall generally.
 
 This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
 \begin{enumerate}
@@ -429,7 +436,7 @@ The results for the experiments are shown with the precision, recall and accurac
 % \end{figure}
 
 % TODO improve the image placement.
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/acra_sample_range}
@@ -437,7 +444,7 @@ The results for the experiments are shown with the precision, recall and accurac
         \label{fig:test_1_acra_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{svm}}
@@ -460,14 +467,14 @@ The results for the experiments are shown with the precision, recall and accurac
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/fresco_sample_range}
         \caption{\gls{swr} for fresco using \gls{svm}}
         \label{fig:test_1_fresco_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{svm}}
@@ -532,7 +539,8 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 
 % \end{table}
 
-% %% TODO create a table to show this information.
+% %% TODO create a table to show this information..
+
 % % Extend Window: No% Sample by Commit Range: Yes
 % % Over Sampling: No
 % % Under Sampling: Yes
@@ -632,8 +640,6 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 
 This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{tab:svm_feature_experiment_setup}. The value of $90$ for \gls{swr} was selected based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \autoref{sec:svm_swr_experiment}. 
 
-The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
-
 \begin{table}[ht]
 \begin{center}
 
@@ -652,10 +658,9 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
     \caption{Candidate Feature Sets}
     \label{tab:svm_feature_experiment_sets}
 \end{center}
-
 \end{table}
 
-The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Likewise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
+The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
 
 % \begin{figure}[h]
 %     \centering
@@ -673,7 +678,7 @@ The first project, acra, performs well with accuracy and precision maintaining a
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/acra_sample_range}
@@ -681,7 +686,7 @@ The first project, acra, performs well with accuracy and precision maintaining a
         \label{fig:test_3_acra_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{svm}}
@@ -704,35 +709,33 @@ The first project, acra, performs well with accuracy and precision maintaining a
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/fresco_sample_range}
         \caption{Feature for fresco using \gls{svm}}
         \label{fig:test_3_fresco_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/storm_sample_range}
         \caption{Feature for storm using \gls{svm}}
         \label{fig:test_3_storm_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{svm}}
     \label{fig:test_3_deeplearning4j_svm}
 \end{figure}
 
+The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Likewise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
+
 \subsection{SVM Oversampling Experiment}
 \label{sec:svm_os_experiment}
 
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
-
-The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
-
-%TODO identify the swr for each one.
 
 \begin{table}[ht]
 \begin{center}
@@ -754,9 +757,9 @@ The experiment below took the best and worst trials from \autoref{sec:svm_swr_ex
 \end{center}
 \end{table}
 
-The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect of \gls{os}. In the plots for this section the performance of the \gls{svm} model from the experiment in \autoref{sec:svm_swr_experiment} is represented by either \textit{best} or \textit{worst}. Alternatively, the values for the performance of the \gls{svm} model when using \gls{os} is represented by either \textit{best-O} or \textit{worst-O}. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the value of \gls{swr} used for to obtain best and worst. For the experiments the \gls{swr} will be set to the corresponding value from \autoref{tab:svm_best_worst_swr_experiment_sets}. Therefore the project \textit{acra}, the trail for \textit{best} and \textit{best-O} both use an \gls{swr} of $90$. Furthermore, for \textit{worst} and \textit{worst-O} will use an \gls{swr} of $130$.
+The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/acra_sample_range}
@@ -764,7 +767,7 @@ The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect
         \label{fig:test_4_acra_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/dagger_sample_range}
         \caption{Oversampling for dagger using \gls{svm}}
@@ -787,38 +790,45 @@ The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/fresco_sample_range}
         \caption{Oversampling for fresco using \gls{svm}}
         \label{fig:test_4_fresco_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/storm_sample_range}
         \caption{Oversampling for storm using \gls{svm}}
         \label{fig:test_4_storm_svm}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/deeplearning4j_sample_range}
     \caption{Oversampling for deeplearning4j using \gls{svm}}
     \label{fig:test_4_deeplearning4j_svm}
 \end{figure}
 
+The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect of \gls{os}. In the plots for this section the performance of the \gls{svm} model from the experiment in \autoref{sec:svm_swr_experiment} is represented by either \textit{best} or \textit{worst}. Alternatively, the values for the performance of the \gls{svm} model when using \gls{os} is represented by either \textit{best-O} or \textit{worst-O}. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the value of \gls{swr} used for to obtain best and worst. For the experiments the \gls{swr} will be set to the corresponding value from \autoref{tab:svm_best_worst_swr_experiment_sets}. Therefore the project \textit{acra}, the trail for \textit{best} and \textit{best-O} both use an \gls{swr} of $90$. Furthermore, for \textit{worst} and \textit{worst-O} will use an \gls{swr} of $130$.
+
 The majority of the experiments there is little to no impact whether \gls{os} was used or not. The only experiment that \gls{os} had a noticeable impact was deeplearning4j. In \autoref{fig:test_4_deeplearning4j_svm} the performance of both the best and the worst with \gls{os} is worse with the exception of a slight improvement for the recall in the best trials.
 
 \subsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
-Overall for the experiments the factor that had the greatest impact was that of the \gls{swr}.
+%TODO start consolidating the different experiments results and what they mean
+The three different experiments attempted to determine the impact of the different factors on the prediction method. The three factors that were tested are:
+\begin{enumerate}
+\item \gls{swr}
+\item Model features
+\item Sampling balancing
+\end{enumerate}
+Overall \gls{swr} had the greatest impact on the performance of the prediction method. While the \gls{swr} does have a large impact some projects are less affected. Specifically, the accuracy and precision remained rather stable will primarily small variations for any change in \gls{swr}, model features and sampling balancing. The model's recall however, tended to vary more greatly for the first two experiments. Small changes to the \gls{swr} will result in large changes to the recall. Likewise in some of the trails from the second experiment the recall will change drastically with slightly different sets of features.
 
 \section{Random Forest Experiments}
 \label{sec:rf_experiments}
-
-\subsection{Factor}
 
 \subsection{Window Range Experiments}
 \label{sec:rf_swr_experiment}
@@ -851,8 +861,6 @@ The independent variable for this set of experiments is the sample window size m
 % SVM gamma: 8
 % SVM esp: 0.001
 
-The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
-
 \begin{table}[h]
 \begin{center}
 
@@ -868,7 +876,7 @@ The parameter for this experiment are outlined in \autoref{tab:rf_window_range_e
 
 \end{table}
 
-The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
+The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
 % \begin{figure}[h]
 %     \centering
@@ -886,14 +894,14 @@ The results for the experiments with the independent variable sample window size
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!t]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/acra_sample_range}
         \caption{\gls{swr} for acra using \gls{rf}}
         \label{fig:test_1_acra_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{rf}}
@@ -901,7 +909,7 @@ The results for the experiments with the independent variable sample window size
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/fresco_sample_range}
@@ -909,20 +917,22 @@ The results for the experiments with the independent variable sample window size
         \label{fig:test_1_fresco_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{rf}}
         \label{fig:test_1_storm_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/deeplearning4j_sample_range}
     \caption{\gls{swr} for deeplearning4j using \gls{rf}}
     \label{fig:test_1_deeplearning4j_rf}
 \end{figure}
 
+The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
+%TODO expand
 
 \subsection{Feature Set Experiments}
 
@@ -976,46 +986,78 @@ Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_expe
 
 \end{table}
 
-Generally the experiment results were not particularly strong. In \autoref{fig:test_3_acra_rf} the performance for candidate feature sets 1, 2, 3, 5 were all high and is the performs the best out of all the other projects. For dagger in \autoref{fig:test_3_dagger_rf} the result for candidate feature set 1 is high where as the rest are far worse. The remainder of the projects the accuracy and precision are less than $0.6$. In \autoref{fig:test_3_fresco_rf} and \autoref{fig:test_3_storm_rf} the recall is far more consistently high. However deeplearning4j has generally low results for accuracy, precision and recall.
-
-\begin{figure}[h]
+\begin{figure}[!t]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/acra_sample_range}
         \caption{Feature for acra using \gls{rf}}
         \label{fig:test_3_acra_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{rf}}
         \label{fig:test_3_dagger_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/fresco_sample_range}
         \caption{Feature for fresco using \gls{rf}}
         \label{fig:test_3_fresco_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/storm_sample_range}
         \caption{Feature for storm using \gls{rf}}
         \label{fig:test_3_storm_rf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{rf}}
     \label{fig:test_3_deeplearning4j_rf}
 \end{figure}
 
+Generally the experiment results were not particularly strong. In \autoref{fig:test_3_acra_rf} the performance for candidate feature sets 1, 2, 3, 5 were all high and is the performs the best out of all the other projects. For dagger in \autoref{fig:test_3_dagger_rf} the result for candidate feature set 1 is high where as the rest are far worse. The remainder of the projects the accuracy and precision are less than $0.6$. In \autoref{fig:test_3_fresco_rf} and \autoref{fig:test_3_storm_rf} the recall is far more consistently high. However deeplearning4j has generally low results for accuracy, precision and recall.
+
 \subsection{Oversampling Experiment}
 
-The set up is similar to that of the experiment in \autoref{sec:svm_os_experiment}. The best and worst trails are taken from the previous experiment in \autoref{sec:rf_swr_experiment}. The value of the \gls{swr} was recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. 
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
+        %Set & & & & & $\Delta_{freq}$ & & & Next \\
+         \hline
+        $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+    \end{tabular}
+    \caption{\gls{os} Experiment Features}
+    \label{tab:rf_oversampling_features}
+\end{center}
+
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Extended & Under & Sample & Window & \gls{rf} \\
+        Window & Sampling & Rate & Offset & Size \\ \hline
+        No & Yes & $100\%$ & 5 & 10000 \\ \hline
+    \end{tabular}
+    \caption{\gls{os} Experiment Setup}
+    \label{tab:rf_os_experiment_setup}
+\end{center}
+
+\end{table}
+
+
+This experiment builds on top of the previous experiment in \autoref{sec:svm_swr_experiment} and shares a very similar setup as the previous experiment. The features used for this experiment are outlined in \autoref{tab:rf_oversampling_features}. The experiment parameters are outlined in \autoref{tab:rf_os_experiment_setup}. The best and worst trails for each project are taken from the previous experiment. The value of the \gls{swr} was recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. The experiment uses these trails that were preformed without \gls{os} to compare against new trials that use the exact same parameters except for the use of \gls{os}.
 
 \begin{table}[ht]
 \begin{center}
@@ -1037,9 +1079,9 @@ The set up is similar to that of the experiment in \autoref{sec:svm_os_experimen
 \end{center}
 \end{table}
 
-The experiments are then conducted using \gls{os} with the \gls{swr} for the best and worst. The results with \gls{os} are represented in the figures by either \textit{best-O} or \textit{worst-O}. The results without \gls{os} from the previous experiment are represented with \textit{best} and \textit{worst}.
+The result of a trail with \gls{os} are represented in the figures by either \textit{best-O} or \textit{worst-O}. The results without \gls{os} from the previous experiment are represented with \textit{best} and \textit{worst}.
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/acra_sample_range}
@@ -1047,17 +1089,12 @@ The experiments are then conducted using \gls{os} with the \gls{swr} for the bes
         \label{fig:test_4_acra_rf}
 \end{figure}
 
-The results for acra showed a slight improvement for both the best and worst case when using \gls{os} in \autoref{fig:test_4_acra_rf}. While the improvements were marginal they are still present nonetheless. Similarly, fresco in \autoref{fig:test_4_fresco_rf} also had a slight improvement in the performance for all three parameters for both \textit{best-O} and \textit{worst-O}.
-
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/dagger_sample_range}
         \caption{Oversampling for dagger using \gls{rf}}
         \label{fig:test_4_dagger_rf}
 \end{figure}
-
-While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
-
 
 % \begin{figure}[h]
 %     \centering
@@ -1075,39 +1112,45 @@ While both acra and fresco had slight improvements, dagger in \autoref{fig:test_
 %     \end{minipage}
 % \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/fresco_sample_range}
         \caption{Oversampling for fresco using \gls{rf}}
         \label{fig:test_4_fresco_rf}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/storm_sample_range}
         \caption{Oversampling for storm using \gls{rf}}
         \label{fig:test_4_storm_rf}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/deeplearning4j_sample_range}
     \caption{Oversampling for deeplearning4j using \gls{rf}}
     \label{fig:test_4_deeplearning4j_rf}
 \end{figure}
 
+The results for acra showed a slight improvement for both the best and worst case when using \gls{os} in \autoref{fig:test_4_acra_rf}. While the improvements were marginal they are still present nonetheless. Similarly, fresco in \autoref{fig:test_4_fresco_rf} also had a slight improvement in the performance for all three parameters for both \textit{best-O} and \textit{worst-O}.
+
+While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
+
 Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the improvements were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount. 
 % TODO reference how the over sampling is done.
 
-While only the extremes, best and worst, were tested further tests could be done to test more typical values.
-
 \subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
+
+%TODO start consolidating the results here and what they mean
 
 \section{Threats to Validity}
 \label{sec:threat_validity}
 
 % TODO WRITE
+
+%While only the extremes, best and worst, were tested further tests could be done to test more typical values.
 
 
 
