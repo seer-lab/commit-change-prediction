@@ -1,13 +1,30 @@
 \chapter{Prediction with Commit Data}
 \label{chap:prediction}
 
+% TODO discuss research question
+
+% How the visualization helped 	
+The visualization of the data collected about the projects help provide insights into data set. With the data visualized a more general look of the data collected is available. While creating the method for predicting change within the project the visualizations provided a helpful resource. The actual data used for training the prediction model is outlined in \autoref{sec:prediction_data}. After that the prediction model is detailed in \autoref{sec:prediction_method}. %Finally, the actual implementation is discussed in \autoref{sec:implementation}.
+
 \section{Prediction Data}
 \label{sec:prediction_data}
 
-% TODO talk about the data used for the predictions
-	% - This will mostly be referencing the data storage section
+
 
 The data used for predicting changes with a project is originally from the visualizations. For more information about the specific information collected see  \autoref{sec:collection}, \autoref{sec:storage} and \autoref{sec:parsing}. More briefly, the commit data collected from the target \gls{oss} project is used to make predictions. The goal is to predict whether a method within a project will change within the next five commits. As outlined in \autoref{sec:parsing}, the different types of changes can be either additions, deletions, additions and deletions or no change at all.
+
+The machine learning model requires samples from the data set to train from to allow for predictions of new elements. Also it is necessary for these samples to able to be categorized. This requirement provides some restrictions on which values can be included in the sampling. Since the categorization is methods that will change and those that will not change within the next 5 commits, data samples must know whether it will change or not within the next 5 commits. This therefore prevents data from the last 5 commits from being sampled for training the data model.
+
+\begin{figure}[!ht]
+    \centering
+        %Generated from http://jsfiddle.net/5aubxshy/
+        \includegraphics[width=1.0\textwidth]{images/training_sampling}
+    \caption{Training Sampling Layout}
+    \label{fig:training_data_range}
+\end{figure}
+
+The \gls{swr} is a second restriction placed on the sampling of data. The data will only be sampled within a limited range of commits as outlined in \autoref{fig:training_data_range}. In this case, the \gls{swr} is 30 and the gap is 5. The gap takes into account the first restriction, preventing sampling in the 5 latest commits.
+
 
 %238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
 \begin{table}
@@ -45,7 +62,7 @@ The data used for predicting changes with a project is originally from the visua
 
 The \autoref{tab:candidate_features} lists each feature used for training the prediction model. An example of each feature is provided to further illustrate them. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be first converted into floating point numbers. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Taking the \textit{Name} value, ``Main.java'' will be mapped to the value 3. This is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping, 3. Similarly both \textit{Com} and \textit{Sig} will be mapped from their respective values ``void getValue()'' and ``bob'' to 46 and 5. Numerical values are easily converted by casting them to floating point values if they are not already of that type. For spacing reasons all the values in the table that were integers to begin are shown without a ``.0''following.
 
-Another small change made to the data to create a vector for the prediction model was to apply \autoref{eq:change_type} to the values of $change_{t-1}$. As in \autoref{tab:candidate_features}, the value of $change_{t-1}$ is initially a vector which indicates the type of change to occur in the last 5 commits. After applying \autoref{eq:change_type} to each element of the vector the vector will be changed into a bit vector. Finally the sum of the vector was calculated using \autoref{change_reduce}, and the final value is retrieved using \autoref{eq:change_prev}
+Another small change made to the data to create a vector for the prediction model was to apply \autoref{eq:change_type} to the values of $change_{t-1}$. As in \autoref{tab:candidate_features}, the value of $change_{t-1}$ is initially a vector which indicates the type of change to occur in the last 5 commits. After applying \autoref{eq:change_type} to each element of the vector the vector will be changed into a bit vector. Finally the sum of the vector was calculated using \autoref{eq:change_reduce}, and the final value is retrieved using \autoref{eq:change_prev}.
 
 \begin{equation} 
 \label{eq:change_type}
@@ -89,9 +106,6 @@ $t_\Delta$ is the difference between the current commit time ($t(c_i)$) and the 
 \section{Prediction Method}
 \label{sec:prediction_method}
 
-% How the visualization helped 	
-The visualization of the data collected about the projects help provide insights into data set. With the data visualized a more general look of the data collected is available. While creating the method for predicting change within the project the visualizations provided a helpful resource. An analysis
-
 % TODO talk about the machine learning algorithms more specifically:
 % - Which are we using
 % - Why did we choose them
@@ -99,14 +113,10 @@ The visualization of the data collected about the projects help provide insights
 	% - What we set those parameters to
 	% - and why
 
-\section{Implementation}
+For this approach a machine learning algorithm is used to create a prediction model. The data used to train the model is collected as shown in \autoref{sec:prediction_data}. The machine learning algorithms that can be used are either \gls{svm} or \gls{rf}. Each of these method are widely used for data mining techniques and are easy to use. 
+
 % TODO talk about how to set up the predictions for use (actual implementation)
 	% - including what to expect from the approach and so on.
+The \gls{svm} model was created through the use of a libsvm\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/libsvm/}} binding for ruby, rb-libsvm\footnote{\url{https://github.com/febeling/rb-libsvm}}. This library was a good fit since the data was collected using a ruby script. For \gls{rf} python library scikit-learn\footnote{\url{http://scikit-learn.org/stable/}} was used. The reason for using python rather than ruby, was a lack of mature library for \gls{rf} in ruby.
 
-%The 
-
-% TODO set up the next chapter where we discuss the experiments 
-
-%learning algorithms were employeed. These advanced algorithms are commonly used in research for pattern recognition. %TODO cite.
-
-%This leads back to the research question of this work, can changes within a project be predicted using machine learning algorithms. The 
+The method for using the approach would be to collect the data from the project. Once the data is collected the prediction model can be created through a sampling a training set. Once the model is trained predictions can be made using the model on new data. The next chapters puts the approach into practice by training the model and testing the model using subsets of a project data set.
