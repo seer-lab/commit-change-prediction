@@ -1,6 +1,8 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
+Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} project can be used towards predicting future changes within the project. In these experiments the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through the use of measuring the factors of the core factors of the approach. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
+
 \section{Experimental Project Data}
 \label{sec:experimental_project_data}
 
@@ -9,7 +11,7 @@ One thing that should be noted for the experiments that were run. Since all of t
 %The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
 
 % TODO consider placing this into introduction
-\begin{table}[h!]
+\begin{table}[!hbp]
 \begin{minipage}{\textwidth}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -54,6 +56,9 @@ The complete list of projects that were tested is found in \autoref{tab:project_
 
 Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
 
+
+In order to get a more detailed understand of the selected projects numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. The size of the project is represented through number of commits, methods. The size of the development team is also provided. The length of each project is shown and most of the measures average on a yearly term.
+
 \begin{enumerate}
 \item \textbf{acra} is a Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application.
 \item \textbf{storm} from apache real time computational system for continuous streams of data. This project is one of the larger projects and has a large development community.
@@ -81,8 +86,6 @@ Each of the projects selected on GitHub using the list of Java projects with a l
 \caption{Project Change Statistics 2}
 \label{tab:project_stats_2}
 \end{table}
-
-In order to get a more detailed understand of the selected projects numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. The size of the project is represented through number of commits, methods. The size of the development team is also provided. The length of each project is shown and most of the measures average on a yearly term.
 
 % TODO reference the table
 Several average measures were also taken which detail the amount of change that occurs within the project. The average number of commits per project coupled with the average number of changes per commit clearly indicates the amount of changes that are occurring with in the project. The rate at which methods are change provides good insight into the growth of a project. While some changes may involve the addition of new methods, others may include the removal of methods or the modification of methods. The other measures relating to the amount of change occurring with a project on average are the number of methods changed per year and the number of changes per method. Each of these further outline how the changes are being made to the project on average.
