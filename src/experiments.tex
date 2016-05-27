@@ -261,7 +261,7 @@ While the purposed method was being developed ACRA's acra project was primarily 
 %An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
 
 % TODO provide an actual start to this subsection
-The test is then designed around a given date with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
+The experiment is designed around a given commit with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
 
 %The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -374,11 +374,10 @@ This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effe
 \subsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
 
-%TODO fill out details of experiments
+% TODO add dependent and independent variables discussion
 
-For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
+For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the $sf_{\Delta}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
 
-% TODO use a better way of showing this like a table with dots.
 \begin{table}[h]
 \begin{center}
 
