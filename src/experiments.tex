@@ -243,6 +243,18 @@ While the purposed method was being developed ACRA's acra project was primarily 
 
 \section{Experimental Setup}
 
+
+The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a project will be referred to as the performance of the approach. In order to reduce specific project confounding factors numerous projects were tested on. This will be discussed further in the discussions section.
+
+This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
+\begin{enumerate}
+\item The \gls{swr} which is the size of range which the samples are taken from.
+\item The set of features used to train the machine learning model.
+\item The distribution of the data through use of \gls{os}.
+\end{enumerate}
+
+Through investigating these factors a more clear picture of the performance of the approach will be be provided. Without such a investigation the method contains could produce capable solution just as likely as poor solutions. Worse still, the setup may produce poor solutions more often than capable solutions. Once a more concrete understanding is developed of the different factors and the performance of the algorithm accordingly the research question can be answered as to whether it is possible to predict changes within a project using the commit data.
+
 \subsection{Prediction Features}
 
 %The experimental process for testing the various feature sets on acra involved dividing the repository into four equal quarters (based on time duration). While the number of commits within each period may vary greatly, only a sample is taken.
@@ -261,7 +273,7 @@ While the purposed method was being developed ACRA's acra project was primarily 
 %An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
 
 % TODO provide an actual start to this subsection
-The experiment is designed around a given commit with the \textit{gap} with $t$ and $p$ commits proceeding it as the range of the test. $t$ is the number of commits that the training dataset will sample from. Alternatively, $p$ is the number of commits that the testing dataset will sample from. In the case that $t = p$ the training commit size and the testing commit size are the same.
+The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the project the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
 
 %The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -322,7 +334,7 @@ for optimizing the parameters. For \gls{rf}, the size of the forest will have an
 \subsection{Prediction Performance}
 
 % TODO this isn't necessary for cases when the entire sample is used.
-For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. In the case when $100\%$ of the sample is used then only one sample is is taken since there will be no variations within the sample set.
+For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. %In the case when $100\%$ of the sample is used then only one sample is is taken since there will be no variations within the sample set.
 
 The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in \autoref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
 
@@ -356,27 +368,12 @@ P_{recall} = \frac{tp}{tp+fn}
 \section{SVM Experiments}
 \label{sec:svm_experiments}
 
-The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables, precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable.
-
-% TODO talk about how performance is used to discuss the accuracy, precision and recall generally.
-
-This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
-\begin{enumerate}
-\item The \gls{swr} which is the size of range which the samples are taken from.
-\item The set of features used to train the machine learning model.
-\item The distribution of the data through use of \gls{os}.
-\end{enumerate}
-
-% TODO talk about the sub research questions
-%   - Experiments are to determine what has the largest impact on the performance of the prediction algorithms.
-% Relate back to original thesis question.
-
 \subsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
 
 % TODO add dependent and independent variables discussion
 
-For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the $sf_{\Delta}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
+In this experiment the independent variable is the size of the \gls{swr} in commits. For each variation of the \gls{swr} the performance is measured. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the $sf_{\Delta}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
 
 \begin{table}[h]
 \begin{center}
@@ -423,7 +420,7 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width.
 
 % \begin{figure}[h]
-%     \centering
+%     \centeringb
 
 %     \begin{minipage}[b]{0.45\linewidth}
 %         \includegraphics[width=1.0\textwidth]{images/svm/test_1/acra_sample_range}
@@ -1150,6 +1147,8 @@ Overall this experiment shows that \gls{os} provides little impact that is incon
 
 \section{Threats to Validity}
 \label{sec:threat_validity}
+
+This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all projects. A concerted effort was made to contrasting positive results for one project with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area. 
 
 % TODO WRITE
 
