@@ -368,6 +368,9 @@ P_{recall} = \frac{tp}{tp+fn}
 \section{SVM Experiments}
 \label{sec:svm_experiments}
 
+For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \autoref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The data used to train and test the approach is collected using a Ruby script to query a PostgreSQL database. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
+
+
 \subsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
 
@@ -606,7 +609,7 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 %     \caption{\gls{swr} for deeplearning4j}
 %     \label{fig:test_2_deeplearning4j}
 % \end{figure}
-
+    
 \subsection{Feature Set Experiments}
 \label{sec:svm_feature_set_experiments}
 
@@ -825,10 +828,12 @@ The three different experiments attempted to determine the impact of the differe
 \item Model features
 \item Sampling balancing
 \end{enumerate}
-Overall \gls{swr} had the greatest impact on the performance of the prediction method. While the \gls{swr} does have a large impact some projects are less affected. Specifically, the accuracy and precision remained rather stable will primarily small variations for any change in \gls{swr}, model features and sampling balancing. The model's recall however, tended to vary more greatly for the first two experiments. Small changes to the \gls{swr} will result in large changes to the recall. Likewise in some of the trails from the second experiment the recall will change drastically with slightly different sets of features.
+Overall \gls{swr} had the greatest impact on the performance of the prediction method. While the \gls{swr} does have a large impact some projects are less affected. Specifically, the accuracy and precision remained rather stable will primarily small variations for any change in \gls{swr}, model features and sampling balancing. The model's recall however, tended to vary more greatly for the first two experiments. Small changes to the \gls{swr} will result in large changes to the recall. Likewise in some of the trails from the second experiment the recall will change drastically with slightly different sets of features. While positive results were achieved negative results also were present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of this approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.   
 
 \section{Random Forest Experiments}
 \label{sec:rf_experiments}
+
+The machine learning algorithm \gls{rf} is used for the second set of experiments. \gls{rf} was selected as an alternative to \gls{svm} for it's success in various data mining related tools. The implementation of \gls{rf} is in a python library \textit{scikit-learn} which is outlined in \autoref{sec:prediction_method}. Only one parameter is used for \gls{rf}, the forest size, which is set to $10000$ all of these experiments.
 
 \subsection{Window Range Experiments}
 \label{sec:rf_swr_experiment}
@@ -1137,7 +1142,7 @@ The results for acra showed a slight improvement for both the best and worst cas
 
 While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
 
-Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the improvements were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount. 
+
 % TODO reference how the over sampling is done.
 
 \subsection{Random Forest Discussion}
@@ -1145,89 +1150,19 @@ Overall this experiment shows that \gls{os} provides little impact that is incon
 
 %TODO start consolidating the results here and what they mean
 
+The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, had positive results for the two smaller projects and lower performance for the remaining projects. The changes made to the \gls{swr} caused little variation between samples. Of course there were some exceptions, for example the recall for acra decreased at $80$, $100$ and $120$. Each drop was around $0.2$ and in total led to a fall of $0.8$. This should however not lessen the positive performance achieved especially in projects like acra.
+
+The second experiment also had very small variability for different values of the independent variable. This time however the independent variable was the feature set used to train and predict with the \gls{rf} model. The accuracy and precision for each project's trial set experienced very small changes. The only two projects to experience a higher amount of variability for the accuracy and precision were acra and dagger. For acra the third feature set decreased the performance. For dagger the first, third and fifth all decreased the performance to around the same level with the second and fourth both providing better performance at around the same level as well. The recall remained high for all projects except for dagger and deeplearning4j. In dagger the recall for the fourth feature set is far lower than the other feature sets at $0.45$. Finally, deeplearning4j for the first feature set has a recall of around $0.5$ and for the fifth feature set around $0.55$. The different feature sets lead to small variations in performance for the \gls{rf}. No clear relationship was determined however, since each project will perform different for given feature sets. For example, acra performs the best with feature set 4. Alternatively, dagger performs best with feature set 2 (which acra also performed well with). For the remaining 3 projects very variation occurs between performance for the 5 feature sets. Another factor of interest is that both acra and dagger had performed well for in the initial experiment using an \gls{swr} of 90. The other three projects which did not perform as well in this experiment also did not perform well at the given \gls{swr} value of 90.
+
+Finally for the third experiment the factor of \gls{os} was investigated. The best and the worst results were taken from the first experiment. \gls{os} was applied to using the same parameters as before. While some projects saw small improvements with the use of \gls{os}, others saw the performance reduce or stay the same. Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the any increase or decrease to the performance were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount.
+
 \section{Threats to Validity}
 \label{sec:threat_validity}
 
-This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all projects. A concerted effort was made to contrasting positive results for one project with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area. 
+This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all projects. A concerted effort was made to contrasting positive results for one project with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area.
 
-% TODO WRITE
+Each experiment was designed to attempt to provide a robust setup to measure accurately the performance of the approach given the changes to the current factor. The setup was designed to attempt to preventing the influence of other variables beyond the independent variable. The factors that may have had an influence on the experimental results are the third experiment only sampling the extremes (best and worst).
 
-%While only the extremes, best and worst, were tested further tests could be done to test more typical values.
+A major concern with the final experiment was that of the sampling of the best and worst results from the previous experiments to test the use of \gls{os}. While the results of the use of \gls{os} should not be discounted, only the sampling the extremes of the previous experiment may have limited the measurable impact of the use of \gls{os}. This experiment could be extended to test the middle performance or even test each trail from the previous experiments.
 
-
-
-
-
-
-
-
-
-
-
-
-%\section{Results}
-
-% TODO re-work this section
-% TODO most of this section is out of date and needs to be done.
-
-
-%%%%%%%%%%%%
-% This part is fine.
-
-% Ensure this doesn't overlap to much with the above section which discusses cross-validation.
-
-% TODO remove
-%Since the data set is split into four quarters, the category (of whether a method will be changed in the next 5 commits) is known for the first 3 quarters. The final quarter depending on the size the category is also known except for the changes that occur in the last 5 commits. Therefore at project testing data set can be extracted using the feature data and the category for each quarter (except for the last 5 commits of the 4th quarter). One extracted the model can be trained on one quarter at a time and tested on the following quarter.
-
-% \begin{table}
-% \begin{center}
-
-%     \begin{tabular}{|l|c|c|c|}
-%         \hline
-%         Project & Quarter 1 & Quarter 2 & Quarter 3 \\ \hline
-%         acra & 0.824 & 0.806 & 0.87   \\ \hline
-%         storm & 0.912 & 0.918 & 0.912 \\ \hline
-%         %fresco & 0.964 & 0.946 & 0.944 \\ \hline
-%     \end{tabular}
-%     \caption{Prediction accuracy with sample size of 100}
-%     \label{tab:test_signature_change_freq_100}
-% \end{center}
-
-% \end{table}
-
-% TODO remove the parts that are incorrect and add in more about the newer experiment results.
-%An experiment was run using the feature set of $\{signature, change_i, freq_{change}\}$. The test was run five times with a new random sample each time. The average prediction accuracy of each test was calculated for each project and is shown in \autoref{tab:test_signature_change_freq_100}. The results from the first project are rather standard as numerous other tests were done in order to attempt to find the best feature set for this particular data set. So the particular feature set used performed the best out of all the other feature sets tested. This is just one of the 18 other feature sets that were tested. Of those 19, 8 of them provided a training set which could not be separated and had $43\% \leq P_{accuracy} \leq 68\%$ with an average of $52.7\%$. These prediction scores are fairly abysmal providing on average a very slight advantage over a simple coin toss. Two more of 18 of candidate feature sets were ruled out because they also had a fairly low score of around $52\% \leq P_{accuracy} \leq 77\%$ and an average of $62.6\%$. Finally, the remaining candidate feature sets 8 of the 18 had an accuracy of $72\% \leq P_{accuracy} \leq 90\%$ with an average around $80.8\%$. 
-
-%The top 3 candidates feature sets were tested and proved to have fairly similar results. The set $\{signature, change_i, freq_{change}\}$ was the smallest feature set and also provided the best results and was selected to test on other repositories. This was to test whether the candidate feature set was generally usable or only worked for the test repository \textit{acra}. This feature set was then tested on other GitHub project repositories. The results for the tests involving the other projects are also shown in \autoref{tab:test_signature_change_freq_100}. While an effort was made to optimize the candidate feature set to perform the best on the \textit{acra} dataset the other project's perform even better.
-
-%In particular the project \textit{storm} has a very high prediction score and is much larger than the other two projects shown in \autoref{tab:project_summary}.
-
-%It should be noted that while the \gls{svm} model when trained with a random sample size of 100 performed well, when a sample size of 1000 was used the prediction accuracy was greatly reduced. It would seem that a smaller sample size may prove more helpful regardless of the size of the project. 
-
-% TODO create a table outlining the other combinations.
-
-%%%%%%%%%%%%%%%%%%
-
-%\subsubsection{Detrimental Features}
-
-% TODO rework this stuff, since some of this has been covered earlier on in the experiments section.
-% Also the results part has been redone so this part most likely needs it too.
-
-% TODO write about which features were tested and found to not benefit as part of the feature set.
-    % - e.g. committer, name.. 
-%While initially a larger set of features (the candidate features) was considered, early tests showed poor results and indicated that some of the features may be detrimental. This is not entirely surprising since an \gls{svm} is very dependent on the features fitting within specific requirements outlined earlier in \autoref{subsec:svm_prediction}. Some of the features appeared at first to be acceptable but with further testing and understanding proved to be determinant to the vector in training the model.
-
-%An incrementing unique integer, $commit_id$, was assigned to each commit. Initially this number was used as part of the candidate feature set. However further investigation determined $commit_id$ would only negatively affect the results. Given that each commit was provided a unique incrementing value only methods changed in the same commit would be given the same number. While this may seem initially useful tests showed the opposite. % TODO cite experimental data showing such.
-
-%Other candidate features that were tested more extensively also proved to have a poor effect on the \gls{svm} model. The candidate features that appeared to have a negative impact on the \gls{svm} model were $committer$, $change_{prev}$, $\Delta t$. The fact that these features had a negative impact does not necessary mean that they are unrelated to the changes that occur to methods. However, in conjunction with other candidate features the model created consistently made inaccurate predictions.
-
-%\subsubsection{Valuable Features}
-
-% While the previous candidate features performed poorly, candidate features $signature$, $change_i$, $freq_{change}$ and $name$ all were apart of feature sets that performed very well. 
-
-% $name$ was found to not have a large impact and slight detrimental impact on performance but while included still achieved a rather high prediction score. 
-
-%features $signature$, $change_i$ and $freq_{change}$
-% test_signature-change-freq sample size 100
-
-% TODO add histogram of work.
+The differences between the projects prevented a more direct comparison between the projects. Furthermore, as shown through the experiments, certain projects (acra, dagger) generally performed better than other projects (fresco, storm, deeplearning4j). This leads to the conclusion that certain project related factors have a large impact on the performance of the approach. Further investigation into these project specific factors could lead to improved results for the approach.
