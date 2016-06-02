@@ -838,8 +838,6 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 \subsection{Window Range Experiments}
 \label{sec:rf_swr_experiment}
 
-The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. Is the same as the first \gls{svm} experiment the candidate feature set.
-
 \begin{table}[h]
 \begin{center}
 
@@ -881,7 +879,7 @@ The independent variable for this set of experiments is the sample window size m
 
 \end{table}
 
-The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. Is the same as the first \gls{svm} experiment the candidate feature set.
 
 % \begin{figure}[h]
 %     \centering
@@ -905,6 +903,8 @@ The parameter for this experiment are outlined in \autoref{tab:rf_window_range_e
         \caption{\gls{swr} for acra using \gls{rf}}
         \label{fig:test_1_acra_rf}
 \end{figure}
+
+The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
 \begin{figure}[!ht]
     \centering
@@ -968,8 +968,6 @@ The results for the experiments with the independent variable sample window size
 
 %The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
-Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
-
 \begin{table}[h]
 \begin{center}
 
@@ -988,6 +986,8 @@ Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_expe
     \caption{Candidate Feature Sets}
     \label{tab:rf_feature_experiment_sets}
 \end{center}
+
+Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
 
 \end{table}
 
