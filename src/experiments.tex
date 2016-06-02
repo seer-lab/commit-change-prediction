@@ -821,7 +821,7 @@ The majority of the experiments there is little to no impact whether \gls{os} wa
 \subsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
-%TODO start consolidating the different experiments results and what they mean
+% TODO expand here a little more similar to that of rf discussions.
 The three different experiments attempted to determine the impact of the different factors on the prediction method. The three factors that were tested are:
 \begin{enumerate}
 \item \gls{swr}
@@ -854,16 +854,6 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 
 \end{table}
 
-%% TODO create a table to show this information.
-% Extend Window: No% Sample by Commit Range: Yes
-% Over Sampling: No
-% Under Sampling: Yes
-% Sample Rate: 100%
-% Window Offset: 5
-% SVM c: 10
-% SVM gamma: 8
-% SVM esp: 0.001
-
 \begin{table}[h]
 \begin{center}
 
@@ -879,7 +869,7 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 
 \end{table}
 
-The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. Is the same as the first \gls{svm} experiment the candidate feature set.
+The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. The features used for this experiment is the same as the first \gls{svm} experiment the candidate feature set.
 
 % \begin{figure}[h]
 %     \centering
@@ -904,7 +894,7 @@ The independent variable for this set of experiments is the sample window size m
         \label{fig:test_1_acra_rf}
 \end{figure}
 
-The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
+The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}.
 
 \begin{figure}[!ht]
     \centering
@@ -936,8 +926,9 @@ The parameter for this experiment are outlined in \autoref{tab:rf_window_range_e
     \label{fig:test_1_deeplearning4j_rf}
 \end{figure}
 
-The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. While the accuracy and precision were lower, the recall was very high.
-%TODO expand
+The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. For these projects the accuracy and precision were lower, the recall was very high.
+
+While acra had positive results several values of \gls{swr}, as the \gls{swr} increased the recall decreased as well. Both acra and dagger also had a larger variation in performance for accuracy and precision than the remaining three projects. The actual difference however was smaller with the largest variation of around $0.2$. The lack of a large variation for different values of \gls{swr} points to the independent variable not having as strong of impact on the performance. The variable is still useful to help provide a better result but is not the main contributer.
 
 \subsection{Feature Set Experiments}
 
@@ -955,16 +946,6 @@ The results for the experiments with the independent variable sample window size
 \end{center}
 
 \end{table}
-
-%% TODO create a table to show this information.
-% Extend Window: No% Sample by Commit Range: Yes
-% Over Sampling: No
-% Under Sampling: Yes
-% Sample Rate: 100%
-% Window Offset: 5
-% SVM c: 10
-% SVM gamma: 8
-% SVM esp: 0.001
 
 %The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
@@ -987,9 +968,9 @@ The results for the experiments with the independent variable sample window size
     \label{tab:rf_feature_experiment_sets}
 \end{center}
 
-Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
-
 \end{table}
+
+Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
 
 \begin{figure}[!t]
     \centering
@@ -1142,13 +1123,8 @@ The results for acra showed a slight improvement for both the best and worst cas
 
 While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
 
-
-% TODO reference how the over sampling is done.
-
 \subsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
-
-%TODO start consolidating the results here and what they mean
 
 The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, had positive results for the two smaller projects and lower performance for the remaining projects. The changes made to the \gls{swr} caused little variation between samples. Of course there were some exceptions, for example the recall for acra decreased at $80$, $100$ and $120$. Each drop was around $0.2$ and in total led to a fall of $0.8$. This should however not lessen the positive performance achieved especially in projects like acra.
 
