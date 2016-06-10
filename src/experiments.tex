@@ -273,7 +273,7 @@ Through investigating these factors a more clear picture of the performance of t
 %An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
 
 % TODO provide an actual start to this subsection
-The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the project the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
+The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the project the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{sec:prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
 
 %The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -308,7 +308,7 @@ The sliding window factor is one of core aspects related to extracting samples f
 
 \begin{figure}[!ht]
     \centering
-        %Generated from http://jsfiddle.net/dxxgjewj/2/
+        %Generated from http://jsfiddle.net/toufm01e/
         \includegraphics[width=1.0\textwidth]{images/exp_data_range}
     \caption{Sampling Window Layout}
     \label{fig:data_range}
