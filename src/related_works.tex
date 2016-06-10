@@ -1,6 +1,9 @@
 \chapter{Literature Review}
 \label{chap:related_works}
 
+% TODO provide an introduction
+% Lit Review, little summary at the beginning
+% - Problem centric, or technology centric explanation.
 
 \section{Data Mining}
 
@@ -71,12 +74,20 @@ A commit consists of files that have been changed, more specifically a list of \
 
 % TODO fix close
 
+
+\subsection{Visualization}
+
+Visualizations are often used to represent data to be more accessible to appealing for use. Rather than view large amounts of complex data a visualization can restrict the amount of information shown to prevent the user from being overwhelmed. Alternatively, a well designed visual representation of the data can retain information and represent it in a way that is more convenient. Visualizations are widely used throughout research to represent software evolution \cite{Bieman2003a, Collberg2003, Gall2006, Keim2002, Ma2008, Salamanca2009} and developer interactions \cite{DeSouza2007, Gilbert2007, Ma2008, Ogawa2010, Salamanca2009}.
+
+% TODO discuss the papers in further detail.
+Some of the visualizations attempt to focus on a particular aspect. However, by their very nature of evolution visualization the visualization attempts to showcase higher level information. Gall and Lanza discuss uses of project traits including the source code changes, release information and quality metrics to provide the necessary data for powerful visualizations. Similarly, Collberg, Kobourov, Nagra, Pitts and Wampler use CSV version control systems to visualize software evolution. A visualization is produced which provides a temporal element for development data. Another approach was to study visualize the change-proneness within the software project \cite{Bieman2003a}. Lanza, Ducasse, Gall and Pinzger present a high level visualization tool for object-oriented projects. Ogawa and Ma create a story view visualization for software projects with an summary of changes for each commit. The visualization can have issues with large amount of information available.
+
+Ogawa and Ma provide a expansive visualization which includes developer and source code interactions. Gonzalez, Theron, Telea and Garcia visualize a combination of software project metric and structural changes. Four designs are proposed to provide unique and complementary views. 
+
 \section{Machine Learning}
 
 % Rase, realizing software engineering learning
-Machine learning is a complex method for software algorithms to attempt to determine patterns within the data. One such problem example would be an algorithm to detect certain people within an image. For an individual such a task may seem trivial however for a software system to detect it is far more difficult. Algorithms that can determine patterns and mimic them from abstract set of data is useful when such patterns are extremely complex. There are numerous algorithms which apply machine learning approaches. Each approach has both advantages or disadvantages. Some examples of machine learning algorithms are \gls{svm}, \gls{rf} and \gls{ann}. The three provided examples are also commonly used for data mining \cite{Alam2013, Westland2011, Granitto2007, Huang2007, Jalbert2012, Yu2011} %TODO get some papers for svm and ann
-
-Bhattacharyya et al. provide a detailed description of \gls{rf} and \gls{svm}.
+Machine learning is a complex method for software algorithms to attempt to determine patterns within the data. One such problem example would be an algorithm to detect certain people within an image. For an individual such a task may seem trivial however for a software system to detect it is far more difficult. Algorithms that can determine patterns and mimic them from abstract set of data is useful when such patterns are extremely complex. There are numerous algorithms which apply machine learning approaches. Each approach has both advantages or disadvantages. Some examples of machine learning algorithms are \gls{svm}, \gls{rf} and \gls{ann}. The three provided examples are also commonly used for data mining \cite{Alam2013, Westland2011, Granitto2007, Huang2007, Jalbert2012, Yu2011}. Bhattacharyya et al. provide a detailed description of \gls{rf} and \gls{svm}.
 
 \subsection{Support Vector Machines}
 \label{subsec:svm_prediction}

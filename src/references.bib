@@ -1,238 +1,488 @@
-@article{Ying2004,
-abstract = {Software developers are often faced with modification tasks that involve source which is spread across a code base. Some dependencies between source code, such as those between source code written in different languages, are difficult to determine using existing static and dynamic analyses. To augment existing analyses and to help developers identify relevant source code during a modification task, we have developed an approach that applies data mining techniques to determine change patterns - sets of files that were changed together frequently in the past - from the change history of the code base. Our hypothesis is that the change patterns can be used to recommend potentially relevant source code to a developer performing a modification task. We show that this approach can reveal valuable dependencies by applying the approach to the Eclipse and Mozilla open source projects and by evaluating the predictability and interestingness of the recommendations produced for actual modification tasks on these systems.},
-author = {Ying, Annie T T and Murphy, Gail C. and Ng, Raymond and Chu-Carroll, Mark C.},
-doi = {10.1109/TSE.2004.52},
-isbn = {0098-5589 VO - 30},
-issn = {00985589},
-journal = {IEEE Transactions on Software Engineering},
-number = {9},
-pages = {574--586},
-title = {{Predicting Source Code Changes by Mining Change History}},
-url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1324645},
-volume = {30},
-year = {2004}
+
+@inproceedings{Alam2013,
+author = {Alam, Mohammed S and Vuong, Son T},
+booktitle = {Proceedings of the Green Computing and Communications, IEEE Internet of Things, IEEE Cyber, Physical and Social Computing},
+doi = {10.1109/GreenCom-iThings-CPSCom.2013.122},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/random{\_}forest/Random Forest Classification for Detecting Android06682136.pdf:pdf},
+isbn = {9780769550466},
+mendeley-groups = {thesis/random{\_}forest},
+pages = {663--669},
+title = {{Random Forest Classification for Detecting Android Malware}},
+year = {2013}
 }
 
-@inproceedings{Kagdi2007,
-abstract = {The paper advocates the need for the investigation and development of a software-change prediction methodology that combines the change sets estimated from software dependency analysis (via single-version analysis) and the actual change sets found in software version histories (via multiple-version analysis). Traditionally prescribed methodologies such as Impact Analysis (IA) are based on the former, whereas a more recent methodology, mining software repository (MSR), is based on the latter. The research hypothesis is that combining these two methodologies will result in an overall improved support for software-change prediction.},
-author = {Kagdi, Huzefa and Maletic, Jonathan I.},
-booktitle = {ICSE 2007 Workshops: Fourth International Workshop on Mining Software Repositories, MSR 2007},
-doi = {10.1109/MSR.2007.2},
-isbn = {076952950X},
-title = {{Combining Single-Version and Evolutionary Dependencies for Software-Change Prediction}},
-year = {2007}
-}
 
-@inproceedings{Hassan2004,
-abstract = {Software systems contain entities, such as functions and variables, which are related to each other. As a software system evolves to accommodate new features and repair bugs, changes occur to these entities. Developers must ensure that related entities are updated to be consistent with these changes. This paper addresses the question: How does a change in one source code entity propagate to other entities? We propose several heuristics to predict change propagation. We present a framework to measure the performance of our proposed heuristics. We validate our results empirically using data obtained by analyzing the development history for five large open source software systems.},
-author = {Hassan, Ahmed E. and Holt, Richard C.},
-booktitle = {IEEE International Conference on Software Maintenance, ICSM},
-doi = {10.1109/ICSM.2004.1357812},
-isbn = {0-7695-2213-0},
-issn = {1063-6773},
-pages = {284--293},
-title = {{Predicting Change Propagation in Software Systems}},
-year = {2004}
+@Article{	  anton2013,
+  author	= {Ant{\'{o}}n, Juan Carlos {\'{A}}lvarez and Nieto, Paulino
+		  Jos{\'{e}} Garc{\'{i}}a and Viejo, Cecilio Blanco and
+		  Vil{\'{a}}n, Jos{\'{e}} Antonio Vil{\'{a}}n},
+  doi		= {10.1109/TPEL.2013.2243918},
+  journal	= {IEEE Transactions on Power Electronics},
+  number	= {12},
+  pages		= {5919 -- 5926},
+  title		= {{Support Vector Machines Used to Estimate the Battery
+		  State of Charge}},
+  volume	= {28},
+  year		= {2013}
 }
 
 @inproceedings{Bantelay2013,
 author = {Bantelay, Fasil and Zanjani, Motahareh Bahrami and Kagdi, Huzefa},
-booktitle = {Working Conference on Reverse Engineering, WCRE},
+booktitle = {Proceedings of the Working Conference on Reverse Engineering, WCRE},
 doi = {10.1109/WCRE.2013.6671306},
 file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Bantelay, Zanjani, Kagdi - 2013 - Comparing and combining evolutionary couplings from interactions and commits.pdf:pdf},
 isbn = {9781479929313},
 issn = {10951350},
 keywords = {Commit History,Evolutionary Couplings,Interaction History,Mining Software Repositories,Mylyn},
+mendeley-groups = {thesis/Prediction/Change},
 pages = {311--320},
-title = {{Comparing and Combining Evolutionary Couplings from Enteractions and Commits}},
+title = {{Comparing and combining evolutionary couplings from interactions and commits}},
 year = {2013}
-}
-
-@article{Jalbert2012,
-author = {Jalbert, Kevin and Bradbury, Jeremy S.},
-doi = {10.1109/RAISE.2012.6227969},
-file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Jalbert, Bradbury - 2012 - Predicting mutation score using source code and test suite metrics.pdf:pdf},
-isbn = {978-1-4673-1753-5},
-journal = {2012 First International Workshop on Realizing AI Synergies in Software Engineering (RAISE)},
-month = {jun},
-pages = {42--46},
-publisher = {Ieee},
-title = {{Predicting Mutation Score Using Source Code and Test Suite Metrics}},
-url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6227969},
-year = {2012}
-}
-
-@article{Maletic2004,
-abstract = { The paper describes an approach to easily conduct analysis of source-code differences. The approach is termed meta-differencing to reflect the fact that additional knowledge of the differences can be automatically derived. Meta-differencing is supported by an underlying source-code representation developed by the authors. The representation, srcML, is an XML format that explicitly embeds abstract syntax within the source code while preserving the documentary structure as dictated by the developer. XML tools are leveraged together with standard differencing utilities (i.e., diff,) to generate a meta-difference. The meta-difference is also represented in an XML format called srcDiff. The meta-difference contains specific syntactic information regarding the source-code changes. In turn this can be queried and searched with XML tools for the purpose of extracting information about the specifics of the changes. A case study of using the meta-differencing approach on an open-source system is presented to demonstrate its usefulness and validity.},
-author = {Maletic, Jonathan I. and Collard, Michael L.},
-doi = {10.1109/ICSM.2004.1357805},
-isbn = {0-7695-2213-0},
-issn = {1063-6773},
-journal = {IEEE International Conference on Software Maintenance, ICSM},
-pages = {210--219},
-title = {{Supporting Source Code Difference Analysis}},
-year = {2004}
 }
 
 @inproceedings{Bieman2003,
 abstract = {During software evolution, adaptive, and corrective maintenance are common reasons for changes. Often such changes cluster around key components. It is therefore important to analyze the frequency of changes to individual classes, but, more importantly, to also identify and show related changes in multiple classes. Frequent changes in clusters of classes may be due to their importance, due to the underlying architecture or due to chronic problems. Knowing where those change-prone clusters are can help focus attention, identify targets for re-engineering and thus provide product-based information to steer maintenance processes. This paper describes a method to identify and visualize classes and class interactions that are the most change-prone. The method was applied to a commercial embedded, real-time software system. It is object-oriented software that was developed using design patterns.},
 annote = {The authors of this paper attempt to look at the change-proneness of object oriented projects. The authors specifically look at the frequency of change to a specific class and the related change between classes. This collected information can be used to identify groups that are change prone. The authors propose visualization of these change prone groupings make the information more accessible to interested parties. The coupled changes are the focus since the authors reason that they are more important to know about then just classes that are change prone. The relevance of this paper is based off the focus on change within the collected data and leveraging that data provide deeper insight into a software project.},
 author = {Bieman, J.M. and Andrews, A.A. and Yang, H.J.},
-booktitle = {2003 International Symposium on Micromechatronics and Human Science},
+booktitle = {Proceedings of the 2003 International Symposium on Micromechatronics and Human Science},
 doi = {10.1109/WPC.2003.1199188},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Bieman, Andrews, Yang - 2003 - Understanding change-proneness in OO software through visualization.pdf:pdf},
 isbn = {0-7695-1883-4},
 issn = {1092-8138},
 keywords = {Computer science,Data analysis,Frequency,OO software understanding,Pattern analysis,Programming,Quality assurance,Real time systems,Software maintenance,Software systems,Visualization,change frequency,change-proneness,class clusters,class interactions,configuration management,design patterns,embedded real-time software system,embedded systems,maintenance processes,object-oriented programming,object-oriented software,product-based information,program visualisation,re-engineering,software evolution,software maintenance,software prototyping,software visualization,systems re-engineering},
 pages = {44--53},
 pmid = {7898557},
-title = {{Understanding Change-proneness in OO Software through Visualization}},
+title = {{Understanding change-proneness in OO software through visualization}},
 url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1199188},
 year = {2003}
 }
 
-@article{Canfora2007c,
+@Article{	  burbidge2001,
+  author	= {Burbidge, R and Trotter, M and Buxton, B and Holden, S},
+  journal	= {Computers and Chemistry},
+  keywords	= {activity relationship analysis,cheminformatics,machine
+		  learning,model selection,structure,support vector
+		  machines},
+  number	= {1},
+  pages		= {5 -- 14},
+  title		= {{Drug design by machine learning : support vector machines
+		  for pharmaceutical data analysis}},
+  volume	= {26},
+  year		= {2001}
+}
+
+/* Not in biblography because of no citation */
+@inproceedings{Canfora2007c,
 abstract = {Observing the evolution of software systems at different levels of granularity has been a key issue for a number of studies, aiming at predicting defects or at studying certain phenomena, such as the presence of clones or of crosscutting concerns. Versioning systems such as CVS and SVN, however, only provide information about lines added or deleted by a contributor: any change is shown as a sequence of additions and deletions. This provides an erroneous estimate of the amount of code changed. This paper shows how the evolution of changes at source code line level can be inferred from CVS repositories, by combining information retrieval techniques and the Levenshtein edit distance. The application of the proposed approach to the ArgoUML case study indicates a high precision and recall.},
 annote = {The authors propose a method for extracting more precise change measures for a version history repository. These version history repositories (CVS, SVN) are contain the source code and track the changes applied to the source code project to help developers manage the change of the project. These changes are measured in lines of additions and deletions. Through the use of information retrieval technique the authors attempt to sub-classify the lines of additions and deletions into 3 new categories; new code, deleted code, and changed code. The new code is classified as code with no relation to code previously deleted within the project. Deleted code is the opposite, code which has no relation to code that is newly added. Finally, the changed code is the remainder, code deleted or added with a relationship to code added or deleted respectively. The authors define this relationship as the textual similarity between the two lines. The techniques to measure this similarity are cosine similarity followed by Levensteins edit distance. A case study is conducted on the open source Java project ArgoUML which makes use of CVS. The authors suggest that this work can be used towards software development research in the following areas: clones evolution, crosscutting concerns evolution, effort estimation, software evolution studies. The method the authors propose for determining the actual change between version of a software project within a version control system is directly relevant. Our makes use of part of this approach and attempts to apply it towards comments as well as source code.},
 author = {Canfora, Gerardo and Cerulo, Luigi and {Di Penta}, Massimiliano},
+booktitle = {Proceedings of the 4th International Workshop on Mining Software Repositories, MSR 2007},
 doi = {10.1109/MSR.2007.14},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Canfora, Cerulo, Di Penta - 2007 - Identifying changed source code lines from version repositories.pdf:pdf},
 isbn = {076952950X},
-journal = {ICSE 2007 Workshops: Fourth International Workshop on Mining Software Repositories, MSR 2007},
-title = {{Identifying Changed Source Code Lines from Version Repositories}},
+pages = {14 -- 22},
+title = {{Identifying changed source code lines from version repositories}},
 year = {2007}
+}
+
+@Article{	  chaturvedi2014,
+  author	= {Chaturvedi, K. K. and Kapur, P. K. and Anand, Sameer and
+		  Singh, V. B.},
+  doi		= {10.1007/s13198-014-0226-5},
+  isbn		= {1319801402265},
+  issn		= {0975-6809},
+  journal	= {International Journal of System Assurance Engineering and
+		  Management},
+  keywords	= {complexity {\'{a}},entropy {\'{a}} software
+		  change,repositories {\'{a}} open source,software,software
+		  configuration management {\'{a}}},
+  number	= {2},
+  pages		= {155--164},
+  title		= {{Predicting the complexity of code changes using entropy
+		  based measures}},
+  url		= {http://link.springer.com/10.1007/s13198-014-0226-5},
+  volume	= {5},
+  year		= {2014}
+}
+
+@inproceedings{Dit2013,
+abstract = {Approaches that support software maintenance need to be evaluated and compared against existing ones, in order to demonstrate their usefulness in practice. However, oftentimes the lack of well-established sets of benchmarks leads to situations where these approaches are evaluated using different datasets, which results in biased comparisons. In this data paper we describe and make publicly available a set of benchmarks from six Java applications, which can be used in the evaluation of various software engineering (SE) tasks, such as feature location and impact analysis. These datasets consist of textual description of change requests, the locations in the source code where they were implemented, and execution traces. Four of the benchmarks were already used in several SE research papers, and two of them are new. In addition, we describe in detail the methodology used for generating these benchmarks and provide a suite of tools in order to encourage other researchers to validate our datasets and generate new benchmarks for other subject software systems. Our online appendix: http://www.cs.wm.edu/semeru/data/msr13/ {\textcopyright} 2013 IEEE.},
+author = {Dit, Bogdan and Holtzhauer, Andrew and Poshyvanyk, Denys and Kagdi, Huzefa},
+booktitle = {Proceedings of the 10th Working Conference on Mining Software Repositories},
+doi = {10.1109/MSR.2013.6624019},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Dit et al. - 2013 - A dataset from change history to support evaluation of software maintenance tasks.pdf:pdf},
+isbn = {9781467329361},
+issn = {21601852},
+keywords = {Datasets,Feature location,Generate benchmarks,Impact analysis},
+mendeley-groups = {thesis/Prediction/Change},
+pages = {131--134},
+title = {{A dataset from change history to support evaluation of software maintenance tasks}},
+year = {2013}
+}
+
+
+@Article{	  erturk2015,
+  author	= {Erturk, Ezgi and Akcapinar, Ebru},
+  doi		= {10.1016/j.eswa.2014.10.025},
+  issn		= {0957-4174},
+  journal	= {Expert Systems with Applications},
+  keywords	= {software fault prediction},
+  number	= {4},
+  pages		= {1872--1879},
+  publisher	= {Elsevier Ltd},
+  title		= {{A comparison of some soft computing methods for software
+		  fault prediction}},
+  url		= {http://dx.doi.org/10.1016/j.eswa.2014.10.025},
+  volume	= {42},
+  year		= {2015}
 }
 
 @inproceedings{Giger2012,
 abstract = {There exist many approaches that help in pointing developers to the change-prone parts of a software system. Although beneficial, they mostly fall short in providing details of these changes. Fine-grained source code changes (SCC) capture such detailed code changes and their semantics on the statement level. These SCC can be condition changes, interface modifications, inserts or deletions of methods and attributes, or other kinds of statement changes. In this paper, we explore prediction models for whether a source file will be affected by a certain type of SCC. These predictions are computed on the static source code dependency graph and use social network centrality measures and object-oriented metrics. For that, we use change data of the Eclipse platform and the Azureus 3 project. The results show that Neural Network models can predict categories of SCC types. Furthermore, our models can output a list of the potentially change-prone files ranked according to their change-proneness, overall and per change type category.},
 annote = {Research into change proneness often focuses on the prediction of change prone elements on the level of a class or file. The authors of this paper propose a method for predicting fine-grained source code changes (SCC). The method would attempt to predict source code changes on the statement level. The authors leverage data collected from version control software. Also rather then looking at the syntactical changes the authors define change based on a semantic change. The authors analyze 19 Eclipse projects and the Azureus 3 Project. The authors find that Object oriented metrics and centrality measures are positively correlated for SCC and therefore can be used to predict SCC. This research is related since the paper takes another approach using change metrics towards prediction.},
 author = {Giger, Emanuel and Pinzger, Martin and Gall, Harald C.},
-booktitle = {IEEE International Working Conference on Mining Software Repositories},
+booktitle = {Proceedings of the 9th IEEE Working Conference on Mining Software Repositories (MSR), 2012},
 doi = {10.1109/MSR.2012.6224284},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Giger, Pinzger, Gall - 2012 - Can we predict types of code changes An empirical analysis.pdf:pdf},
 isbn = {9781467317610},
 issn = {21601852},
 keywords = {Machine Learning,Software maintenance,Software quality},
 pages = {217--226},
-title = {{Can We Predict Types of Code Changes? An Empirical Analysis}},
+title = {{Can we predict types of code changes? An empirical analysis}},
 year = {2012}
 }
 
-@inproceedings{Hemmati2013,
-abstract = {The Mining Software Repositories (MSR) research community has grown significantly since the first MSR workshop was held in 2004. As the community continues to broaden its scope and deepens its expertise, it is worthwhile to reflect on the best practices that our community has developed over the past decade of research. We identify these best practices by surveying past MSR conferences and workshops. To that end, we review all 117 full papers published in the MSR proceedings between 2004 and 2012. We extract 268 comments from these papers, and categorize them using a grounded theory methodology. From this evaluation, four high-level themes were identified: data acquisition and preparation, synthesis, analysis, and sharing/replication. Within each theme we identify several common recommendations, and also examine how these recommendations have evolved over the past decade. In an effort to make this survey a living artifact, we also provide a public forum that contains the extracted recommendations in the hopes that the MSR community can engage in a continuing discussion on our evolving best practices. © 2013 IEEE.},
-annote = {This paper is a survey papers of for the conference of Mining Software Repositories. The authors discuss the current state of the art for collecting data from version control systems (software repositories). Also, the authors provide some key highlights which are designed to help researchers who are newer to the field of mining software repositories (MSR). The process of mining software repositories is broken down into 4 phases; data acquisition and preparation, synthesis, analysis, and sharing/replication. The authors note that a lot of the research in the past has focused on the first phase of acquisition and preparation. However, they also note that the current trend for papers is towards the later phases (synthesis and analysis). The authors suggest this as a good sign for the research community of MSR since it shows a progression maturity within the community. This paper is relevant to my research since it provides a state of the art of mining software repositories.},
-author = {Hemmati, Hadi and Nadi, Sarah and Baysal, Olga and Kononenko, Oleksii and Wang, Wei and Holmes, Reid and Godfrey, Michael W.},
-booktitle = {IEEE International Working Conference on Mining Software Repositories},
-doi = {10.1109/MSR.2013.6624048},
-isbn = {9781467329361},
-issn = {21601852},
-pages = {343--352},
-title = {{The MSR Cookbook: Mining a Decade of Research}},
-year = {2013}
+
+@Article{	  gondra2008,
+  author	= {Gondra, Iker},
+  doi		= {10.1016/j.jss.2007.05.035},
+  journal	= {Journal of Systems and Software},
+  keywords	= {fault-proneness,machine learning,neural
+		  network,sensitivity analysis,software metrics,software
+		  testing,support vector machine},
+  number	= {2},
+  pages		= {186--195},
+  title		= {{Applying machine learning to software fault-proneness
+		  prediction}},
+  volume	= {81},
+  year		= {2008}
 }
 
-@inproceedings{Wilkerson2012,
-abstract = {Source code changes can have ripple-effects that result in unchanged source code elements producing different results than they would have produced before the changes. This paper proposes a taxonomy of the types of impacts that can result from source code changes in both procedural and object-oriented code. The taxonomy is extensible by creating additional sub-types of the types proposed. The proposed taxonomy is based on an analysis of existing change impact analysis algorithms and provides a basis for classifying change impact analysis algorithms by the types of impacts they identify.},
-annote = {Changes within a project may require other changes in a project which can cause a so called 'ripple effect'. The author of this paper attempts to classify types of impacts that are caused by source code change towards create a taxonomy of these types of impacts. The author takes into account procedural and object oriented programs. The proposed method makes use of an impact analysis algorithm which determines the impact of a specific source code change. This relevance of this paper is based on the change analysis and the classification of impacts a source code change may have.},
-author = {Wilkerson, Jerod W.},
-booktitle = {IEEE International Conference on Software Maintenance, ICSM},
-doi = {10.1109/ICSM.2012.6405338},
-isbn = {9781467323123},
-issn = {1063-6773},
-keywords = {change impact,software change types,taxonomy},
-pages = {625--628},
-title = {{A Software Change Impact Analysis Taxonomy}},
-year = {2012}
-}
-
-@article{Zimmermann2005a,
-abstract = {We apply data mining to version histories in order to guide programmers along related changes: "Programmers who changed these functions also changed...." Given a set of existing changes, the mined association rules 1) suggest and predict likely further changes, 2) show up item coupling that is undetectable by program analysis, and 3) can prevent errors due to incomplete changes. After an initial change, our ROSE prototype can correctly predict further locations to be changed; the best predictive power is obtained for changes to existing software. In our evaluation based on the history of eight popular open source projects, ROSE's topmost three suggestions contained a correct location with a likelihood of more than 70 percent.},
-annote = {The authors mining a version history system to identify change couplings. When changes are made to one set of code another set of code is also changed. The authors attempt to leverage this collected information to suggest and predict likely further changes, detect couplings that are undetectable by a program analysis so called change couplings, prevent errors due to incomplete changes. Created a tool called ROSE which attempts to accomplish the mentioned goals. In order to validate their tool they applied it to 8 open source projects. The tool tends to only produce meaningful results during the maintenance phases of the project (when development is more stable). This research is directly relevant since it uses changes to detect relationships and predict errors based off of incorrect changes.},
-author = {Zimmermann, Thomas and Wei{\ss}gerber, Peter and Diehl, Stephan and Zeller, Andreas},
-doi = {10.1109/TSE.2005.72},
-isbn = {0-7695-2163-0},
-issn = {00985589},
-journal = {IEEE Transactions on Software Engineering},
-keywords = {Association rules,Classification,Clustering,Configuration management,Data mining,Distribution,Enhancement,Maintenance,Programming environments/construction tools},
-number = {6},
-pages = {429--445},
-pmid = {8065261},
-title = {{Mining Version Histories to Guide Software Changes}},
-volume = {31},
-year = {2005}
-}
-
-@article{Chaturvedi2014,
-author = {Chaturvedi, K. K. and Kapur, P. K. and Anand, Sameer and Singh, V. B.},
-doi = {10.1007/s13198-014-0226-5},
-isbn = {1319801402265},
-issn = {0975-6809},
-journal = {International Journal of System Assurance Engineering and Management},
-keywords = {complexity {\'{a}},entropy {\'{a}} software change,repositories {\'{a}} open source,software,software configuration management {\'{a}}},
-number = {2},
-pages = {155--164},
-title = {{Predicting the complexity of code changes using entropy based measures}},
-url = {http://link.springer.com/10.1007/s13198-014-0226-5},
-volume = {5},
+@inproceedings{Gousios2014,
+author = {Gousios, Georgios and Pinzger, Martin and Deursen, Arie Van},
+booktitle = {Proceedings of the 36th International Conference on Software Engineering},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/github/An Exploratory Study of the Pull-based Software Development Model.pdf:pdf},
+keywords = {distributed software develop-,empirical software engineering,ment,pull request,pull-based development},
+mendeley-groups = {thesis/read},
+pages = {345--355},
+title = {{An Exploratory Study of the Pull-based Software Development Model}},
 year = {2014}
 }
 
-@inproceedings{Moser2008,
-abstract = {In this paper we present a comparative analysis of the predictive power of two different sets of metrics for defect prediction. We choose one set of product related and one set of process related software metrics and use them for classifying Java files of the Eclipse project as defective respective defect-free. Classification models are built using three common machine learners: logistic regression, naive Bayes, and decision trees. To allow different costs for prediction errors we perform cost-sensitive classification, which proves to be very successful: {\&}amp;gt;75{\%} percentage of correctly classified files, a recall of {\&}amp;gt;80{\%}, and a false positive rate {\&}amp;lt;30{\%}. Results indicate that for the Eclipse data, process metrics are more efficient defect predictors than code metrics.},
-author = {Moser, R. and Pedrycz, W. and Succi, G.},
-booktitle = {2008 ACM/IEEE 30th International Conference on Software Engineering},
-doi = {10.1145/1368088.1368114},
-isbn = {978-1-60558-079-1},
-issn = {0270-5257},
-keywords = {cost-sensitive classification,defect prediction,software metrics},
-pages = {181--190},
-title = {{A Comparative Analysis of the Efficiency of Change Metrics and Static Code Attributes for Defect Prediction}},
-year = {2008}
+
+@article{Granitto2007,
+author = {Granitto, Pablo M and Gasperi, Flavia and Biasioli, Franco and Furlanello, Cesare},
+doi = {10.1016/j.foodqual.2006.11.001},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/random{\_}forest/Graanitto et al. FQAP Volume 18, Issue 4, June 2007, Pages 681-689.pdf:pdf},
+journal = {Food Quality and Preference},
+keywords = {cheese,discriminant analysis,random forest,sensory attributes,variable selection},
+mendeley-groups = {thesis/random{\_}forest},
+number = {4},
+pages = {681--689},
+title = {{Modern data mining tools in descriptive sensory analysis: A case study with a Random forest approach}},
+volume = {18},
+year = {2007}
 }
 
-@article{Thwin2005,
-abstract = {This paper presents the application of neural networks in software quality estimation using object-oriented metrics. In this paper, two kinds of investigation are performed. The first on predicting the number of defects in a class and the second on predicting the number of lines changed per class. Two neural network models are used, they are Ward neural network and General Regression neural network (GRNN). Object-oriented design metrics concerning inheritance related measures, complexity measures, cohesion measures, coupling measures and memory allocation measures are used as the independent variables. GRNN network model is found to predict more accurately than Ward network model.},
-author = {Thwin, Mie Mie Thet and Quah, Tong-Seng},
-doi = {10.1016/j.jss.2004.05.001},
+
+@article{GunesKoru2007,
+abstract = {Developing and maintaining open-source software has become an important source of profit for many companies. Change-prone classes in open-source products increase project costs by requiring developers to spend effort and time. Identifying and characterizing change-prone classes can enable developers to focus timely preventive actions, for example, peer-reviews and inspections, on the classes with similar characteristics in the future releases or products. In this study, we collected a set of static metrics and change data at class level from two open-source projects, KOffice and Mozilla. Using these data, we first tested and validated Pareto's Law which implies that a great majority (around 80{\%}) of change is rooted in a small proportion (around 20{\%}) of classes. Then, we identified and characterized the change-prone classes in the two products by producing tree-based models. In addition, using tree-based models, we suggested a prioritization strategy to use project resources for focused preventive actions in an efficient manner. Our empirical results showed that this strategy was effective for prioritization purposes. This study should provide useful guidance to practitioners involved in development and maintenance of large-scale open-source products. ?? 2006 Elsevier Inc. All rights reserved.},
+annote = {Identifying change-prone characteristics is a common area of research for researchers mining software repositories. Identifying and then classifying classes in object orientated programming which are change prone can lead to a more focused fix to these potentially bug prone classes. Change proneness often has a strong relation to bugs introduced into the program. The authors attempt to localize the likelihood of change to the class level. Also, the authors attempt to validate Pareto's Law for open source projects, majority of the changes occur within a small portion of the source code. The metrics they collected in order to identify change prone classes were static metrics, and change data. Once the change prone classes are identified they are then classified based on a tree model which is constructed for each project. The authors conducted a case study on two larger open source projects, Mozilla and KOffice, which made use of CVS for their version control system. For the two given projects Pareto's Law held and the classification scheme was constructed. The paper is relevant since it attempts to identify change prone sections in the project and then prioritize them.},
+author = {{G{\"{u}}neş Koru}, A. and Liu, Hongfang},
+doi = {10.1016/j.jss.2006.05.017},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/G{\"{u}}necs Koru, Liu - 2007 - Identifying and characterizing change-prone classes in two large-scale open-source products.pdf:pdf},
 isbn = {0164-1212},
 issn = {01641212},
 journal = {Journal of Systems and Software},
-number = {2},
-pages = {147--156},
-title = {{Application of neural networks for software quality prediction using object-oriented metrics}},
-volume = {76},
-year = {2005}
+keywords = {Change-prone classes,Object-oriented programming,Open-source development,Software maintenance,Static metrics},
+number = {1},
+pages = {63--73},
+title = {{Identifying and characterizing change-prone classes in two large-scale open-source products}},
+volume = {80},
+year = {2007}
 }
 
-@inproceedings{Dit2013,
-abstract = {Approaches that support software maintenance need to be evaluated and compared against existing ones, in order to demonstrate their usefulness in practice. However, oftentimes the lack of well-established sets of benchmarks leads to situations where these approaches are evaluated using different datasets, which results in biased comparisons. In this data paper we describe and make publicly available a set of benchmarks from six Java applications, which can be used in the evaluation of various software engineering (SE) tasks, such as feature location and impact analysis. These datasets consist of textual description of change requests, the locations in the source code where they were implemented, and execution traces. Four of the benchmarks were already used in several SE research papers, and two of them are new. In addition, we describe in detail the methodology used for generating these benchmarks and provide a suite of tools in order to encourage other researchers to validate our datasets and generate new benchmarks for other subject software systems. Our online appendix: http://www.cs.wm.edu/semeru/data/msr13/ © 2013 IEEE.},
-author = {Dit, Bogdan and Holtzhauer, Andrew and Poshyvanyk, Denys and Kagdi, Huzefa},
-booktitle = {IEEE International Working Conference on Mining Software Repositories},
-doi = {10.1109/MSR.2013.6624019},
+
+@inproceedings{Guo2004,
+author = {Guo, Lan and Ma, Yan and Cukic, Bojan and Singh, Harshinder},
+booktitle = {Proceedings of the 15th International Symposium on Software Reliability Engineering, 2004},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/random{\_}forest/Robust Prediction of Fault-Proneness by Random Forests.pdf:pdf},
+mendeley-groups = {thesis/random{\_}forest},
+pages = {417--428},
+title = {{Robust Prediction of Fault-Proneness by Random Forests}},
+year = {2004}
+}
+
+
+@inproceedings{Hassan2004,
+abstract = {Software systems contain entities, such as functions and variables, which are related to each other. As a software system evolves to accommodate new features and repair bugs, changes occur to these entities. Developers must ensure that related entities are updated to be consistent with these changes. This paper addresses the question: How does a change in one source code entity propagate to other entities? We propose several heuristics to predict change propagation. We present a framework to measure the performance of our proposed heuristics. We validate our results empirically using data obtained by analyzing the development history for five large open source software systems.},
+author = {Hassan, Ahmed E. and Holt, Richard C.},
+booktitle = {20th IEEE International Conference on Software Maintenance, 2004},
+doi = {10.1109/ICSM.2004.1357812},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Hassan, Holt - 2004 - Predicting change propagation in software systems.pdf:pdf},
+isbn = {0-7695-2213-0},
+issn = {1063-6773},
+mendeley-groups = {thesis/Prediction/Change},
+pages = {284--293},
+title = {{Predicting change propagation in software systems}},
+year = {2004}
+}
+
+
+@inproceedings{Hassan2006,
+abstract = {Software repositories (such as source control repositories) contain a wealth of valuable information regarding the evolutionary history of a software project. This paper presents approaches and tools which mine and transform static record keeping software repositories to active repositories used by researchers to gain empirically based understanding of software development, and by practitioners to predict, plan and understand various aspects of their project. Our work is validated empirically using data based on over 60 years of development history for several open source projects},
+annote = {The author proposes several methods for converting static records of a software repository into an active repository. With the active repository researchers can gain further insight into the specific project. By organizing this data the into one site the developers or research may predict, plan or understand the project further. As part of the organization of the data collected from the evolution of a project the author proposes several heuristics. Metrics that can be used to classify and then rank bugs based on importance. Also, for project development when a high amount of change within a short period occurs the likelihood of bugs increases.},
+author = {Hassan, Ahmed E.},
+booktitle = {Proceedings of the 22nd IEEE International Conference on Software Maintenance},
+doi = {10.1109/ICSM.2006.38},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Hassan - 2006 - Mining software repositories to assist developers and support managers.pdf:pdf},
+isbn = {0769523544},
+issn = {1063-6773},
+pages = {339--342},
+title = {{Mining software repositories to assist developers and support managers}},
+year = {2006}
+}
+
+
+@inproceedings{Hemmati2013,
+abstract = {The Mining Software Repositories (MSR) research community has grown significantly since the first MSR workshop was held in 2004. As the community continues to broaden its scope and deepens its expertise, it is worthwhile to reflect on the best practices that our community has developed over the past decade of research. We identify these best practices by surveying past MSR conferences and workshops. To that end, we review all 117 full papers published in the MSR proceedings between 2004 and 2012. We extract 268 comments from these papers, and categorize them using a grounded theory methodology. From this evaluation, four high-level themes were identified: data acquisition and preparation, synthesis, analysis, and sharing/replication. Within each theme we identify several common recommendations, and also examine how these recommendations have evolved over the past decade. In an effort to make this survey a living artifact, we also provide a public forum that contains the extracted recommendations in the hopes that the MSR community can engage in a continuing discussion on our evolving best practices. {\textcopyright} 2013 IEEE.},
+annote = {This paper is a survey papers of for the conference of Mining Software Repositories. The authors discuss the current state of the art for collecting data from version control systems (software repositories). Also, the authors provide some key highlights which are designed to help researchers who are newer to the field of mining software repositories (MSR). The process of mining software repositories is broken down into 4 phases; data acquisition and preparation, synthesis, analysis, and sharing/replication. The authors note that a lot of the research in the past has focused on the first phase of acquisition and preparation. However, they also note that the current trend for papers is towards the later phases (synthesis and analysis). The authors suggest this as a good sign for the research community of MSR since it shows a progression maturity within the community. This paper is relevant to my research since it provides a state of the art of mining software repositories.},
+author = {Hemmati, Hadi and Nadi, Sarah and Baysal, Olga and Kononenko, Oleksii and Wang, Wei and Holmes, Reid and Godfrey, Michael W.},
+booktitle = {Proceedings of the 10th Working Conference on Mining Software Repositories},
+doi = {10.1109/MSR.2013.6624048},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Hemmati et al. - 2013 - The MSR cookbook Mining a decade of research.pdf:pdf},
 isbn = {9781467329361},
 issn = {21601852},
-keywords = {Datasets,Feature location,Generate benchmarks,Impact analysis},
-pages = {131--134},
-title = {{A Dataset from Change History to Support Evaluation of Software Maintenance Tasks}},
+pages = {343--352},
+title = {{The MSR cookbook: Mining a decade of research}},
 year = {2013}
 }
 
-@article{Snipes2011,
-abstract = {Commercial software development teams have limited time available to focus on improvements to their software. These teams need a way to quickly identify areas of the source code that would benefit from improvement, as well as quantifiable data to defend the selected improvements to management. Past research has shown that mining configuration management systems for change information can be useful in determining faulty areas of the code. We present a tool named Code Hot Spot, which mines change records out of Microsoft's TFS configuration management system and creates a report of hot spots. Hot spots are contiguous areas of the code that have higher values of metrics that are indicators of faulty code. We present a study where we use this tool to study projects at ABB to determine areas that need improvement. The resulting data have been used to prioritize areas for additional code reviews and unit testing, as well as identifying change prone areas in need of refactoring.},
-annote = {The authors propose a method for identifying areas in the source code that may require more attention. The tool created identifies areas within the source code that are likely to cause a bug identified as 'Hot Spots'. With this knowledge of the general locations of bugs a developer team may be able to allocate team members time more effectively to prevent future problems. Technically, the hot spots are simply blocks of code which have higher values of the metrics that indicate faulty code. Some of these metrics the authors propose are change based metrics (eg. count of changes or count of defect changes). These metrics are calculated via mining the software repository, Microsoft's Team Foundation Server (TFS), that contains the source code along with the bug tracking system. A case study conducted on 3 closed source project from ABB and 1 open source project Mozilla. The metrics that the authors used exhibit the capability to determine the location of faulty areas within the source code. This paper relevancy stems from its mining of closed source projects and leveraging change based metrics to aid in software engineering tasks.},
-author = {Snipes, Will and Robinson, Brian and Murphy-Hill, Emerson},
-doi = {10.1109/ICSM.2011.6080806},
-isbn = {9781457706646},
+
+@Article{	  huang2007,
+  author	= {Huang, Cheng-lung and Chen, Mu-chen and Wang, Chieh-jen},
+  doi		= {10.1016/j.eswa.2006.07.007},
+  journal	= {Expert Systems with Applications},
+  keywords	= {classification,credit scoring,data mining,decision
+		  tree,genetic programming,neural networks,support vector
+		  machine},
+  number	= {4},
+  pages		= {847--856},
+  title		= {{Credit scoring with a data mining approach based on
+		  support vector machines}},
+  volume	= {33},
+  year		= {2007}
+}
+
+@inproceedings{Jalbert2012,
+author = {Jalbert, Kevin and Bradbury, Jeremy S.},
+booktitle = {Proceedings of the 1st International Workshop on Realizing AI Synergies in Software Engineering},
+doi = {10.1109/RAISE.2012.6227969},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Jalbert, Bradbury - 2012 - Predicting mutation score using source code and test suite metrics.pdf:pdf},
+isbn = {978-1-4673-1753-5},
+mendeley-groups = {Summer2013Research,thesis/read},
+month = {jun},
+pages = {42--46},
+publisher = {Ieee},
+title = {{Predicting mutation score using source code and test suite metrics}},
+url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6227969},
+year = {2012}
+}
+
+
+@inproceedings{Kagdi2007,
+abstract = {The paper advocates the need for the investigation and development of a software-change prediction methodology that combines the change sets estimated from software dependency analysis (via single-version analysis) and the actual change sets found in software version histories (via multiple-version analysis). Traditionally prescribed methodologies such as Impact Analysis (IA) are based on the former, whereas a more recent methodology, mining software repository (MSR), is based on the latter. The research hypothesis is that combining these two methodologies will result in an overall improved support for software-change prediction.},
+author = {Kagdi, Huzefa and Maletic, Jonathan I.},
+booktitle = {Proceedings of the 4th International Workshop on Mining Software Repositories, MSR 2007},
+doi = {10.1109/MSR.2007.2},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Kagdi, Maletic - 2007 - Combining single-version and evolutionary dependencies for software-change prediction.pdf:pdf},
+isbn = {076952950X},
+mendeley-groups = {thesis/Prediction/Change},
+title = {{Combining single-version and evolutionary dependencies for software-change prediction}},
+year = {2007}
+}
+
+
+@inproceedings{Khoshgoftaar2007,
+author = {Khoshgoftaar, Taghi M and Golawala, Moiz and {Van Hulse}, Jason},
+booktitle = {Proceedings of the 19th IEEE International Conference on Tools with Artificial Intelligence},
+doi = {10.1109/ICTAI.2007.46},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/random{\_}forest/04410397.pdf:pdf},
+mendeley-groups = {thesis/random{\_}forest},
+pages = {310--317},
+title = {{An Empirical Study of Learning from Imbalanced Data Using Random Forest}},
+year = {2007}
+}
+
+
+@article{Kim2003,
+author = {Kim, Kyoung-jae},
+doi = {10.1016/S0925-2312(03)00372-2},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/svm/Financial time series forecasting using support vector machines.pdf:pdf},
+isbn = {8222260332},
+journal = {Neurocomputing},
+keywords = {back-propagation neural networks,case-based reasoning,financial,support vector machines},
+mendeley-groups = {thesis/svm},
+number = {1-2},
+pages = {307--319},
+title = {{Financial time series forecasting using support vector machines}},
+volume = {55},
+year = {2003}
+}
+
+
+@Article{	  kim2008,
+  author	= {Kim, Sunghun and Jr, E James Whitehead and Zhang, Yi},
+  journal	= {IEEE Transactions on Software Engineering},
+  number	= {2},
+  pages		= {181--197},
+  title		= {{Classifying Software Changes : Clean or Buggy ?}},
+  volume	= {34},
+  year		= {2008}
+}
+
+@inproceedings{Maletic2004,
+abstract = {The paper describes an approach to easily conduct analysis of source-code differences. The approach is termed meta-differencing to reflect the fact that additional knowledge of the differences can be automatically derived. Meta-differencing is supported by an underlying source-code representation developed by the authors. The representation, srcML, is an XML format that explicitly embeds abstract syntax within the source code while preserving the documentary structure as dictated by the developer. XML tools are leveraged together with standard differencing utilities (i.e., diff,) to generate a meta-difference. The meta-difference is also represented in an XML format called srcDiff. The meta-difference contains specific syntactic information regarding the source-code changes. In turn this can be queried and searched with XML tools for the purpose of extracting information about the specifics of the changes. A case study of using the meta-differencing approach on an open-source system is presented to demonstrate its usefulness and validity.},
+author = {Maletic, Jonathan I. and Collard, Michael L.},
+booktitle = {Proceedings of the 20th IEEE International Conference on Software Maintenance},
+doi = {10.1109/ICSM.2004.1357805},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Maletic, Collard - 2004 - Supporting source code difference analysis.pdf:pdf},
+isbn = {0-7695-2213-0},
 issn = {1063-6773},
-journal = {IEEE International Conference on Software Maintenance, ICSM},
-keywords = {Configuration Management,Decision Support,Metrics,Quality,Refactoring,Verification},
-pages = {392--401},
-title = {{Code Hot Spot: A Tool for Extraction and Analysis of Code Change History}},
-year = {2011}
+mendeley-groups = {thesis/Prediction/Change},
+pages = {210--219},
+title = {{Supporting source code difference analysis}},
+year = {2004}
+}
+
+
+@article{Malhotra2015,
+author = {Malhotra, Ruchika},
+doi = {10.1016/j.asoc.2014.11.023},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/fault{\_}predictions/A systematic review of machine learning techniques for software fault prediction.pdf:pdf},
+issn = {1568-4946},
+journal = {Applied Soft Computing},
+mendeley-groups = {thesis/Prediction/fault{\_}prediction},
+number = {C},
+pages = {504--518},
+publisher = {Elsevier B.V.},
+title = {{A systematic review of machine learning techniques for software fault prediction}},
+url = {http://dx.doi.org/10.1016/j.asoc.2014.11.023},
+volume = {27},
+year = {2015}
+}
+
+
+@Article{	  moeyersoms2015,
+  author	= {Moeyersoms, Julie and Fortuny, Enric Junqu{\'{e}} De and
+		  Dejaeger, Karel and Baesens, Bart and Martens, David},
+  doi		= {10.1016/j.jss.2014.10.032},
+  issn		= {0164-1212},
+  journal	= {Journal of Systems {\&} Software},
+  pages		= {80--90},
+  publisher	= {Elsevier Inc.},
+  title		= {{Comprehensible software fault and effort prediction : A
+		  data mining approach}},
+  url		= {http://dx.doi.org/10.1016/j.jss.2014.10.032},
+  volume	= {100},
+  year		= {2015}
+}
+
+@inproceedings{Moser2008,
+abstract = {In this paper we present a comparative analysis of the predictive power of two different sets of metrics for defect prediction. We choose one set of product related and one set of process related software metrics and use them for classifying Java files of the Eclipse project as defective respective defect-free. Classification models are built using three common machine learners: logistic regression, naive Bayes, and decision trees. To allow different costs for prediction errors we perform cost-sensitive classification, which proves to be very successful: {\&}gt;75{\%} percentage of correctly classified files, a recall of {\&}gt;80{\%}, and a false positive rate {\&}lt;30{\%}. Results indicate that for the Eclipse data, process metrics are more efficient defect predictors than code metrics.},
+author = {Moser, R. and Pedrycz, W. and Succi, G.},
+booktitle = {Proceedings of the 30th international conference on Software engineering},
+doi = {10.1145/1368088.1368114},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Moser, Pedrycz, Succi - 2008 - A comparative analysis of the efficiency of change metrics and static code attributes for defect predi(2).pdf:pdf},
+isbn = {978-1-60558-079-1},
+issn = {0270-5257},
+keywords = {cost-sensitive classification,defect prediction,software metrics},
+mendeley-groups = {thesis/Prediction/Metric},
+pages = {181--190},
+title = {{A comparative analysis of the efficiency of change metrics and static code attributes for defect prediction}},
+year = {2008}
+}
+
+
+@inproceedings{Murphy2007,
+author = {Murphy, Christian and Kaiser, Gail and Arias, Marta},
+booktitle = {Proceedings of the 19th International Conference on Software Engineering {\&} Knowledge Engineering},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/svm/An Approach to Software Testing of Machine Learning Applications.pdf:pdf},
+mendeley-groups = {thesis/svm},
+pages = {167 -- 172},
+title = {{An Approach to Software Testing of Machine Learning Applications}},
+year = {2007}
+}
+
+
+@inproceedings{Nagappan2007,
+annote = {Analyzing a large closed source software project, Microsoft Windows Server 2003, dependencies, churn measures, and post-release failures. The analysis focuses on leveraging the collected data towards predicting post-release failures of the software given the dependencies and churn metrics. The dependencies within the project are directly related to the coupling and cohesion of the project. The authors further sub-categories dependencies as data dependencies and call dependencies. The code churn is related to the amount of changes that take place within the code over a defined period of time. With the knowledge of these potential failures the developers can attempt to fix the more severe potential failures preemptively. Using the case study with Windows 2003 the authors show that the churn measures and the dependencies are positively correlated, can be indicators of post release failures, and can be indicators of failure-proneness. This provides a potential for developers to discover bugs earlier and thus save costs in fixing those bugs earlier rather then later. This paper is relevant since it attempts to use churn metrics as a means to predict potential bugs within the software project.},
+author = {Nagappan, Nachiappan and Ball, Thomas},
+booktitle = {Proceedings of the 1st International Symposium on Empirical Software Engineering and Measurement, 2007.},
+doi = {10.1109/ESEM.2007.13},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Nagappan, Ball - 2007 - Using software dependencies and churn metrics to predict field failures An empirical case study.pdf:pdf},
+isbn = {0769528864},
+mendeley-groups = {thesis/Prediction},
+pages = {364--373},
+title = {{Using software dependencies and churn metrics to predict field failures: An empirical case study}},
+url = {http://ieeexplore.ieee.org/xpls/abs{\_}all.jsp?arnumber=4343764},
+year = {2007}
+}
+
+
+@inproceedings{Neuhaus2007,
+author = {Neuhaus, Stephan and Zimmermann, Thomas and Holler, Christian and Zeller, Andreas},
+booktitle = {Proceedings of the 14th ACM conference on Computer and communications security},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/svm/Predicting Vulnerable Software Components.pdf:pdf},
+isbn = {9781595937032},
+keywords = {all incidents,for in-,however,maintains a vulnerability database,prediction,software security,stance,tell how,the mozilla project,these databases do not,tracking past vulnerabilities,which records},
+mendeley-groups = {thesis/svm},
+pages = {529--540},
+title = {{Predicting Vulnerable Software Components}},
+year = {2007}
+}
+
+
+@inproceedings{Rahman2013,
+author = {Rahman, Foyzur and Devanbu, Premkumar},
+booktitle = {Proceedings of the 2013 International Conference on Software Engineering},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/github/How, and Why, Process Metrics Are Better.pdf:pdf},
+isbn = {9781467330763},
+mendeley-groups = {thesis/read},
+pages = {432--441},
+title = {{How , and Why , Process Metrics Are Better}},
+year = {2013}
+}
+
+
+@Article{	  shivaji2013,
+  author	= {Shivaji, Shivkumar and Whitehead, E James and Akella, Ram
+		  and Kim, Sunghun},
+  journal	= {IEEE Transactions on Software Engineering},
+  number	= {4},
+  pages		= {552 -- 569},
+  title		= {{Reducing Features to Improve Code Change Based Bug
+		  Prediction}},
+  volume	= {39},
+  year		= {2013}
 }
 
 @inproceedings{Sisman2012,
 annote = {The authors propose a method for quickly and accurately localizing software defects within a software project. A version control repositories of a software project can be used to predict where bugs may be within a source code project. Through the use of Information Retrieval (IR) the file location of these bugs can be estimated. The authors propose two approaches, one which makes use of historical defects information and the second which makes use of the modification history of the project. Also, to improvement the above proposed approaches the authors add a temporal decay into the estimation process. The temporal decay factor provides a higher weight to maintenance activities that have occurred more recently and by effect assuming older maintenance activities were more effective as no bug was reported. The paper is relevance is based on the use of bug localization based on the version histories of the project.},
 author = {Sisman, B. and Kak, A. C.},
-booktitle = {2012 9th IEEE Working Conference on Mining Software Repositories (MSR)},
+booktitle = {Proceedings of the 9th IEEE Working Conference on Mining Software Repositories},
 doi = {10.1109/MSR.2012.6224299},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Sisman, Kak - 2012 - Incorporating version histories in Information Retrieval based bug localization.pdf:pdf},
 isbn = {978-1-4673-1761-0},
 keywords = {-bug localization,docu-,information retrieval,ment priors,software maintenance},
 month = {jun},
@@ -243,296 +493,361 @@ url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6224299},
 year = {2012}
 }
 
-@inproceedings{Nagappan2007,
-annote = {Analyzing a large closed source software project, Microsoft Windows Server 2003, dependencies, churn measures, and post-release failures. The analysis focuses on leveraging the collected data towards predicting post-release failures of the software given the dependencies and churn metrics. The dependencies within the project are directly related to the coupling and cohesion of the project. The authors further sub-categories dependencies as data dependencies and call dependencies. The code churn is related to the amount of changes that take place within the code over a defined period of time. With the knowledge of these potential failures the developers can attempt to fix the more severe potential failures preemptively. Using the case study with Windows 2003 the authors show that the churn measures and the dependencies are positively correlated, can be indicators of post release failures, and can be indicators of failure-proneness. This provides a potential for developers to discover bugs earlier and thus save costs in fixing those bugs earlier rather then later. This paper is relevant since it attempts to use churn metrics as a means to predict potential bugs within the software project.},
-author = {Nagappan, Nachiappan and Ball, Thomas},
-booktitle = {Empirical Software Engineering and Measurement, 2007. ESEM 2007. First International Symposium on},
-doi = {10.1109/ESEM.2007.13},
-isbn = {0769528864},
-pages = {364--373},
-title = {{Using Software Dependencies and Churn Metrics to Predict Field Failures: An Empirical Case Study}},
-url = {http://ieeexplore.ieee.org/xpls/abs{\_}all.jsp?arnumber=4343764},
-year = {2007}
-}
 
-@inproceedings{Hassan2006,
-abstract = {Software repositories (such as source control repositories) contain a wealth of valuable information regarding the evolutionary history of a software project. This paper presents approaches and tools which mine and transform static record keeping software repositories to active repositories used by researchers to gain empirically based understanding of software development, and by practitioners to predict, plan and understand various aspects of their project. Our work is validated empirically using data based on over 60 years of development history for several open source projects},
-annote = {The author proposes several methods for converting static records of a software repository into an active repository. With the active repository researchers can gain further insight into the specific project. By organizing this data the into one site the developers or research may predict, plan or understand the project further. As part of the organization of the data collected from the evolution of a project the author proposes several heuristics. Metrics that can be used to classify and then rank bugs based on importance. Also, for project development when a high amount of change within a short period occurs the likelihood of bugs increases.},
-author = {Hassan, Ahmed E.},
-booktitle = {IEEE International Conference on Software Maintenance, ICSM},
-doi = {10.1109/ICSM.2006.38},
-isbn = {0769523544},
+@inproceedings{Snipes2011,
+abstract = {Commercial software development teams have limited time available to focus on improvements to their software. These teams need a way to quickly identify areas of the source code that would benefit from improvement, as well as quantifiable data to defend the selected improvements to management. Past research has shown that mining configuration management systems for change information can be useful in determining faulty areas of the code. We present a tool named Code Hot Spot, which mines change records out of Microsoft's TFS configuration management system and creates a report of hot spots. Hot spots are contiguous areas of the code that have higher values of metrics that are indicators of faulty code. We present a study where we use this tool to study projects at ABB to determine areas that need improvement. The resulting data have been used to prioritize areas for additional code reviews and unit testing, as well as identifying change prone areas in need of refactoring.},
+annote = {The authors propose a method for identifying areas in the source code that may require more attention. The tool created identifies areas within the source code that are likely to cause a bug identified as 'Hot Spots'. With this knowledge of the general locations of bugs a developer team may be able to allocate team members time more effectively to prevent future problems. Technically, the hot spots are simply blocks of code which have higher values of the metrics that indicate faulty code. Some of these metrics the authors propose are change based metrics (eg. count of changes or count of defect changes). These metrics are calculated via mining the software repository, Microsoft's Team Foundation Server (TFS), that contains the source code along with the bug tracking system. A case study conducted on 3 closed source project from ABB and 1 open source project Mozilla. The metrics that the authors used exhibit the capability to determine the location of faulty areas within the source code. This paper relevancy stems from its mining of closed source projects and leveraging change based metrics to aid in software engineering tasks.},
+author = {Snipes, Will and Robinson, Brian and Murphy-Hill, Emerson},
+booktitle = {Proceedings of the 27th IEEE International Conference on Software Maintenance},
+doi = {10.1109/ICSM.2011.6080806},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Snipes, Robinson, Murphy-Hill - 2011 - Code hot spot A tool for extraction and analysis of code change history.pdf:pdf},
+isbn = {9781457706646},
 issn = {1063-6773},
-pages = {339--342},
-title = {{Mining Software Repositories to Assist Developers and Support Managers}},
-year = {2006}
-}
-
-@article{GunesKoru2007,
-abstract = {Developing and maintaining open-source software has become an important source of profit for many companies. Change-prone classes in open-source products increase project costs by requiring developers to spend effort and time. Identifying and characterizing change-prone classes can enable developers to focus timely preventive actions, for example, peer-reviews and inspections, on the classes with similar characteristics in the future releases or products. In this study, we collected a set of static metrics and change data at class level from two open-source projects, KOffice and Mozilla. Using these data, we first tested and validated Pareto's Law which implies that a great majority (around 80{\%}) of change is rooted in a small proportion (around 20{\%}) of classes. Then, we identified and characterized the change-prone classes in the two products by producing tree-based models. In addition, using tree-based models, we suggested a prioritization strategy to use project resources for focused preventive actions in an efficient manner. Our empirical results showed that this strategy was effective for prioritization purposes. This study should provide useful guidance to practitioners involved in development and maintenance of large-scale open-source products. ?? 2006 Elsevier Inc. All rights reserved.},
-annote = {Identifying change-prone characteristics is a common area of research for researchers mining software repositories. Identifying and then classifying classes in object orientated programming which are change prone can lead to a more focused fix to these potentially bug prone classes. Change proneness often has a strong relation to bugs introduced into the program. The authors attempt to localize the likelihood of change to the class level. Also, the authors attempt to validate Pareto's Law for open source projects, majority of the changes occur within a small portion of the source code. The metrics they collected in order to identify change prone classes were static metrics, and change data. Once the change prone classes are identified they are then classified based on a tree model which is constructed for each project. The authors conducted a case study on two larger open source projects, Mozilla and KOffice, which made use of CVS for their version control system. For the two given projects Pareto's Law held and the classification scheme was constructed. The paper is relevant since it attempts to identify change prone sections in the project and then prioritize them.},
-author = {{G{\"{u}}neş Koru}, A. and Liu, Hongfang},
-doi = {10.1016/j.jss.2006.05.017},
-isbn = {0164-1212},
-issn = {01641212},
-journal = {Journal of Systems and Software},
-keywords = {Change-prone classes,Object-oriented programming,Open-source development,Software maintenance,Static metrics},
-pages = {63--73},
-title = {{Identifying and characterizing change-prone classes in two large-scale open-source products}},
-volume = {80},
-year = {2007}
-}
-
-% Add to related work all following:
-@article{Westland2011,
-author = {Bhattacharyya, Siddhartha and Jha, Sanjeev and Tharakunnel, Kurian and Westland, J Christopher},
-doi = {10.1016/j.dss.2010.08.008},
-journal = {Decision Support Systems},
-keywords = {credit card fraud detection},
-number = {3},
-pages = {601--613},
-title = {{Data mining for credit card fraud: A comparative study}},
-volume = {50},
+keywords = {Configuration Management,Decision Support,Metrics,Quality,Refactoring,Verification},
+pages = {392--401},
+title = {{Code hot spot: A tool for extraction and analysis of code change history}},
 year = {2011}
 }
 
 
-@article{Verikas2011,
-author = {Verikas, A and Gelzinis, A and Bacauskiene, M},
-doi = {10.1016/j.patcog.2010.08.011},
-issn = {0031-3203},
-journal = {Pattern Recognition},
-keywords = {Classifier,Data proximity,Random forests,Variable importance,Variable selection},
-number = {2},
-pages = {330--349},
-publisher = {Elsevier},
-title = {{Mining data with random forests: A survey and results of new tests}},
-url = {http://dx.doi.org/10.1016/j.patcog.2010.08.011},
-volume = {44},
-year = {2011}
+@Article{	  thwin2005,
+  abstract	= {This paper presents the application of neural networks in
+		  software quality estimation using object-oriented metrics.
+		  In this paper, two kinds of investigation are performed.
+		  The first on predicting the number of defects in a class
+		  and the second on predicting the number of lines changed
+		  per class. Two neural network models are used, they are
+		  Ward neural network and General Regression neural network
+		  (GRNN). Object-oriented design metrics concerning
+		  inheritance related measures, complexity measures, cohesion
+		  measures, coupling measures and memory allocation measures
+		  are used as the independent variables. GRNN network model
+		  is found to predict more accurately than Ward network
+		  model.},
+  author	= {Thwin, Mie Mie Thet and Quah, Tong-Seng},
+  doi		= {10.1016/j.jss.2004.05.001},
+  isbn		= {0164-1212},
+  issn		= {01641212},
+  journal	= {Journal of Systems and Software},
+  number	= {2},
+  pages		= {147--156},
+  title		= {{Application of neural networks for software quality
+		  prediction using object-oriented metrics}},
+  volume	= {76},
+  year		= {2005}
 }
 
-@inproceedings{Khoshgoftaar2007,
-author = {Khoshgoftaar, Taghi M and Golawala, Moiz and {Van Hulse}, Jason},
-booktitle = {19th IEEE International Conference on Tools with Artificial Intelligence},
-doi = {10.1109/ICTAI.2007.46},
-pages = {310--317},
-title = {{An Empirical Study of Learning from Imbalanced Data Using Random Forest}},
-year = {2007}
+@Article{	  verikas2011,
+  author	= {Verikas, A and Gelzinis, A and Bacauskiene, M},
+  doi		= {10.1016/j.patcog.2010.08.011},
+  issn		= {0031-3203},
+  journal	= {Pattern Recognition},
+  keywords	= {Classifier,Data proximity,Random forests,Variable
+		  importance,Variable selection},
+  number	= {2},
+  pages		= {330--349},
+  publisher	= {Elsevier},
+  title		= {{Mining data with random forests: A survey and results of
+		  new tests}},
+  url		= {http://dx.doi.org/10.1016/j.patcog.2010.08.011},
+  volume	= {44},
+  year		= {2011}
 }
 
-
-@article{Yang2006,
-author = {Yang, Qiang and Wu, Xindong},
-journal = {International Journal of Information Technology {\&} Decision Making},
-keywords = {1,ad-hoc,data mining,developing a unifying theory,for individual problems,is too,knowledge discovery,machine learning,many techniques are designed,mining research,of data mining,several respondents feel that,such as,the art of data,the current state of},
-number = {4},
-pages = {597--604},
-title = {10 challenging problems in data mining research},
-volume = {5},
-year = {2006}
+@Article{	  westland2011,
+  author	= {Bhattacharyya, Siddhartha and Jha, Sanjeev and
+		  Tharakunnel, Kurian and Westland, J Christopher},
+  doi		= {10.1016/j.dss.2010.08.008},
+  journal	= {Decision Support Systems},
+  keywords	= {credit card fraud detection},
+  number	= {3},
+  pages		= {601--613},
+  title		= {{Data mining for credit card fraud: A comparative study}},
+  volume	= {50},
+  year		= {2011}
 }
 
-@article{Granitto2007,
-author = {Granitto, Pablo M and Gasperi, Flavia and Biasioli, Franco and Furlanello, Cesare},
-doi = {10.1016/j.foodqual.2006.11.001},
-journal = {Food Quality and Preference},
-keywords = {cheese,discriminant analysis,random forest,sensory attributes,variable selection},
-pages = {681--689},
-title = {{Modern data mining tools in descriptive sensory analysis: A case study with a Random forest approach}},
-year = {2007}
+@inproceedings{Wilkerson2012,
+abstract = {Source code changes can have ripple-effects that result in unchanged source code elements producing different results than they would have produced before the changes. This paper proposes a taxonomy of the types of impacts that can result from source code changes in both procedural and object-oriented code. The taxonomy is extensible by creating additional sub-types of the types proposed. The proposed taxonomy is based on an analysis of existing change impact analysis algorithms and provides a basis for classifying change impact analysis algorithms by the types of impacts they identify.},
+annote = {Changes within a project may require other changes in a project which can cause a so called 'ripple effect'. The author of this paper attempts to classify types of impacts that are caused by source code change towards create a taxonomy of these types of impacts. The author takes into account procedural and object oriented programs. The proposed method makes use of an impact analysis algorithm which determines the impact of a specific source code change. This relevance of this paper is based on the change analysis and the classification of impacts a source code change may have.},
+author = {Wilkerson, Jerod W.},
+booktitle = {28th IEEE International Conference on Software Maintenance},
+doi = {10.1109/ICSM.2012.6405338},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Wilkerson - 2012 - A software change impact analysis taxonomy.pdf:pdf},
+isbn = {9781467323123},
+issn = {1063-6773},
+keywords = {change impact,software change types,taxonomy},
+pages = {625--628},
+title = {{A software change impact analysis taxonomy}},
+year = {2012}
 }
 
-@inproceedings{Alam2013,
-author = {Alam, Mohammed S and Vuong, Son T},
-booktitle = {IEEE International Conference on Green Computing and Communications and IEEE Internet of Things and IEEE Cyber, Physical and Social Computing},
-doi = {10.1109/GreenCom-iThings-CPSCom.2013.122},
-isbn = {9780769550466},
-pages = {663--669},
-title = {{Random Forest Classification for Detecting Android Malware}},
-year = {2013}
+@Article{	  yang2006,
+  author	= {Yang, Qiang and Wu, Xindong},
+  journal	= {International Journal of Information Technology {\&}
+		  Decision Making},
+  keywords	= {1,ad-hoc,data mining,developing a unifying theory,for
+		  individual problems,is too,knowledge discovery,machine
+		  learning,many techniques are designed,mining research,of
+		  data mining,several respondents feel that,such as,the art
+		  of data,the current state of},
+  number	= {4},
+  pages		= {597--604},
+  title		= {10 challenging problems in data mining research},
+  volume	= {5},
+  year		= {2006}
 }
 
-@inproceedings{Yu2011,
-author = {Yu, Gang and Yaun, Junsong and Liu, Zicheng},
-booktitle = {Computer Vision and Pattern Recognition},
-doi = {10.1109/CVPR.2011.5995488},
-pages = {865 -- 872},
-title = {{Unsupervised random forest indexing for fast action search}},
-year = {2011}
+@Article{	  ying2004,
+  abstract	= {Software developers are often faced with modification
+		  tasks that involve source which is spread across a code
+		  base. Some dependencies between source code, such as those
+		  between source code written in different languages, are
+		  difficult to determine using existing static and dynamic
+		  analyses. To augment existing analyses and to help
+		  developers identify relevant source code during a
+		  modification task, we have developed an approach that
+		  applies data mining techniques to determine change patterns
+		  - sets of files that were changed together frequently in
+		  the past - from the change history of the code base. Our
+		  hypothesis is that the change patterns can be used to
+		  recommend potentially relevant source code to a developer
+		  performing a modification task. We show that this approach
+		  can reveal valuable dependencies by applying the approach
+		  to the Eclipse and Mozilla open source projects and by
+		  evaluating the predictability and interestingness of the
+		  recommendations produced for actual modification tasks on
+		  these systems.},
+  author	= {Ying, Annie T T and Murphy, Gail C. and Ng, Raymond and
+		  Chu-Carroll, Mark C.},
+  doi		= {10.1109/TSE.2004.52},
+  isbn		= {0098-5589 VO - 30},
+  issn		= {00985589},
+  journal	= {IEEE Transactions on Software Engineering},
+  number	= {9},
+  pages		= {574--586},
+  title		= {{Predicting Source Code Changes by Mining Change
+		  History}},
+  url		= {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1324645}
+		  ,
+  volume	= {30},
+  year		= {2004}
 }
 
-@article{Huang2007,
-author = {Huang, Cheng-lung and Chen, Mu-chen and Wang, Chieh-jen},
-doi = {10.1016/j.eswa.2006.07.007},
-journal = {Expert Systems with Applications},
-keywords = {classification,credit scoring,data mining,decision tree,genetic programming,neural networks,support vector machine},
-number = {4},
-pages = {847--856},
-title = {{Credit scoring with a data mining approach based on support vector machines}},
-volume = {33},
-year = {2007}
+@InProceedings{	  yu2011,
+  author	= {Yu, Gang and Yaun, Junsong and Liu, Zicheng},
+  booktitle	= {Computer Vision and Pattern Recognition},
+  doi		= {10.1109/CVPR.2011.5995488},
+  pages		= {865 -- 872},
+  title		= {{Unsupervised random forest indexing for fast action
+		  search}},
+  year		= {2011}
 }
 
-@article{Burbidge2001,
-author = {Burbidge, R and Trotter, M and Buxton, B and Holden, S},
-journal = {Computers and Chemistry},
-keywords = {activity relationship analysis,cheminformatics,machine learning,model selection,structure,support vector machines},
-number = {1},
-pages = {5--14},
-title = {{Drug design by machine learning : support vector machines for pharmaceutical data analysis}},
-volume = {26},
-year = {2001}
+@Article{	  zeng2016,
+  author	= {Zeng, Jianwu and Qiao, Wei},
+  doi		= {10.1016/j.renene.2012.10.009},
+  journal	= {Renewable Energy},
+  keywords	= {ar,autoregressive,model,network,radial basis function
+		  neural},
+  pages		= {118--127},
+  title		= {{Short-term solar power prediction using a support vector
+		  machine}},
+  volume	= {52},
+  year		= {2016}
 }
 
-@article{Kim2003,
-author = {Kim, Kyoung-jae},
-doi = {10.1016/S0925-2312(03)00372-2},
-isbn = {8222260332},
-journal = {Neurocomputing},
-keywords = {back-propagation neural networks,case-based reasoning,financial,support vector machines},
-pages = {307--319},
-title = {{Financial time series forecasting using support vector machines}},
-volume = {55},
+@Article{	  zimmermann2005a,
+  abstract	= {We apply data mining to version histories in order to
+		  guide programmers along related changes: "Programmers who
+		  changed these functions also changed...." Given a set of
+		  existing changes, the mined association rules 1) suggest
+		  and predict likely further changes, 2) show up item
+		  coupling that is undetectable by program analysis, and 3)
+		  can prevent errors due to incomplete changes. After an
+		  initial change, our ROSE prototype can correctly predict
+		  further locations to be changed; the best predictive power
+		  is obtained for changes to existing software. In our
+		  evaluation based on the history of eight popular open
+		  source projects, ROSE's topmost three suggestions contained
+		  a correct location with a likelihood of more than 70
+		  percent.},
+  annote	= {The authors mining a version history system to identify
+		  change couplings. When changes are made to one set of code
+		  another set of code is also changed. The authors attempt to
+		  leverage this collected information to suggest and predict
+		  likely further changes, detect couplings that are
+		  undetectable by a program analysis so called change
+		  couplings, prevent errors due to incomplete changes.
+		  Created a tool called ROSE which attempts to accomplish the
+		  mentioned goals. In order to validate their tool they
+		  applied it to 8 open source projects. The tool tends to
+		  only produce meaningful results during the maintenance
+		  phases of the project (when development is more stable).
+		  This research is directly relevant since it uses changes to
+		  detect relationships and predict errors based off of
+		  incorrect changes.},
+  author	= {Zimmermann, Thomas and Wei{\ss}gerber, Peter and Diehl,
+		  Stephan and Zeller, Andreas},
+  doi		= {10.1109/TSE.2005.72},
+  isbn		= {0-7695-2163-0},
+  issn		= {00985589},
+  journal	= {IEEE Transactions on Software Engineering},
+  keywords	= {Association rules,Classification,Clustering,Configuration
+		  management,Data
+		  mining,Distribution,Enhancement,Maintenance,Programming
+		  environments/construction tools},
+  number	= {6},
+  pages		= {429--445},
+  pmid		= {8065261},
+  title		= {{Mining Version Histories to Guide Software Changes}},
+  volume	= {31},
+  year		= {2005}
+}
+
+@inproceedings{Bieman2003a,
+abstract = {During software evolution, adaptive, and corrective maintenance are common reasons for changes. Often such changes cluster around key components. It is therefore important to analyze the frequency of changes to individual classes, but, more importantly, to also identify and show related changes in multiple classes. Frequent changes in clusters of classes may be due to their importance, due to the underlying architecture or due to chronic problems. Knowing where those change-prone clusters are can help focus attention, identify targets for re-engineering and thus provide product-based information to steer maintenance processes. This paper describes a method to identify and visualize classes and class interactions that are the most change-prone. The method was applied to a commercial embedded, real-time software system. It is object-oriented software that was developed using design patterns.},
+annote = {Change proneness
+review},
+author = {Bieman, J.M. and Andrews, A.a. and Yang, H.J.},
+booktitle = {Proceedings of the 11th IEEE International Workshop on Program Comprehension, 2003.},
+doi = {10.1109/WPC.2003.1199188},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Bieman, Andrews, Yang - 2003 - Understanding change-proneness in OO software through visualization(2).pdf:pdf},
+isbn = {0-7695-1883-4},
+issn = {1092-8138},
+mendeley-groups = {thesis/Visualization},
+pages = {44 -- 53},
+title = {{Understanding change-proneness in OO software through visualization}},
 year = {2003}
 }
 
-@article{Zeng2016,
-author = {Zeng, Jianwu and Qiao, Wei},
-doi = {10.1016/j.renene.2012.10.009},
-journal = {Renewable Energy},
-keywords = {ar,autoregressive,model,network,radial basis function neural},
-pages = {118--127},
-title = {{Short-term solar power prediction using a support vector machine}},
-volume = {52},
-year = {2016}
+@inproceedings{Collberg2003,
+abstract = {We describe Gevol, a system that visualizes the evolution of software using a novel graph drawing technique for visual- ization of large graphs with a temporal component. Gevol extracts information about a Java program stored within a CVS version control system and displays it using a temporal graph visualizer. This information can be used by program- mers to understand the evolution of a legacy program: Why is the program structured the way it is? Which programmers were responsible for which parts of the program during which time periods? Which parts of the program appear unstable over long periods of time and may need to be rewritten? This type of information will complement that produced by more static tools such as source code browsers, slicers, and static analyzers.},
+annote = {Related! Visualization
+
+Reviewed, visualizations arent that great},
+author = {Collberg, Christian and Kobourov, Stephen and Nagra, Jasvir and Pitts, Jacob and Wampler, Kevin},
+booktitle = {Proceedings of the 2003 ACM symposium on Software visualization - SoftVis '03},
+doi = {10.1145/774833.774844},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Collberg et al. - 2003 - A system for graph-based visualization of the evolution of software.pdf:pdf},
+isbn = {1581136420},
+mendeley-groups = {thesis,thesis/Visualization},
+pages = {77 -- 86},
+title = {{A system for graph-based visualization of the evolution of software}},
+url = {http://dl.acm.org/citation.cfm?id=774833.774844},
+year = {2003}
 }
 
-@article{Anton2013,
-author = {Ant{\'{o}}n, Juan Carlos {\'{A}}lvarez and Nieto, Paulino Jos{\'{e}} Garc{\'{i}}a and Viejo, Cecilio Blanco and Vil{\'{a}}n, Jos{\'{e}} Antonio Vil{\'{a}}n},
-doi = {10.1109/TPEL.2013.2243918},
-journal = {IEEE Transactions on Power Electronics},
-number = {12},
-pages = {5919 -- 5926},
-title = {{Support Vector Machines Used to Estimate the Battery State of Charge}},
-volume = {28},
-year = {2013}
+@inproceedings{Gall2006,
+abstract = {Gaining higher level evolutionary information about large software systems is a key challenge in dealing with increasing complexity and decreasing software quality. Software repositories such as modifications, changes, or release information are rich sources for distinctive kinds of analyses: They reflect the reasons and effects of particular changes made to the software system over a certain period of time. If we can analyze these repositories in an effective way, we get a clearer picture of the status of the software. Software repositories can be analyzed to provide information about the problems concerning a particular feature or a set of features. Hidden dependencies of structurally unrelated but over time logically coupled files exhibit a high potential to illustrate software evolution and possible architectural deterioration. In this tutorial, we describe the investigation of software evolution by taking a step towards reflecting the analysis results against software quality attributes. Different kinds of analyses (from architecture to code) and their interpretation will be presented and discussed in relation to quality attributes. This will show our vision of where such evolution investigations can lead and how they can support development. For that, the tutorial will touch issues such as meta-models for evolution data, data analysis and history mining, software quality attributes, as well as visualization of analysis results.},
+annote = {Look rather relavent},
+author = {Gall, Harald C and Lanza, Michele},
+booktitle = {Proceedings of the 28th international conference on Software engineering},
+doi = {10.1145/1134285.1134502},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Gall, Lanza - 2006 - Software Evolution Analysis and Visualization.pdf:pdf},
+isbn = {1595933751},
+keywords = {2,be adapted,can existing analysis methods,com-,evolution be discovered,how,how can hidden dependencies,in a system that,or,plicate and hinder its,revised,software evolution,visualization},
+mendeley-groups = {thesis/Visualization},
+pages = {1055--1056},
+title = {{Software Evolution : Analysis and Visualization}},
+url = {http://www.cs.uvic.ca/{~}chisel/thesis/David{\_}Perrin{\_}Thesis.pdf},
+year = {2006}
 }
 
-@inproceedings{Neuhaus2007,
-author = {Neuhaus, Stephan and Zimmermann, Thomas and Holler, Christian and Zeller, Andreas},
-booktitle = {14th ACM conference on Computer and communications security},
-isbn = {9781595937032},
-keywords = {all incidents,for in-,however,maintains a vulnerability database,prediction,software security,stance,tell how,the mozilla project,these databases do not,tracking past vulnerabilities,which records},
-pages = {529--540},
-title = {{Predicting Vulnerable Software Components}},
-year = {2007}
+@article{Keim2002,
+abstract = {Never before in history data has been generated at such high volumes as it is today. Exploring and analyzing the vast volumes of data becomes increasingly difficult. In- formation visualization and visual data mining can help to deal with the flood of information. The advantage of visual data exploration is that the user is directly involved in the data mining process. There is a large number of information visualization techniques which have been developed over the last decade to support the exploration of large data sets. In this paper, we propose a classification of information visu- alization and visual data mining techniques which is based on the data type to be visualized, the visualization technique and the interaction and distortion technique. We exemplify the clas- sification using a few examples, most of them referring to techniques and systems presented in this special issue},
+annote = {Not as related, more about how data mining can be directed through visualization},
+author = {Keim, Daniel a.},
+doi = {10.1109/2945.981847},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Keim - 2002 - Information visualization and visual data mining.pdf:pdf},
+isbn = {1077-2626},
+issn = {10772626},
+journal = {IEEE Transactions on Visualization and Computer Graphics},
+keywords = {Classification,Information visualization,Visual data exploration,Visual data mining},
+mendeley-groups = {thesis,thesis/Visualization},
+number = {1},
+pages = {1--8},
+pmid = {20975137},
+title = {{Information visualization and visual data mining}},
+volume = {8},
+year = {2002}
 }
 
-@article{Shivaji2013,
-author = {Shivaji, Shivkumar and Whitehead, E James and Akella, Ram and Kim, Sunghun},
-journal = {IEEE Transactions on Software Engineering},
-number = {4},
-pages = {552 -- 569},
-title = {{Reducing Features to Improve Code Change Based Bug Prediction}},
-volume = {39},
-year = {2013}
-}
+@article{Ma2008,
+abstract = {With the success of open source software projects, such as Apache and Mozilla, comes the opportunity to study the development process. In this paper, we present StarGate: a novel system for visualizing software projects. Whereas previous software project visualizations concentrated mainly on the source code changes, we literally place the developers in the center of our design. Developers are grouped visually into clusters corresponding to the areas of the file repository they work on the most. Connections are drawn between people who communicate via email. The changes to the repository are also displayed. With StarGate, it is easy to look beyond the source code and see trends in developer activity. The system can be used by anyone interested in the project, but it especially benefits project managers, project novices and software engineering researchers.},
+annote = {Visualization, source code changes, developer centric
 
-@inproceedings{Gousios2014,
-author = {Gousios, Georgios and Pinzger, Martin and Deursen, Arie Van},
-booktitle = {36th International Conference on Software Engineering},
-keywords = {distributed software develop-,empirical software engineering,ment,pull request,pull-based development},
-pages = {345--355},
-title = {{An Exploratory Study of the Pull-based Software Development Model}},
-year = {2014}
-}
-
-@inproceedings{Rahman2013,
-author = {Rahman, Foyzur and Devanbu, Premkumar},
-booktitle = {35th International Conference on Software Engineering (ICSE)},
-isbn = {9781467330763},
-pages = {432--441},
-title = {{How , and Why , Process Metrics Are Better}},
-year = {2013}
-}
-
-@article{Erturk2015,
-author = {Erturk, Ezgi and Akcapinar, Ebru},
-doi = {10.1016/j.eswa.2014.10.025},
-issn = {0957-4174},
-journal = {Expert Systems with Applications},
-keywords = {software fault prediction},
-number = {4},
-pages = {1872--1879},
-publisher = {Elsevier Ltd},
-title = {{A comparison of some soft computing methods for software fault prediction}},
-url = {http://dx.doi.org/10.1016/j.eswa.2014.10.025},
-volume = {42},
-year = {2015}
-}
-
-
-@article{Moeyersoms2015,
-author = {Moeyersoms, Julie and Fortuny, Enric Junqu{\'{e}} De and Dejaeger, Karel and Baesens, Bart and Martens, David},
-doi = {10.1016/j.jss.2014.10.032},
-issn = {0164-1212},
-journal = {Journal of Systems {\&} Software},
-pages = {80--90},
-publisher = {Elsevier Inc.},
-title = {{Comprehensible software fault and effort prediction : A data mining approach}},
-url = {http://dx.doi.org/10.1016/j.jss.2014.10.032},
-volume = {100},
-year = {2015}
-}
-
-@article{Malhotra2015,
-author = {Malhotra, Ruchika},
-doi = {10.1016/j.asoc.2014.11.023},
-issn = {1568-4946},
-journal = {Applied Soft Computing},
-pages = {504--518},
-publisher = {Elsevier B.V.},
-title = {{A systematic review of machine learning techniques for software fault prediction}},
-url = {http://dx.doi.org/10.1016/j.asoc.2014.11.023},
-volume = {27},
-year = {2015}
-}
-
-@article{Gondra2008,
-author = {Gondra, Iker},
-doi = {10.1016/j.jss.2007.05.035},
-journal = {Journal of Systems and Software},
-keywords = {fault-proneness,machine learning,neural network,sensitivity analysis,software metrics,software testing,support vector machine},
-number = {2},
-pages = {186--195},
-title = {{Applying machine learning to software fault-proneness prediction}},
-volume = {81},
+Might have some sources for source code change (as they say most previous work is of that kind)},
+author = {Ogawa, Michael and Ma, Kwan-Liu},
+doi = {10.1109/PACIFICVIS.2008.4475476},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Ma - 2008 - StarGate A Unified, Interactive Visualization of Software Projects.pdf:pdf},
+isbn = {978-1-4244-1966-1},
+journal = {2008 IEEE Pacific Visualization Symposium},
+keywords = {Information Visualization,Social Networks,Software Visualization},
+mendeley-groups = {thesis,thesis/Visualization},
+number = {11},
+pages = {191 -- 198},
+title = {{StarGate: A Unified, Interactive Visualization of Software Projects}},
+volume = {3},
 year = {2008}
 }
 
-@article{Kim2008,
-author = {Kim, Sunghun and Jr, E James Whitehead and Zhang, Yi},
-journal = {IEEE Transactions on Software Engineering},
-number = {2},
-pages = {181--197},
-title = {{Classifying Software Changes : Clean or Buggy ?}},
-volume = {34},
-year = {2008}
+@inproceedings{Salamanca2009,
+annote = {Complex visualization not the very best representation made},
+author = {Gonzalez, Antonio and Theron, Roberto and Telea, Alexandru and Garcia, Francisco J},
+booktitle = {Proceedings of the joint international and annual ERCIM workshops on Principles of software evolution (IWPSE) and software evolution (Evol) workshops},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Salamanca, Gonzalez, Garcia - 2009 - Combined Visualization of Structural and Metric Information for Software Evolution Analysis.pdf:pdf},
+isbn = {9781605586786},
+keywords = {ization,structure and metrics visual-,visualization design,visualization of software evolution},
+mendeley-groups = {thesis/Visualization},
+pages = {25--29},
+title = {{Combined Visualization of Structural and Metric Information for Software Evolution Analysis}},
+year = {2009}
 }
 
-@inproceedings{Murphy2007,
-author = {Murphy, Christian and Kaiser, Gail and Arias, Marta},
-booktitle = {19th International Conference on Software Engineering {\&} Knowledge Engineering},
-pages = {167--172},
-title = {{An Approach to Software Testing of Machine Learning Applications}},
+
+@article{DeSouza2007,
+abstract = {One of the reasons large-scale software development is difficult is the number of dependencies that software engineers face. These dependencies create a need for communication and coordination that requires continuous effort by developers. Empirical studies, including our own, suggest that technical dependencies among software components create social dependencies among the software developers implementing those components. Based on this observation, we developed Ariadne, a plug-in for Eclipse. Ariadne analyzes software projects for dependencies and collects authorship information about projects relying on configuration management repositories. Ariadne can "translate" technical dependencies among components into social dependencies among developers. We have created visualizations to convey dependency information and the presence of coordination problems identified in our previous work. We believe the information conveyed in the visualizations will prove useful for software developers. 2007 ACM.},
+annote = {Fairly related! Visualization of project dependencies
+
+developer visualization},
+author = {{De Souza}, Cleidson R and Quirk, Stephen and Trainer, Erik and Redmiles, David F},
+doi = {10.1145/1316624.1316646},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/De Souza et al. - 2007 - Supporting collaborative software development through the visualization of socio-technical dependencies.pdf:pdf},
+isbn = {9781595938459},
+journal = {2007 International ACM Conference on Supporting Group Work, GROUP'07, November 4, 2007 - November 7, 2007},
+keywords = {Groupware,Software design,Visualization},
+mendeley-groups = {thesis,thesis/Visualization},
+pages = {147--156},
+title = {{Supporting collaborative software development through the visualization of socio-technical dependencies}},
+url = {http://dx.doi.org/10.1145/1316624.1316646$\backslash$nhttp://dl.acm.org/citation.cfm?doid=1316624.1316646},
 year = {2007}
 }
 
-@inproceedings{Guo2004,
-author = {Guo, Lan and Ma, Yan and Cukic, Bojan and Singh, Harshinder},
-booktitle = {15th International Symposium on Software Reliability Engineering, 2004. ISSRE 2004},
-pages = {417--428},
-title = {{Robust Prediction of Fault-Proneness by Random Forests}},
-year = {2004}
+@inproceedings{Gilbert2007,
+abstract = {We present CodeSaw, a social visualization of distributed software development. CodeSaw visualizes a distributed software community from two important and independent perspectives: code repositories and project communication. By bringing together both shared artifacts (code) and the talk surrounding those artifacts (project mail), CodeSaw reveals group dynamics that lie buried in existing technologies. This paper describes the visualization and its design process. We apply CodeSaw to a popular open source project, showing how the visualization reveals group dynamics and individual roles. The paper ends with a discussion of the results of an online field study with prominent open source developers. The field study suggests that CodeSaw positively affects communities and provides incentives to distributed developers. Furthermore, an important design lesson from the field study leads us to introduce a novel interaction technique for social visualization called spatial messaging. IFIP International Federation for Information Processing 2007.},
+annote = {Related. Visualization},
+author = {Gilbert, Eric and Karahalios, Karrie},
+booktitle = {Proceedings of the 11th IFIP TC 13 international conference on Humancomputer interactionVolume Part II},
+doi = {10.1007/978-3-540-74800-7_25},
+file = {:home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Gilbert, Karahalios - 2007 - CodeSaw A social visualization of distributed software development.pdf:pdf},
+isbn = {3540747990},
+issn = {03029743},
+mendeley-groups = {thesis,thesis/Visualization},
+pages = {303--316},
+title = {{CodeSaw: A social visualization of distributed software development}},
+url = {http://portal.acm.org/citation.cfm?id=1778363},
+year = {2007}
+}
+
+@inproceedings{Ogawa2010,
+author = {Ogawa, Michael and Ma, Kwan-Liu},
+booktitle = {Proceedings of the 5th international symposium on Software visualization},
+file = {:home/joseph/source{\_}code/GitView/doc/thesis/papers/visualization/softvis{\_}storylines.pdf:pdf},
+isbn = {9781450300285},
+keywords = {software evolution,software visualization,storylines},
+mendeley-groups = {thesis/Visualization},
+pages = {35 -- 42},
+title = {{Software Evolution Storylines}},
+year = {2010}
 }
