@@ -107,9 +107,28 @@ For each commit this information is stored to allow for easier access and save t
 \subsection{Line Change}
 \label{subsec:line_change}
 
-After collecting and analyzing the data the key features are extracted from the collected data. In order to to better understand resulting data it was visualized. The first visualization simply showed the changes recorded on a per line basis. These changes were divided into several closely related subcategories of additions, deletions and modifications. Additions identify changes that are new and do not have a corresponding set of deleted code. Similarly deletions refers to changes that remove code without a corresponding set of additions. Finally modifications are a set of changes which contain a set of additions and deletions that are related.
+After collection and analysis of the data is complete the key features are extracted. Visualizations were used in order to to better understand resulting data. The first visualization simply showed the changes recorded on a per line basis. These changes were divided into several closely related subcategories of additions, deletions and modifications. Additions identify changes that are new and do not have a corresponding set of deleted code. Similarly deletions refers to changes that remove lines of code without a corresponding set of additions. Finally modifications are a set of changes which contain a set of additions and deletions that are related.
 
-In a modification the changes are related through the \gls{ld} calculation. This distance calculation will determine the edit distance between two strings. Where edit distance is defined as the number of characters difference between two different strings. For example, \gls{ld} between \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. While this provides a good initial method for comparison between two string values the value must be normalized to allow for more general use. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in \autoref{eq:normalized_ld}.
+% \lstloadlanguages{Ruby}
+
+% \definecolor{codered}{rgb}{1.0,0.0,0.5}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \lstset{%
+%     label=listing:levenshtein_distance,
+%     float=h,
+%     caption=levenshtein.rb,
+%     firstnumber=1,
+%     language=Ruby,
+%     basicstyle=\ttfamily,
+%     keywordstyle=\color{codered},
+%     stringstyle=\color{yellow},
+%     numberstyle=\color{codegray},
+%     commentstyle=\color{codegray}}
+
+% \lstinputlisting[language=Ruby]{listings/levenshtein.rb}
+
+
+The relationship between two sets of additions and deletions is determined through the \gls{ld} formula. The \gls{ld} distance calculation will determine the edit distance between two strings. Where edit distance is defined as the number of characters difference between two different strings. For example, the \gls{ld} for \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. While this provides a good initial method for comparison between two string values the value need be normalized to allow for more general use. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in \autoref{eq:normalized_ld}.
 
 % TODO note that a_i is an addition line and that d_j is a deletion line
 % TODO clarify change block with picture
@@ -120,7 +139,7 @@ NLD(a_i, d_j) = \frac{LD(a_i, d_j)}{\max(|a_i|,|d_j|)}
 \end{equation}
 
 % TODO show distance calculation and paper cite this.
-Modifications were assumed to only take place in a series of changes that involved both additions and deletions shown in \autoref{fig:changed_method} and with an \gls{nld} below a defined threshold $\Delta_m$.
+Line modifications were assumed to only take place in a series of line changes that involved both additions and deletions shown in \autoref{fig:changed_method} and with an \gls{nld} below a defined threshold $\Delta_m$.
 
 \begin{equation}
 \label{eq:similarity_threshold}
