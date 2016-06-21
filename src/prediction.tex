@@ -104,7 +104,7 @@ $sf_{\Delta}$ is calculated by reducing the range sampled to $s$. Then counting 
 
 %Both $change_{prev}$ and $\Delta t$ are actually each 5 features since they are a set of features. $change_{prev}$ shows the type of change that occurred for the last 5 commits. Similarly 
 
-$t_\Delta$ is the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in \autoref{eq:time_delta}. For the feature only the latest time difference is used.
+$t_\Delta$ is the difference between the current commit time ($t(c_i)$) and the previous commit time ($t(c_{i-1})$) calculated in \autoref{eq:time_delta}. Both values provide are time stamps and the result calculated is in seconds. Only the difference in time between the current commit and the previous one is calculated therefore, in \autoref{eq:time_delta}, $i$ denotes the current commit.
 
 \begin{equation}
 \label{eq:time_delta}
@@ -121,10 +121,12 @@ $t_\Delta$ is the difference between the current commit time ($t(c_i)$) and the 
 	% - What we set those parameters to
 	% - and why
 
-For this approach a machine learning algorithm is used to create a prediction model. The data used to train the model is collected as shown in \autoref{sec:prediction_data}. The machine learning algorithms that can be used are either \gls{svm} or \gls{rf}. Each of these method are widely used for data mining techniques and are easy to use. 
+For this approach a machine learning algorithm is used to create a prediction model. The data used to train the model is collected as shown in \autoref{sec:prediction_data}. The machine learning algorithms that can be used are either \gls{svm} or \gls{rf}. Each of these method are widely used for data mining techniques and are easy to use. \autoref{fig:overview} outlines the overall structure of the approach for how changes are predicted.
+
+% TODO either reference the overall architecture or create a more detailed version to show.
 
 % TODO talk about how to set up the predictions for use (actual implementation)
 	% - including what to expect from the approach and so on.
-The \gls{svm} model was created through the use of a libsvm\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/libsvm/}} binding for ruby, rb-libsvm\footnote{\url{https://github.com/febeling/rb-libsvm}}. This library was a good fit since the data was collected using a ruby script. For \gls{rf} python library scikit-learn\footnote{\url{http://scikit-learn.org/stable/}} was used. The reason for using python rather than ruby, was a lack of mature library for \gls{rf} in ruby.
+The \gls{svm} model was created through the use of a libsvm\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/libsvm/}} binding for Ruby, rb-libsvm\footnote{\url{https://github.com/febeling/rb-libsvm}}. This library was a good fit since the data was collected using a Ruby script. For \gls{rf} python library scikit-learn\footnote{\url{http://scikit-learn.org/stable/}} was used. The reason for switching from Ruby to Python was a lack of a mature library for \gls{rf} in Ruby.
 
-The method for using the approach would be to collect the data from the project. Once the data is collected the prediction model can be created through a sampling a training set. Once the model is trained predictions can be made using the model on new data. The next chapters puts the approach into practice by training the model and testing the model using subsets of a project data set.
+Use of the approach requires a few steps in total before predictions can begin. Firstly, the data related to the project must be collected from GitHub. Once the data is collected the prediction model can be created through a sampling a training set. After training the model, predictions can be made using the model on new data. The next chapters analysis the approach by training and testing the model using subsets of a project data set.
