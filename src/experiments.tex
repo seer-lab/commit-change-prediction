@@ -1,40 +1,57 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
-Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} project can be used towards predicting future changes within the project. In these experiments the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through the use of measuring the factors of the core factors of the approach. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
+Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} project can be used towards predicting future changes within the project. These experiments are based on the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
 
 \section{Experimental Project Data}
 \label{sec:experimental_project_data}
 
-One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
+%One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
 
 %The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
 
+The complete list of projects that were experimented on are found in \autoref{tab:project_summary}. Data from each project was collected from the creation date for the project till the date the data was collected on. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current project.
+
 % TODO consider placing this into introduction
 \begin{table}[!hbp]
-\begin{minipage}{\textwidth}
+%\begin{minipage}{\textwidth}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
         Owner & Project & Start Date & End Date & \# of & \# of \\
          & & & & Commits & Developers \\
         \hline
-        ACRA & acra\footnote{\url{https://github.com/ACRA/acra}} & 2010-04-18 & 2015-06-05 & 404 & 32 \\
-        apache & storm\footnote{\url{https://github.com/apache/storm}} & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
-        facebook & fresco\footnote{\url{https://github.com/facebook/fresco}} & 2015-03-26 & 2015-10-30 & 313 & 47 \\
-        square & dagger\footnote{\url{https://github.com/square/dagger}} & 2012-06-25 & 2016-01-30 & 496 & 39 \\
-        deeplearning4j & deeplearning4j\footnote{\url{https://github.com/deeplearning4j/deeplearning4j}} & 2013-11-27 & 2016-02-13 & 3523 & 62 \\
+        ACRA & acra\protect\footnotemark & 2010-04-18 & 2015-06-05 & 404 & 32 \\
+        apache & storm\protect\footnotemark & 2011-09-16 & 2015-12-28 & 2445 & 261 \\
+        facebook & fresco\protect\footnotemark & 2015-03-26 & 2015-10-30 & 313 & 47 \\
+        square & dagger\protect\footnotemark & 2012-06-25 & 2016-01-30 & 496 & 39 \\
+        deeplearning4j & deeplearning4j\protect\footnotemark & 2013-11-27 & 2016-02-13 & 3523 & 62 \\
         \hline
     \end{tabular}
 \end{center}
 \caption{Experiment projects}
 \label{tab:project_summary}
-\end{minipage}
+%\end{minipage}
 \end{table}
 
-The complete list of projects that were tested is found in \autoref{tab:project_summary}. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current project.
+\addtocounter{footnote}{-4}
+\footnotetext{\url{https://github.com/ACRA/acra}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://github.com/apache/storm}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://github.com/facebook/fresco}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://github.com/square/dagger}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://github.com/deeplearning4j/deeplearning4j}}
 
 %TODO place the tables in better positions.
+Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
+
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -53,9 +70,6 @@ The complete list of projects that were tested is found in \autoref{tab:project_
 \caption{Project Change Statistics}
 \label{tab:project_stats}
 \end{table}
-
-Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
-
 
 In order to get a more detailed understand of the selected projects numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. The size of the project is represented through number of commits, methods. The size of the development team is also provided. The length of each project is shown and most of the measures average on a yearly term.
 
