@@ -33,6 +33,16 @@ Undersampling is applied to a data set by measuring the number of samples in eac
 % Discuss the percentage of sampling.
 Once the categories are balanced then the model can use the data. However with large sample sizes, a reduction of the sample set may be necessary. The variable $sample_r$ is the percentage of the number of samples taken from the range. Instead of picking an arbitrary number of samples, a ratio was used to scale based on the number of available samples. When sampling, if the ratio is at $50\%$ then only half of the values retrieved will be used to train or test. For some of the larger data sets sampling $100\%$ of the data from the range would take a lot longer. Therefore sampling a percentage of the data set is commonly used to decrease the training time. In order to provide a more stable model, a random sample of the sample range is used so that each data entry in the sample has the same chance to be within the training or test data set. Using the example from above, $a$ and $b$ have been oversampled and undersampled such that their new sizes are represented by $|a_n|$ and $|b_n|$ respectively. Given that a sample ratio of $50\%$ is used then both sets $a$ and $b$ would be reduced by the ratio by randomly sampling from each set to create new sets. The size of each set would be $|a_n| \times r$ where $r$ is the ratio value.
 
+% TODO outline initial set of features used
+% List of features that were used initially:
+% - change type, the type of change the method received (eg. 0-> no change, 1-> newly addded, 2 -> deleted, 3 -> modified)
+% - changed, whether the method changed or not (e.g 0-> no change, 1 -> changed)
+% - prev change type_i, the change type for n-i commit of the method
+% - changed_i, whether a change occured for n-i commit of the method
+% - previous time interval, the difference in commit times for the method changes i and j.
+%
+% - percentage of method change (sum(lines changed)/ sum(lines unchanged))
+
 %238, ReportField.java            |           8234 | public boolean getValue() {                                                                          |           0 | william-ferguson-au |  0.0464135021097046 | ("{3,3,0,0,0}","{68,1816,549469,779372,208198}")                              |        0
 \begin{table}
 \begin{center}
@@ -44,11 +54,23 @@ Once the categories are balanced then the model can use the data. However with l
         Com & The individual who committed the change & bob & 5 \\ \hline
         Name & The name of the file & Main.java & 3 \\ \hline
         Sig & The method signature related to the change details & void getValue() & 46\\ \hline
-        %$change_i$ & Whether the method changed or not at the current commit & 3 & 1 \\ \h$f_{\Delta}$line
+        $\Delta_i$ & Whether the method changed or not in the current commit & 3 & 1 \\ \hline 
+
+        $type_{\Delta}$ & Type of change made to the method & 3 & 3 \\ \hline
+        $method_+$ & Whether the is newly added & 3 & 0 \\ \hline
+        $method_-$ & Whether the method was deleted & 3 & 0 \\ \hline
+        $method_m$ & Whether the is a modification & 3 & 1 \\ \hline
+        $method_x$ & Whether the received no change & 3 & 0 \\ \hline
+
+        $\Delta_{i-j}$ & Whether the method changed in a previous commit & 0 & 0 \\ \hline
+
+        $type_{\Delta_{i-j}}$ & Whether the method changed in a previous commit & 1 & 1 \\ \hline
         
         $f_{\Delta}$ & The frequency that the method is changed within the \gls{swr} & 0.0464 & 0.0464 \\ \hline
         $sf_{\Delta}$ & The frequency that the method is changed within the last 10 commits.  & 0.1 & 0.1 \\ \hline
         $t_\Delta$ & The time between the current commit $c_i$ and the previous commit $c_{i-1}$ & 2148 & 2148 \\ \hline
+
+        $t_{\Delta_{i-j}}$ & The time difference between a sequence of two previous commits & 453 & 453 \\ \hline
 
         Length & The length of the method in this commit & 10 & 10 \\ \hline
         $change_{t-1}$ & Whether a change has occurred in the previous 5 commits & $\{3, 0, 0, 3, 0\}$ & 1 \\
@@ -67,8 +89,23 @@ Once the categories are balanced then the model can use the data. However with l
 % committer => Users may change in different change patterns thus helping identify whether this will be a change or not, 
 % freq_change => Helps identify how likely the file is to change
 
-The \autoref{tab:candidate_features} outlines each feature used for training the prediction model. An example of each feature is provided to further illustrate the feature. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be processed into a usable format for \gls{svm} or \gls{rf}. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Text values are mapped to a integer value. For example the \textit{Name} value, ``Main.java'' will be mapped to the value 3. The reason the value is 3 is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping. Similarly both \textit{Com} and \textit{Sig} will be mapped from their respective values ``void getValue()'' and ``bob'' to 46 and 5. Numerical values are converted by casting the value to a floating point value if the value is not that type already. For spacing reasons, all the values in the table that have no decimal value are shown without a ``.0'' following.
+The \autoref{tab:candidate_features} outlines each of the considered features used for training the prediction model. An example of each feature is provided to further illustrate the feature. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be processed into a usable format for \gls{svm} or \gls{rf}. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Text values are mapped to a integer value. For example the \textit{Name} value, ``Main.java'' will be mapped to the value 3. The reason the value is 3 is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping. Similarly both \textit{Com} and \textit{Sig} will be mapped from their respective values ``void getValue()'' and ``bob'' to 46 and 5. Numerical values are converted by casting the value to a floating point value if the value is not that type already. For spacing reasons, all the values in the table that have no decimal value are shown without a ``.0'' following.
 %converted into floating point numbers.
+
+Several experiments were conducted to investigate the value of each of the candidate features. The candidate features were narrowed down from this initial list into a smaller set of training features outlined in \autoref{tab:training_features}.
+
+\begin{table}
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Features & Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\ \hline
+    \end{tabular}
+    \caption{Training Features}
+    \label{tab:training_features}
+\end{center}
+
+\end{table}
 
 Another small change made to the data to create a vector for the prediction model was to convert the change type into a change indicator vector using \autoref{eq:change_type}. The vector is converted into a single value which indicates whether a change has occurred in the previous five commits. This process is done through calculating the sum of the change vector using \autoref{eq:change_reduce}. Finally, the change indicator, $change{i-1}$, is identified using \autoref{eq:change_prev}.
 

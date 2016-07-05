@@ -49,8 +49,47 @@ The complete list of projects that were experimented on are found in \autoref{ta
 \addtocounter{footnote}{1}
 \footnotetext{\url{https://github.com/deeplearning4j/deeplearning4j}}
 
+
+% TODO place in a better location
+% TODO talk about the table
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        name & project length & project size & \# devs & commit rate \\
+        \hline
+        acra & long & small & medium & low rate \\
+        storm & long & large & large & high rate \\
+        fresco & medium & medium & medium & high rate \\
+        dagger & long & small & medium & low rate \\
+        deeplearning4j & long & large & medium & very high rate \\
+        ion & long & small & small & medium \\
+        greenDAO & long & medium & small & low rate \\
+        tempto & medium & medium & small & medium \\
+        blockly-android & medium & medium & small & high rate \\
+        spark & long & medium & medium & low rate \\
+        governator & long & medium & medium & medium \\
+        cardslib & long & medium & small & medium \\
+        ShowcaseView & long & small & medium & low rate \\
+        parceler & long & small & small & low rate \\
+        mapstruct & long & medium & small & medium \\
+        jadx & long & medium & small & medium \\
+        nettosphere & long & small & small & low rate \\
+        yardstick & medium & small & small & medium \\
+        arquillian-core & long & medium & medium & low rate \\
+        smile & long & medium & small & low rate \\
+        retrolambda & long & small & small & low rate \\
+        http-request & long & small & small & low rate \\
+        brave & long & medium & medium & low rate \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Experiment project summary}
+\label{tab:project_size_summary}
+\end{table}
+
 %TODO place the tables in better positions.
-Each of the projects selected on GitHub using the list of Java projects with a large amount of contributions. Open source projects were targeted to simplify any usage concerns. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the program also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
+Each of the projects are selected from GitHub using the list of Java projects with a large amount of development. \gls{oss} projects were targeted to simplify any usage concerns. Specifically, \gls{oss} projects are open and freely available immediately and can be discussed without restriction. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the project also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
 
 \begin{table}
 \begin{center}
@@ -71,7 +110,7 @@ Each of the projects selected on GitHub using the list of Java projects with a l
 \label{tab:project_stats}
 \end{table}
 
-In order to get a more detailed understand of the selected projects numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. The size of the project is represented through number of commits, methods. The size of the development team is also provided. The length of each project is shown and most of the measures average on a yearly term.
+In order to get a more detailed understand of the selected projects, numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. For example the size of the project is represented through several measures including: number of commits, methods and developers. Several averages are calculated to help establish how the development occurred within a project during the development. A few examples of average measurements are the number of commits per year, changes per method.
 
 \begin{enumerate}
 \item \textbf{acra} is a Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application.
@@ -350,22 +389,49 @@ for optimizing the parameters. For \gls{rf}, the size of the forest will have an
 % TODO this isn't necessary for cases when the entire sample is used.
 For each experiment where the used random sampling the experiment was performed 5 times to account for variations in the random sample. Therefore if the initial results using the first sample set were not characteristic of the full dataset then running the experiment with more random samples is more likely to represent the true characteristics of the dataset. This required taking five random samples from each quarter, training the model and running the tests on the model to then determine the average prediction score. %In the case when $100\%$ of the sample is used then only one sample is is taken since there will be no variations within the sample set.
 
-The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The algorithm for calculating a single vectors accuracy is showing in \autoref{eq:vector_accuracy}. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
+The goal of the prediction methods are to provide a good prediction of whether the a given vector will fit in one category or the other. A model's prediction performance can be rated using three measures of accuracy, precision and recall. Accuracy is measured as how often predictions $p_i$ are classified correctly where $a_i$ represents vector $v_i$ correct classification. The prediction accuracy ($P_{accuracy}$) can then be calculated using \autoref{eq:prediction_accuracy}. This simply sums up the accuracy for each vector and then divides it by the total number of vectors (where $n = |v|$).
+
+% TODO integrate these
+\begin{equation}
+\label{eq:true_positive}
+tp = \sum_{i=0}^{n}\left\{\begin{matrix}
+1 & \text{if } p_i = a_i \text{ \& } a_i = 1\\ 
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
 
 \begin{equation} 
-\label{eq:vector_accuracy}
-v_i = \left\{\begin{matrix}
-1 & \text{if } p_i = a_i\\ 
+\label{eq:true_negative}
+tn = \sum_{i=0}^{n}\left\{\begin{matrix}
+1 & \text{if } p_i = a_i \text{ \& } a_i = 0\\ 
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
+
+\begin{equation}
+\label{eq:false_positive}
+fp = \sum_{i=0}^{n}\left\{\begin{matrix}
+1 & \text{if } p_i \neq a_i \text{ \& } a_i = 0\\ 
+0 & \text{otherwise}
+\end{matrix}\right.
+\end{equation}
+
+\begin{equation}
+\label{eq:false_negative}
+fn = \sum_{i=0}^{n}\left\{\begin{matrix}
+1 & \text{if } p_i \neq a_i \text{ \& } a_i = 1\\ 
 0 & \text{otherwise}
 \end{matrix}\right.
 \end{equation}
 
 \begin{equation}
 \label{eq:prediction_accuracy}
-P_{accuracy} = \frac{\sum_{i=0}^{n}v_i}{n} \times 100
+P_{accuracy} = \frac{tp+tn}{tp+tn+fp+fn} \times 100
 \end{equation}
 
 The precision of a model is the measure of how correct the model predicts that a change will occur when it predicts that a change will occur. Given the true positives $tp$, represents the number of predictions that the model correctly identified as having a change and the false positives $fp$ is the number of times the model incorrect predicted a change to occur when it in fact did not. The equation for calculating precision is show in \autoref{eq:precision}.
+
+
 
 \begin{equation} 
 \label{eq:precision}
