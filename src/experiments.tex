@@ -49,25 +49,47 @@ The complete list of projects that were experimented on are found in \autoref{ta
 \addtocounter{footnote}{1}
 \footnotetext{\url{https://github.com/deeplearning4j/deeplearning4j}}
 
-Given the large number of project experimented on a categorization system was necessary to allow for grouping of projects. Four project measures were selected for 
+Given the large number of project experimented on a categorization system was necessary to allow for grouping of projects. Four project measures were selected for comparing the projects and are outlined in \autoref{tab:project_size_summary_info}. The measures are: project length in years, project size in number of methods, number of developers and the rate of commits made in commits per year. The project length represents the number of years the project has been under development for. The size of the project is measured in the number of method signatures within the project since created. The number of developers is tallied from the beginning of the project for this measure. Finally, the rate of commits is the number of commits contributed to the project per year. A yearly rate of commits was sufficient since the majority of the projects had more than one year of development history.
 
 
 \begin{table}
 \begin{center}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        measure & project length & project size & \# devs & commit rate \\
+        project length & project size & \# devs & commit rate \\
         \hline
-        short/small/low rate & $t < 12 m$ & $m < 2000$ & $d < 30$ & $r < 100$ \\
-        medium/low rate & $12 m \leq t < 3 y$ & $2000 \leq m < 10000$ & $30 \leq d < 100$ & $100 \leq r < 300$ \\
-        long/large/high rate & $t \geq 3 y$ & $m \geq 10000$ & $d \geq 100$ & $300 \leq r < 600$ \\
-        very high rate & & & & $r \geq 600$ \\
+        \hline
+        short ($t < 1$) & small ($m < 2000$) & small ($d < 30$) & low rate ($r < 100$) \\
+        \hline
+        medium & medium & medium & medium \\
+        ($1 \leq t < 3$) & ($2000 \leq m < 10000$) & ($30 \leq d < 100$) & ($100 \leq r < 300$) \\
+        \hline
+        long ($t \geq 3$) & large ($m \geq 10000$) & large ($d \geq 100$) & high rate ($300 \leq r < 600$) \\
+        \hline
+        & & & very high rate ($r \geq 600$) \\
         \hline
     \end{tabular}
 \end{center}
 \caption{Experiment project summary}
 \label{tab:project_size_summary_info}
 \end{table}
+
+% \begin{table}
+% \begin{center}
+%     \begin{tabular}{|c|c|c|c|c|}
+%         \hline
+%         project length & short ($t < 12 m$) & medium ($12 m \leq t < 3 y$) & long ($t \geq 3 y$) & \\
+%         project size & small ($m < 2000$) & medium ($2000 \leq m < 10000$) & large ($m \geq 10000$) & \\
+%         \# devs & small ($d < 30$) & medium ($30 \leq d < 100$) & $d \geq 100$ & \\
+%         commit rate & low rate ($r < 100$) & medium ($100 \leq r < 300$) & high rate ($300 \leq r < 600$) & very high rate ($r \geq 600$) \\
+%         \hline
+%     \end{tabular}
+% \end{center}
+% \caption{Experiment project summary}
+% \label{tab:project_size_summary_info}
+% \end{table}
+
+Using the classifications outline in \autoref{tab:project_size_summary_info}, the projects are grouped and organized with similar projects. In \autoref{tab:project_size_summary} the projects are sorted by their classification and have dividing lines around similar projects. For example four projects; http-request, nettosphere, parceler and retrolambda are all classified in the same group. Some projects like ion or storm are not grouped in with another project and thus are in a group of their own.
 
 % TODO place in a better location
 % TODO talk about the table
