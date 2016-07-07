@@ -52,19 +52,19 @@ Once the categories are balanced then the model can use the data. However with l
          & & & Vector \\
         \hline
         Com & The individual who committed the change & bob & 5 \\ \hline
-        Name & The name of the file & Main.java & 3 \\ \hline
         Sig & The method signature related to the change details & void getValue() & 46\\ \hline
+        Name & The name of the file & Main.java & 3 \\ \hline
         $\Delta_i$ & Whether the method changed or not in the current commit & 3 & 1 \\ \hline 
 
-        $type_{\Delta}$ & Type of change made to the method & 3 & 3 \\ \hline
-        $method_+$ & Whether the is newly added & 3 & 0 \\ \hline
-        $method_-$ & Whether the method was deleted & 3 & 0 \\ \hline
-        $method_m$ & Whether the is a modification & 3 & 1 \\ \hline
-        $method_x$ & Whether the received no change & 3 & 0 \\ \hline
+        %$type_{\Delta}$ & Type of change made to the method & 3 & 3 \\ \hline
+        $m_+$ & Whether the is newly added & 3 & 0 \\ \hline
+        $m_-$ & Whether the method was deleted & 3 & 0 \\ \hline
+        $m_c$ & Whether the is a modification & 3 & 1 \\ \hline
+        $m_x$ & Whether the received no change & 3 & 0 \\ \hline
 
         $\Delta_{i-j}$ & Whether the method changed in a previous commit & 0 & 0 \\ \hline
 
-        $type_{\Delta_{i-j}}$ & Whether the method changed in a previous commit & 1 & 1 \\ \hline
+        $type_{\Delta_{i-j}}$ & Type of method changed in a previous commit & 2 & 2 \\ \hline
         
         $f_{\Delta}$ & The frequency that the method is changed within the \gls{swr} & 0.0464 & 0.0464 \\ \hline
         $sf_{\Delta}$ & The frequency that the method is changed within the last 10 commits.  & 0.1 & 0.1 \\ \hline
@@ -92,7 +92,7 @@ Once the categories are balanced then the model can use the data. However with l
 The \autoref{tab:candidate_features} outlines each of the considered features used for training the prediction model. An example of each feature is provided to further illustrate the feature. As stated in the previous \autoref{subsec:svm_prediction}, the values need to be processed into a usable format for \gls{svm} or \gls{rf}. First the data is extracted from the database as \textit{raw} values as shown in the \textit{\textbf{Data}} column. Text values are mapped to a integer value. For example the \textit{Name} value, ``Main.java'' will be mapped to the value 3. The reason the value is 3 is because 2 other methods have already been mapped and therefore method name is mapped to the next available mapping. Similarly both \textit{Com} and \textit{Sig} will be mapped from their respective values ``void getValue()'' and ``bob'' to 46 and 5. Numerical values are converted by casting the value to a floating point value if the value is not that type already. For spacing reasons, all the values in the table that have no decimal value are shown without a ``.0'' following.
 %converted into floating point numbers.
 
-Several experiments were conducted to investigate the value of each of the candidate features. The candidate features were narrowed down from this initial list into a smaller set of training features outlined in \autoref{tab:training_features}.
+Several experiments were conducted to investigate the value of each of the candidate features. The candidate features were narrowed down from this initial list into a smaller set of training features. These features sets were constructed to determine potential ideal feature sets. The complete list of features used are shown in \autoref{tab:training_features}. Some of the feature sets are not full explained in the table for spacing reasons. Feature sets 16, 17, 18 and 27 all use the last five previous changes or durations. Each are marked similarly to those that only use the most recent previous change or duration except for a footnote marker. Likewise feature set 29 is also different since the previous change used is only the change made five commits ago. Each of these feature sets are tested on the repository acra and the results are shown in \autoref{fig:feature_set_acra_rf}. 
 
 \begin{figure}[!t]
     \centering
@@ -101,18 +101,59 @@ Several experiments were conducted to investigate the value of each of the candi
         \label{fig:feature_set_acra_rf}
 \end{figure}
 
+
+
+\begin{landscape}
+\newgeometry{right=-3.1cm,bottom=15cm,footskip=10pt}
+\thispagestyle{empty}
 \begin{table}
 \begin{center}
-
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        Features & Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\ \hline
+        Feature & Com & Sig & Name & $\Delta_i$ & $m_+$ & $m_-$ & $m_c$ & $m_x$ & $\Delta_{i-j}$ & $type_{\Delta_{i-j}}$ & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & $t_{\Delta_{i-j}}$ & Length & $change_{t-1}$ \\
+        Sets & & & & & & & & & & & & & & & & \\ 
+        \hline
+        1 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & $\bullet$ & & & $\bullet$ & $\bullet$ \\
+        2 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & $\bullet$ & & $\bullet$ & $\bullet$ \\
+        3 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & $\bullet$ & & & $\bullet$ \\
+        4 & & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & $\bullet$ & & & $\bullet$ \\
+        5 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & & & & $\bullet$ \\
+        6 & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & & & & & $\bullet$ \\
+        7 & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & & & & & & $\bullet$ & & & & & $\bullet$ \\
+        8 & $\bullet$ & $\bullet$ & $\bullet$ & & & $\bullet$ & & & & & $\bullet$ & & & & & $\bullet$ \\
+        9 & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ & & & & $\bullet$ & & & & & $\bullet$ \\
+        10 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & $\bullet$ & & & $\bullet$ & & & & & $\bullet$ \\
+        11 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & $\bullet$ & & $\bullet$ & & $\bullet$ & & & $\bullet$ \\
+        12 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & $\bullet$ & & $\bullet$ & & & $\bullet$ \\
+        13 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & $\bullet$ & & & & & $\bullet$ \\
+        14 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & $\bullet$ & & $\bullet$ & & & & & $\bullet$ \\
+        15 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & & $\bullet$ & & $\bullet$ \\
+        16 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & $\bullet$ & & $\bullet$ & & & & & $\bullet$ \\ % Note this uses previous 5
+        17 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & $\bullet$ & & & & & $\bullet$ \\ % Note this uses previous 5
+        18 & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & $\bullet$ & & $\bullet$ & & & $\bullet$ \\ % Note this uses previous 5
+        19 & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ & & & & $\bullet$ & & & & & $\bullet$ \\
+        20 & $\bullet$ & $\bullet$ & $\bullet$ & & & $\bullet$ & $\bullet$ & & & & $\bullet$ & & & & & $\bullet$ \\
+        21 & $\bullet$ & $\bullet$ & $\bullet$ & & & $\bullet$ & & $\bullet$ & & & $\bullet$ & & & & & $\bullet$ \\
+        22 & & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & & & & $\bullet$ \\
+        23 & & $\bullet$ & $\bullet$ & & & & & & & & $\bullet$ & & & & & \\
+        24 & & $\bullet$ & $\bullet$ & & & & & & $\bullet$ & & $\bullet$ & & & & & \\
+        25 & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & & & & & \\
+        26 & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & & & $\bullet$ & & $\bullet$ & & & \\
+        27 & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & $\bullet$ & & $\bullet$ & & & & & \\ % Note this includes 5 previous changes
+        28 & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & $\bullet$ & & $\bullet$ & & & & & \\
+        29 & & $\bullet$ & $\bullet$ & $\bullet$ & & & & & $\bullet$ & & $\bullet$ & & & & & \\ % Uses change type from 5 previous commit (c_{i - 5})
+        \hline
     \end{tabular}
     \caption{Training Features}
     \label{tab:training_features}
 \end{center}
-
 \end{table}
+\restoregeometry
+\end{landscape}
+\thispagestyle{plain}
+
+
+
 
 Another small change made to the data to create a vector for the prediction model was to convert the change type into a change indicator vector using \autoref{eq:change_type}. The vector is converted into a single value which indicates whether a change has occurred in the previous five commits. This process is done through calculating the sum of the change vector using \autoref{eq:change_reduce}. Finally, the change indicator, $change{i-1}$, is identified using \autoref{eq:change_prev}.
 
