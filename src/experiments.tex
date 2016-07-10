@@ -429,7 +429,7 @@ While the purposed method was being developed ACRA's acra project was primarily 
 \section{Experimental Setup}
 
 
-The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a project will be referred to as the performance of the approach. In order to reduce specific project confounding factors numerous projects were tested on. This will be discussed further in the discussions section.
+The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a project will be referred to as the performance of the approach. In order to reduce specific project confounding factors numerous projects were tested on. This will be discussed further in the discussions section. The experiments section only includes a small sample of the projects that were experimented on. The projects shown are ones that exhibited interesting patterns or results. The complete set of performance figures for every project are shown in \autoref{app:experimental_data}.
 
 This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
 \begin{enumerate}
@@ -632,7 +632,10 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 
 \end{table}
 
-The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width.
+The rest of the experimental performance results are found in \autoref{app_sub:experiment_1_svm}.
+
+% TODO rework the following to be the key figures.
+The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width. 
 
 % \begin{figure}[h]
 %     \centeringb
@@ -875,6 +878,9 @@ This experiment uses different sets of candidate feature to test to explore the 
 \end{center}
 \end{table}
 
+The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
+
+% TODO update the section below to only contain the key figures
 The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
 
 % \begin{figure}[h]
@@ -1033,7 +1039,7 @@ The majority of the experiments there is little to no impact whether \gls{os} wa
 \subsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
-% TODO expand here a little more similar to that of rf discussions.
+% TODO update this to include results from newly added projects
 The three different experiments attempted to determine the impact of the different factors on the prediction method. The three factors that were tested are:
 \begin{enumerate}
 \item \gls{swr}
@@ -1108,6 +1114,8 @@ The independent variable for this set of experiments is the sample window size m
 
 The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}.
 
+The remainder of the projects performance results are outlined in \autoref{app_sub:experiment_1_rf}.
+
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
@@ -1137,6 +1145,8 @@ The parameter for this experiment are outlined in \autoref{tab:rf_window_range_e
     \caption{\gls{swr} for deeplearning4j using \gls{rf}}
     \label{fig:test_1_deeplearning4j_rf}
 \end{figure}
+
+% TODO add key results
 
 The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. For these projects the accuracy and precision were lower, the recall was very high.
 
@@ -1183,6 +1193,10 @@ While acra had positive results several values of \gls{swr}, as the \gls{swr} in
 \end{table}
 
 Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
+
+The rest of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
+
+% TODO update to be the key figures.
 
 \begin{figure}[!t]
     \centering
