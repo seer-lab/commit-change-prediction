@@ -1,4 +1,3 @@
-
 full = '/home/joseph/source_code/heron-thesis/'
 output_file = "#{full}appendix_content.tex"
 path = "#{full}src/images"
@@ -33,6 +32,8 @@ end
 
 i = 0
 
+projects = Array.new
+
 Dir.glob("#{path}/#{method}/#{test}/*_sample_range.png") do |file|
     # Create a figure for that program and if the importance exists create the figure for that too
 
@@ -40,10 +41,21 @@ Dir.glob("#{path}/#{method}/#{test}/*_sample_range.png") do |file|
 
     project_name = file_name.scan(/(.+?)_sample_range.png/)[0][0]
 
-    create_figure(out, "#{latex_image_path}/#{method}/#{test}/#{file_name}", "#{caption_start} #{project_name} using \\gls{#{method}}", "#{test}_#{project_name}_#{method}")
+    projects << {:file_name => file_name, :project_name => project_name}
 
-    if test == 'test_1' && method == 'rf' && File.exists?("#{path}/#{method}/#{test}/#{project_name}_importance.png")
-        create_figure(out, "#{latex_image_path}/#{method}/#{test}/#{project_name}_importance.png", "Feature Importance #{caption_start} #{project_name} using \\gls{#{method}}", "#{test}_#{project_name}_#{method}_importance")
+
+end
+
+projects = projects.sort_by do |project|
+    project[:project_name].downcase
+end
+
+projects.each do |project|
+
+    create_figure(out, "#{latex_image_path}/#{method}/#{test}/#{project[:file_name]}", "#{caption_start} #{project[:project_name]} using \\gls{#{method}}", "#{test}_#{project[:project_name]}_#{method}")
+
+    if test == 'test_1' && method == 'rf' && File.exists?("#{path}/#{method}/#{test}/#{project[:project_name]}_importance.png")
+        create_figure(out, "#{latex_image_path}/#{method}/#{test}/#{project[:project_name]}_importance.png", "Feature Importance #{caption_start} #{project[:project_name]} using \\gls{#{method}}", "#{test}_#{project[:project_name]}_#{method}_importance")
     end
 
     if i % 10 == 0
@@ -51,6 +63,7 @@ Dir.glob("#{path}/#{method}/#{test}/*_sample_range.png") do |file|
     end
 
     i += 1
+
 end
 
 
