@@ -300,132 +300,6 @@ A few of the measures are related to the number of developers. These while provi
 
 While the purposed method was being developed ACRA's acra project was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other projects using the feature sets that performed better.
 
-    % An effort was made to not count individuals twice however some users may have changed their user name and thus showed up several times.
-% NOTE the number of commits is the number of commits that contained Java code and thus was useful towards parsing.
-% Note the number of developers is the total number of developers who both committed or authored commits, aka people who made pull requests are included.
-
-% TODO merge the different experiment notes sections into one subsection
-
-% \subsection{Experiment 1}
-
-% % TODO look for test results for this one
-% The first set of experiments were preliminary and used \gls{svm} as the approach for prediction algorithm. They attempted to predict whether a given method would change within the next 6 commits. The test was done one using ACRA's acra (hence forth just called \textit{acra}). The data set was divided into four sections based on the date length. So each section of the data was the project's lifespan divided by 4 long. The sampling method from the data set $data_i$ was to use the first $n$ tuples ordered by date. The value of $n$ was tested at 100 and 1000. The data set $data_i$ contained tuples which had changes and ones that had no changes.
-
-% $|data_i| = \frac{|date_f - date_s|}{4}$
-
-% The results of these experiments were not particularly promising scoring accuracy, precision, recall and recall around $50\%$ or below. The experiment was run such that $data_i$ would be used for training and $data_{i+1}$ would be used for testing. For example $data_1$ would be used to train $model_{1,2}$ and $data_2$ would be used to test the $model_{1,2}$. A slight variation was also tested where $data_i$ trained $model_i$ and was tested use each data set $data_j$ that had $j > i$. This however still provided poor results similar to the original experiment. \autoref{fig:exp_1_data_range} shows how the data is distributed.
-
-% % TODO consider updating this to use the dates in the x axis.
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/exp_1_data}
-%     \caption{Experiment 1 Data Sample Range}
-%     \label{fig:exp_1_data_range}
-% \end{figure}
-
-%\subsection{Experiment 2}
-
-% TODO show results
-%To address the fixed data sampling used previously random sampling was employed. The number of samples $n$ was not changed from the first experiment. The prediction results improved slightly. The \gls{svm} model also reported an error relating to \textit{max number of iterations reached}. This error indicates that the \gls{svm} model is having trouble effectively separating the two categorizations of data into two distinct sets. Such warnings could mean that the features used for training the model are not linearly separable.
-
-% TODO show a picture of how the data was divided.
-
-% \subsection{Experiment 3}
-
-% % TODO talk about using easy.py
-% Further investigation into \gls{svm} lead to a research tool that provided grid search for optimizing the parameters used for a \gls{svm}. The results of these experiments offered improvements over the previous, however required a long time to find the right parameters and works the best with the dataset $data_i$ that was used to find the parameters.
-
-% \subsection{Experiment 4}
-
-% % TODO get experiment results
-% Modified the candidate features set to test the \gls{svm} with. Added ones like change frequency, average time between commits, number of commits since last change, time since last change and previous change type. Dropped commit author in favor of using just committer. Finally changed the prediction to predict the whether a change will occur within the next 5 commits. In terms of the methodology, 2 variations were tested. The first one was predicting changes to a methods within the same package. The second one was prediction changes to a method within the same file. Neither of these changes provided substantial improvements since they reduced the available sample size, $|data_i|$, down so that the no reasonable predictions could be made from the reduced set.
-
-% \subsection{Experiment 5}
-
-% The next set of experiments required more complex features which necessitated more complex queries from the database. In fact the database interface in use, MySQL, was unable to implement some of the queries. MySQL only allows 2 levels of nested queries and has a more restrictive data type set. An alternative database interface PostgreSQL was used as a replacement for MySQL. PostgreSQL offers fair more sophisticated data types as well as \gls{cte}. The migration from MySQL to PostgreSQL was simplified through the use of pgloader as mentioned in \autoref{sec:storage}. 
-
-% Another change was the even out the number of samples collected from each category. The data set $data_i$ tended to provide unbalanced categorization of the data. The same number of samples from each $n/2$ was collected to prevent biasing in the data set. A \gls{svm} model like most other machine learning algorithms is susceptible to category biasing. This will occur when the training set consists of $80\%$ of one category and $20\%$ of another. The model will train such that it always predicts the first category. This works out well if the data is always unbalanced in the same way however it will fail to predict the smaller category entirely. Therefore providing an even sample of each category ($50\%$ each) will prevent poor prediction results.
-
-% Another result of determining that the data set was unbalanced in terms of the categorization was to calculate both precision and recall of the results. Accuracy alone only provides a very simple measure of how well the model predicted the samples from $data_{i+1}$. A clearer understanding is available with these three measures. Also with each provided an attempt can be made to optimize all three.
-
-% Finally the last few tests in this experiment set included a new feature. This feature was the difference in time between the previous commit with a change and the latest commit. This feature was not particularly useful however and caused the data to become inseparable.
-
-% At the end of this set of tests it was apparent that a deeper understanding of the candidate features was necessary to improve the results. Therefore an analysis of each candidate feature was performed both on the quality of the feature and the possible relationship with others. \gls{svm} models are particularly sensitive towards dependencies between the variables. It was also necessary to properly convert data into a format that could be used by the database. This was talked about in more detail in \autoref{subsec:svm_prediction}.
-
-% \begin{table}
-% \begin{center}
-%     \begin{tabular}{|l|l|l|}
-%         \hline
-%         Project & Sample Size (n) & Accuracy \\
-%         \hline  
-%         acra & 100 & $70\%$ \\
-%         acra & 1000 & $52\%$ \\
-%         \hline
-%     \end{tabular}
-% \end{center}
-%     \caption{Experiment 5 Results}
-%     \label{tab:experiment_5_results}
-% \end{table}
-
-% \subsection{Experiment 6}
-
-% After analyzing the candidate features a more ideal set of features was created. The tests were preformed again using sample sizes of $100$ and $1000$. After the changes were made to the data, the performance improved however some of the features did not prove as useful. However the improvement was marginal and therefore necessitated shift in focus from the features to the prediction method. Specificity the data sampling method was inspected to attempt improve the prediction results. Instead of breaking the data set into four even sets based on the date range the data was divided into two even sets based on date as shown in \autoref{fig:exp_6_data_range}
-
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/exp_6_data_range}
-%     \caption{Experiment 6 Data Sample Range}
-%     \label{fig:exp_6_data_range}
-% \end{figure}
-
-%The results of the experiment are outlined in \autoref{tab:experiment_6_results}. The larger sample with $n = 1000$ is far worse than with $n = 100$. This however was a worse result than when the data set was divided into 4 equal parts.
-
-% \begin{table}
-% \begin{center}
-%     \begin{tabular}{|l|l|l|}
-%         \hline
-%         Project & Sample Size (n) & Accuracy \\
-%         \hline
-%         acra & 100 & $60\%$ \\
-%         acra & 1000 & $47\%$ \\
-%         \hline
-%     \end{tabular}
-% \end{center}
-%     \caption{Experiment 6 Results}
-%     \label{tab:experiment_6_results}
-% \end{table}
-
-% \subsection{Experiment 7}
-
-% Reorganized the data sampling method to sample based on commit ranges rather than date ranges. Instead of splitting the data set into four even sections, the sample range is taken from the current commit $c_i$ to $c_{i-m}$ in the case that $i > m$. $m$ denotes the width in commits of the sample space. For example if the model is predict a change that occurs within the next 5 commits and $m = 30$ then \autoref{fig:data_range} shows how the data would be sampled. The training sample would be where data would be collected from to train the model. The prediction gap is to account for the data sampling calculating whether methods at commit 40 will have a change within the next 5 commits. Therefore to properly test it on data that is not used as part of the testing model the offset is needed. The testing sampling section is the same size as the training sampling data set and follows the 5 commit gap.
-
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/exp_7_data_range}
-%     \caption{Experiment 7 Data Sample Range}
-%     \label{fig:data_range}
-% \end{figure}
-
-% Another change to the sampling method was to sample a percentage of the data within the sample rather than a fixed amount. The sample ranges provided a larger range of data to sample and thus sticking to a arbitrary amount of tuples was updated. This however introduced biasing issues with the data set since typically one category or the other had the majority of tuples within the sample. Fixing this issue is talked about in further detail in \autoref{subsec:random_forest_predictions}. Similar to the previous sampling techniques the data set was sampled randomly. Therefore the percentage of data sampled had a large impact on how long it took to train the model but typically also on the prediction results of the model. 
-
-% TODO discuss the results
-
-% \subsection{Experiment 8}
-
-% After more or less establishing a data sampling model the candidate feature set was looked at again in an attempt to improve the prediction results. A few of the candidate features were removed and a minimum candidate feature set was determined which provided the best results for the current test project \textit{acra}.
-
-% % TODO show some results
-
-% % TODO outline the candidate feature set that performed the best for SVM
-
-% The optimal value of $m$ is a more challenging issue since for project which have a large amount of rapid change occurring in the project larger value seems to provide a more positive result. Where as smaller projects or ones that have a slower rate of change tend to do far better with a smaller value of $m$. 
-
-% \subsection{Experiment 9}
-
-% After the results of the previous experiments proved to less consistent for other data sets such as \textit{storm} and \textit{fresco} another prediction algorithm was tested. \gls{rf} as discussed in greater detail in \autoref{subsec:random_forest_predictions} is more capable with unbalanced datasets and is generally more widely used for performing predictions on mined data. % TODO cite this.
-
-% \gls{rf} while proving to be at times easier to get better results also had some of the challenges that the \gls{svm} model experienced. For example the best features to use in the prediction model and also the best commit width ($m$) to optimize the results.
-
 \section{Experimental Setup}
 
 
@@ -580,16 +454,20 @@ P_{recall} = \frac{tp}{tp+fn}
 \section{Experimental Results}
 \label{sec:experimental_results}
 
+% TODO give a brief introduction to experiments. Reference the data discussed in previous sections in this chapter.
+% TODO reference the appendix which contains a complete set of figures related to the experiments conducted.
+
+For each experiment all of the data used to train and test the model is collected using a Ruby script to query a PostgreSQL database. The PostgreSQL database provides the raw data which is then processed into data vectors in an acceptable form for \gls{svm} or \gls{rf}. The data processing method is outlined more completely in \autoref{sec:prediction_method}.
+
 \subsection{SVM Experiments}
 \label{subsec:svm_experiments}
 
-For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \autoref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The data used to train and test the approach is collected using a Ruby script to query a PostgreSQL database. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
+For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \autoref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
 
 
 \subsubsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
 
-% TODO add dependent and independent variables discussion
 
 In this experiment the independent variable is the size of the \gls{swr} in commits. For each variation of the \gls{swr} the performance is measured. In \autoref{tab:svm_window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the $sf_{\Delta}$ is not used while all the rest are. Each of these features is outlined in further detail in \autoref{tab:candidate_features}.
 
@@ -608,17 +486,7 @@ In this experiment the independent variable is the size of the \gls{swr} in comm
 \end{center}
 \end{table}
 
-%% TODO create a table to show this information.
-% Extend Window: No% Sample by Commit Range: Yes
-% Over Sampling: No
-% Under Sampling: Yes
-% Sample Rate: 100%
-% Window Offset: 5
-% SVM c: 10
-% SVM gamma: 8
-% SVM esp: 0.001
-
-As noted above the independent variable for this experiment is the \gls{swr}. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:svm_window_range_experiment_setup}.
+As noted above the independent variable for this experiment is the \gls{swr}. The remaining parameters for the experiment are constant for each test. These parameters for this experiment are outlined in \autoref{tab:svm_window_range_experiment_setup}.
 
 \begin{table}[h]
 \begin{center}
@@ -635,26 +503,10 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 
 \end{table}
 
-The rest of the experimental performance results are found in \autoref{app_sub:experiment_1_svm}.
+Each project was tested on using these outlined parameters for an \gls{swr} varying from 60 to 130 by intervals of 10. The complete set of experimental performance results are found in \autoref{app_sub:experiment_1_svm}. For some projects did not have enough data to complete the entirety of this experiment. For example, parceler did not have enough data to complete the trials with \gls{swr} for 120 or 130. These projects were still included and show how the method works with smaller amount of data available.
 
 % TODO rework the following to be the key figures.
 The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width. 
-
-% \begin{figure}[h]
-%     \centeringb
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/acra_sample_range}
-%         \caption{\gls{swr} for acra using \gls{svm}}
-%         \label{fig:test_1_acra_svm}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/dagger_sample_range}
-%         \caption{\gls{swr} for dagger using \gls{svm}}
-%         \label{fig:test_1_dagger_svm}
-%     \end{minipage}sliding window factor
-% \end{figure}
 
 % TODO improve the image placement.
 \begin{figure}[!ht]
@@ -671,22 +523,6 @@ The results for the experiments are shown with the precision, recall and accurac
         \caption{\gls{swr} for dagger using \gls{svm}}
         \label{fig:test_1_dagger_svm}
 \end{figure}
-
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/fresco_sample_range}
-%         \caption{\gls{swr} for fresco using \gls{svm}}
-%         \label{fig:test_1_fresco_svm}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_1/storm_sample_range}
-%         \caption{\gls{swr} for storm using \gls{svm}}
-%         \label{fig:test_1_storm_svm}
-%     \end{minipage}
-% \end{figure}
 
 \begin{figure}[!ht]
     \centering
@@ -719,114 +555,6 @@ The precision and accuracy remain fairly stable throughout this experiment. Whil
 
 Finally, the recall for the prediction is very unstable. While both accuracy and precision are very closely related and so will be likely close in value. Recall however will vary from a very low value to a very high value. For example in \autoref{fig:test_1_fresco_svm} the value of recall at \gls{swr} of $60$ is $0.1$ and then jumps to $0.9$ at \gls{swr} of $70$. \autoref{fig:test_1_storm_svm} and \autoref{fig:test_1_deeplearning4j_svm} both also have large changes in the recall but none as drastic as shown in fresco. 
 
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/test_1/dagger_sample_range}
-%     \caption{\gls{swr} for dagger}
-%     \label{fig:test_1_dagger}
-% \end{figure}
-
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/test_1/fresco_sample_range}
-%         \caption{\gls{swr} for fresco}
-%         \label{fig:test_1_fresco}
-% \end{figure}
-
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=1.0\textwidth]{images/test_1/storm_sample_range}
-%         \caption{\gls{swr} for storm}
-%         \label{fig:test_1_storm}
-% \end{figure}
-
-% \subsection{\gls{swr} Experiments 2}
-
-% For this experiment the variable was the size of the \gls{swr} in commits. In \autoref{tab:window_range_experiment_features}, the features used by the prediction model are outlined. Features with a mark, $\bullet$, are used while those without are not. In this experiment only the Short $\Delta_{freq}$ is not used while all the rest are.
-
-% \begin{table}[h]
-% \begin{center}
-
-%     \begin{tabular}{|c|c|c|c|c|c|c|c|}
-%         \hline
-%         Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
-%         % & & & & $\Delta_{freq}$ & & & Next \\
-%            \hline
-%         $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ \\ \hline
-%     \end{tabular}
-%     \caption{Window Range Experiment Features}
-%     \label{tab:window_range_experiment_features}
-% \end{center}
-
-% \end{table}
-
-% %% TODO create a table to show this information..
-
-% % Extend Window: No% Sample by Commit Range: Yes
-% % Over Sampling: No
-% % Under Sampling: Yes
-% % Sample Rate: 100%
-% % Window Offset: 5
-% % SVM c: 10
-% % SVM gamma: 8
-% % SVM esp: 0.001
-
-% As noted above the independent variable for this experiment is the \gls{swr}. The remaining parameters for the experiment are constant for each test. The parameters for this experiment are outlined in \autoref{tab:window_range_experiment_setup}.
-
-% \begin{table}[h]
-% \begin{center}
-
-%     \begin{tabular}{|c|c|c|c|c|cc|}
-%         \hline
-%         Extended & Over & Under & Sample & Window & SVM & \\
-%         Window & Sampling & Sampling & Rate & Offset & C & gamma \\ \hline
-%         No & No & Yes & $100\%$ & 5 & 10 & 8 \\ \hline
-%     \end{tabular}
-%     \caption{Window Range Experiment Setup}
-%     \label{tab:window_range_experiment_setup}
-% \end{center}
-
-% \end{table}
-
-% % TODO talk about results
-
-% \begin{figure}[!ht]
-%     \centering
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/acra_sample_range}
-%         \caption{\gls{swr} for acra}
-%         \label{fig:test_2_acra}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/dagger_sample_range}
-%         \caption{\gls{swr} for dagger}
-%         \label{fig:test_2_dagger}
-%     \end{minipage}
-% \end{figure}
-
-% \begin{figure}[!ht]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/fresco_sample_range}
-%         \caption{\gls{swr} for fresco}
-%         \label{fig:test_2_fresco}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_2/storm_sample_range}
-%         \caption{\gls{swr} for storm}
-%         \label{fig:test_2_storm}
-%     \end{minipage}
-% \end{figure}
-
-% \begin{figure}[!ht]
-%     \centering
-%         \includegraphics[width=0.45\textwidth]{images/svm/test_2/deeplearning4j_sample_range}
-%     \caption{\gls{swr} for deeplearning4j}
-%     \label{fig:test_2_deeplearning4j}
-% \end{figure}
     
 \subsubsection{Feature Set Experiments}
 \label{sec:svm_feature_set_experiments}
@@ -886,22 +614,6 @@ The rest of this experiments performance results can be found in \autoref{app_su
 % TODO update the section below to only contain the key figures
 The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
 
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/acra_sample_range}
-%         \caption{Feature for acra using \gls{svm}}
-%         \label{fig:test_3_acra_svm}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/dagger_sample_range}
-%         \caption{Feature for dagger using \gls{svm}}
-%         \label{fig:test_3_dagger_svm}
-%     \end{minipage}
-% \end{figure}
-
 \begin{figure}[!t]
     \centering
 
@@ -916,22 +628,6 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
         \caption{Feature for dagger using \gls{svm}}
         \label{fig:test_3_dagger_svm}
 \end{figure}
-
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
-%         \caption{Feature for fresco using \gls{svm}}
-%         \label{fig:test_3_fresco_svm}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
-%         \caption{Feature for storm using \gls{svm}}
-%         \label{fig:test_3_storm_svm}
-%     \end{minipage}
-% \end{figure}
 
 \begin{figure}[!ht]
     \centering
@@ -997,22 +693,6 @@ The experiment below took the best and worst trials from \autoref{sec:svm_swr_ex
         \caption{Oversampling for dagger using \gls{svm}}
         \label{fig:test_4_dagger_svm}
 \end{figure}
-
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/fresco_sample_range}
-%         \caption{Feature for fresco using \gls{svm}}
-%         \label{fig:test_3_fresco_svm}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/svm/test_3/storm_sample_range}
-%         \caption{Feature for storm using \gls{svm}}
-%         \label{fig:test_3_storm_svm}
-%     \end{minipage}
-% \end{figure}
 
 \begin{figure}[!ht]
     \centering
@@ -1091,22 +771,6 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 \end{table}
 
 The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. The features used for this experiment is the same as the first \gls{svm} experiment the candidate feature set.
-
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/rf/test_1/acra_sample_range}
-%         \caption{\gls{swr} for acra using \gls{rf}}
-%         \label{fig:test_1_acra_rf}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/rf/test_1/dagger_sample_range}
-%         \caption{\gls{swr} for dagger using \gls{rf}}
-%         \label{fig:test_1_dagger_rf}
-%     \end{minipage}
-% \end{figure}
 
 \begin{figure}[!t]
     \centering
@@ -1312,22 +976,6 @@ The result of a trail with \gls{os} are represented in the figures by either \te
         \caption{Oversampling for dagger using \gls{rf}}
         \label{fig:test_4_dagger_rf}
 \end{figure}
-
-% \begin{figure}[h]
-%     \centering
-
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/rf/test_3/fresco_sample_range}
-%         \caption{Feature for fresco using \gls{rf}}
-%         \label{fig:test_3_fresco_rf}
-%     \end{minipage}
-% \quad
-%     \begin{minipage}[b]{0.45\linewidth}
-%         \includegraphics[width=1.0\textwidth]{images/rf/test_3/storm_sample_range}
-%         \caption{Feature for storm using \gls{rf}}
-%         \label{fig:test_3_storm_rf}
-%     \end{minipage}
-% \end{figure}
 
 \begin{figure}[!ht]
     \centering
