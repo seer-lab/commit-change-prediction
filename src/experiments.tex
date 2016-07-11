@@ -577,13 +577,16 @@ The recall of the model is the measure of how correct the model predicts that ch
 P_{recall} = \frac{tp}{tp+fn}
 \end{equation}
 
-\section{SVM Experiments}
-\label{sec:svm_experiments}
+\section{Experimental Results}
+\label{sec:experimental_results}
+
+\subsection{SVM Experiments}
+\label{subsec:svm_experiments}
 
 For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \autoref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The data used to train and test the approach is collected using a Ruby script to query a PostgreSQL database. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
 
 
-\subsection{Window Range Experiments}
+\subsubsection{Window Range Experiments}
 \label{sec:svm_swr_experiment}
 
 % TODO add dependent and independent variables discussion
@@ -825,7 +828,7 @@ Finally, the recall for the prediction is very unstable. While both accuracy and
 %     \label{fig:test_2_deeplearning4j}
 % \end{figure}
     
-\subsection{Feature Set Experiments}
+\subsubsection{Feature Set Experiments}
 \label{sec:svm_feature_set_experiments}
 
 
@@ -953,7 +956,7 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
 
 The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Likewise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
 
-\subsection{SVM Oversampling Experiment}
+\subsubsection{SVM Oversampling Experiment}
 \label{sec:svm_os_experiment}
 
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
@@ -1036,7 +1039,7 @@ The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect
 
 The majority of the experiments there is little to no impact whether \gls{os} was used or not. The only experiment that \gls{os} had a noticeable impact was deeplearning4j. In \autoref{fig:test_4_deeplearning4j_svm} the performance of both the best and the worst with \gls{os} is worse with the exception of a slight improvement for the recall in the best trials.
 
-\subsection{SVM Discussion}
+\subsubsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
 % TODO update this to include results from newly added projects
@@ -1048,12 +1051,12 @@ The three different experiments attempted to determine the impact of the differe
 \end{enumerate}
 Overall \gls{swr} had the greatest impact on the performance of the prediction method. While the \gls{swr} does have a large impact some projects are less affected. Specifically, the accuracy and precision remained rather stable will primarily small variations for any change in \gls{swr}, model features and sampling balancing. The model's recall however, tended to vary more greatly for the first two experiments. Small changes to the \gls{swr} will result in large changes to the recall. Likewise in some of the trails from the second experiment the recall will change drastically with slightly different sets of features. While positive results were achieved negative results also were present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of this approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.   
 
-\section{Random Forest Experiments}
+\subsection{Random Forest Experiments}
 \label{sec:rf_experiments}
 
 The machine learning algorithm \gls{rf} is used for the second set of experiments. \gls{rf} was selected as an alternative to \gls{svm} for it's success in various data mining related tools. The implementation of \gls{rf} is in a python library \textit{scikit-learn} which is outlined in \autoref{sec:prediction_method}. Only one parameter is used for \gls{rf}, the forest size, which is set to $10000$ all of these experiments.
 
-\subsection{Window Range Experiments}
+\subsubsection{Window Range Experiments}
 \label{sec:rf_swr_experiment}
 
 \begin{table}[h]
@@ -1152,7 +1155,8 @@ The results for the experiments with the independent variable sample window size
 
 While acra had positive results several values of \gls{swr}, as the \gls{swr} increased the recall decreased as well. Both acra and dagger also had a larger variation in performance for accuracy and precision than the remaining three projects. The actual difference however was smaller with the largest variation of around $0.2$. The lack of a large variation for different values of \gls{swr} points to the independent variable not having as strong of impact on the performance. The variable is still useful to help provide a better result but is not the main contributer.
 
-\subsection{Feature Set Experiments}
+\subsubsection{Feature Set Experiments}
+\label{sec:feature_set_experiment_rf}
 
 \begin{table}[h]
 \begin{center}
@@ -1235,7 +1239,8 @@ The rest of the results for this experiment are outlined in \autoref{app_sub:exp
 
 Generally the experiment results were not particularly strong. In \autoref{fig:test_3_acra_rf} the performance for candidate feature sets 1, 2, 3, 5 were all high and is the performs the best out of all the other projects. For dagger in \autoref{fig:test_3_dagger_rf} the result for candidate feature set 1 is high where as the rest are far worse. The remainder of the projects the accuracy and precision are less than $0.6$. In \autoref{fig:test_3_fresco_rf} and \autoref{fig:test_3_storm_rf} the recall is far more consistently high. However deeplearning4j has generally low results for accuracy, precision and recall.
 
-\subsection{Oversampling Experiment}
+\subsubsection{Oversampling Experiment}
+\label{sec:oversampling_experiment_rf}
 
 \begin{table}[h]
 \begin{center}
@@ -1349,7 +1354,7 @@ The results for acra showed a slight improvement for both the best and worst cas
 
 While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
 
-\subsection{Random Forest Discussion}
+\subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
 
 The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, had positive results for the two smaller projects and lower performance for the remaining projects. The changes made to the \gls{swr} caused little variation between samples. Of course there were some exceptions, for example the recall for acra decreased at $80$, $100$ and $120$. Each drop was around $0.2$ and in total led to a fall of $0.8$. This should however not lessen the positive performance achieved especially in projects like acra.
@@ -1358,6 +1363,47 @@ The second experiment also had very small variability for different values of th
 
 Finally for the third experiment the factor of \gls{os} was investigated. The best and the worst results were taken from the first experiment. \gls{os} was applied to using the same parameters as before. While some projects saw small improvements with the use of \gls{os}, others saw the performance reduce or stay the same. Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the any increase or decrease to the performance were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount.
 
+\subsection{Experiment Discussions}
+
+% TODO talk about tab:project_performance, also note how the best ones were calculated using a weighted sum for multi-variable optimization.
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Project & AI & Feature Set & SWR & Test Setup & Precision & Recall & Accuracy \\
+        \hline
+        acra & SVM & 2 & 100 & test 1 & 0.74 & 0.92 & 0.8 \\
+        arquillian-core & RF & 5 & 90 & test 3 & 0.53 & 0.97 & 0.56 \\
+        blockly-android & SVM & 2 & 60 & test 1 & 0.51 & 1.0 & 0.51 \\
+        brave & RF & 2 & 90 & test 1 & 0.6 & 0.95 & 0.65 \\
+        cardslib & RF & 2 & 100 & test 1 & 0.65 & 0.74 & 0.67 \\
+        dagger & SVM & 1 & 90 & test 3 & 0.51 & 0.9 & 0.52 \\
+        deeplearning4j & RF & 2 & 120 & test 1 & 0.57 & 0.93 & 0.61 \\
+        fresco & RF & 2 & 60 & test 1 & 0.52 & 1.0 & 0.53 \\
+        governator & RF & 2 & 60 & test 1 & 0.57 & 0.81 & 0.6 \\
+        greenDAO & SVM & 3, 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
+        http-request & RF & 2 & 80 & test 1 & 0.87 & 0.79 & 0.84 \\
+        ion & RF & 2 & 90 & test 3 & 0.72 & 0.73 & 0.72 \\
+        jadx & SVM & 2 & 130 & test 1 & 0.55 & 0.82 & 0.58 \\
+        mapstruct & RF & 1 & 90 & test 3 & 0.54 & 0.95 & 0.57 \\
+        nettosphere & RF & 2 & 110 & test 1 & 0.63 & 0.67 & 0.63 \\
+        parceler & SVM & 1 & 90 & test 3 & 0.57 & 0.92 & 0.61 \\
+        retrolambda & SVM & 2 & 80 & test 1 & 0.52 & 0.96 & 0.53 \\
+        ShowcaseView & SVM & 1 & 90 & test 3 & 0.73 & 0.89 & 0.78 \\
+        smile & SVM & 5 & 90 & test 3 & 0.53 & 0.96 & 0.55 \\
+        spark & SVM & 2, 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
+        storm & RF & 2 & 60 & test 1 & 0.61 & 0.89 & 0.66 \\
+        tempto & RF & 2 & 70 & test 1 & 0.58 & 0.65 & 0.59 \\
+        yardstick & SVM & 3 & 90 & test 3 & 0.53 & 0.68 & 0.54 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Project Best Performance}
+\label{tab:project_performance}
+\end{table}
+
+\clearpage
 \section{Threats to Validity}
 \label{sec:threat_validity}
 
