@@ -505,6 +505,9 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 
 Each project was tested on using these outlined parameters for an \gls{swr} varying from 60 to 130 by intervals of 10. The complete set of experimental performance results are found in \autoref{app_sub:experiment_1_svm}. For some projects did not have enough data to complete the entirety of this experiment. For example, parceler did not have enough data to complete the trials with \gls{swr} for 120 or 130. These projects were still included and show how the method works with smaller amount of data available.
 
+% List of projects for this section:
+% acra
+
 % TODO rework the following to be the key figures.
 The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the value of each of the different plot, either precision, recall and accuracy. The first project, acra, in \autoref{fig:test_1_acra_svm} has the strongest performance out of all the projects. The best performance for acra is at \gls{swr} at 80 commits width. 
 
@@ -1014,6 +1017,15 @@ Finally for the third experiment the factor of \gls{os} was investigated. The be
 \subsection{Experiment Discussions}
 
 % TODO talk about tab:project_performance, also note how the best ones were calculated using a weighted sum for multi-variable optimization.
+The best performance each project out of the experiments conducted are shown in \autoref{tab:project_performance}. Therefore the best parameters are outlined for each project. The best result was calculated through multi-variable optimization. Since the performance measure consisted of three variables the best result would be one that maintained higher results for each. While not the most ideal, a weighted sum was taken of the precision, recall and accuracy outlined in \autoref{eq:ranking_formula}. The weight of precision ($w_{p}$) and accuracy ($w_{a}$) are closely related both were assigned a weight of $0.5$ while the weight for recall ($w_{r}$) was assigned $1.0$. The higher the resultant summation of the performance measures the higher the ranking of the given performance. Therefore the trails that had the highest performance weighted sum were considered to have performed the best.
+
+\begin{equation} 
+\label{eq:ranking_formula}
+score_i = w_{pi} \times p_i + w_{ri} \times r_i + w_{ai} \times a_i
+max(score)
+\end{equation}
+
+While the weighted sum did optimize each value, a common issue was that often a project would have one or two parameter perform well while the remaining performed poorly. For example blockly-android had the maximum value for recall but $0.51$ for precision and accuracy. The weighted sum of this vector would be $0.51 \times 0.5 + 1.0 \times 1.0 + 0.51 \times 0.5 = 1.51$. However in the event that another performance scored $0.7$ for each measure, the weighted sum would be $0.7 \times 0.5 + 0.7 \times 1.0 + 0.7 \times 0.5 = 1.4$. Since the goal is for multi-variable optimization a model that is generally good on each measure is better than a model performs well with one or two but terribly for the rest. Regardless though, some generally performed poorly and that is reflected in the table with a best performance that is quite low or very bias. 
 
 \begin{table}
 \begin{center}
@@ -1021,7 +1033,7 @@ Finally for the third experiment the factor of \gls{os} was investigated. The be
         \hline
         Project & AI & Feature Set & SWR & Test Setup & Precision & Recall & Accuracy \\
         \hline
-        acra & SVM & 2 & 100 & test 1 & 0.74 & 0.92 & 0.8 \\
+        acra & SVM & 2 & 100 & test 1 & 0.74 & 0.92 & 0.8 \\          % top tier
         arquillian-core & RF & 5 & 90 & test 3 & 0.53 & 0.97 & 0.56 \\
         blockly-android & SVM & 2 & 60 & test 1 & 0.51 & 1.0 & 0.51 \\
         brave & RF & 2 & 90 & test 1 & 0.6 & 0.95 & 0.65 \\
@@ -1031,14 +1043,14 @@ Finally for the third experiment the factor of \gls{os} was investigated. The be
         fresco & RF & 2 & 60 & test 1 & 0.52 & 1.0 & 0.53 \\
         governator & RF & 2 & 60 & test 1 & 0.57 & 0.81 & 0.6 \\
         greenDAO & SVM & 3, 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
-        http-request & RF & 2 & 80 & test 1 & 0.87 & 0.79 & 0.84 \\
-        ion & RF & 2 & 90 & test 3 & 0.72 & 0.73 & 0.72 \\
+        http-request & RF & 2 & 80 & test 1 & 0.87 & 0.79 & 0.84 \\   % top tier
+        ion & RF & 2 & 90 & test 3 & 0.72 & 0.73 & 0.72 \\            % top tier
         jadx & SVM & 2 & 130 & test 1 & 0.55 & 0.82 & 0.58 \\
         mapstruct & RF & 1 & 90 & test 3 & 0.54 & 0.95 & 0.57 \\
         nettosphere & RF & 2 & 110 & test 1 & 0.63 & 0.67 & 0.63 \\
         parceler & SVM & 1 & 90 & test 3 & 0.57 & 0.92 & 0.61 \\
         retrolambda & SVM & 2 & 80 & test 1 & 0.52 & 0.96 & 0.53 \\
-        ShowcaseView & SVM & 1 & 90 & test 3 & 0.73 & 0.89 & 0.78 \\
+        ShowcaseView & SVM & 1 & 90 & test 3 & 0.73 & 0.89 & 0.78 \\  % top tier
         smile & SVM & 5 & 90 & test 3 & 0.53 & 0.96 & 0.55 \\
         spark & SVM & 2, 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
         storm & RF & 2 & 60 & test 1 & 0.61 & 0.89 & 0.66 \\
@@ -1051,6 +1063,8 @@ Finally for the third experiment the factor of \gls{os} was investigated. The be
 \label{tab:project_performance}
 \end{table}
 
+The number of projects that perform the best with \gls{svm} and \gls{rf} are 11 and 12 respectively. As noted above some of the performance results are still quite low for some of the projects because of a lack of success for that project for all of the trials run. All projects did perform better than $50\%$ which is quite a poor result since it is about as good as a coin toss. Out of the best performances, only 6 of the 23 projects have a trial that performs better than $60\%$ for all three measures. Of those 6 only 4 of those perform better than $70\%$ for each performance measure. Of the top 4, http-request performed the best followed by acra, ShowcaseView and ion in descending order. Both acra and ShowcaseView performed best with use of \gls{svm} while http-request and ion perform best with \gls{rf}. For both http-request and ShowcaseView the overall performance is better for \gls{rf} over \gls{svm}. Likewise, ion performed better for \gls{svm} over \gls{rf}. The results were more consistent between \gls{rf} and \gls{svm}. The second feature set used for acra, http-request and ion to gain the best performance while for ShowcaseView the first feature set performed the best.
+ 
 \clearpage
 \section{Threats to Validity}
 \label{sec:threat_validity}
