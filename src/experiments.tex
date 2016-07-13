@@ -595,7 +595,6 @@ Projects that were influenced more by \gls{swr} thus having a larger variation b
 
 \end{table}
 
-%% TODO create a table to show this information.
 % Extend Window: No% Sample by Commit Range: Yes
 % Over Sampling: No
 % Under Sampling: Yes
@@ -607,7 +606,7 @@ Projects that were influenced more by \gls{swr} thus having a larger variation b
 
 %The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
-This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{tab:svm_feature_experiment_setup}. The value of $90$ for \gls{swr} was selected based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \autoref{sec:svm_swr_experiment}. 
+This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{tab:svm_feature_experiment_setup}. The value of $90$ was selected for the \gls{swr} based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \autoref{sec:svm_swr_experiment}. 
 
 \begin{table}[ht]
 \begin{center}
@@ -629,39 +628,25 @@ This experiment uses different sets of candidate feature to test to explore the 
 \end{center}
 \end{table}
 
-The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
-
 % TODO update the section below to only contain the key figures
-The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row.
+The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. These feature sets were selected from a larger set of features outlined in \autoref{sec:prediction_data}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row. Some of the projects results are shown in figures below. The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
+
+% Projects to show:
+% ShowcaseView
+% nettosphere
+% deeplearning4j
+% ion
+% mapstruct
 
 \begin{figure}[!t]
     \centering
 
-        \includegraphics[width=0.8\textwidth]{images/svm/test_3/acra_sample_range}
-        \caption{Feature for acra using \gls{svm}}
-        \label{fig:test_3_acra_svm}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/ShowcaseView_sample_range}
+        \caption{Feature for ShowcaseView using \gls{svm}}
+        \label{fig:test_3_ShowcaseView_svm}
 \end{figure}
 
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/svm/test_3/dagger_sample_range}
-        \caption{Feature for dagger using \gls{svm}}
-        \label{fig:test_3_dagger_svm}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/svm/test_3/fresco_sample_range}
-        \caption{Feature for fresco using \gls{svm}}
-        \label{fig:test_3_fresco_svm}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/svm/test_3/storm_sample_range}
-        \caption{Feature for storm using \gls{svm}}
-        \label{fig:test_3_storm_svm}
-\end{figure}
+Show
 
 \begin{figure}[!ht]
     \centering
@@ -670,10 +655,36 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
     \label{fig:test_3_deeplearning4j_svm}
 \end{figure}
 
-The first project, acra, performs well with accuracy and precision maintaining around $0.7$ with the recall above in \autoref{fig:test_3_acra_svm}. Similarly the recall is always above $0.75$ for each tests even for the feature set that performed the worst. However the rest of the experiments did not perform as well. The accuracy and precision did not very greatly between the different feature sets. The project dagger in \autoref{fig:test_3_dagger_svm} has mixed results with accuracy and precision staying around $0.5$ and recall either very high or low. Likewise for fresco and storm in \autoref{fig:test_3_fresco_svm} and \autoref{fig:test_3_storm_svm} respectively have very little variations in the accuracy and precision. Some of the feature sets tested provide high recall while others provide low without a clear pattern. Finally, deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm} rather similar to results as last two, however unlike the other projects candidate feature set 4 performs the best out of all the feature sets.
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/ion_sample_range}
+        \caption{Feature for ion using \gls{svm}}
+        \label{fig:test_3_ion_svm}
+\end{figure}
+
+The projects ShowcaseView, deeplearning4j and ion were all greatly impacted by the different feature sets. ShowcaseView in \autoref{fig:test_3_ShowcaseView_svm} performed well for feature set 1 and 5 and terribly for feature set 3. 
+Similarly for ion in \autoref{fig:test_3_ion_svm}, feature sets 1 and 5 performed well with the rest of the feature sets performing poorly. Finally for deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm}, the best performance was for feature set 3 where as the remaining trails were not as good. There were a few projects like these ones were one or two of the feature sets would perform well. One that performed well for certain feature sets tended to share similar project classifications like ShowcaseView and ion do.
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/nettosphere_sample_range}
+        \caption{Feature for nettosphere using \gls{svm}}
+        \label{fig:test_3_nettosphere_svm}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/svm/test_3/mapstruct_sample_range}
+        \caption{Feature for mapstruct using \gls{svm}}
+        \label{fig:test_3_mapstruct_svm}
+\end{figure}
+
+A lot of projects did not vary greatly for different feature sets providing similar to results to that of nettosphere in \autoref{fig:test_3_nettosphere_svm}. All three performance measures show little variance and only small chances are present between projects. Other projects performed poorly for all the feature sets such as mapstruct in \autoref{fig:test_3_mapstruct_svm} which had 3 of the 5 trails score lower than $0.5$ in all performance measures. The feature sets are an influencing factor on the performance of the model however no single feature set found to stand out as the ideal candidate for all projects.
 
 \subsubsection{SVM Oversampling Experiment}
 \label{sec:svm_os_experiment}
+
+% TODO add other tests to this subsection
 
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
 
@@ -790,33 +801,49 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 
 \end{table}
 
-The independent variable for this set of experiments is the sample window size measured in commits. The candidate features are outlined in \autoref{tab:rf_window_range_experiment_features}. The features used for this experiment is the same as the first \gls{svm} experiment the candidate feature set.
+The independent variable for this set of experiments is the sample window size measured in commits. The feature set are outlined in \autoref{tab:rf_window_range_experiment_features}. The features used for this experiment is the same as the first \gls{svm} experiment feature set.
+
+The parameters for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The only difference between the parameters used in this experiment and the parameters used in the \gls{svm} experiment one is the \gls{rf} specific parameters. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}. The experiment was conducted on all 23 projects collected and examples were are discussed in more detail in this section. The remainder of the projects performance results are outlined in \autoref{app_sub:experiment_1_rf}.
+
+% Projects
+% http-request
+% jadx
+% parceler
+% storm
+% dagger
+
+\begin{figure}[!ht]
+    \centering
+
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/http-request_sample_range}
+        \caption{\gls{swr} for http-request using \gls{rf}}
+        \label{fig:test_1_http-request_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/http-request_importance}
+        \caption{Feature Importance \gls{swr} for http-request using \gls{rf}}
+        \label{fig:test_1_http-request_rf_importance}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_sample_range}
+    \caption{\gls{swr} for jadx using \gls{rf}}
+    \label{fig:test_1_jadx_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_importance}
+        \caption{Feature Importance \gls{swr} for jadx using \gls{rf}}
+        \label{fig:test_1_jadx_rf_importance}
+\end{figure}
 
 \begin{figure}[!t]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/acra_sample_range}
-        \caption{\gls{swr} for acra using \gls{rf}}
-        \label{fig:test_1_acra_rf}
-\end{figure}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/parceler_sample_range}
+        \caption{\gls{swr} for parceler using \gls{rf}}
+        \label{fig:test_1_parceler_rf}
 
-The parameter for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}.
-
-The remainder of the projects performance results are outlined in \autoref{app_sub:experiment_1_rf}.
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
-        \caption{\gls{swr} for dagger using \gls{rf}}
-        \label{fig:test_1_dagger_rf}
-\end{figure}
-
-
-\begin{figure}[!ht]
-    \centering
-
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/fresco_sample_range}
-        \caption{\gls{swr} for fresco using \gls{rf}}
-        \label{fig:test_1_fresco_rf}
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/parceler_importance}
+        \caption{Feature Importance \gls{swr} for parceler using \gls{rf}}
+        \label{fig:test_1_parceler_rf_importance}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -824,16 +851,25 @@ The remainder of the projects performance results are outlined in \autoref{app_s
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{rf}}
         \label{fig:test_1_storm_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_importance}
+        \caption{Feature Importance \gls{swr} for storm using \gls{rf}}
+        \label{fig:test_1_storm_rf_importance}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/deeplearning4j_sample_range}
-    \caption{\gls{swr} for deeplearning4j using \gls{rf}}
-    \label{fig:test_1_deeplearning4j_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
+        \caption{\gls{swr} for dagger using \gls{rf}}
+        \label{fig:test_1_dagger_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_importance}
+        \caption{Feature Importance \gls{swr} for dagger using \gls{rf}}
+        \label{fig:test_1_dagger_rf_importance}
 \end{figure}
 
-% TODO add key results
+
+% TODO discuss the importance figure.
 
 The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. For these projects the accuracy and precision were lower, the recall was very high.
 
