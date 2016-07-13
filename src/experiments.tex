@@ -826,6 +826,21 @@ The parameters for this experiment are outlined in \autoref{tab:rf_window_range_
 
 \begin{figure}[!ht]
     \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
+        \caption{\gls{swr} for dagger using \gls{rf}}
+        \label{fig:test_1_dagger_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_importance}
+        \caption{Feature Importance \gls{swr} for dagger using \gls{rf}}
+        \label{fig:test_1_dagger_rf_importance}
+\end{figure}
+
+Each projects experimental results are accompanied with a second figure that outlines the importance for each feature set variable in the creation of the prediction model. The importance of a feature only identifies how influential that feature was to the prediction and therefore necessitates the context of the results. So if a project performs poorly in predicting the most influential features are more likely to not as useful for predictions with the project. Likewise, if a project performs well the corresponding feature importance can indicate highly influential features that helped produce positive results.
+
+Even in the case of where a project performs well the feature set used may not be generalizable to other projects. For example http-request in \autoref{fig:test_1_http-request_rf_importance} performs well with a \gls{swr} of 70 - 90 and places high importance on $Sig$, $Name$, $time$ and $length$. Alternatively, dagger in \autoref{fig:test_1_dagger_rf_importance} performs moderately well with an \gls{swr} of 60 and 100-110 while placing a higher importance on $Com$ and $time$. Even more interesting is that http-request placed nearly 0 importance on $Com$ while the same feature ranked second for dagger.
+
+\begin{figure}[!ht]
+    \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_sample_range}
     \caption{\gls{swr} for jadx using \gls{rf}}
     \label{fig:test_1_jadx_rf}
@@ -856,18 +871,6 @@ The parameters for this experiment are outlined in \autoref{tab:rf_window_range_
         \caption{Feature Importance \gls{swr} for storm using \gls{rf}}
         \label{fig:test_1_storm_rf_importance}
 \end{figure}
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
-        \caption{\gls{swr} for dagger using \gls{rf}}
-        \label{fig:test_1_dagger_rf}
-
-    \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_importance}
-        \caption{Feature Importance \gls{swr} for dagger using \gls{rf}}
-        \label{fig:test_1_dagger_rf_importance}
-\end{figure}
-
 
 % TODO discuss the importance figure.
 
