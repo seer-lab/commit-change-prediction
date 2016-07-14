@@ -841,6 +841,17 @@ Even in the case of where a project performs well the feature set used may not b
 
 \begin{figure}[!ht]
     \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/ShowcaseView_sample_range}
+        \caption{\gls{swr} for ShowcaseView using \gls{rf}}
+        \label{fig:test_1_ShowcaseView_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/ShowcaseView_importance}
+        \caption{Feature Importance \gls{swr} for ShowcaseView using \gls{rf}}
+        \label{fig:test_1_ShowcaseView_rf_importance}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_sample_range}
     \caption{\gls{swr} for jadx using \gls{rf}}
     \label{fig:test_1_jadx_rf}
@@ -848,6 +859,19 @@ Even in the case of where a project performs well the feature set used may not b
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_importance}
         \caption{Feature Importance \gls{swr} for jadx using \gls{rf}}
         \label{fig:test_1_jadx_rf_importance}
+\end{figure}
+
+The performance of each project varied, with a few projects performing well for some \gls{swr} like http-request in \autoref{fig:test_1_http-request_rf}, dagger in \autoref{fig:test_1_dagger_rf} and ShowcaseView in \autoref{fig:test_1_ShowcaseView_rf}. The impact of the changes to \gls{swr} is clearly visible as some trails perform poorly, while others perform a lot better. For example in ShowcaseView, use of a \gls{swr} of 100 or higher provides good performance but below the performance is a lot lower. For some projects such as jadx in \autoref{fig:test_1_jadx_rf} the \gls{swr} had less of an impact causing little variation between precision and accuracy while offering only slight changes with the recall.
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
+        \caption{\gls{swr} for storm using \gls{rf}}
+        \label{fig:test_1_storm_rf}
+
+    \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_importance}
+        \caption{Feature Importance \gls{swr} for storm using \gls{rf}}
+        \label{fig:test_1_storm_rf_importance}
 \end{figure}
 
 \begin{figure}[!t]
@@ -861,22 +885,7 @@ Even in the case of where a project performs well the feature set used may not b
         \label{fig:test_1_parceler_rf_importance}
 \end{figure}
 
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
-        \caption{\gls{swr} for storm using \gls{rf}}
-        \label{fig:test_1_storm_rf}
-
-    \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_importance}
-        \caption{Feature Importance \gls{swr} for storm using \gls{rf}}
-        \label{fig:test_1_storm_rf_importance}
-\end{figure}
-
-% TODO discuss the importance figure.
-
-The results for the experiments with the independent variable sample window size using random forest were mixed. Both acra in \autoref{fig:test_1_acra_rf} and dagger in \autoref{fig:test_1_dagger_rf} have strong prediction results. While the remainder of the projects; fresco in \autoref{fig:test_1_fresco_rf}, storm in \autoref{fig:test_1_storm_rf} and deeplearning4j in \autoref{fig:test_1_deeplearning4j_rf} did not perform as well. For these projects the accuracy and precision were lower, the recall was very high.
-
-While acra had positive results several values of \gls{swr}, as the \gls{swr} increased the recall decreased as well. Both acra and dagger also had a larger variation in performance for accuracy and precision than the remaining three projects. The actual difference however was smaller with the largest variation of around $0.2$. The lack of a large variation for different values of \gls{swr} points to the independent variable not having as strong of impact on the performance. The variable is still useful to help provide a better result but is not the main contributer.
+Some projects experienced very little impact from variations of the \gls{swr} for the performance. For example, storm in \autoref{fig:test_1_storm_rf} had higher recall but lower precision and accuracy. Other factors may provide more influence such smaller or larger values of \gls{swr} however those were outside the scope of the experiment. Finally, other projects did not perform as well but experienced some variation to precision, recall and accuracy. One such project would be \autoref{fig:test_1_parceler_rf} which had all three measures fairly close together for most trails but because of the size of the project could not supply sufficient data for a \gls{swr} of 120 or 130. The importance of both storm and parceler was similar to that of http-request however as noted neither managed to perform as well as the best performance from http-request.
 
 \subsubsection{Feature Set Experiments}
 \label{sec:feature_set_experiment_rf}
