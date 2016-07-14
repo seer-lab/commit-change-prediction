@@ -905,6 +905,8 @@ Some projects experienced very little impact from variations of the \gls{swr} fo
 
 \end{table}
 
+
+
 %The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
 \begin{table}[h]
@@ -928,17 +930,27 @@ Some projects experienced very little impact from variations of the \gls{swr} fo
 
 \end{table}
 
-Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below.
+% Projects:
+% cardslib (example of project that had basically no difference in performance)
+% governator (example of a project that did terrible for each)
+% ShowcaseView (performed really well)
+% dagger (variable performance)
+% ion high all around performance
 
-The rest of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
+Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below. The following results are highlights of the larger set of experiments conducted on each project. The remainder of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
 
-% TODO update to be the key figures.
-
-\begin{figure}[!t]
+\begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_3/acra_sample_range}
-        \caption{Feature for acra using \gls{rf}}
-        \label{fig:test_3_acra_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/ShowcaseView_sample_range}
+        \caption{Feature for ShowcaseView using \gls{rf}}
+        \label{fig:test_3_ShowcaseView_rf}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/ion_sample_range}
+    \caption{Feature for ion using \gls{rf}}
+    \label{fig:test_3_ion_rf}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -948,28 +960,24 @@ The rest of the results for this experiment are outlined in \autoref{app_sub:exp
         \label{fig:test_3_dagger_rf}
 \end{figure}
 
+The project to perform the best in this experiment was ShowcaseView in \autoref{fig:test_3_ShowcaseView_rf} which performed best for feature sets 1 and 5 and had minimal difference between the performance of feature sets 2, 3 and 4. Typically most projects performed well with two feature sets or more which most likely is related to the similarity in the feature sets tested. A few of the successful projects, such as ion in \autoref{fig:test_3_ion_rf}, performed well consistently for each feature set. Finally, other more successful projects saw dramatic variations between the different feature sets. For example, dagger in \autoref{fig:test_3_dagger_rf}, performs well in the second feature set and poorly in the rest. The recall is especially volatile at dropping below $0.5$ for feature set 4. 
+
+
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_3/fresco_sample_range}
-        \caption{Feature for fresco using \gls{rf}}
-        \label{fig:test_3_fresco_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/cardslib_sample_range}
+        \caption{Feature for cardslib using \gls{rf}}
+        \label{fig:test_3_cardslib_rf}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_3/storm_sample_range}
-        \caption{Feature for storm using \gls{rf}}
-        \label{fig:test_3_storm_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_3/governator_sample_range}
+    \caption{Feature for governator using \gls{rf}}
+    \label{fig:test_3_governator_rf}
 \end{figure}
 
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_3/deeplearning4j_sample_range}
-    \caption{Feature for deeplearning4j using \gls{rf}}
-    \label{fig:test_3_deeplearning4j_rf}
-\end{figure}
-
-Generally the experiment results were not particularly strong. In \autoref{fig:test_3_acra_rf} the performance for candidate feature sets 1, 2, 3, 5 were all high and is the performs the best out of all the other projects. For dagger in \autoref{fig:test_3_dagger_rf} the result for candidate feature set 1 is high where as the rest are far worse. The remainder of the projects the accuracy and precision are less than $0.6$. In \autoref{fig:test_3_fresco_rf} and \autoref{fig:test_3_storm_rf} the recall is far more consistently high. However deeplearning4j has generally low results for accuracy, precision and recall.
+The majority of the projects experimented on saw little difference for each feature set. For cardslib in \autoref{fig:test_3_cardslib_rf}, the precision and accuracy stay right above $0.5$ while the recall dips below $0.5$ for feature set 4. The performance is not great and overall the impact of the different feature sets appears quite low for this project. Alternatively, governator in \autoref{fig:test_3_governator_rf}, is one of the few projects to perform well for precision while low for accuracy and very low for recall. Each feature set again has only a small impact on the performance with the project performing very poorly for every trial. Overall the results for this experiment were mixed since the impact of the feature set at least of these three features is less significant that the \gls{swr}.
 
 \subsubsection{Oversampling Experiment}
 \label{sec:oversampling_experiment_rf}
