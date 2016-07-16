@@ -685,6 +685,21 @@ A lot of projects did not vary greatly for different feature sets providing simi
 \label{sec:svm_os_experiment}
 
 % TODO add other tests to this subsection
+\begin{table}[h]
+\begin{center}
+
+    \begin{tabular}{|c|c|c|c|cc|}
+        \hline
+        Extended & Under & Sample & Window & SVM & \\
+        Window & Sampling & Rate & Offset &  C & gamma \\ \hline
+        No & Yes & $100\%$ & 5 & 10 & 8 \\ \hline
+    \end{tabular}
+    \caption{Feature Experiment Setup}
+    \label{tab:rf_feature_experiment_3_setup}
+\end{center}
+
+\end{table}
+
 
 \gls{os} is a balancing technique used to increase the amount of samples available. Samples from the smaller data set are re-sampled to increase the size of the data set. While this does introduce duplicates into the model it also counter acts biasing that is present when one classification is more common then the other by a large margin. Under sampling is also used to remove excess elements from the larger set of classification. \gls{os} This is especially useful for data sets that contain a small number of samples for a particular category. In that case under sampling may limit the performance of a model by removing nearly all of the elements in the data set.
 
@@ -735,7 +750,9 @@ A lot of projects did not vary greatly for different feature sets providing simi
 \end{center}
 \end{table}
 
-The experiment below took the best and worst trials from \autoref{sec:svm_swr_experiment} and used \gls{os} when sampling the data. For each of these experiments the candidate feature set from \autoref{tab:svm_window_range_experiment_features} was used. In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
+The experiment below took the best and worst trials from the previous two experiments and used \gls{os} when sampling the data. The variables that change per project are based on the previous best performance and worst performance. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the best and worst \gls{swr} and feature set are provided for each project. Since each project will likely have different values of \gls{swr} and feature set the comparesion should only be made between the difference in performance for the best/worst result and their corresponding \gls{os} trail Best-O/Worst-O.
+
+In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
 
 \begin{figure}[!t]
     \centering
@@ -1012,22 +1029,6 @@ The majority of the projects experimented on saw little difference for each feat
 \begin{table}[h]
 \begin{center}
 
-    \begin{tabular}{|c|c|c|c|c|c|c|c|}
-        \hline
-        Com & Sig & Name & $f_{\Delta}$ & $sf_{\Delta}$ & $t_\Delta$ & Length & $change_{t-1}$ \\
-        %Set & & & & & $\Delta_{freq}$ & & & Next \\
-         \hline
-        $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
-    \end{tabular}
-    \caption{\gls{os} Experiment Features}
-    \label{tab:rf_oversampling_features}
-\end{center}
-
-\end{table}
-
-\begin{table}[h]
-\begin{center}
-
     \begin{tabular}{|c|c|c|c|c|}
         \hline
         Extended & Under & Sample & Window & \gls{rf} \\
@@ -1041,7 +1042,7 @@ The majority of the projects experimented on saw little difference for each feat
 \end{table}
 
 
-This experiment builds on top of the previous experiment in \autoref{sec:svm_swr_experiment} and shares a very similar setup as the previous experiment. The features used for this experiment are outlined in \autoref{tab:rf_oversampling_features}. The experiment parameters are outlined in \autoref{tab:rf_os_experiment_setup}. The best and worst trails for each project are taken from the previous experiment. The value of the \gls{swr} was recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. The experiment uses these trails that were preformed without \gls{os} to compare against new trials that use the exact same parameters except for the use of \gls{os}.
+This experiment builds on top of the previous two experiments and shares a very similar setup to those experiments.The experiment parameters are outlined in \autoref{tab:rf_os_experiment_setup}. The best and worst trails for each project are taken from the previous two experiments. The value for \gls{swr} and the feature set used were recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. The experiment applies \gls{os} the best and worst trials to compare the performance of the model with and without the use of \gls{os}.
 
 \begin{table}[ht]
 \begin{center}
@@ -1089,13 +1090,12 @@ This experiment builds on top of the previous experiment in \autoref{sec:svm_swr
 
 The result of a trail with \gls{os} are represented in the figures by either \textit{best-O} or \textit{worst-O}. The results without \gls{os} from the previous experiment are represented with \textit{best} and \textit{worst}.
 
-\begin{figure}[!t]
-    \centering
-
-        \includegraphics[width=0.8\textwidth]{images/rf/test_4/acra_sample_range}
-        \caption{Oversampling for acra using \gls{rf}}
-        \label{fig:test_4_acra_rf}
-\end{figure}
+% Projects to show:
+% - arquillian-core (very slight change for the worse)
+% - dagger (marginal improvement for best)
+% - yardstick (slight overall improvement for best)
+% - greenDAO (decrease in performance for worst no change for best)
+% - all the rest are pretty much similar to these three with basically no change.
 
 \begin{figure}[!ht]
     \centering
@@ -1106,28 +1106,28 @@ The result of a trail with \gls{os} are represented in the figures by either \te
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_4/fresco_sample_range}
-        \caption{Oversampling for fresco using \gls{rf}}
-        \label{fig:test_4_fresco_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/yardstick_sample_range}
+        \caption{Oversampling for yardstick using \gls{rf}}
+        \label{fig:test_4_yardstick_rf}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_4/storm_sample_range}
-        \caption{Oversampling for storm using \gls{rf}}
-        \label{fig:test_4_storm_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/arquillian-core_sample_range}
+        \caption{Oversampling for arquillian-core using \gls{rf}}
+        \label{fig:test_4_arquillian-core_rf}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/rf/test_4/deeplearning4j_sample_range}
-    \caption{Oversampling for deeplearning4j using \gls{rf}}
-    \label{fig:test_4_deeplearning4j_rf}
+        \includegraphics[width=0.8\textwidth]{images/rf/test_4/greenDAO_sample_range}
+    \caption{Oversampling for greenDAO using \gls{rf}}
+    \label{fig:test_4_greenDAO_rf}
 \end{figure}
 
-The results for acra showed a slight improvement for both the best and worst case when using \gls{os} in \autoref{fig:test_4_acra_rf}. While the improvements were marginal they are still present nonetheless. Similarly, fresco in \autoref{fig:test_4_fresco_rf} also had a slight improvement in the performance for all three parameters for both \textit{best-O} and \textit{worst-O}.
+The results for the use of \gls{os} on the best and worst trails from each project provide to have little effect on the results. In rare cases such as dagger in \autoref{fig:test_4_dagger_rf}, the performance marginally improved for the some measures while decreasing for others. However dagger also performed worse when \gls{os} was used on the worst trial. Similarly yardstick in \autoref{fig:test_4_yardstick_rf}, performed slightly better for best-O and dramatically worse for worst-O.
 
-While both acra and fresco had slight improvements, dagger in \autoref{fig:test_4_dagger_rf} and storm in \autoref{fig:test_4_storm_rf} both had decreases in performance when \gls{os} was employed. The decrease in performance for the precision, accuracy and recall was small. Storm did have a slight improvement in the recall for \textit{worst-O} over \textit{worst}. The final project, deeplearning4j, had mixed results with the use of \gls{os}. In \autoref{fig:test_4_deeplearning4j_rf}, the performance for \textit{best-O} was worse than the original experiment. However the performance of the \textit{worst-O} was marginally better than the original.
+The majority of the projects however saw no improvement or a slight decrease in performance. For example arquillian-core in \autoref{fig:test_4_arquillian-core_rf} performed around the same for best-O and slightly worse for worst-O. Generally the differences if any were very small for most. Finally, some projects performed a lot worse for their worst-O trial including greenDAO in \autoref{fig:test_4_greenDAO_rf}. Overall the use of \gls{os} on either the best or worst case cause little difference. The only major difference was for worst-O which typically performed poor in compared to the trial without the use of \gls{os}.
 
 \subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
