@@ -691,17 +691,44 @@ A lot of projects did not vary greatly for different feature sets providing simi
 \begin{table}[ht]
 \begin{center}
 
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        Project & \multicolumn{1}{c}{\gls{swr}} & \\
-         & \multicolumn{1}{c}{Best} & \multicolumn{1}{c|}{Worst} \\
+        Project & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
+         & Feature Set & SWR & Feature Set & SWR \\ 
         %Set & & & & & $\Delta_{freq}$ & & & Next \\
-         \hline
-        acra & 90 & 130 \\
-        dagger & 60 & 70 \\
-        fresco & 130 & 90 \\
-        storm & 80 & 130 \\
-        deeplearning4j & 120 & 130 \\ \hline
+        \hline
+        acra & 2 & 80 & 3 & 90 \\
+        arquillian-core & 4 & 90 & 2 & 90 \\
+        blockly-android & 2 & 60 & 2 & 90 \\
+        brave & 2 & 130 & 3 & 90 \\
+        cardslib & 2 & 120 & 4 & 90 \\
+        dagger & 5 & 90 & 2 & 70 \\
+        deeplearning4j & 3 & 90 & 2 & 130 \\
+        fresco & 3 & 90 & 2 & 90 \\
+        governator & 1 & 90 & 3 & 90 \\
+        greenDAO & 4 & 90 & 1 & 90 \\
+        http-request & 2 & 80 & 3 & 90 \\
+        ion & 5 & 90 & 2 & 90 \\
+        jadx & 2 & 130 & 2 & 100 \\
+        mapstruct & 2 & 70 & 1 & 90 \\
+        nettosphere & 2 & 120 & 3 & 90 \\
+        parceler & 1 & 90 & 2 & 90 \\
+        retrolambda & 2 & 130 & 4 & 90 \\
+        ShowcaseView & 1 & 90 & 2 & 80 \\
+        smile & 2 & 70 & 2 & 90 \\
+        spark & 4 & 90 & 3 & 90 \\
+        storm & 2 & 100 & 2 & 110 \\
+        tempto & 2 & 120 & 2 & 130 \\
+        yardstick & 2 & 70 & 2 & 100 \\
+
+
+        % acra & 90 & 130 \\
+        % dagger & 60 & 70 \\
+        % fresco & 130 & 90 \\
+        % storm & 80 & 130 \\
+        % deeplearning4j & 120 & 130 \\
+
+        \hline
     \end{tabular}
     \caption{Best And Worst Results From SWR experiments for SVM}
     \label{tab:svm_best_worst_swr_experiment_sets}
@@ -1019,17 +1046,41 @@ This experiment builds on top of the previous experiment in \autoref{sec:svm_swr
 \begin{table}[ht]
 \begin{center}
 
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        Project & \multicolumn{1}{c}{\gls{swr}} & \\
-         & \multicolumn{1}{c}{Best} & \multicolumn{1}{c|}{Worst} \\
+        Project & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
+         & Feature Set & SWR & Feature Set & SWR \\ 
         %Set & & & & & $\Delta_{freq}$ & & & Next \\
-         \hline
-        acra & 90 & 130 \\
-        dagger & 90 & 80 \\
-        fresco & 60 & 70 \\
-        storm & 60 & 70 \\
-        deeplearning4j & 100 & 80 \\ \hline
+        \hline
+        acra & 2 & 60 & 5 & 90 \\
+        arquillian-core & 3 & 90 & 4 & 90 \\
+        blockly-android & 2 & 90 & 1 & 90 \\
+        brave & 2 & 110 & 4 & 90 \\
+        cardslib & 2 & 100 & 4 & 90 \\
+        dagger & 3 & 90 & 2 & 80 \\
+        deeplearning4j & 2 & 70 & 2 & 80 \\
+        fresco & 2 & 60 & 2 & 90 \\
+        governator & 2 & 60 & 2 & 90 \\
+        greenDAO & 2 & 60 & 2 & 100 \\
+        http-request & 2 & 80 & 4 & 90 \\
+        ion & 2 & 90 & 1 & 90 \\
+        jadx & 2 & 130 & 2 & 70 \\
+        mapstruct & 1 & 90 & 5 & 90 \\
+        nettosphere & 2 & 110 & 2 & 90 \\
+        parceler & 3 & 90 & 1 & 90 \\
+        retrolambda & 2 & 120 & 2 & 90 \\
+        ShowcaseView & 2 & 130 & 2 & 90 \\
+        smile & 5 & 90 & 2 & 100 \\
+        spark & 2 & 110 & 2 & 80 \\
+        storm & 2 & 60 & 2 & 90 \\
+        tempto & 2 & 120 & 2 & 130 \\
+        yardstick & 2 & 70 & 2 & 60 \\
+        % acra & 90 & 130 \\
+        % dagger & 90 & 80 \\
+        % fresco & 60 & 70 \\
+        % storm & 60 & 70 \\
+        % deeplearning4j & 100 & 80 \\
+        \hline
     \end{tabular}
     \caption{Best And Worst Results From SWR Experiments for RF}
     \label{tab:rf_best_worst_swr_experiment_sets}
