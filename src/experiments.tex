@@ -752,24 +752,15 @@ A lot of projects did not vary greatly for different feature sets providing simi
 
 The experiment below took the best and worst trials from the previous two experiments and used \gls{os} when sampling the data. The variables that change per project are based on the previous best performance and worst performance. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the best and worst \gls{swr} and feature set are provided for each project. Since each project will likely have different values of \gls{swr} and feature set the comparesion should only be made between the difference in performance for the best/worst result and their corresponding \gls{os} trail Best-O/Worst-O.
 
-In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked on having the all three parameters higher rather than one an of the values being outlier. Of course accuracy and precision are very closely related and therefore all three were attempted to be maximized rather than just two of the three.
+In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked based on having the all a weighted summation algorithm outlined in \autoref{eq:ranking_formula}. Since precision and accuracy are very closely related the weight for each was $0.5$ while recall was set to $1.0$.
+
+% Projects to discuss:
+% - acra
+% - deeplearning4j
+% - fresco
+% - blockly-android
 
 \begin{figure}[!t]
-    \centering
-
-        \includegraphics[width=0.8\textwidth]{images/svm/test_4/acra_sample_range}
-        \caption{Oversampling for acra using \gls{svm}}
-        \label{fig:test_4_acra_svm}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=0.8\textwidth]{images/svm/test_4/dagger_sample_range}
-        \caption{Oversampling for dagger using \gls{svm}}
-        \label{fig:test_4_dagger_svm}
-\end{figure}
-
-\begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/fresco_sample_range}
         \caption{Oversampling for fresco using \gls{svm}}
@@ -778,9 +769,9 @@ In some cases the best performing experiment may not have been entirely clear. F
 
 \begin{figure}[!ht]
     \centering
-        \includegraphics[width=0.8\textwidth]{images/svm/test_4/storm_sample_range}
-        \caption{Oversampling for storm using \gls{svm}}
-        \label{fig:test_4_storm_svm}
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/blockly-android_sample_range}
+        \caption{Oversampling for blockly-android using \gls{svm}}
+        \label{fig:test_4_blockly-android_svm}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -790,9 +781,18 @@ In some cases the best performing experiment may not have been entirely clear. F
     \label{fig:test_4_deeplearning4j_svm}
 \end{figure}
 
-The best and worst from \autoref{sec:svm_swr_experiment} to determine the effect of \gls{os}. In the plots for this section the performance of the \gls{svm} model from the experiment in \autoref{sec:svm_swr_experiment} is represented by either \textit{best} or \textit{worst}. Alternatively, the values for the performance of the \gls{svm} model when using \gls{os} is represented by either \textit{best-O} or \textit{worst-O}. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the value of \gls{swr} used for to obtain best and worst. For the experiments the \gls{swr} will be set to the corresponding value from \autoref{tab:svm_best_worst_swr_experiment_sets}. Therefore the project \textit{acra}, the trail for \textit{best} and \textit{best-O} both use an \gls{swr} of $90$. Furthermore, for \textit{worst} and \textit{worst-O} will use an \gls{swr} of $130$.
+\begin{figure}[!ht]
+    \centering
 
-The majority of the experiments there is little to no impact whether \gls{os} was used or not. The only experiment that \gls{os} had a noticeable impact was deeplearning4j. In \autoref{fig:test_4_deeplearning4j_svm} the performance of both the best and the worst with \gls{os} is worse with the exception of a slight improvement for the recall in the best trials.
+        \includegraphics[width=0.8\textwidth]{images/svm/test_4/acra_sample_range}
+        \caption{Oversampling for acra using \gls{svm}}
+        \label{fig:test_4_acra_svm}
+\end{figure}
+
+
+Some projects such as fresco \autoref{fig:test_4_fresco_svm} performed a little better for precision and accuracy while a little worse for precision. Unlike most projects however blockly-android in \autoref{fig:test_4_blockly-android_svm} experienced very little change with the introduction of \gls{os}. Finally, the majority of the experiments showed \gls{os} to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm} and acra in \autoref{fig:test_4_acra_svm} performed worse for all measures for both trails.
+
+The overall impact of using \gls{os} for training the model proved detrimental with the vast majority of projects performing worse with the use of \gls{os}. While some projects experience increases in individual performance measures, other measures fall. Also, any performance seen by a project is minimal at best while the loss of performance tends to be substantial. 
 
 \subsubsection{SVM Discussion}
 \label{subsec:svm_discussion}
@@ -1132,6 +1132,7 @@ The majority of the projects however saw no improvement or a slight decrease in 
 \subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
 
+% TODO update this to include all projects, make more general.
 The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, had positive results for the two smaller projects and lower performance for the remaining projects. The changes made to the \gls{swr} caused little variation between samples. Of course there were some exceptions, for example the recall for acra decreased at $80$, $100$ and $120$. Each drop was around $0.2$ and in total led to a fall of $0.8$. This should however not lessen the positive performance achieved especially in projects like acra.
 
 The second experiment also had very small variability for different values of the independent variable. This time however the independent variable was the feature set used to train and predict with the \gls{rf} model. The accuracy and precision for each project's trial set experienced very small changes. The only two projects to experience a higher amount of variability for the accuracy and precision were acra and dagger. For acra the third feature set decreased the performance. For dagger the first, third and fifth all decreased the performance to around the same level with the second and fourth both providing better performance at around the same level as well. The recall remained high for all projects except for dagger and deeplearning4j. In dagger the recall for the fourth feature set is far lower than the other feature sets at $0.45$. Finally, deeplearning4j for the first feature set has a recall of around $0.5$ and for the fifth feature set around $0.55$. The different feature sets lead to small variations in performance for the \gls{rf}. No clear relationship was determined however, since each project will perform different for given feature sets. For example, acra performs the best with feature set 4. Alternatively, dagger performs best with feature set 2 (which acra also performed well with). For the remaining 3 projects very variation occurs between performance for the 5 feature sets. Another factor of interest is that both acra and dagger had performed well for in the initial experiment using an \gls{swr} of 90. The other three projects which did not perform as well in this experiment also did not perform well at the given \gls{swr} value of 90.
