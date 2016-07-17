@@ -745,7 +745,7 @@ A lot of projects did not vary greatly for different feature sets providing simi
 
         \hline
     \end{tabular}
-    \caption{Best And Worst Results From SWR experiments for SVM}
+    \caption{Best And Worst Results From experiments 1 and 2 for SVM}
     \label{tab:svm_best_worst_swr_experiment_sets}
 \end{center}
 \end{table}
@@ -792,19 +792,20 @@ In some cases the best performing experiment may not have been entirely clear. F
 
 Some projects such as fresco \autoref{fig:test_4_fresco_svm} performed a little better for precision and accuracy while a little worse for precision. Unlike most projects however blockly-android in \autoref{fig:test_4_blockly-android_svm} experienced very little change with the introduction of \gls{os}. Finally, the majority of the experiments showed \gls{os} to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm} and acra in \autoref{fig:test_4_acra_svm} performed worse for all measures for both trails.
 
-The overall impact of using \gls{os} for training the model proved detrimental with the vast majority of projects performing worse with the use of \gls{os}. While some projects experience increases in individual performance measures, other measures fall. Also, any performance seen by a project is minimal at best while the loss of performance tends to be substantial. 
+The overall impact of using \gls{os} for training the model proved detrimental with the vast majority of projects performing worse with the use of \gls{os}. While some projects experience increases in individual performance measures, other measures fall. Also, any performance seen by a project is minimal at best while the loss of performance tends to be substantial.
 
 \subsubsection{SVM Discussion}
 \label{subsec:svm_discussion}
 
-% TODO update this to include results from newly added projects
 The three different experiments attempted to determine the impact of the different factors on the prediction method. The three factors that were tested are:
 \begin{enumerate}
 \item \gls{swr}
 \item Model features
 \item Sampling balancing
 \end{enumerate}
-Overall \gls{swr} had the greatest impact on the performance of the prediction method. While the \gls{swr} does have a large impact some projects are less affected. Specifically, the accuracy and precision remained rather stable will primarily small variations for any change in \gls{swr}, model features and sampling balancing. The model's recall however, tended to vary more greatly for the first two experiments. Small changes to the \gls{swr} will result in large changes to the recall. Likewise in some of the trails from the second experiment the recall will change drastically with slightly different sets of features. While positive results were achieved negative results also were present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of this approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.   
+Overall \gls{swr} had the greatest impact on the performance of the prediction method. The model feature set had less of an impact and balancing the sample through \gls{os} provided a primarily negative impact. The \gls{swr} while having a larger impact on most projects, some projects were less affected. Generally variations of \gls{swr} could produce a positive results, a negative results were also present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of the approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.
+
+% TODO talk about the performance of the different groups for each experiment
 
 \subsection{Random Forest Experiments}
 \label{sec:rf_experiments}
@@ -1083,7 +1084,7 @@ This experiment builds on top of the previous two experiments and shares a very 
         % deeplearning4j & 100 & 80 \\
         \hline
     \end{tabular}
-    \caption{Best And Worst Results From SWR Experiments for RF}
+    \caption{Best And Worst Results From Experiments 1 and 2 for RF}
     \label{tab:rf_best_worst_swr_experiment_sets}
 \end{center}
 \end{table}
@@ -1132,12 +1133,9 @@ The majority of the projects however saw no improvement or a slight decrease in 
 \subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
 
-% TODO update this to include all projects, make more general.
-The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, had positive results for the two smaller projects and lower performance for the remaining projects. The changes made to the \gls{swr} caused little variation between samples. Of course there were some exceptions, for example the recall for acra decreased at $80$, $100$ and $120$. Each drop was around $0.2$ and in total led to a fall of $0.8$. This should however not lessen the positive performance achieved especially in projects like acra.
+The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, achieved positive results for some of the projects and appeared to have the largest impact on the performance. While the impact of the \gls{swr} was larger often the best result for a project would of accuracy and precision at $0.5$ and recall at $1.0$. The impact of the feature set should also not be overshadowed as some projects performed better in the third experiment than the first. Finally, the impact of sample balancing on the data set proved primarily negative with both the best and worst trails performing worse when \gls{os} was used.
 
-The second experiment also had very small variability for different values of the independent variable. This time however the independent variable was the feature set used to train and predict with the \gls{rf} model. The accuracy and precision for each project's trial set experienced very small changes. The only two projects to experience a higher amount of variability for the accuracy and precision were acra and dagger. For acra the third feature set decreased the performance. For dagger the first, third and fifth all decreased the performance to around the same level with the second and fourth both providing better performance at around the same level as well. The recall remained high for all projects except for dagger and deeplearning4j. In dagger the recall for the fourth feature set is far lower than the other feature sets at $0.45$. Finally, deeplearning4j for the first feature set has a recall of around $0.5$ and for the fifth feature set around $0.55$. The different feature sets lead to small variations in performance for the \gls{rf}. No clear relationship was determined however, since each project will perform different for given feature sets. For example, acra performs the best with feature set 4. Alternatively, dagger performs best with feature set 2 (which acra also performed well with). For the remaining 3 projects very variation occurs between performance for the 5 feature sets. Another factor of interest is that both acra and dagger had performed well for in the initial experiment using an \gls{swr} of 90. The other three projects which did not perform as well in this experiment also did not perform well at the given \gls{swr} value of 90.
-
-Finally for the third experiment the factor of \gls{os} was investigated. The best and the worst results were taken from the first experiment. \gls{os} was applied to using the same parameters as before. While some projects saw small improvements with the use of \gls{os}, others saw the performance reduce or stay the same. Overall this experiment shows that \gls{os} provides little impact that is inconsistent per project. Since the any increase or decrease to the performance were marginal the impact of \gls{os} on the project is small. While use of \gls{os} for some projects provided an improvement, others the use of \gls{os} was a detriment. The The reason for this could have to do with \gls{rf} being a fairly robust to biasing. However Since the original experiment was already balanced using under sampling the experiment had less to do with the balance of the data set and more to do with the number of samples used. As noted earlier, when both \gls{os} and undersampling are used together then the number of samples re-sampled from the smaller category will be at most double the original amount.
+% TODO talk about the performance of the different groups for each experiment
 
 \subsection{Experiment Discussions}
 
@@ -1193,10 +1191,12 @@ The number of projects that perform the best with \gls{svm} and \gls{rf} are 11 
 \section{Threats to Validity}
 \label{sec:threat_validity}
 
+% TODO finish off
+
 This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all projects. A concerted effort was made to contrasting positive results for one project with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area.
 
 Each experiment was designed to attempt to provide a robust setup to measure accurately the performance of the approach given the changes to the current factor. The setup was designed to attempt to preventing the influence of other variables beyond the independent variable. The factors that may have had an influence on the experimental results are the third experiment only sampling the extremes (best and worst).
 
 A major concern with the final experiment was that of the sampling of the best and worst results from the previous experiments to test the use of \gls{os}. While the results of the use of \gls{os} should not be discounted, only the sampling the extremes of the previous experiment may have limited the measurable impact of the use of \gls{os}. This experiment could be extended to test the middle performance or even test each trail from the previous experiments.
 
-The differences between the projects prevented a more direct comparison between the projects. Furthermore, as shown through the experiments, certain projects (acra, dagger) generally performed better than other projects (fresco, storm, deeplearning4j). This leads to the conclusion that certain project related factors have a large impact on the performance of the approach. Further investigation into these project specific factors could lead to improved results for the approach.
+The differences between the projects prevented a more direct comparison between the projects. Furthermore, as shown through the experiments, some projects (e.g. ShowcaseView) generally performed better than other projects (e.g. governator). This leads to the conclusion that certain project related factors have a large impact on the performance of the approach. Further investigation into these project specific factors could lead to improved results for the approach.
