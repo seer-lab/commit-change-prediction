@@ -37,11 +37,19 @@
     urlcolor=black
 }
 
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
 \begin{document}
+
+% Fix for overlap of figure number and figure caption in list of figures.
+\makeatletter
+\def\l@figure{\@dottedtocline{1}{1.5em}{3em}}
+\makeatother
 
 \thesisTitle
   {Joseph Heron}
-  {Method Level Change Prediction Using Commit History Data}
+  {Understanding and Prdicting Method-level Source Code Changes Using Commit History Data}
   {Master of Science}
   {Computer Science}
   {University of Ontario Institute of Technology}
@@ -57,7 +65,7 @@
 \tableofcontents
 \listoffigures
 \listoftables
-\lstlistoflistings
+%\lstlistoflistings
 \printglossary[style=list]
 \clearpage
 \doublespacing
@@ -74,9 +82,10 @@
 %\include{related_works}
 \include{conclusions}
 
-\include{appendix}
 
 \bibliographystyle{acm}
 \bibliography{references}
+
+\include{appendix}
 
 \end{document}
