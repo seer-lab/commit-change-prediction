@@ -2,10 +2,11 @@
 \label{chap:introduction}
 
 % intro
-Software has become pervasive and integrated with numerous platforms and applications such as mobile devices, web sites, embedded systems, safety critical systems. Creating and managing a software application can be time consuming and resource intensive. The development of software applications commonly integrate the usage of \gls{vcs} to manage the application by storing the current version as well as previous versions in a repository. The development of a project is limited by the resources available to the team developing the application. Effective allocation of these limited resources could be the deciding factor in whether project will be successful or not.
+Software has become pervasive and integrated with numerous platforms and applications such as mobile devices, web sites, embedded systems, safety critical systems. Creating and managing a software application can be time consuming and resource intensive. The development of software applications commonly integrate the usage of \gls{vcs} to manage the application by storing the current version as well as previous versions in a repository. The development of a repository is limited by the resources available to the team developing the application. Effective allocation of these limited resources could be the deciding factor in whether repository will be successful or not. Furthermore, a \gls{vcs} manager such as GitHub could leverage repository resource allocation for managing the resources provided to repositories hosted by them.
 
 % TODO summarize relevant research about change prediction/resource allocation.
 
+Previous works in change prediction include Bantelay, Zanjani and Kagdiw who studied evolutionary coupling to create predictions of commit and interactions within a repository\cite{Bantelay2013}. Giger, Pinzger and Gall analyze an approach for predicting the type of change that will occur. Hassan and Holt predict change propitiation of a purposed change. Kagdi and Maletic outline an approach for predicting software changes through a dependency analysis of the repository history. Ying, Murphy, Ng and Chu-Carroll create a method for predicting source code changes given a change within the repository. The predictions are made by identifying elements within the repository that are associated through frequent co-changes. We hope to build on previous research to provide change predictions to help improve resource allocation for both repository developers as well as \gls{vcs} managers.
 
 
 % providing people with an easy to use device that is always close by. Developers are also able to create applications which can reach a wider audience through the use of application market places such as the Google Play Store, Apple App Store. In other cases such as web development system are expected to be working constantly. The applications must provide maximum availability with minimal number of issues as possible. Developing large scale applications is a difficult task that when executed incorrectly can lead to massive losses for all parties involved in the project. 
@@ -44,7 +45,7 @@ The goal of the approach is to predict changes that will occur within the reposi
 
 	% TODO explain svm and rf in further details.
 
-The machine learning algorithm makes use of the training data to create a model for predicting the classification of a given value. An analysis of change data can help in the selection of useful information for creating the predictive model. The data is collected from the project's historical data that can provide a large data set to work with. Managing the data and selecting ideal samples for training must be considered to provide a strong predictive model.
+The machine learning algorithm makes use of the training data to create a model for predicting the classification of a given value. An analysis of change data can help in the selection of useful information for creating the predictive model. The data is collected from the repository's historical data that can provide a large data set to work with. Managing the data and selecting ideal samples for training must be considered to provide a strong predictive model.
 
 \begin{figure}[!ht]
     \centering
