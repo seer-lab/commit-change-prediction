@@ -5,19 +5,14 @@
 % Lit Review, little summary at the beginning
 % - Problem centric, or technology centric explanation.
 
-\section{Data Mining}
+In pursue of creating an approach for predicting change within a software repository several areas of research were leveraged. These areas include: Open Source Software (OSS) Repositories, Prediction of Change within Software Repositories and Analysis of Software Repositories. The remainder of this chapter discusses each of these topics in detail and notes the current state of the art as related to each topic.
 
-Data collection from some original source provides access to a data set that may not be initially available. This data source could also be in a state that is not convenient or feasible for use without leveraging data mining techniques to transform the data to a more accessible state. The source of the data can vary greatly based on the interests for the individual(s) collecting the data. Data mining has mostly focused on single source mining and multiple data sources. Data mining in general has however also taken a large focus on data collection from software repositories which can be either single or multiple source \cite{Dit2013, Hassan2006, Hemmati2013, Kagdi2007, Maletic2004, Zimmermann2005a}.%TODO list other msr based papers.
 
-% MSR, guiding future changes
-Zimmermann et al. collect change the version history of a software project to predict changes that should be made in relation to an initial set of changes. The recommendations their tool provides helps point the developer to make changes that are more common within the project. As well the tool can be used to detect which changes may be missed by a developer when making changes to a project. Maletic and Collard investigate source code changes during a software project's development cycle. The changes are extracted and stored in an more easily usable form to be more easily analyzed. Canfora et al. propose a method for extracting and refining the changes made throughout the life a project to be used in more effective analyses. The changes made to a project are refined through linking lines of source code that are related. Hemmati et al. take a comprehensive review at the research related to \gls{msr}. Several best practices are proposed and areas of future work are identified. Hassan discusses the value of data mining from software repositories. The possible uses of the data collected can be used towards are assisting developers or managers. A benchmark data set of software project development change history is provided by Dit et al. The data set is processed to provide change request description and tracing, where changes that are requested are able to be traced to where they were implemented within the source code. The data set also provides a corpus of various key aspects of the project including files, classes and methods. The data set is targeted to be used for providing a benchmark for tools attempting to improve software maintenance tasks.
+\section{Open Source Software}
 
-\subsection{Mining Open Source Software Repositories}
+\gls{oss} generally includes software that provides the ability to access the source code and make modifications to the source code under an open source license. A few examples of open source licenses are: Apache License 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, GNU General Public License v3.0\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.en.html}} and MIT License\footnote{\url{https://opensource.org/licenses/MIT}}. While certain licenses provide some restrictions on the ability to redistribute the software the main point is that all \gls{oss} licenses allow the source code of the software to be freely available. The scope and capability of \gls{oss} projects vary greatly and several very popular \gls{oss} projects are listed in \autoref{tab:oss_projects}.
 
-% TODO ensure this is accurate.
-\gls{oss} generally is software that provides with the ability access the source code and make modifications to the source code. While certain licenses provide some restrictions on the ability to redistribute the software the main point of the source code of the software being freely available is key. The scope and capability of \gls{oss} projects vary greatly. Several very popular \gls{oss} projects are listed in \autoref{tab:oss_projects}.
-
-%TODO make sure footnotes fit in better.
+%TODO fix footnotes to act like normal footnotes see experiments or prediction section for howto
 \begin{table}[h!]
 \begin{minipage}{\textwidth}
 \begin{center}
@@ -25,11 +20,11 @@ Zimmermann et al. collect change the version history of a software project to pr
         \hline
         Owner & Project & Description \\
         \hline
-        Mozilla & Firefox\footnote{\url{https://www.mozilla.org/en-US/firefox/desktop/}} & Internet Browser \\
-        Linux & Linux Kernel\footnote{\url{https://www.kernel.org/}} & Operation System Kernel \\
-        VideoLAN & VLC\footnote{\url{http://www.videolan.org/vlc/index.html}} & Media Player \\
-        PostgreSQL & PostgreSQL\footnote{\url{http://www.postgresql.org/}} & Object-Relational Database Management System \\
-        git & git\footnote{\url{https://git-scm.com/}} & Version Control System \\
+        Mozilla & Firefox\protect\footnotemark & Internet Browser \\
+        Linux & Linux Kernel\protect\footnotemark & Operation System Kernel \\
+        VideoLAN & VLC\protect\footnotemark & Media Player \\
+        PostgreSQL & PostgreSQL\protect\footnotemark & Object-Relational Database Management System \\
+        git & git\protect\footnotemark & Version Control System \\
         \hline
     \end{tabular}
 \end{center}
@@ -37,31 +32,56 @@ Zimmermann et al. collect change the version history of a software project to pr
 \label{tab:oss_projects}
 \end{minipage}
 \end{table}
+
+\addtocounter{footnote}{-4}
+\footnotetext{\url{https://www.mozilla.org/en-US/firefox/desktop/}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://www.kernel.org/}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{http://www.videolan.org/vlc/index.html}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{http://www.postgresql.org/}}
+
+\addtocounter{footnote}{1}
+\footnotetext{\url{https://git-scm.com/}}
+
+
+
 %Firefox => MPL 2.0
 %Linux Kernel => GPL v2, plus various closed-source binary blobs
 %VLC => GPLv2+ (player), LGPLv2.1+ (engine)
 %PostgreSQL => PostgreSQL License
 %git => GNU General Public License v2, GNU Lesser General Public License 2.1
 
-The development of large software projects (whether \gls{oss} or not) often make use of \gls{vcs}. A \gls{vcs} helps the developers of the project manage the changes of the project and facilitate the collaboration between developers. A \gls{vcs} will keep an current version of the project and keep track of the previous version of the project as well. This may be done through keeping a copy of each version of the project or by keeping track of all each change made to the project. \gls{svn} and git would be two examples of \gls{vcs}s.
+\subsection{Managing Open Source Software Repositories}
 
-Git is a \gls{dvcs} and differs greatly from \gls{svn} which is a normal \gls{vcs}. Git will provide the user with a complete copy of the repository that is worked on independent of network connection. The independence of each repository also allows for a repository to be developed without a centralized server. The distributed aspect of git tends to allows for easier use for all involved parities. The one main issue with a \gls{dvcs} is that while decentralization is useful, developers will require some method to collaborate and communicate to transfer changes made to the repository. Therefore typically one centralized server is used to maintain communication between all interested parties.
+% TODO put some info here.
 
-Git has grown in popularity since it was created and is at the core of several \gls{vcm} sites such as GitHub \footnote{\url{https://github.com/}}, BitBucket \footnote{\url{https://bitbucket.org/}} and GitLab \footnote{\url{https://gitlab.com/}}. These platforms tend to be fairly supportive of \gls{oss} projects through providing their services free of charge. For example, GitHub provides unlimited public repositories completely free. While these projects do not have to be licensed with an open source license typically they will be since they are already publicly visible.
+The development of large software repositories (whether \gls{oss} or not) often make use of \gls{vcs}. A \gls{vcs} helps developers manage repository changes and facilitates collaboration. A \gls{vcs} will keep a current version of the project and track historical changes (i.e., previous versions) as well. This may be done through keeping a copy of every version of each file in a project or by keeping track of every change made to each file in a project. 
 
-% GitLab -> https://gitlab.com/
-% GitHub -> https://github.com/
-% BitBucket -> https://bitbucket.org/
 
-GitHub is the most popular of the \gls{vcm} websites and hosts numerous very popular \gls{oss} projects including, the Linus Kernel, Swift\footnote{\url{https://swift.org/}} and React\footnote{\url{https://facebook.github.io/react/}}. GitHub also provides a public \gls{api} to allow for access to the data related to project repositories which is discussed further below. % TODO link to that.
-Given the popularity of GitHub for use by developers and the availability of the project data, GitHub is an obvious choice for mining project data. Especially since the goal of mining software is to capture \gls{oss} project data to both explore and test analysis methods. Publicly visible projects are also publicly accessible through the \gls{api} and the majority are open source.
+\subsubsection{Version Control System}
 
-%%%%%%%%%%
+% TODO CHANGE THE FIRST OCCURANCE OF VCS to the full thing (do this after moving everything around)
 
-Git provides a simple interface to manage the repository regardless of which site is the central server. Therefore regardless which site the project resides on users can easily interact with the project as long as they know the git interface. Git in essences is a file storage for the project that keeps track of changes made to the project. A \textit{commit} is a set of changes that a developer has made at a certain time. The developer has full control what gets committed, when it gets committed and even modified at a later date.
+\gls{svn}\footnote{\url{https://subversion.apache.org/}} and git\addtocounter{footnote}{-2}\footnotemark{} would be two examples of \gls{vcs}. Git is a \gls{dvcs} and differs greatly from \gls{svn} which is a centralized \gls{vcs}. Git provides the user with a complete local copy of the repository that is available independent of network connectivity. The independence of each user's local repository copy also allows for a application to be developed without a centralized server. The one main issue with a \gls{dvcs} is that while decentralization is useful, developers will require some method to collaborate and communicate changes made to the repository. Therefore typically one centralized server is used to maintain communication between all interested parties.
+
+
+%\footnotetext{\url{https://git-scm.com/}}
+
+\addtocounter{footnote}{1}
+
+% No cite no need
+%The distributed aspect of git tends to allows for easier use for all involved parities.
+
+% 3*
+Git provides a simple interface to manage the repository regardless of which site is the central server. Therefore regardless if the project is on GitHub, BitBucket an internal server users can easily interact with the project as long as they know the Git interface. Git in essences is a file storage for the project that keeps track of changes made to the project. A \textit{commit} is a set of changes that a developer makes at a certain time. The developer has full control over what gets committed, when it gets committed.
 %This results in the date of the commit merely identifying when the developer formally notified Git that a change was made.
 
-A branch is a series of commits that are often related. In \autoref{fig:network_diagram}, each dot would represent a commit and a set of dots connected by the same colored lines are a branch. Branches can be considered different paths or deviations in the development from each other allowing for different versions of the project to be maintained and developed. The \textit{master} branch is the main branch, represented with black, from which all branches usually stem from and is generally where projects are developed on. On a similar note, a \textit{tag} is a branch that is frozen to allow for future reference. Tags are often uses to mark a significant point in the development history such as a project release. Finally, when two differently branches converge into a single dot then the two branches have been \textit{merged}. A merge indicates that the differences between the two branches are consolidated based on the developer's discretion.
+A branch in a Git repository is a series of commits that are often related. In \autoref{fig:network_diagram}, each dot would represent a commit and a set of dots connected by the same colored lines are a branch. Branches can be considered different paths or deviations in the development from each other allowing for different versions of the project to be maintained and developed. The \textit{master} branch is the main branch, represented with black, from which all branches usually stem from and is generally where projects are developed on. On a similar note, a \textit{tag} is a branch that is frozen to allow for future reference. Tags are often uses to mark a significant point in the development history such as a project release. Finally, when two differently branches converge into a single dot then the two branches have been \textit{merged}. A merge indicates that the differences between the two branches are consolidated based on the developer's discretion.
 
 \begin{figure}[!ht]
     \centering
@@ -72,36 +92,128 @@ A branch is a series of commits that are often related. In \autoref{fig:network_
 
 A commit consists of files that have been changed, more specifically a list of \textit{patch} files which each outline the changes made to their corresponding file. The patch file consists of a series of differences between the previous version of the file and this new version of the file. These patch files are key since they contain the actual changes made to the project and thus are the major point of interest.
 
+
+\subsubsection{Version Control Management}
+Git has grown in popularity since it was created and is at the core of several \gls{vcm} sites such as GitHub \footnote{\url{https://github.com/}}, BitBucket \footnote{\url{https://bitbucket.org/}} and GitLab \footnote{\url{https://gitlab.com/}}. These platforms tend to be fairly supportive of \gls{oss} projects through providing their services free of charge. For example, GitHub provides unlimited public repositories completely free. While projects on these sites do not have to be licensed with an open source license they are mostly publicly visible.
+
+% GitLab -> https://gitlab.com/
+% GitHub -> https://github.com/
+% BitBucket -> https://bitbucket.org/
+
+GitHub is the most popular of the \gls{vcm} websites and hosts numerous popular \gls{oss} projects including the Linus Kernel\footnote{\url{https://www.kernel.org/}}, Swift\footnote{\url{https://swift.org/}} and React\footnote{\url{https://facebook.github.io/react/}}. GitHub also provides a public \gls{api} to allow for data access project repositories (discussed further below). Given the developer popularity of GitHub and the availability of the repository data, GitHub is an ideal choice for data mining repository. All publicly visible GitHub repositories are also publicly accessible through the \gls{api}.
+
 % TODO fix close
 
+\section{Understanding and Predicting Software Repository Change}
+
+The development and maintenance of large scale projects can take years or even decades and involve a huge investment of time and resources. Throughout development of a project developers will make changes to a project. When a developer creates a change to apply to the project it can introduce new functionality or fix bugs. A change may also contain unintentional bugs and require them to be address in the future. Tracing and monitoring changes made by developers can insure that after changes are made the project maintains the correct course and aligns closely with the desired direction of the project. Change predictions are an attempt to potentially know what changes will occur prior to the changes taking place. With the knowledge of what changes will occur the changes can be more informed. For example if a section of the source code is identified as likely to change the necessary resources can be allocated such as a developer who works on that section the most can be tasked with changing it. Similarly, knowing which changes are likely to happen can help developers prioritize their resources according to the importance of each change.
+
+Software development prediction contains numerous areas of study which generally attempt to improve individual projects by focusing on their development and providing feedback and recommendations to developers. Some examples of this work includes: fault prediction \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score prediction \cite{Jalbert2012}, software changes prediction \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. While there may be a large overlap in the objective for these studies often they will vary in the repository data and prediction method utilized.
+
+\subsection{Change Analysis}
+
+Changes that occur within a project are made to achieve a goal or task. Whether the task is high level such as implement a new features for the program or lower level like fix a syntactical bug. Investigations into how changes are made or used can help provide a better understanding for making a better changes or better use of the changes.
+
+Bieman et al. study the change-proneness of different entities within a software project. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works. Koru and Liu study and describe change-prone classes found within open source projects. Providing further details into characteristics of different changes that are made to a software project throughout development. Similarly Wilkerson attempts to classify different types of changes that occur to a project throughout development. The classification can then be used to identify the impact that a given change will have on other aspects of the project. Snipes et al. provide a tool that attempts to locate areas within the source code that have a large amount of changes. These areas could be classified as underdevelopment and are likely to be very unstable given the amount of change occurring within them.
+
+% (TODO check) Close source, identifying areas likely to have change
+%Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
+
+
+\subsection{Software Development Prediction}
+% TODO fill
+
+\subsubsection{Fault Prediction}t
+
+Fault prediction is a key area of study for software development since the goal is to provide insight into where issues within the project's source code are located. Identifying these areas can be very beneficial by in saving debugging time and efforts. That saved time can be used instead on fixing those issues. Therefore accurate identification of faulty code improves both development efficiency and software product quality. In order to predict these faults, existing approaches used one or more of the following data sources: change metrics \cite{Moser2008, Sisman2012, Nagappan2007}, code metrics \cite{Moser2008, Thwin2005}, defect history \cite{Sisman2012}, software dependencies \cite{Nagappan2007}.
+
+Fault predictions using static and change metrics are studied by Moser et al. The change metrics used outperformed the static metrics in accuracy, and recall. Sisman and Kak alternatively look specifically at change metrics using \gls{ir} framework to provide the predictions. The prediction framework also uses a time sensitive factor to bias towards more recent changes for predictions. Nagappan and Ball attempted to predict post release project failures for commercial projects. These predictions were done using a software dependency analysis as well as using churn metrics from the project's development. Their method proved to be capable in predicting these failures providing an ability to mitigate these failures from occurring.
+
+% Close source, prediction
+%Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
+
+% Defect prediction, change attributes, static attributes
+%Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
+
+% predict software quality based on code metrics
+%Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
+
+% Prediction of something
+%Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
+
+% Bug localization through prediction, change history, defect history, temporal decay.
+%Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
+
+%\subsubsection{Mutation Testing Prediction}
+% TODO consider adding
+
+\subsubsection{Change Prediction}
+% Related work stuff here or later
+
+The ability to analyze and predict changes within a project could give deep insights into the development of a project. A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}.
+
+Ying et al. present a method that predicts which parts of the system will change given a set of changes or change propagation. The prediction is done using the project's change history. The results of the prediction method were mixed with some projects recording a stronger precision and recall and others recording a far lower results. Kagdi and Maletic also leverage version history changes to perform software change predictions. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one. Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together. Giger et al. attempt to build off of previous work in change proneness by providing predictions relating to more refined entities. While typical change analysis will involve the use of syntactic changes. However Giger et al. suggest that extracting and tracking semantic change could prove to be more helpful and accessible for developers for predicting future changes within a project. Chaturvedi et al. attempt to predict the complexity of code changes to a project. The project's change history is analyzed and the entropy is calculated. The future amount of changes necessary, the complexity of code changes, is then predicted.
+
+\section{Technologies for Analyzing Open Source Software Repositories}
+
+\subsection{Data Mining}
+
+Many data source exist in states that are not convenient or feasible for use without leveraging data mining techniques to transform the data to a more accessible state. These sources of data can vary greatly based on the interests for the individual(s) collecting the data. Examples of data mining techniques have focused both on single source mining and mining of multiple data sources. One application area for data mining is on data collection from software repositories which can be either single or multiple source \cite{Dit2013, Hassan2006, Hemmati2013, Kagdi2007, Maletic2004, Zimmermann2005a}.%TODO list other msr based papers.
+
+%2*
+Hemmati, Nadi, Baysal, Kononenko, Wang, Holmes and Godfrey take a comprehensive review at the research related to \gls{msr}\cite{Hemmati2013}. Several best practices are proposed and areas of future work are identified. Best practices include % TODO fill this in.
+Hassan discusses the value of data mining from software repositories. The possible uses of the data collected can be used towards are assisting developers or managers.%1*
+
+% MSR, guiding future changes
+Zimmermann, Wei{\ss}gerber, Diehl and Zeller collect the change history of a software project to predict changes that should be made in relation to an initial set of changes\cite{Zimmermann2005a}. The recommendations their tool provides helps point the developer to make changes that are more common within the project. As well their approach can be used to detect which changes may be missed by a developer when making changes to a project.
+
+Maletic and Collard investigated source code changes during a software project's development cycle\cite{Maletic2004}. The changes are extracted, processed and stored to be more easily analyzed. Canfora, Cerulo and Di Penta propose a method for extracting and refining the changes made throughout the life a project to be used in more effective analyses\cite{Canfora2007c}. The changes made to a project are refined through linking lines of source code that are related.
+
+A benchmark data set of software project development change history is provided by Dit, Holtzhauer, Poshyvanyk and Kagdi\cite{Dit2013}. The data set is processed to provide change request description and tracing, where changes that are requested are able to be traced to where they were implemented within the source code. The data set also provides a corpus of various key aspects of the project including files, classes and methods. The data set is targeted to be used for providing a benchmark for tools attempting to improve software maintenance tasks.
 
 \subsection{Visualization}
 
-Visualizations are often used to represent data to be more accessible to appealing for use. Rather than view large amounts of complex data a visualization can restrict the amount of information shown to prevent the user from being overwhelmed. Alternatively, a well designed visual representation of the data can retain information and represent it in a way that is more convenient. Visualizations are widely used throughout research to represent software evolution \cite{Bieman2003a, Collberg2003, Gall2006, Keim2002, Ma2008, Salamanca2009} and developer interactions \cite{DeSouza2007, Gilbert2007, Ma2008, Ogawa2010, Salamanca2009}.
+Visualizations is a common technique used in combination with data mining. It can often used to represent data to be more accessible to appealing for use. Rather than view large amounts of complex data a visualization can restrict the amount of information shown to prevent the user from being overwhelmed. Alternatively, a well designed visual representation of the data can retain underlying information and represent it in a way that is more convenient. Visualizations are widely used throughout software engineering research to represent software evolution \cite{Bieman2003a, Collberg2003, Gall2006, Keim2002, Ma2008, Salamanca2009} and developer interactions \cite{DeSouza2007, Gilbert2007, Ma2008, Ogawa2010, Salamanca2009}.
 
 % TODO discuss the papers in further detail.
-Some of the visualizations attempt to focus on a particular aspect. However, by their very nature of evolution visualization the visualization attempts to showcase higher level information. Gall and Lanza discuss uses of project traits including the source code changes, release information and quality metrics to provide the necessary data for powerful visualizations. Similarly, Collberg, Kobourov, Nagra, Pitts and Wampler use CSV version control systems to visualize software evolution. A visualization is produced which provides a temporal element for development data. Another approach was to study visualize the change-proneness within the software project \cite{Bieman2003a}. Lanza, Ducasse, Gall and Pinzger present a high level visualization tool for object-oriented projects. Ogawa and Ma create a story view visualization for software projects with an summary of changes for each commit. The visualization can have issues with large amount of information available.
+Some of the visualizations attempt to focus on a particular aspect of a dataset. Gall and Lanza discuss uses of project traits including the source code changes, release information and quality metrics to provide the necessary data for powerful visualizations \cite{Gall2006}. Similarly, Collberg, Kobourov, Nagra, Pitts and Wampler use CSV version control systems to visualize software evolution \cite{Collberg2003}. A visualization is produced which provides a temporal element for development data. Another approach studied visualization a change-proneness within the software project \cite{Bieman2003a}. Lanza, Ducasse, Gall and Pinzger present a high level visualization tool for object-oriented projects. % TODO cite
+Ogawa and Ma create a story view visualization for software projects with an summary of changes for each commit\cite{Ogawa2010}. The visualization can have issues with large amount of information available.
 
-Ogawa and Ma provide a expansive visualization which includes developer and source code interactions. Gonzalez, Theron, Telea and Garcia visualize a combination of software project metric and structural changes. Four designs are proposed to provide unique and complementary views. 
+Ogawa and Ma provide a expansive visualization which includes developer and source code interactions\cite{Ma2008}. Gonzalez, Theron, Telea and Garcia visualize a combination of software project metric and structural changes. Four designs are proposed to provide unique and complementary views.
+% TODO include figures related to visualization
 
-\section{Machine Learning}
+\subsection{Machine Learning}
 
 % Rase, realizing software engineering learning
-Machine learning is a complex method for software algorithms to attempt to determine patterns within the data. One such problem example would be an algorithm to detect certain people within an image. For an individual such a task may seem trivial however for a software system to detect it is far more difficult. Algorithms that can determine patterns and mimic them from abstract set of data is useful when such patterns are extremely complex. There are numerous algorithms which apply machine learning approaches. Each approach has both advantages or disadvantages. Some examples of machine learning algorithms are \gls{svm}, \gls{rf} and \gls{ann}. The three provided examples are also commonly used for data mining \cite{Alam2013, Westland2011, Granitto2007, Huang2007, Jalbert2012, Yu2011}. Bhattacharyya et al. provide a detailed description of \gls{rf} and \gls{svm}.
+Machine learning is a complex method for software algorithms to attempt to determine patterns within the data. % cite this or similar definition
+One such problem example would be an algorithm to detect certain people within an image. For an individual such a task may seem trivial however for a software system to detect it is far more difficult. Algorithms that can determine patterns and mimic them from abstract set of data is useful when such patterns are extremely complex. There are numerous algorithms which apply machine learning approaches. Each approach has both advantages or disadvantages. Some examples of machine learning algorithms are Support Vector Machine (SVM)\footnote{\url{http://www.support-vector-machines.org/}}, Random Forest (RF)\footnote{\url{http://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm}} and Artificial Neural Networks (ANN)\footnote{\url{https://www.doc.ic.ac.uk/~nd/surprise_96/journal/vol4/cs11/report.html}}. The three provided examples are also commonly used for data mining \cite{Alam2013, Westland2011, Granitto2007, Huang2007, Jalbert2012, Yu2011}. Bhattacharyya et al. provide a detailed description of \gls{rf} and \gls{svm}.
 
-\subsection{Support Vector Machines}
+\subsubsection{Support Vector Machines}
 \label{subsec:svm_prediction}
 
 %\gls{svm} models are more easily modified to fit data from different sources since they flexible and robust than more classical linear regression models *cite*. %TODO consider citing 
 
 A \gls{svm} is used to predict what type of change will occur based on a set of features provided. A feature is a data extracted from the project represented as a floating point number. In order to be useful a feature must in some way characterize the the category that it is assigned to. The feature must also not rely on the category that it belongs to in order to be calculated. For example, given a category of the method change within the next 5 commits or not, then the features must not rely on knowledge of future changes to the project. If the features fail to effectively characterize the category they are assigned to then the \gls{svm} may have poor predictions. It is also necessary for the features to independent of each other to not negatively affect the categorization.
 
+% TODO Format parts of this.
+\gls{svm} requires all feature data be encoded as floating point numbers. For any numerical data the conversion to floating point is trivial. However, for more complex data the conversion is a little more difficult. Categorical data can be mapped into a unique vector entry per category. For example, if a feature can be 1 of 3 options: 0, 1 or 2 then it can be converted into three entries in the feature vector. Encoding the value 2 the sub-vector of the feature set would be \{0, 0, 1\} where 1 indicates a field that feature is present in the data for this vector, and 0 indicates the feature is not present. Data that is in the form of a string can be converted to a floating point number by assigning a unique number for each string (similar to hashing). The one downside to this method is that the numbers corresponding to each string maintain no numerical properties. In essence the data becomes categorical, such that if \textit{bob} is mapped to 1 and \textit{sally} is mapped to 2 there is no relationship between 1 and 2. Ideally, this data would then be further converted using the previously described method however if the set of possible strings is large then it may be unreasonable to convert it. For example, if there are 100 possible strings then that would add 100 new entries to a single vector.
+
+%<<< TODO svm diagrams >>>
+
+The categorization is used for the prediction, where each value of the category relates to a unique prediction type. For example, a simple binary categorization could simply 1 or 0 where 1 predicts the event will occur and 0 predicts that the event will not occur. In essence an \gls{svm} is tasked with separating a dataset into two different categories given a sample set of data that has already been categorized into two subsets. Given the categorization of the sample dataset the \gls{svm} model is trained to allow for categorization of new data. The categorization of any new vectors (that were not used for training) is called a prediction and is made by the \gls{svm} model created through the training. More specifically, the sample dataset is a dataset extracted from the target dataset. The sample dataset is then categorized based on the predetermined criteria (the prediction goal). This dataset along with the categorization for each vector in the dataset is the training dataset, and is then used to \textit{train} the \gls{svm} model. Once the model has been trained, the \gls{svm} model is ready to be used for making classification predictions. The data for each feature can be extracted from the new dataset, allowing for the model to classify each new vector. Given that the \gls{svm} model is accurate and reliable the results can then be used towards making predictions about the dataset. For example if the classification is that of predicting change to occur within the next six commits the developer may wish to be careful with the use of the method or assess the method's quality and determine if any issues within the method need to be addressed.
+
+A lower prediction score often relates to the data from the feature set poorly characterizing the categories. Similarly a warning will be given if the dataset is in-separate. In this case, the dataset for each category may be too similar and cannot be properly split into the two category subsets. In both cases a change to the feature set may help, whether that is a decrease or increase of features in the set. Some features are detrimental to the model, especially two features related to one another. %Other potential steps would be to modify the data to ...
+% *** TODO determine best practices for data something like mean of 1 and std of 1. ***
+
+More details about the specific features used will be given a little later on. Features are descriptive aspects of the dataset that are classified into the predetermined categories. Since these features relate directly to the category understanding of the classification critical and can help determine which features should be used. For example for a classification of whether a change will occur within the next few commits, a useful feature may be the frequency by which a method changes within the project. Picking a descriptive feature set is paramount to providing a strong prediction of future data.
+
+%<<< TODO create a figure to outline the various features and their meaning >>>
 
 \gls{svm} has been widely used for making predictions for various aspects including predicting battery charge state \cite{Anton2013}, pharmaceutical data \cite{Burbidge2001}, software faults \cite{Gondra2008, Erturk2015, Malhotra2015, Kim2008, Moeyersoms2015, Neuhaus2007}, bug localization \cite{Murphy2007, Neuhaus2007}, software mutation testing score \cite{Jalbert2012}, financial stocks \cite{Kim2003}, credit score \cite{Huang2007}, credit card fraud \cite{Westland2011}, solar power output \cite{Zeng2016}.
 
-Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim et al. outline a approach that uses a \gls{svm} to predict changes that will occur within the project. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults. The models are trained using project metrics as well as the project's historical fault data. Zeng and Qiao use a \gls{svm} to provide short-term predict solar power output. The \gls{svm} model outperformed both an autoregressive and a neural network model. Anton et al. propose a method for predicting the state of charge of a battery using \gls{svm} model. Neuhaus et al. mines vulnerability databases and version archives determine components within the software that were vulnerable. A \gls{svm} was then used to predict other component that were also vulnerable. Several feature selection techniques have been assessed by Shivaji et al. for bug prediction methods. Features which are less useful to the prediction are removed to reduce the set to only the essential features. Kim investigates the possible use of \gls{svm} as a prediction model for financial forecasting. The model was used to predict whether the stock price would go up or down for the next day.
+Malhotra reviews numerous machine learning techniques, including \gls{svm} and \gls{rf}, used by various studies\cite{Malhotra2015}. The results of which outline where each approaches succeed and falls short. When using a machine learning algorithm it is imperative to use a suitable algorithm for current situation. Kim, Whitehead and Zhang outline a approach that uses a \gls{svm} to predict changes that will occur within the project\cite{Kim2008}. By identifying these changes the a project developer can potentially locate a bug within a change and fix it prior to being reported. Erturk and Sezer compare the performance of their proposed method, an Adaptive Neuro Fuzzy Inference System, to that of an \gls{svm} for predicting software faults\cite{Erturk2015}. The models are trained using project metrics as well as the project's historical fault data. Zeng and Qiao use a \gls{svm} to provide short-term predict solar power output\cite{Zeng2016}. The \gls{svm} model outperformed both an autoregressive and a neural network model. Ant{\'{o}}n, Nieto, Viejo and Vil{\'{a}}n propose a method for predicting the state of charge of a battery using \gls{svm} model\cite{Anton2013}. Neuhaus, Zimmermann, Holler and Zeller mine vulnerability databases and version archives to determine components within the software that were vulnerable\cite{Neuhaus2007}. A \gls{svm} was then used to predict other component that were also vulnerable. Several feature selection techniques have been assessed by Shivaji, Whitehead, Akella and Kim for bug prediction methods\cite{Shivaji2013}. Features which are less useful to the prediction are removed to reduce the set to only the essential features. Kim investigates the possible use of \gls{svm} as a prediction model for financial forecasting. The model was used to predict whether the stock price would go up or down for the next day.
 
-Bhattacharyya et al. uses \gls{rf}, \gls{svm}, logistic regression to detect credit card fraud. Both \gls{rf} and \gls{svm} are able to predict a large number of fraudulent credit card transactions.
+Bhattacharyya, Jha, Tharakunnel and Westland uses \gls{rf}, \gls{svm}, logistic regression to detect credit card fraud. Both \gls{rf} and \gls{svm} are able to predict a large number of fraudulent credit card transactions.
 
 
 % TODO talk even more about how to pick better features.
@@ -123,31 +235,15 @@ Bhattacharyya et al. uses \gls{rf}, \gls{svm}, logistic regression to detect cre
 % \label{tab:example_feature_vector}
 % \end{table}
 
-% TODO Format parts of this.
-\gls{svm} requires all feature data be encoded as floating point numbers. For any numerical data the conversion to floating point is trivial. However, for more complex data the conversion is a little more difficult. Categorical data can be mapped into a unique vector entry per category. For example, if a feature can be 1 of 3 options: 0, 1 or 2 then it can be converted into three entries in the feature vector. Encoding the value 2 the sub-vector of the feature set would be \{0, 0, 1\} where 1 indicates a field that feature is present in the data for this vector, and 0 indicates the feature is not present. Data that is in the form of a string can be converted to a floating point number by assigning a unique number for each string (similar to hashing). The one downside to this method is that the numbers corresponding to each string maintain no numerical properties. In essence the data becomes categorical, such that if \textit{bob} is mapped to 1 and \textit{sally} is mapped to 2 there is no relationship between 1 and 2. Ideally, this data would then be further converted using the previously described method however if the set of possible strings is large then it may be unreasonable to convert it. For example, if there are 100 possible strings then that would add 100 new entries to a single vector.
-
-%<<< TODO svm diagrams >>>
-
-The categorization is used for the prediction, where each value of the category relates to a unique prediction type. For example, a simple binary categorization could simply 1 or 0 where 1 predicts the event will occur and 0 predicts that the event will not occur. In essence an \gls{svm} is tasked with separating a dataset into two different categories given a sample set of data that has already been categorized into two subsets. Given the categorization of the sample dataset the \gls{svm} model is trained to allow for categorization of new data. The categorization of any new vectors (that were not used for training) is called a prediction and is made by the \gls{svm} model created through the training. More specifically, the sample dataset is a dataset extracted from the target dataset. The sample dataset is then categorized based on the predetermined criteria (the prediction goal). This dataset along with the categorization for each vector in the dataset is the training dataset, and is then used to \textit{train} the \gls{svm} model. Once the model has been trained, the \gls{svm} model is ready to be used for making classification predictions. The data for each feature can be extracted from the new dataset, allowing for the model to classify each new vector. Given that the \gls{svm} model is accurate and reliable the results can then be used towards making predictions about the dataset. For example if the classification is that of predicting change to occur within the next six commits the developer may wish to be careful with the use of the method or assess the method's quality and determine if any issues within the method need to be addressed.
-
-A lower prediction score often relates to the data from the feature set poorly characterizing the categories. Similarly a warning will be given if the dataset is in-separate. In this case, the dataset for each category may be too similar and cannot be properly split into the two category subsets. In both cases a change to the feature set may help, whether that is a decrease or increase of features in the set. Some features are detrimental to the model, especially two features related to one another. %Other potential steps would be to modify the data to ...
-% *** TODO determine best practices for data something like mean of 1 and std of 1. ***
-
-More details about the specific features used will be given a little later on. Features are descriptive aspects of the dataset that are classified into the predetermined categories. Since these features relate directly to the category understanding of the classification critical and can help determine which features should be used. For example for a classification of whether a change will occur within the next few commits, a useful feature may be the frequency by which a method changes within the project. Picking a descriptive feature set is paramount to providing a strong prediction of future data.
-
-%<<< TODO create a figure to outline the various features and their meaning >>>
-
-% TODO finish this up
-Most of this was done using database queries or user defined functions created in the database language.
-
-\subsection{Random Forests}
+\subsubsection{Random Forests}
 \label{subsec:random_forest_predictions}
 
 \gls{rf} are a popular machine learning algorithm and is used in numerous areas including predictions for software fault \cite{Malhotra2015, Moeyersoms2015, Guo2004}, software development effort \cite{Moeyersoms2015}, credit card fraud \cite{Westland2011}, database indexing \cite{Yu2011}, malware detection \cite{Alam2013}. 
 
-Malhotra provides an extensive review of studies involving machine learning to predict software faults. The results showed that \gls{rf} tended to preform better than other machine learning algorithms studied. Moeyersoms et al. made use of \gls{rf} and \gls{svm} as well as a few other data mining approaches to predict software faults and effort estimation. The data mining techniques are used as part of another model, ALPA rule extraction, to improve the predictions and increase traceability. Guo et al. attempt use \gls{rf} to predict the fault proneness of modules within a project. The \gls{rf} prediction results for the five sample projects prove more accurate to that of a logistic regression. Yu et al. attempt to use \gls{rf} to determine a more effective database indexing for video data. The database index are used to provide faster searching of the database for action detection.
+Malhotra provides an extensive review of studies involving machine learning to predict software faults\cite{Malhotra2015}. The results showed that \gls{rf} tended to preform better than other machine learning algorithms studied. Moeyersoms, Fortuny, Dejaeger, Baesens and
+Martens made use of \gls{rf} and \gls{svm} as well as a few other data mining approaches to predict software faults and effort estimation\cite{Moeyersoms2015}. The data mining techniques are used as part of another model, ALPA rule extraction, to improve the predictions and increase traceability. Guo, Ma, Cukic and Singh attempt use \gls{rf} to predict the fault proneness of modules within a project\cite{Guo2004}. The \gls{rf} prediction results for the five sample projects prove more accurate to that of a logistic regression. Yu, Yaun and Liu attempt to use \gls{rf} to determine a more effective database indexing for video data\cite{Yu2011}. The database index are used to provide faster searching of the database for action detection.
 
-\gls{rf}s are commonly used to on data that has been mined from some source to make predictions \cite{Alam2013}, \cite{Granitto2007}, \cite{Yu2011}. A \gls{rf} leverages numerous decision trees to provide attempt to improve prediction capabilities. Therefore to fully understand a \gls{rf} first an understanding of decision trees is necessary. A decision tree is a technique which will create a tree based on a data set that has been classified. Once the decision tree model is created it can be used to predict or categorize data that has not yet to be classified. In the tree model the leafs will be categorizations where as the connections between inner nodes are the decisions by which the categorizations are made.
+\gls{rf}s are commonly used to make predictions on data that has been mined from some source \cite{Alam2013}, \cite{Granitto2007}, \cite{Yu2011}. A \gls{rf} leverages numerous decision trees to provide attempt to improve prediction capabilities. Therefore to fully understand a \gls{rf} first an understanding of decision trees is necessary. A decision tree is a technique which will create a tree based on a data set that has been classified. Once the decision tree model is created it can be used to predict or categorize data that has not yet to be classified. In the tree model the leafs will be categorizations where as the connections between inner nodes are the decisions by which the categorizations are made.
 
 % TODO format
 One issue with decisions trees and more generally machine learning techniques in general is imbalanced data sets for training the model \cite{Khoshgoftaar2007}. The data set used rarely provided even sample sizes of each set therefore without taking necessary pro-cautions the algorithm will bias the results. In the worse case the model will classify any input data as the larger data classification.
@@ -159,53 +255,9 @@ In case of imbalanced datasets there are several methods to help provide stronge
 The first method would be to \textit{undersample} larger category this will even out both of the categories. This will remove some of the input values within the dataset to reduce the set size. However if there are very few samples of the smaller category the performance will suffer as well. A second method of \textit{\gls{os}} is useful in the case were the data samples are small. The input data from the smaller category is selected to be duplicated in the set to increase the size of the set. This helpful since it will increase the size of the dataset but could lead to bias based on the data selected from the smaller dataset. The selection method for which input vectors to over or under sample can be based off on the data's statistical distribution or made by random choice. Another advantage of these over and under sampling is that they can also be used together to in the case of a large disparity between the category's set size. 
 
 % Bootstrapping aggregation
-Another feature of \gls{rf} which is used to help provide more reliable predictions is \textit{Bootstrap Aggregation} \cite{Westland2011}. Similar to normal sampling methods it will take the initial dataset. However rather than using the dataset as is the dataset will be uniformly sampled $n$ times and repeated $m$ times to create $m$ datasets of $n$ values. These newly created datasets will then be used to train $m$ models. Finally, when attempting to categorize a new input data it will be given to every model and the prediction result will be aggregated to provide a more accurate results. For some machine learning methods such as \gls{svm} this method will improve the results and help with imbalanced datasets.
+Another feature of \gls{rf} which helps provide more reliable predictions is \textit{Bootstrap Aggregation} \cite{Westland2011}. Similar to normal sampling methods it will start with the initial dataset. However, rather than using the dataset as is the dataset will be uniformly sampled $n$ times and repeated $m$ times to create $m$ datasets of $n$ values. These newly created datasets will then be used to train $m$ models. Finally, when attempting to categorize a new input data it will be given to every model and the prediction result will be aggregated to provide a more accurate results. For some other machine learning methods, such as \gls{svm}, this method will improve the results and help with imbalanced datasets.
 
 A \gls{rf} is a collection of decisions trees trained on random samples of the initial dataset. So the \gls{rf} will take an input dataset and then train $m$ decisions trees using $m$ randomly sampled sub-datasets of the initial dataset. This helps improve the model created and makes \gls{rf}s far easier to use. As well \gls{rf}s have a feature that determines the importance of each feature is assessed during the training of the model \cite{Westland2011}. The importance outlines the quality of each feature in providing the prediction \cite{Verikas2011}. Therefore in order to properly understand the feature importance the accuracy, precision and recall of the model should be determined by running a test dataset to determine the quality of the model.
-
-\section{Software Development Prediction}
-
-The development of large scale projects can take a long time and involve a huge time investment from the developers. The development of the project will cause for the developers to make changes to projects. Changes made to a project may introduce new faults, increase functionality and fix previous problems. Therefore changes to a project can be both positive or negative. The developers of a project must control how a project is changed to attempt to limit the number of negative changes and increase the positive changes. Beyond ensuring that the project is developed correctly the developers typically have a limited amount of time to spend on the project and therefore must allocate their time wisely. Software development prediction models are used to help developers allocate their time more effectively. For example a developer may have a list of features that should be added to the project. However implementing the most fundamental features first will help ensure that these features are more likely to be completed.
-
-Software development prediction contains numerous areas of study which generally attempt to improve projects by focusing on their development and providing feedback to the developers through predictions. Some of these areas include predicting: fault detection \cite{Nagappan2007, Moser2008, Thwin2005, Sisman2012}, mutation score \cite{Jalbert2012}, software changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}. While there may be a large overlap in the objective for these studies often they will vary in what is used to make the prediction.
-
-\subsection{Fault Prediction}
-
-Fault prediction is a key area of study for software development since the goal is to provide insight into where issues within the project are located. Identifying these areas can be very beneficial to the developers in saving time from searching for bugs. Rather the developers are able to use their time on fixing those issues. Therefore accurate identification of faulty code improves both development efficiency and software product quality. In order to predict these faults studies used one or more of the following; change metrics \cite{Moser2008, Sisman2012, Nagappan2007}, code metrics \cite{Moser2008, Thwin2005}, defect history \cite{Sisman2012}, software dependencies \cite{Nagappan2007}.
-
-Fault predictions using static and change metrics are studied by Moser et al. The change metrics used outperformed the static metrics in accuracy, and recall. Sisman and Kak alternatively look specifically at change metrics using \gls{ir} framework to provide the predictions. The prediction framework also uses a time sensitive factor to bias towards more recent changes for predictions. Nagappan and Ball attempted to predict post release project failures for commercial projects. These predictions were done using a software dependency analysis as well as using churn metrics from the project's development. Their method proved to be capable in predicting these failures providing an ability to mitigate these failures from occurring.
-
-% Close source, prediction
-%Nagappan and Ball use the software dependencies and churn metrics to predict the failure of a commercial product post release \cite{Nagappan2007}.
-
-% Defect prediction, change attributes, static attributes
-%Change and static code attributes are compared in their capability in predicting defects within a project \cite{Moser2008}.
-
-% predict software quality based on code metrics
-%Attempt to predict the number of defects within a given class using a neural network trained on object oriented code metrics \cite{Thwin2005}. Second the amount of changes within a class is predicted again with a neural network using object oriented code metrics \cite{Thwin2005}.
-
-% Prediction of something
-%Support development of software predictions is a common research area. Jalbert and Bradbury used static metrics from both the source code and corresponding test suites to predict the mutation score for the test suite \cite{Jalbert2012}.
-
-% Bug localization through prediction, change history, defect history, temporal decay.
-%Sisman and Kak leverage defect history and the change history of a project to predict which files will be the cause of bugs in different version of the project \cite{Sisman2012}.
-
-\subsection{Change Prediction}
-% Related work stuff here or later
-
-Software projects will have faults within the project especially during the development phase. A project in its early stages may not meet the full set of functionality since it has not been completed yet. Since the development team will known that such features are not yet implemented these faults or fails are not a huge concern. Rather faults that are unknown to the developer team are far more serious. Such cases as a feature was thought to be implemented correct but was not or a feature implementation breaks other features. In both those cases changes made to the project cause the fault to be revealed. Changes to the project are the means by which all development occurs. The ability to analyze and predict changes within a project could give deep insights into the development of a project. A large amount of research as focused on predictions of changes based on changes \cite{Bantelay2013, Chaturvedi2014, Giger2012, Hassan2004, Kagdi2007, Ying2004}.
-
-Ying et al. present a method that predicts which parts of the system will change given a set of changes or change propagation. The prediction is done using the project's change history. The results of the prediction method were mixed with some projects recording a stronger precision and recall and others recording a far lower results. Kagdi and Maletic also leverage version history changes to perform software change predictions. The actually analysis applied is two fold, through the dependency analysis of the current version and the change analysis of the version history. The data is collected through \gls{msr} which is a popular field of study. In a similar work, Hassan and Holt, worked towards predicting change propagation of a given initial change. The main question was to determine given a change to an entity (e.g. function or variable) will propagate to changes in other entities. This work is very related since it tests various methods and leverages presents the best one. Bantelay et al. propose a method that mines the file and method level evolutionary couplings to attempt to predict commits and other interactions within the project. Both methods were used in isolation as well to determine whether the attributes were more helpful when used together. Giger et al. attempt to build off of previous work in change proneness by providing predictions relating to more refined entities. While typical change analysis will involve the use of syntactic changes. However Giger et al. suggest that extracting and tracking semantic change could prove to be more helpful and accessible for developers for predicting future changes within a project. Chaturvedi et al. attempt to predict the complexity of code changes to a project. The project's change history is analyzed and the entropy is calculated. The future amount of changes necessary, the complexity of code changes, is then predicted. 
-
-
-\section{Change Analysis}
-
-Changes that occur within a project are made to achieve a goal or task. Whether the task is high level such as implement a new features for the program or lower level like fix a syntactical bug. Investigations into how changes are made or used can help provide a better understanding for making a better changes or better use of the changes.
-
-Bieman et al. study the change-proneness of different entities within a software project. In order to provide a deeper understanding visualizations were used as well providing a bit of a different approach from some of the other works. Koru and Liu study and describe change-prone classes found within open source projects. Providing further details into characteristics of different changes that are made to a software project throughout development. Similarly Wilkerson attempts to classify different types of changes that occur to a project throughout development. The classification can then be used to identify the impact that a given change will have on other aspects of the project. Snipes et al. provide a tool that attempts to locate areas within the source code that have a large amount of changes. These areas could be classified as underdevelopment and are likely to be very unstable given the amount of change occurring within them.
-
-% (TODO check) Close source, identifying areas likely to have change
-%Snipes et al. describe a tool for analyzing software projects to identify areas that have a history of large amount of change. \cite{Snipes2011}
 
 
 % TODO talk about previous work on change prediction. cause. 
