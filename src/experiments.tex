@@ -752,7 +752,7 @@ A lot of projects did not vary greatly for different feature sets providing simi
 
 The experiment below took the best and worst trials from the previous two experiments and used \gls{os} when sampling the data. The variables that change per project are based on the previous best performance and worst performance. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the best and worst \gls{swr} and feature set are provided for each project. Since each project will likely have different values of \gls{swr} and feature set the comparesion should only be made between the difference in performance for the best/worst result and their corresponding \gls{os} trail Best-O/Worst-O.
 
-In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked based on having the all a weighted summation algorithm outlined in \autoref{eq:ranking_formula}. Since precision and accuracy are very closely related the weight for each was $0.5$ while recall was set to $1.0$.
+In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked based on having the all a weighted summation algorithm outlined in \autoref{eq:project_ranking_formula}. Since precision and accuracy are very closely related the weight for each was $0.5$ while recall was set to $1.0$.
 
 % Projects to discuss:
 % - acra
@@ -1151,12 +1151,14 @@ Overall for the experiments using \gls{rf}, the variable with the greatest impac
 
 \subsection{Experiment Discussions}
 
-The best performance each project out of the experiments conducted are shown in \autoref{tab:project_performance}. Therefore the best parameters are outlined for each project. The best result was calculated through multi-variable optimization. Since the performance measure consisted of three variables the best result would be one that maintained higher results for each. While not the most ideal, a weighted sum was taken of the precision, recall and accuracy outlined in \autoref{eq:ranking_formula}. The weight of precision ($w_{p}$) and accuracy ($w_{a}$) are closely related both were assigned a weight of $0.5$ while the weight for recall ($w_{r}$) was assigned $1.0$. The higher the resultant summation of the performance measures the higher the ranking of the given performance. Therefore the trails that had the highest performance weighted sum were considered to have performed the best.
+The best performance each project out of the experiments conducted are shown in \autoref{tab:project_performance}. Therefore the best parameters are outlined for each project. The best result was calculated through multi-variable optimization. Since the performance measure consisted of three variables the best result would be one that maintained higher results for each. While not the most ideal, a weighted sum was taken of the precision, recall and accuracy outlined in \autoref{eq:project_ranking_formula}. The weight of precision ($w_{p}$) and accuracy ($w_{a}$) are closely related both were assigned a weight of $0.5$ while the weight for recall ($w_{r}$) was assigned $1.0$. The vectors; $p$, $r$ and $a$ consist of the precision, recall and accuracy respectively for each experimental trial. The higher the resultant summation of the performance measures the higher the ranking of the given performance. Therefore the trails that had the highest performance weighted sum were considered to have performed the best. The $rank_{x,i}$ is calculated per repository trial and the best performance ($best_{x}$) per project is calculated.
 
 \begin{equation} 
-\label{eq:ranking_formula}
-score_i = w_{pi} \times p_i + w_{ri} \times r_i + w_{ai} \times a_i
-max(score)
+\label{eq:project_ranking_formula}
+\begin{matrix}
+rank_{x,i} = w_{pi} \times p_i + w_{ri} \times r_i + w_{ai} \times a_i \\
+best_{x} = max(rank_{x})
+\end{matrix}
 \end{equation}
 
 While the weighted sum did optimize each value, a common issue was that often a project would have one or two parameter perform well while the remaining performed poorly. For example blockly-android had the maximum value for recall but $0.51$ for precision and accuracy. The weighted sum of this vector would be $0.51 \times 0.5 + 1.0 \times 1.0 + 0.51 \times 0.5 = 1.51$. However in the event that another performance scored $0.7$ for each measure, the weighted sum would be $0.7 \times 0.5 + 0.7 \times 1.0 + 0.7 \times 0.5 = 1.4$. Since the goal is for multi-variable optimization a model that is generally good on each measure is better than a model performs well with one or two but terribly for the rest. Regardless though, some generally performed poorly and that is reflected in the table with a best performance that is quite low or very bias. 
@@ -1168,25 +1170,25 @@ While the weighted sum did optimize each value, a common issue was that often a 
         Project & AI & Feature Set & SWR & Test Setup & Precision & Recall & Accuracy \\
         \hline
         acra & SVM & 2 & 80 & test 1 & 0.74 & 0.92 & 0.8 \\          % top tier
-        arquillian-core & RF & 3 & 90 & test 3 & 0.53 & 0.98 & 0.55 \\
+        arquillian-core & RF & 3 & 90 & test 2 & 0.53 & 0.98 & 0.55 \\
         blockly-android & SVM & 2 & 60 & test 1 & 0.51 & 1.0 & 0.51 \\
         brave & RF & 2 & 110 & test 1 & 0.59 & 0.97 & 0.65 \\
         cardslib & SVM & 2 & 120 & test 1 & 0.5 & 1.0 & 0.5 \\
-        dagger & RF & 3 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
+        dagger & RF & 3 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
         deeplearning4j & RF & 2 & 70 & test 1 & 0.55 & 0.96 & 0.58 \\
         fresco & RF & 2 & 60 & test 1 & 0.52 & 1.0 & 0.53 \\
         governator & RF & 2 & 60 & test 1 & 0.57 & 0.81 & 0.6 \\
-        greenDAO & SVM & 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
+        greenDAO & SVM & 4 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
         http-request & RF & 2 & 80 & test 1 & 0.87 & 0.79 & 0.84 \\   % top tier
-        ion & RF & 2 & 90 & test 3 & 0.72 & 0.73 & 0.72 \\            % top tier
+        ion & RF & 2 & 90 & test 2 & 0.72 & 0.73 & 0.72 \\            % top tier
         jadx & SVM & 2 & 130 & test 1 & 0.55 & 0.82 & 0.58 \\
         mapstruct & SVM & 2 & 70 & test 1 & 0.6 & 0.88 & 0.65 \\
         nettosphere & RF & 2 & 110 & test 1 & 0.63 & 0.67 & 0.63 \\
-        parceler & SVM & 1 & 90 & test 3 & 0.57 & 0.92 & 0.61 \\
+        parceler & SVM & 1 & 90 & test 2 & 0.57 & 0.92 & 0.61 \\
         retrolambda & SVM & 2 & 130 & test 1 & 0.5 & 1.0 & 0.5 \\
-        ShowcaseView & SVM & 1 & 90 & test 3 & 0.73 & 0.89 & 0.78 \\  % top tier
+        ShowcaseView & SVM & 1 & 90 & test 2 & 0.73 & 0.89 & 0.78 \\  % top tier
         smile & SVM & 2 & 70 & test 1 & 0.5 & 1.0 & 0.5 \\
-        spark & SVM & 4 & 90 & test 3 & 0.5 & 1.0 & 0.5 \\
+        spark & SVM & 4 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
         storm & RF & 2 & 60 & test 1 & 0.61 & 0.89 & 0.66 \\
         tempto & RF & 2 & 120 & test 1 & 0.53 & 0.73 & 0.55 \\
         yardstick & SVM & 2 & 70 & test 1 & 0.55 & 0.79 & 0.57 \\
@@ -1198,6 +1200,59 @@ While the weighted sum did optimize each value, a common issue was that often a 
 \end{table}
 
 The number of projects that perform the best with \gls{svm} and \gls{rf} are 11 and 12 respectively. As noted above some of the performance results are still quite low for some of the projects because of a lack of success for that project for all of the trials run. All projects did perform better than $50\%$ which is quite a poor result since it is about as good as a coin toss. Out of the best performances, only 6 of the 23 projects have a trial that performs better than $60\%$ for all three measures. Of those 6 only 4 of those perform better than $70\%$ for each performance measure. Of the top 4, http-request performed the best followed by acra, ShowcaseView and ion in descending order. Both acra and ShowcaseView performed best with use of \gls{svm} while http-request and ion perform best with \gls{rf}. For both http-request and ShowcaseView the overall performance is better for \gls{rf} over \gls{svm}. Likewise, ion performed better for \gls{svm} over \gls{rf}. The results were more consistent between \gls{rf} and \gls{svm}. The second feature set used for acra, http-request and ion to gain the best performance while for ShowcaseView the first feature set performed the best. On a final note, each of these 4 repositories are classified as long in length, small in size, small to medium in number of developers and low to medium in commit rate.
+
+The parameters setup for each experiment proved to vary in results. In order to determine which set of parameters are the most ideal the trails for each experimental parameters are ranked. In \autoref{eq:param_ranking_formula} the ranked score is calculated similar to that in \autoref{eq:project_ranking_formula}. However for \autoref{eq:param_ranking_formula}, the ranks are ordered in based on the parameter set ($s$) used for the trial. Therefore the weighted summation, $rank_{s,i}$ is taken for each project with the same parameter set up $s$. The average, $avg_{rank_{s,i}}$, is taken for each parameter set. The best ranked parameter is set is then selected by taking the maximum $avg_{rank_{s}}$.
+
+\begin{equation} 
+\label{eq:param_ranking_formula}
+\begin{matrix}
+rank_{s,i} = w_{pi} \times p_i + w_{ri} \times r_i + w_{ai} \times a_i \\
+avg_{rank_{s}} = \frac{\sum_{i}^{n}rank_{s,i}}{|rank_{s}|} \\
+best_{rank_{s}} = max(avg_{rank_{s}})
+\end{matrix}
+\end{equation}
+
+The complete order list of the ranked parameter sets are shown in \autoref{tab:setup_performance}. Out of all the parameter setups, \gls{rf} ranked higher for all setups except for one which ranked lower than the best parameter setup for \gls{svm}. This ranked list can be considered as a guide to identify the best performing parameter setup. Also the best parameter set can be used for any new repositories collected to attempt to get the best results.
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        AI & Feature Set & SWR & Test Setup & Rank Average \\
+        \hline
+        rf & 100 & 2 & test 1 & 1.3013 \\
+        rf & 110 & 2 & test 1 & 1.2767 \\
+        rf & 60 & 2 & test 1 & 1.2648 \\
+        rf & 70 & 2 & test 1 & 1.2582 \\
+        rf & 120 & 2 & test 1 & 1.2579 \\
+        rf & 3 & 90 & test 2 & 1.2451 \\
+        rf & 130 & 2 & test 1 & 1.2423 \\
+        rf & 2 & 90 & test 2 & 1.2254 \\
+        rf & 90 & 2 & test 1 & 1.2233 \\
+        rf & 5 & 90 & test 2 & 1.2111 \\
+        rf & 80 & 2 & test 1 & 1.2082 \\
+        rf & 1 & 90 & test 2 & 1.2066 \\
+        svm & 5 & 90 & test 2 & 1.192 \\
+        rf & 4 & 90 & test 2 & 1.1844 \\
+        svm & 4 & 90 & test 2 & 1.1669 \\
+        svm & 70 & 2 & test 1 & 1.1576 \\
+        svm & 120 & 2 & test 1 & 1.1551 \\
+        svm & 130 & 2 & test 1 & 1.1529 \\
+        svm & 1 & 90 & test 2 & 1.1477 \\
+        svm & 60 & 2 & test 1 & 1.0962 \\
+        svm & 3 & 90 & test 2 & 1.0856 \\
+        svm & 90 & 2 & test 1 & 1.076 \\
+        svm & 100 & 2 & test 1 & 1.0688 \\
+        svm & 2 & 90 & test 2 & 1.0653 \\
+        svm & 80 & 2 & test 1 & 1.0365 \\
+        svm & 110 & 2 & test 1 & 1.0089 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Best Setup Performance}
+\label{tab:setup_performance}
+\end{table}
+
  
 \clearpage
 \section{Threats to Validity}
