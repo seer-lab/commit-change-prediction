@@ -1,16 +1,16 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
-Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} project can be used towards predicting future changes within the project. These experiments are based on the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
+Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} repository can be used towards predicting future changes within the repository. These experiments are based on the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
 
-\section{Experimental Project Data}
-\label{sec:experimental_project_data}
+\section{Experimental Repository Data}
+\label{sec:experimental_repository_data}
 
 %One thing that should be noted for the experiments that were run. Since all of the data was known before the model was even created artificial cut off dates were created to allow for the feature set to be tested as to their effect on the model. A test project, acra (developed by the user ACRA), was chosen to develop the method on. 
 
 %The project data was extracted from GitHub from when the project was initially committed to GitHub (2010-04-18 15:52:18-04) till the cut off day of extraction (2015-06-05 09:02:56-04). The cut off day was the day the data was extracted from GitHub and after of which the data analysis was initiated.
 
-The complete list of projects that were experimented on are found in \autoref{tab:project_summary}. Data from each project was collected from the creation date for the project till the date the data was collected on. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the project in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current project.
+The complete list of repositories that were experimented on are found in \autoref{tab:repositories_summary}. Data from each repository was collected from the creation date for the repository till the date the data was collected on. The number of commits excludes any commit that lacked a change to a file containing Java code. Since the primary interest was to parse Java code, files containing Java code were used while all other files are ignored. These measures provide a more accurate description of the repository in terms of the analysis and predictions made on it. Secondly, the number of developers does not map effectively to what git uses as committers and authors. Instead, the number of developers includes all individuals (removing duplicates) who committed or authored commits to the current repository.
 
 % TODO consider placing this into introduction
 \begin{table}[!hbp]
@@ -18,7 +18,7 @@ The complete list of projects that were experimented on are found in \autoref{ta
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Owner & Project & Start Date & End Date & \# of & \# of \\
+        Owner & Repository & Start Date & End Date & \# of & \# of \\
          & & & & Commits & Developers \\
         \hline
         ACRA & acra & 2010-04-18 & 2015-06-05 & 404 & 32 \\
@@ -47,34 +47,34 @@ The complete list of projects that were experimented on are found in \autoref{ta
         \hline
     \end{tabular}
 \end{center}
-\caption{Experiment projects}
-\label{tab:project_summary}
+\caption{Experiment Repositories}
+\label{tab:repositories_summary}
 %\end{minipage}
 \end{table}
 
-Given the large number of project experimented on a categorization system was necessary to allow for grouping of projects. Four project measures were selected for comparing the projects and are outlined in \autoref{tab:project_size_summary_info}. The measures are: project length in years, project size in number of methods, number of developers and the rate of commits made in commits per year. The project length represents the number of years the project has been under development for. The size of the project is measured in the number of method signatures within the project since created. The number of developers is tallied from the beginning of the project for this measure. Finally, the rate of commits is the number of commits contributed to the project per year. A yearly rate of commits was sufficient since the majority of the projects had more than one year of development history.
+Given the large number of repository experimented on a categorization system was necessary to allow for grouping of repositories. Four repository measures were selected for comparing the repositories and are outlined in \autoref{tab:repository_size_summary_info}. The measures are: repository length in years, repository size in number of methods, number of developers and the rate of commits made in commits per year. The repository length represents the number of years the repository has been under development for. The size of the repository is measured in the number of method signatures within the repository since created. The number of developers is tallied from the beginning of the repository for this measure. Finally, the rate of commits is the number of commits contributed to the repository per year. A yearly rate of commits was sufficient since the majority of the repositories had more than one year of development history.
 
 
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|}
         \hline
-        project length & project size & \# devs & commit rate \\
+        Repo Duration & Repo Size & \# Devs & Commit Rate \\
         \hline
         \hline
-        short ($t < 1$) & small ($m < 2000$) & small ($d < 30$) & low rate ($r < 100$) \\
+        short ($t < 1$) & small ($m < 2000$) & small ($d < 30$) & low ($r < 100$) \\
         \hline
         medium & medium & medium & medium \\
         ($1 \leq t < 3$) & ($2000 \leq m < 10000$) & ($30 \leq d < 100$) & ($100 \leq r < 300$) \\
         \hline
-        long ($t \geq 3$) & large ($m \geq 10000$) & large ($d \geq 100$) & high rate ($300 \leq r < 600$) \\
+        long ($t \geq 3$) & large ($m \geq 10000$) & large ($d \geq 100$) & high ($300 \leq r < 600$) \\
         \hline
-        & & & very high rate ($r \geq 600$) \\
+        & & & very high ($r \geq 600$) \\
         \hline
     \end{tabular}
 \end{center}
-\caption{Experiment project summary}
-\label{tab:project_size_summary_info}
+\caption{Experiment Repository Summary}
+\label{tab:repository_size_summary_info}
 \end{table}
 
 % \begin{table}
@@ -92,15 +92,13 @@ Given the large number of project experimented on a categorization system was ne
 % \label{tab:project_size_summary_info}
 % \end{table}
 
-Using the classifications outline in \autoref{tab:project_size_summary_info}, the projects are grouped and organized with similar projects. In \autoref{tab:project_size_summary} the projects are sorted by their classification and have dividing lines around similar projects. For example four projects; http-request, nettosphere, parceler and retrolambda are all classified in the same group. Some projects like ion or storm are not grouped in with another project and thus are in a group of their own.
+Using the classifications outline in \autoref{tab:repository_size_summary_info}, the repositories are grouped and organized with similar repositories. In \autoref{tab:repository_size_summary} the repositories are sorted by their classification and have dividing lines around similar repositories. For example four repositories; http-request, nettosphere, parceler and retrolambda are all classified in the same group. Some repositories like ion or storm are not grouped in with another repository and thus are in a group of their own.
 
-% TODO place in a better location
-% TODO talk about the table
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        name & project length & project size & \# devs & commit rate \\
+        Repo Name & Repo Duration & Repo Size & \# Devs & Commit Rate \\
         \hline
         \hline
         yardstick & medium & small & small & medium \\
@@ -142,18 +140,17 @@ Using the classifications outline in \autoref{tab:project_size_summary_info}, th
         \hline
     \end{tabular}
 \end{center}
-\caption{Experiment project summary}
-\label{tab:project_size_summary}
+\caption{Experiment Repository Summary}
+\label{tab:repository_size_summary}
 \end{table}
 
-%TODO place the tables in better positions.
-Each of the projects are selected from GitHub using the list of Java projects with a large amount of development. \gls{oss} projects were targeted to simplify any usage concerns. Specifically, \gls{oss} projects are open and freely available immediately and can be discussed without restriction. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the project also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick projects of different sizes to provide better tests of various conditions.
+Each of the repositories are selected from GitHub using the list of Java repositories with a large amount of development. \gls{oss} repositories were targeted to simplify any usage concerns. Specifically, \gls{oss} repositories are open and freely available immediately and can be discussed without restriction. Therefore in order to be selected the program had to clearly use an \gls{oss} license. Secondly, the repository also needed to have at least a 6 months worth of development and at least 300 commits to provide a large enough dataset to analyze. An effort was also made to pick repositories of different sizes to provide better tests of various conditions.
 
 \begin{table}
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Project & \# of Methods & \# of Methods & Avg \# of & Avg \# of Methods \\
+        Repository & \# of Methods & \# of Methods & Avg \# of & Avg \# of Methods \\
          & & Changes & Commits / Year & Change / Commit \\
         \hline
         acra & 1309 & 3605 & 67.33 & 9.51 \\
@@ -182,13 +179,12 @@ Each of the projects are selected from GitHub using the list of Java projects wi
         \hline
     \end{tabular}
 \end{center}
-\caption{Project Change Statistics}
-\label{tab:project_stats}
+\caption{Repository Change Statistics}
+\label{tab:repository_stats}
 \end{table}
 
-In order to get a more detailed understand of the selected projects, numerous measures were taken. These measures also allow for each projects to be compared to each other in terms of the development of each of the projects. For example the size of the project is represented through several measures including: number of commits, methods and developers. Several averages are calculated to help establish how the development occurred within a project during the development. A few examples of average measurements are the number of commits per year, changes per method.
+In order to get a more detailed understand of the selected repositories, numerous measures were taken. These measures also allow for each repositories to be compared to each other in terms of the development of each of the repositories. For example the size of the repository is represented through several measures including: number of commits, methods and developers. Several averages are calculated to help establish how the development occurred within a repository during the development. A few examples of average measurements are the number of commits per year, changes per method.
 
-% TODO complete list of projects
 \begin{enumerate}
 \item \textbf{acra}\footnote{\url{https://github.com/ACRA/acra}} is an Android bug logging tool used with Android applications to capture information related to bugs or crashes. The information is sent to the developers to help them address the issues that their clients encounter while using there application.
 \item \textbf{arquillian-core}\footnote{\url{https://github.com/arquillian/arquillian-core}} is a platform for creating automated integration, functional and acceptance tests for Java middleware products. 
@@ -196,8 +192,8 @@ In order to get a more detailed understand of the selected projects, numerous me
 \item \textbf{brave}\footnote{\url{https://github.com/openzipkin/brave}} provides a Java distributed tracing tool for troubleshooting latency problems and is compatible with Zipkin.
 \item \textbf{cardslib}\footnote{\url{https://github.com/gabrielemariotti/cardslib}} is an Android library for creating UI Cards in an Android application.
 \item \textbf{dagger}\footnote{\url{https://github.com/square/dagger}} from square is a Java application used to satisfy dependencies for classes to replace the factory model of development.
-\item \textbf{deeplearning4j}\footnote{\url{https://github.com/deeplearning4j/deeplearning4j}} is a distributed neural network library that integrates Hadoop and Spark. This application is the largest of the all the projects and provides a large wealth of data to analyze.
-\item \textbf{fresco}\footnote{\url{https://github.com/facebook/fresco}} from facebook is the smallest project with the shortest development period. This project provides a library for using images on Android to attempt to solve limited memory issues with mobile devices.
+\item \textbf{deeplearning4j}\footnote{\url{https://github.com/deeplearning4j/deeplearning4j}} is a distributed neural network library that integrates Hadoop and Spark. This application is the largest of the all the repositories and provides a large wealth of data to analyze.
+\item \textbf{fresco}\footnote{\url{https://github.com/facebook/fresco}} from facebook is the smallest repository with the shortest development period. This repository provides a library for using images on Android to attempt to solve limited memory issues with mobile devices.
 \item \textbf{governator}\footnote{\url{https://github.com/Netflix/governator}} is a library of extensions and utilities that enhances Google's Guice to provide injector life-cycle and object life-cycle.
 \item \textbf{greenDAO}\footnote{\url{https://github.com/greenrobot/greenDAO}} provides an Android based light and fast object relational mapping to SQLite database entries.
 \item \textbf{http-request}\footnote{\url{https://github.com/kevinsawicki/http-request}} is a library accessing the \textit{httpURLConnection} to make requests and then access the response.
@@ -210,7 +206,7 @@ In order to get a more detailed understand of the selected projects, numerous me
 \item \textbf{ShowcaseView}\footnote{\url{https://github.com/amlcurran/ShowcaseView}} is a library for Android that can highlight and showcase components within the UI of a application.
 \item \textbf{smile}\footnote{\url{https://github.com/haifengl/smile}} stands for Statistical Machine Intelligence and Learning Engine and is a machine learning library for Java.
 \item \textbf{spark}\footnote{\url{https://github.com/perwendel/spark}} a tiny web framework for Java 8.
-\item \textbf{storm}\footnote{\url{https://github.com/apache/storm}} from apache real time computational system for continuous streams of data. This project is one of the larger projects and has a large development community.
+\item \textbf{storm}\footnote{\url{https://github.com/apache/storm}} from apache real time computational system for continuous streams of data. This repository is one of the larger repositories and has a large development community.
 \item \textbf{tempto}\footnote{\url{https://github.com/prestodb/tempto}} A testing framework for SQL databases running on Hadoop.
 \item \textbf{yardstick}\footnote{\url{https://github.com/gridgain/yardstick}} is a framework for creating benchmarks specifically for clustered or distributed systems.
 
@@ -220,7 +216,7 @@ In order to get a more detailed understand of the selected projects, numerous me
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Project & Avg \# of & Avg \# of & Avg \# of & Max & Min \\
+        Repository & Avg \# of & Avg \# of & Avg \# of & Max & Min \\
          & Methods Change & Changes & Commits / & Commits & Commits \\
          & / Year & / Method & Developer & / Year & / Year \\
         \hline
@@ -250,12 +246,12 @@ In order to get a more detailed understand of the selected projects, numerous me
         \hline
     \end{tabular}
 \end{center}
-\caption{Project Change Statistics 2}
-\label{tab:project_stats_2}
+\caption{Repository Change Statistics 2}
+\label{tab:repository_stats_2}
 \end{table}
 
 % TODO reference the table
-Several average measures were also taken which detail the amount of change that occurs within the project. The average number of commits per project coupled with the average number of changes per commit clearly indicates the amount of changes that are occurring with in the project. The rate at which methods are change provides good insight into the growth of a project. While some changes may involve the addition of new methods, others may include the removal of methods or the modification of methods. The other measures relating to the amount of change occurring with a project on average are the number of methods changed per year and the number of changes per method. Each of these further outline how the changes are being made to the project on average.
+Several average measures were also taken which detail the amount of change that occurs within the repository. The average number of commits per repository coupled with the average number of changes per commit clearly indicates the amount of changes that are occurring with in the repository. The rate at which methods are change provides good insight into the growth of a repository. While some changes may involve the addition of new methods, others may include the removal of methods or the modification of methods. The other measures relating to the amount of change occurring with a repository on average are the number of methods changed per year and the number of changes per method. Each of these further outline how the changes are being made to the repository on average.
 
 A few of the measures are related to the number of developers. These while provided are not the primary focus. The information provided by tracking developer interactions with each other or the repository could be integrated into future work.
 
@@ -263,7 +259,7 @@ A few of the measures are related to the number of developers. These while provi
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Project & Max \# of & Min \# of & Max \# of & Max \# of & Min \# of \\
+        Repository & Max \# of & Min \# of & Max \# of & Max \# of & Min \# of \\
          & Methods & Methods & Change / & Commits / & Commits / \\
          & Changed & Changed & Method & Developer & Developer \\
          & / Year & / Year & & & \\
@@ -294,25 +290,25 @@ A few of the measures are related to the number of developers. These while provi
         \hline
     \end{tabular}
 \end{center}
-\caption{Project Change Statistics 3}
-\label{tab:project_stats_3}
+\caption{Repository Change Statistics 3}
+\label{tab:repository_stats_3}
 \end{table}
 
-While the purposed method was being developed ACRA's acra project was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other projects using the feature sets that performed better.
+While the purposed method was being developed ACRA's acra repository was primarily used for exploring and initial testing of the approach. After experimenting on acra a few of the potential candidate feature sets were distinguished based on their superior performance. Experiments were then run on other repositories using the feature sets that performed better.
 
 \section{Experimental Setup}
 
 
-The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a project will be referred to as the performance of the approach. In order to reduce specific project confounding factors numerous projects were tested on. This will be discussed further in the discussions section. The experiments section only includes a small sample of the projects that were experimented on. The projects shown are ones that exhibited interesting patterns or results. The complete set of performance figures for every project are shown in \autoref{app:experimental_data}.
+The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observer the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a repository will be referred to as the performance of the approach. In order to reduce specific repository confounding factors numerous repositories were tested on. This will be discussed further in the discussions section. The experiments section only includes a small sample of the repositories that were experimented on. The repositories shown are ones that exhibited interesting patterns or results. The complete set of performance figures for every repository are shown in \autoref{app:experimental_data}.
 
-This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the project. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
+This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the repository. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
 \begin{enumerate}
 \item The \gls{swr} which is the size of range which the samples are taken from.
 \item The set of features used to train the machine learning model.
 \item The distribution of the data through use of \gls{os}.
 \end{enumerate}
 
-Through investigating these factors a more clear picture of the performance of the approach will be be provided. Without such a investigation the method contains could produce capable solution just as likely as poor solutions. Worse still, the setup may produce poor solutions more often than capable solutions. Once a more concrete understanding is developed of the different factors and the performance of the algorithm accordingly the research question can be answered as to whether it is possible to predict changes within a project using the commit data.
+Through investigating these factors a more clear picture of the performance of the approach will be be provided. Without such a investigation the method contains could produce capable solution just as likely as poor solutions. Worse still, the setup may produce poor solutions more often than capable solutions. Once a more concrete understanding is developed of the different factors and the performance of the algorithm accordingly the research question can be answered as to whether it is possible to predict changes within a repository using the commit data.
 
 \subsection{Prediction Features}
 
@@ -332,7 +328,7 @@ Through investigating these factors a more clear picture of the performance of t
 %An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
 
 % TODO provide an actual start to this subsection
-The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the project the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{sec:prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
+The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the repository the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{sec:prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
 
 %The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -380,7 +376,7 @@ The training and testing sampling range are defined as the number of commits fro
 
 As discussed in \autoref{sec:prediction_data}, sample biasing can cause the distribution to favor the selection of one category over another. Undersampling and \gls{os} can prevent the model from simply classifying all samples as one category or the other.
 
-For each project data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. In \autoref{fig:data_range} the \textit{current commit} is located at 45. This is the point from which predictions will be made after. The gap preceding the starting point is is 5 commits long and is followed by the sample window for the training data which is 30 commits long. To calculate the window offset simply using the starting position ($p_s$), the gap length ($g$), and the \gls{swr} can be calculated in \autoref{eq:window_offset}. Therefore in this case the window offset would be $45 - 5 - 30$ which is 10.
+For each repository data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. In \autoref{fig:data_range} the \textit{current commit} is located at 45. This is the point from which predictions will be made after. The gap preceding the starting point is is 5 commits long and is followed by the sample window for the training data which is 30 commits long. To calculate the window offset simply using the starting position ($p_s$), the gap length ($g$), and the \gls{swr} can be calculated in \autoref{eq:window_offset}. Therefore in this case the window offset would be $45 - 5 - 30$ which is 10.
 
 \begin{equation} 
 \label{eq:window_offset}
@@ -503,7 +499,7 @@ As noted above the independent variable for this experiment is the \gls{swr}. Th
 
 \end{table}
 
-Each project was tested on using these outlined parameters for an \gls{swr} varying from 60 to 130 by intervals of 10. The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the percentage for either the precision, recall or accuracy. The complete set of experimental performance results are found in \autoref{app_sub:experiment_1_svm}. For some projects did not have enough data to complete the entirety of this experiment. For example, smile did not have enough data to complete the trials with \gls{swr} for 120 or 130. These projects were still included and show how the method works with smaller amount of data available.
+Each repository was tested on using these outlined parameters for an \gls{swr} varying from 60 to 130 by intervals of 10. The results for the experiments are shown with the precision, recall and accuracy. For each graph the independent variable is the number of commits in the \gls{swr}. Y-axis is the percentage for either the precision, recall or accuracy. The complete set of experimental performance results are found in \autoref{app_sub:experiment_1_svm}. For some repositories did not have enough data to complete the entirety of this experiment. For example, smile did not have enough data to complete the trials with \gls{swr} for 120 or 130. These repositories were still included and show how the method works with smaller amount of data available.
 
 % List of projects for this section:
 % tempto *pre-groups 1
@@ -514,7 +510,7 @@ Each project was tested on using these outlined parameters for an \gls{swr} vary
 
 % TODO rework the following to be the key figures.
 
-The majority of the projects using \gls{svm} did not perform well with accuracy and precision typically between $0.4$ and $0.6$. This project as well as others have very poor results and show the difficulty of this problem. Similarly, \autoref{fig:test_1_blockly-android_svm} shows low precision and accuracy while very high recall. The independent variable, \gls{swr} has very little impact on the performance for this project in particular.
+The majority of the repositories using \gls{svm} did not perform well with accuracy and precision typically between $0.4$ and $0.6$. This repositories as well as others have very poor results and show the difficulty of this problem. Similarly, \autoref{fig:test_1_blockly-android_svm} shows low precision and accuracy while very high recall. The independent variable, \gls{swr} has very little impact on the performance for this repositories in particular.
 
 
 \begin{figure}[!ht]
@@ -533,7 +529,7 @@ The majority of the projects using \gls{svm} did not perform well with accuracy 
         \label{fig:test_1_blockly-android_svm}
 \end{figure}
 
-Some of the projects like http-request in \autoref{fig:test_1_http-request_svm} had a large amount of variation with the changes to the \gls{swr}. In one case http-request moderately well in \gls{swr} 80 while at 60 and 120 the accuracy and recall are $0$.
+Some of the repositories like http-request in \autoref{fig:test_1_http-request_svm} had a large amount of variation with the changes to the \gls{swr}. In one case http-request moderately well in \gls{swr} 80 while at 60 and 120 the accuracy and recall are $0$.
 
 \begin{figure}[!ht]
     \centering
@@ -543,7 +539,7 @@ Some of the projects like http-request in \autoref{fig:test_1_http-request_svm} 
         \label{fig:test_1_http-request_svm}
 \end{figure}
 
-In \autoref{fig:test_1_acra_svm}, the project acra is shown with the best result for \gls{svm}. When the \gls{swr} is at 70-100 the performance is high, for the other cases the performance is lower but not by a large margin. The point of interest is that recall performs well for an \gls{swr} of 100 or lower but performs worse than the accuracy and precision after 100.
+In \autoref{fig:test_1_acra_svm}, the repositories acra is shown with the best result for \gls{svm}. When the \gls{swr} is at 70-100 the performance is high, for the other cases the performance is lower but not by a large margin. The point of interest is that recall performs well for an \gls{swr} of 100 or lower but performs worse than the accuracy and precision after 100.
 
 \begin{figure}[!ht]
     \centering
@@ -571,9 +567,9 @@ In \autoref{fig:test_1_acra_svm}, the project acra is shown with the best result
 
 Both smile in \autoref{fig:test_1_smile_svm} and spark performed poorly with each performance measure below $0.5$. In two cases (90 and 110) smile and 0 recall and undefined precision.
 
-Overall there was no clear value for the \gls{swr} which held consistent positive results. Projects from similar groups tended to perform similarly. For example acra, dagger and ShowcaseView all tended to perform well for similar parameters. 
+Overall there was no clear value for the \gls{swr} which held consistent positive results. Repositories from similar groups tended to perform similarly. For example acra, dagger and ShowcaseView all tended to perform well for similar parameters. 
 
-Projects that were influenced more by \gls{swr} thus having a larger variation between values proved to have better results more often however this was not guaranteed. No value of \gls{swr} works across projects and even for projects that worked the correct value had to be found in order to obtain good results.
+Repositories that were influenced more by \gls{swr} thus having a larger variation between values proved to have better results more often however this was not guaranteed. No value of \gls{swr} works across repositories and even for repositories that worked the correct value had to be found in order to obtain good results.
 
     
 \subsubsection{Feature Set Experiments}
@@ -629,7 +625,7 @@ This experiment uses different sets of candidate feature to test to explore the 
 \end{table}
 
 % TODO update the section below to only contain the key figures
-The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. These feature sets were selected from a larger set of features outlined in \autoref{sec:prediction_data}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row. Some of the projects results are shown in figures below. The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
+The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. These feature sets were selected from a larger set of features outlined in \autoref{sec:prediction_data}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row. Some of the repositories results are shown in figures below. The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
 
 % Projects to show:
 % ShowcaseView
@@ -662,8 +658,8 @@ Show
         \label{fig:test_3_ion_svm}
 \end{figure}
 
-The projects ShowcaseView, deeplearning4j and ion were all greatly impacted by the different feature sets. ShowcaseView in \autoref{fig:test_3_ShowcaseView_svm} performed well for feature set 1 and 5 and terribly for feature set 3. 
-Similarly for ion in \autoref{fig:test_3_ion_svm}, feature sets 1 and 5 performed well with the rest of the feature sets performing poorly. Finally for deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm}, the best performance was for feature set 3 where as the remaining trails were not as good. There were a few projects like these ones were one or two of the feature sets would perform well. One that performed well for certain feature sets tended to share similar project classifications like ShowcaseView and ion do.
+The repositories ShowcaseView, deeplearning4j and ion were all greatly impacted by the different feature sets. ShowcaseView in \autoref{fig:test_3_ShowcaseView_svm} performed well for feature set 1 and 5 and terribly for feature set 3. 
+Similarly for ion in \autoref{fig:test_3_ion_svm}, feature sets 1 and 5 performed well with the rest of the feature sets performing poorly. Finally for deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm}, the best performance was for feature set 3 where as the remaining trails were not as good. There were a few repositories like these ones were one or two of the feature sets would perform well. One that performed well for certain feature sets tended to share similar repository classifications like ShowcaseView and ion do.
 
 \begin{figure}[!ht]
     \centering
@@ -679,7 +675,7 @@ Similarly for ion in \autoref{fig:test_3_ion_svm}, feature sets 1 and 5 performe
         \label{fig:test_3_mapstruct_svm}
 \end{figure}
 
-A lot of projects did not vary greatly for different feature sets providing similar to results to that of nettosphere in \autoref{fig:test_3_nettosphere_svm}. All three performance measures show little variance and only small chances are present between projects. Other projects performed poorly for all the feature sets such as mapstruct in \autoref{fig:test_3_mapstruct_svm} which had 3 of the 5 trails score lower than $0.5$ in all performance measures. The feature sets are an influencing factor on the performance of the model however no single feature set found to stand out as the ideal candidate for all projects.
+A lot of repositories did not vary greatly for different feature sets providing similar to results to that of nettosphere in \autoref{fig:test_3_nettosphere_svm}. All three performance measures show little variance and only small chances are present between repositories. Other repositories performed poorly for all the feature sets such as mapstruct in \autoref{fig:test_3_mapstruct_svm} which had 3 of the 5 trails score lower than $0.5$ in all performance measures. The feature sets are an influencing factor on the performance of the model however no single feature set found to stand out as the ideal candidate for all repositories.
 
 \subsubsection{SVM Oversampling Experiment}
 \label{sec:svm_os_experiment}
@@ -708,7 +704,7 @@ A lot of projects did not vary greatly for different feature sets providing simi
 
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        Project & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
+        Repository & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
          & Feature Set & SWR & Feature Set & SWR \\ 
         %Set & & & & & $\Delta_{freq}$ & & & Next \\
         \hline
@@ -750,9 +746,9 @@ A lot of projects did not vary greatly for different feature sets providing simi
 \end{center}
 \end{table}
 
-The experiment below took the best and worst trials from the previous two experiments and used \gls{os} when sampling the data. The variables that change per project are based on the previous best performance and worst performance. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the best and worst \gls{swr} and feature set are provided for each project. Since each project will likely have different values of \gls{swr} and feature set the comparesion should only be made between the difference in performance for the best/worst result and their corresponding \gls{os} trail Best-O/Worst-O.
+The experiment below took the best and worst trials from the previous two experiments and used \gls{os} when sampling the data. The variables that change per repository are based on the previous best performance and worst performance. In \autoref{tab:svm_best_worst_swr_experiment_sets}, the best and worst \gls{swr} and feature set are provided for each repository. Since each repository will likely have different values of \gls{swr} and feature set the comparesion should only be made between the difference in performance for the best/worst result and their corresponding \gls{os} trail Best-O/Worst-O.
 
-In some cases the best performing experiment may not have been entirely clear. For example with some projects having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked based on having the all a weighted summation algorithm outlined in \autoref{eq:project_ranking_formula}. Since precision and accuracy are very closely related the weight for each was $0.5$ while recall was set to $1.0$.
+In some cases the best performing experiment may not have been entirely clear. For example with some repositories having very high recall ($ \geq 0.9$) while having lower precision and accuracy. The best trail was picked based on having the all a weighted summation algorithm outlined in \autoref{eq:repository_ranking_formula}. Since precision and accuracy are very closely related the weight for each was $0.5$ while recall was set to $1.0$.
 
 % Projects to discuss:
 % - acra
@@ -790,9 +786,9 @@ In some cases the best performing experiment may not have been entirely clear. F
 \end{figure}
 
 
-Some projects such as fresco \autoref{fig:test_4_fresco_svm} performed a little better for precision and accuracy while a little worse for precision. Unlike most projects however blockly-android in \autoref{fig:test_4_blockly-android_svm} experienced very little change with the introduction of \gls{os}. Finally, the majority of the experiments showed \gls{os} to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm} and acra in \autoref{fig:test_4_acra_svm} performed worse for all measures for both trails.
+Some repositories such as fresco \autoref{fig:test_4_fresco_svm} performed a little better for precision and accuracy while a little worse for precision. Unlike most repositories however blockly-android in \autoref{fig:test_4_blockly-android_svm} experienced very little change with the introduction of \gls{os}. Finally, the majority of the experiments showed \gls{os} to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm} and acra in \autoref{fig:test_4_acra_svm} performed worse for all measures for both trails.
 
-The overall impact of using \gls{os} for training the model proved detrimental with the vast majority of projects performing worse with the use of \gls{os}. While some projects experience increases in individual performance measures, other measures fall. Also, any performance seen by a project is minimal at best while the loss of performance tends to be substantial.
+The overall impact of using \gls{os} for training the model proved detrimental with the vast majority of repositories performing worse with the use of \gls{os}. While some repositories experience increases in individual performance measures, other measures fall. Also, any performance seen by a repository is minimal at best while the loss of performance tends to be substantial.
 
 \subsubsection{SVM Discussion}
 \label{subsec:svm_discussion}
@@ -805,13 +801,13 @@ The three different experiments attempted to determine the impact of the differe
 \end{enumerate}
 
 % TODO talk about the performance of the different groups for each experiment
-The results of the projects did not follow any common trends between projects. Similar project groups outlined in \autoref{tab:project_size_summary_info} do not perform similarly for the most part with the exception of the group for acra, dagger and ShowcaseView which all had an okay but for different values of \gls{swr}. The only similarity that can be found is for groups of project that performed poorly which still was inconsistent. For most projects at the very least the recall was variable. The only really exception would be blockly-android which experienced little to no variation in for each trial. Some projects saw more variation in the precision and accuracy and often had at least trail which performed moderately well.
+The results of the repositories did not follow any common trends between repositories. Similar repository groups outlined in \autoref{tab:repository_size_summary_info} do not perform similarly for the most part with the exception of the group for acra, dagger and ShowcaseView which all had an okay but for different values of \gls{swr}. The only similarity that can be found is for groups of repository that performed poorly which still was inconsistent. For most repositories at the very least the recall was variable. The only really exception would be blockly-android which experienced little to no variation in for each trial. Some repositories saw more variation in the precision and accuracy and often had at least trail which performed moderately well.
 
-For the second experiment, the performance results were a lot lower than the first generally. This appears to be directly related to the impact that each of these variables has on the performance of the model. Therefore the focus is placed on the best feature set for all projects or for groups of projects. For some of the groups of projects, a certain feature set or pair of feature sets performed well for all projects in the group. For example, acra, dagger and ShowcaseView all performed well when using feature set 1 or 5. Not all of the projects performed their best using that those feature sets. However, they did perform close to their best performance. While this trend occurred for some projects it was not consistent for all projects. Similarly there was no best performing feature set for all project.
+For the second experiment, the performance results were a lot lower than the first generally. This appears to be directly related to the impact that each of these variables has on the performance of the model. Therefore the focus is placed on the best feature set for all repositories or for groups of repositories. For some of the groups of repositories, a certain feature set or pair of feature sets performed well for all repositories in the group. For example, acra, dagger and ShowcaseView all performed well when using feature set 1 or 5. Not all of the repositories performed their best using that those feature sets. However, they did perform close to their best performance. While this trend occurred for some repositories it was not consistent for all repositories. Similarly there was no best performing feature set for all repository.
 
-Finally of the third experiment was found to have a variable impact on the projects when sample balancing through \gls{os} was applied. In terms of performance impact, \gls{os} provide a negative impact on most of the projects experimented on. Some trials saw now change and a very small number of trails saw slight improvements to one performance measure while decreasing another performance measure. The slight improvements found from using \gls{os} were insignificant compared to the drop in performance typically experienced.
+Finally of the third experiment was found to have a variable impact on the repositories when sample balancing through \gls{os} was applied. In terms of performance impact, \gls{os} provide a negative impact on most of the repositories experimented on. Some trials saw now change and a very small number of trails saw slight improvements to one performance measure while decreasing another performance measure. The slight improvements found from using \gls{os} were insignificant compared to the drop in performance typically experienced.
 
-Overall \gls{swr} had the greatest impact on the performance of the prediction method. The model feature set had less of an impact and balancing the sample through \gls{os} provided a primarily negative impact. The \gls{swr} while having a larger impact on most projects, some projects were less affected. Generally variations of \gls{swr} could produce a positive results, a negative results were also present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of the approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.
+Overall \gls{swr} had the greatest impact on the performance of the prediction method. The model feature set had less of an impact and balancing the sample through \gls{os} provided a primarily negative impact. The \gls{swr} while having a larger impact on most repositories, some repositories were less affected. Generally variations of \gls{swr} could produce a positive results, a negative results were also present. Furthermore, no clear pattern was discovered to allow for simple configuration of the parameters to provide positive results. Therefore use of the approach with a \gls{svm} model can be beneficial but also incurs a risk associated with poor predictions.
 
 \subsection{Random Forest Experiments}
 \label{sec:rf_experiments}
@@ -854,7 +850,7 @@ The machine learning algorithm \gls{rf} is used for the second set of experiment
 
 The independent variable for this set of experiments is the sample window size measured in commits. The feature set are outlined in \autoref{tab:rf_window_range_experiment_features}. The features used for this experiment is the same as the first \gls{svm} experiment feature set.
 
-The parameters for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The only difference between the parameters used in this experiment and the parameters used in the \gls{svm} experiment one is the \gls{rf} specific parameters. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}. The experiment was conducted on all 23 projects collected and examples were are discussed in more detail in this section. The remainder of the projects performance results are outlined in \autoref{app_sub:experiment_1_rf}.
+The parameters for this experiment are outlined in \autoref{tab:rf_window_range_experiment_setup}. The only difference between the parameters used in this experiment and the parameters used in the \gls{svm} experiment one is the \gls{rf} specific parameters. This allows for a fairly clear comparison between these two methods with the given independent variable, the \gls{swr}. The experiment was conducted on all 23 repositories collected and examples were are discussed in more detail in this section. The remainder of the repositories performance results are outlined in \autoref{app_sub:experiment_1_rf}.
 
 % Projects
 % http-request
@@ -886,9 +882,9 @@ The parameters for this experiment are outlined in \autoref{tab:rf_window_range_
         \label{fig:test_1_dagger_rf_importance}
 \end{figure}
 
-Each projects experimental results are accompanied with a second figure that outlines the importance for each feature set variable in the creation of the prediction model. The importance of a feature only identifies how influential that feature was to the prediction and therefore necessitates the context of the results. So if a project performs poorly in predicting the most influential features are more likely to not as useful for predictions with the project. Likewise, if a project performs well the corresponding feature importance can indicate highly influential features that helped produce positive results.
+Each repositories experimental results are accompanied with a second figure that outlines the importance for each feature set variable in the creation of the prediction model. The importance of a feature only identifies how influential that feature was to the prediction and therefore necessitates the context of the results. So if a repository performs poorly in predicting the most influential features are more likely to not as useful for predictions with the repository. Likewise, if a repository performs well the corresponding feature importance can indicate highly influential features that helped produce positive results.
 
-Even in the case of where a project performs well the feature set used may not be generalizable to other projects. For example http-request in \autoref{fig:test_1_http-request_rf_importance} performs well with a \gls{swr} of 70 - 90 and places high importance on $Sig$, $Name$, $time$ and $length$. Alternatively, dagger in \autoref{fig:test_1_dagger_rf_importance} performs moderately well with an \gls{swr} of 60 and 100-110 while placing a higher importance on $Com$ and $time$. Even more interesting is that http-request placed nearly 0 importance on $Com$ while the same feature ranked second for dagger.
+Even in the case of where a repository performs well the feature set used may not be generalizable to other repositories. For example http-request in \autoref{fig:test_1_http-request_rf_importance} performs well with a \gls{swr} of 70 - 90 and places high importance on $Sig$, $Name$, $time$ and $length$. Alternatively, dagger in \autoref{fig:test_1_dagger_rf_importance} performs moderately well with an \gls{swr} of 60 and 100-110 while placing a higher importance on $Com$ and $time$. Even more interesting is that http-request placed nearly 0 importance on $Com$ while the same feature ranked second for dagger.
 
 \begin{figure}[!ht]
     \centering
@@ -912,7 +908,7 @@ Even in the case of where a project performs well the feature set used may not b
         \label{fig:test_1_jadx_rf_importance}
 \end{figure}
 
-The performance of each project varied, with a few projects performing well for some \gls{swr} like http-request in \autoref{fig:test_1_http-request_rf}, dagger in \autoref{fig:test_1_dagger_rf} and ShowcaseView in \autoref{fig:test_1_ShowcaseView_rf}. The impact of the changes to \gls{swr} is clearly visible as some trails perform poorly, while others perform a lot better. For example in ShowcaseView, use of a \gls{swr} of 100 or higher provides good performance but below the performance is a lot lower. For some projects such as jadx in \autoref{fig:test_1_jadx_rf} the \gls{swr} had less of an impact causing little variation between precision and accuracy while offering only slight changes with the recall.
+The performance of each repository varied, with a few repositories performing well for some \gls{swr} like http-request in \autoref{fig:test_1_http-request_rf}, dagger in \autoref{fig:test_1_dagger_rf} and ShowcaseView in \autoref{fig:test_1_ShowcaseView_rf}. The impact of the changes to \gls{swr} is clearly visible as some trails perform poorly, while others perform a lot better. For example in ShowcaseView, use of a \gls{swr} of 100 or higher provides good performance but below the performance is a lot lower. For some repositories such as jadx in \autoref{fig:test_1_jadx_rf} the \gls{swr} had less of an impact causing little variation between precision and accuracy while offering only slight changes with the recall.
 
 \begin{figure}[!ht]
     \centering
@@ -936,7 +932,7 @@ The performance of each project varied, with a few projects performing well for 
         \label{fig:test_1_parceler_rf_importance}
 \end{figure}
 
-Some projects experienced very little impact from variations of the \gls{swr} for the performance. For example, storm in \autoref{fig:test_1_storm_rf} had higher recall but lower precision and accuracy. Other factors may provide more influence such smaller or larger values of \gls{swr} however those were outside the scope of the experiment. Finally, other projects did not perform as well but experienced some variation to precision, recall and accuracy. One such project would be \autoref{fig:test_1_parceler_rf} which had all three measures fairly close together for most trails but because of the size of the project could not supply sufficient data for a \gls{swr} of 120 or 130. The importance of both storm and parceler was similar to that of http-request however as noted neither managed to perform as well as the best performance from http-request.
+Some repositories experienced very little impact from variations of the \gls{swr} for the performance. For example, storm in \autoref{fig:test_1_storm_rf} had higher recall but lower precision and accuracy. Other factors may provide more influence such smaller or larger values of \gls{swr} however those were outside the scope of the experiment. Finally, other repositories did not perform as well but experienced some variation to precision, recall and accuracy. One such repository would be \autoref{fig:test_1_parceler_rf} which had all three measures fairly close together for most trails but because of the size of the repository could not supply sufficient data for a \gls{swr} of 120 or 130. The importance of both storm and parceler was similar to that of http-request however as noted neither managed to perform as well as the best performance from http-request.
 
 \subsubsection{Feature Set Experiments}
 \label{sec:feature_set_experiment_rf}
@@ -988,7 +984,7 @@ Some projects experienced very little impact from variations of the \gls{swr} fo
 % dagger (variable performance)
 % ion high all around performance
 
-Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each project which are discussed below. The following results are highlights of the larger set of experiments conducted on each project. The remainder of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
+Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each repository which are discussed below. The following results are highlights of the larger set of experiments conducted on each repository. The remainder of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
 
 \begin{figure}[!ht]
     \centering
@@ -1011,7 +1007,7 @@ Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_expe
         \label{fig:test_3_dagger_rf}
 \end{figure}
 
-The project to perform the best in this experiment was ShowcaseView in \autoref{fig:test_3_ShowcaseView_rf} which performed best for feature sets 1 and 5 and had minimal difference between the performance of feature sets 2, 3 and 4. Typically most projects performed well with two feature sets or more which most likely is related to the similarity in the feature sets tested. A few of the successful projects, such as ion in \autoref{fig:test_3_ion_rf}, performed well consistently for each feature set. Finally, other more successful projects saw dramatic variations between the different feature sets. For example, dagger in \autoref{fig:test_3_dagger_rf}, performs well in the second feature set and poorly in the rest. The recall is especially volatile at dropping below $0.5$ for feature set 4. 
+The repository to perform the best in this experiment was ShowcaseView in \autoref{fig:test_3_ShowcaseView_rf} which performed best for feature sets 1 and 5 and had minimal difference between the performance of feature sets 2, 3 and 4. Typically most repositories performed well with two feature sets or more which most likely is related to the similarity in the feature sets tested. A few of the successful repositories, such as ion in \autoref{fig:test_3_ion_rf}, performed well consistently for each feature set. Finally, other more successful repositories saw dramatic variations between the different feature sets. For example, dagger in \autoref{fig:test_3_dagger_rf}, performs well in the second feature set and poorly in the rest. The recall is especially volatile at dropping below $0.5$ for feature set 4. 
 
 
 \begin{figure}[!ht]
@@ -1028,7 +1024,7 @@ The project to perform the best in this experiment was ShowcaseView in \autoref{
     \label{fig:test_3_governator_rf}
 \end{figure}
 
-The majority of the projects experimented on saw little difference for each feature set. For cardslib in \autoref{fig:test_3_cardslib_rf}, the precision and accuracy stay right above $0.5$ while the recall dips below $0.5$ for feature set 4. The performance is not great and overall the impact of the different feature sets appears quite low for this project. Alternatively, governator in \autoref{fig:test_3_governator_rf}, is one of the few projects to perform well for precision while low for accuracy and very low for recall. Each feature set again has only a small impact on the performance with the project performing very poorly for every trial. Overall the results for this experiment were mixed since the impact of the feature set at least of these three features is less significant that the \gls{swr}.
+The majority of the repositories experimented on saw little difference for each feature set. For cardslib in \autoref{fig:test_3_cardslib_rf}, the precision and accuracy stay right above $0.5$ while the recall dips below $0.5$ for feature set 4. The performance is not great and overall the impact of the different feature sets appears quite low for this repository. Alternatively, governator in \autoref{fig:test_3_governator_rf}, is one of the few repositories to perform well for precision while low for accuracy and very low for recall. Each feature set again has only a small impact on the performance with the repository performing very poorly for every trial. Overall the results for this experiment were mixed since the impact of the feature set at least of these three features is less significant that the \gls{swr}.
 
 \subsubsection{Oversampling Experiment}
 \label{sec:oversampling_experiment_rf}
@@ -1049,14 +1045,14 @@ The majority of the projects experimented on saw little difference for each feat
 \end{table}
 
 
-This experiment builds on top of the previous two experiments and shares a very similar setup to those experiments.The experiment parameters are outlined in \autoref{tab:rf_os_experiment_setup}. The best and worst trails for each project are taken from the previous two experiments. The value for \gls{swr} and the feature set used were recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each project for the best and worst performance of the \gls{rf} model. The experiment applies \gls{os} the best and worst trials to compare the performance of the model with and without the use of \gls{os}.
+This experiment builds on top of the previous two experiments and shares a very similar setup to those experiments.The experiment parameters are outlined in \autoref{tab:rf_os_experiment_setup}. The best and worst trails for each repository are taken from the previous two experiments. The value for \gls{swr} and the feature set used were recorded in \autoref{tab:rf_best_worst_swr_experiment_sets} for each repository for the best and worst performance of the \gls{rf} model. The experiment applies \gls{os} the best and worst trials to compare the performance of the model with and without the use of \gls{os}.
 
 \begin{table}[ht]
 \begin{center}
 
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        Project & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
+        Repository & \multicolumn{2}{c|}{Best} & \multicolumn{2}{c|}{Worst} \\ \cline{2-5}
          & Feature Set & SWR & Feature Set & SWR \\ 
         %Set & & & & & $\Delta_{freq}$ & & & Next \\
         \hline
@@ -1132,76 +1128,77 @@ The result of a trail with \gls{os} are represented in the figures by either \te
     \label{fig:test_4_greenDAO_rf}
 \end{figure}
 
-The results for the use of \gls{os} on the best and worst trails from each project provide to have little effect on the results. In rare cases such as dagger in \autoref{fig:test_4_dagger_rf}, the performance marginally improved for the some measures while decreasing for others. However dagger also performed worse when \gls{os} was used on the worst trial. Similarly yardstick in \autoref{fig:test_4_yardstick_rf}, performed slightly better for best-O and dramatically worse for worst-O.
+The results for the use of \gls{os} on the best and worst trails from each repository provide to have little effect on the results. In rare cases such as dagger in \autoref{fig:test_4_dagger_rf}, the performance marginally improved for the some measures while decreasing for others. However dagger also performed worse when \gls{os} was used on the worst trial. Similarly yardstick in \autoref{fig:test_4_yardstick_rf}, performed slightly better for best-O and dramatically worse for worst-O.
 
-The majority of the projects however saw no improvement or a slight decrease in performance. For example arquillian-core in \autoref{fig:test_4_arquillian-core_rf} performed around the same for best-O and slightly worse for worst-O. Generally the differences if any were very small for most. Finally, some projects performed a lot worse for their worst-O trial including greenDAO in \autoref{fig:test_4_greenDAO_rf}. Overall the use of \gls{os} on either the best or worst case cause little difference. The only major difference was for worst-O which typically performed poor in compared to the trial without the use of \gls{os}.
+The majority of the repositories however saw no improvement or a slight decrease in performance. For example arquillian-core in \autoref{fig:test_4_arquillian-core_rf} performed around the same for best-O and slightly worse for worst-O. Generally the differences if any were very small for most. Finally, some repositories performed a lot worse for their worst-O trial including greenDAO in \autoref{fig:test_4_greenDAO_rf}. Overall the use of \gls{os} on either the best or worst case cause little difference. The only major difference was for worst-O which typically performed poor in compared to the trial without the use of \gls{os}.
 
 \subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
 
-The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, achieved positive results for some of the projects and appeared to have the largest impact on the performance. While the impact of the \gls{swr} was larger often the best result for a project would of accuracy and precision at $0.5$ and recall at $1.0$. The impact of the feature set should also not be overshadowed as some projects performed better in the third experiment than the first. Finally, the impact of sample balancing on the data set proved primarily negative with both the best and worst trails performing worse when \gls{os} was used.
+The approach was experimented on using the machine learning algorithm \gls{rf}. The three factors; \gls{swr}, feature set and \gls{os} were investigated. The first factor, \gls{swr}, achieved positive results for some of the repositories and appeared to have the largest impact on the performance. While the impact of the \gls{swr} was larger often the best result for a repository would of accuracy and precision at $0.5$ and recall at $1.0$. The impact of the feature set should also not be overshadowed as some repositories performed better in the third experiment than the first. Finally, the impact of sample balancing on the data set proved primarily negative with both the best and worst trails performing worse when \gls{os} was used.
 
-The first experimental results did not show a pattern for present for all the projects. Some projects performed better while a lot performed mediocre at just above $0.5$ precision, accuracy. A few of the projects had poor performances with measures dropping below $0.5$. Most of the groups yielded positive similar results, with acra, dagger and ShowcaseView all performing well and having fairly large variations for different trials. Likewise, aqruillian-core, brave and spark all performed similarly. While the results for these three project were not particularly good they still showed similar trends of performance.
+The first experimental results did not show a pattern for present for all the repositories. Some repositories performed better while a lot performed mediocre at just above $0.5$ precision, accuracy. A few of the repositories had poor performances with measures dropping below $0.5$. Most of the groups yielded positive similar results, with acra, dagger and ShowcaseView all performing well and having fairly large variations for different trials. Likewise, aqruillian-core, brave and spark all performed similarly. While the results for these three repository were not particularly good they still showed similar trends of performance.
 
-For the second experiment no particular feature set was found to work for all projects. Some projects performed well for some while others performed well for others. Generally though, projects tended not perform well for all feature sets. One project such project to perform poorly was governator which performed well for precision, okay for accuracy and terribly for recall. However in terms of project groupings, the grouping of acra, dagger and ShowcaseView all performed well but varied in which feature set they performed well with. Overall groups tended to perform differently and had success with different feature sets. A feature set that worked well for one project in the group could just as easily work poorly for another. This is highlighted best in the group consisting of http-request, nettosphere, parceler and retrolamdba. Both http-request and parceler perform well and nettosphere and retrolamdba perform for badly all feature sets.
+For the second experiment no particular feature set was found to work for all repositories. Some repositories performed well for some while others performed well for others. Generally though, repositories tended not perform well for all feature sets. One repository such repository to perform poorly was governator which performed well for precision, okay for accuracy and terribly for recall. However in terms of repository groupings, the grouping of acra, dagger and ShowcaseView all performed well but varied in which feature set they performed well with. Overall groups tended to perform differently and had success with different feature sets. A feature set that worked well for one repository in the group could just as easily work poorly for another. This is highlighted best in the group consisting of http-request, nettosphere, parceler and retrolamdba. Both http-request and parceler perform well and nettosphere and retrolamdba perform for badly all feature sets.
 
-Of course the final experiment with oversampling performed similar to the \gls{svm} experiments. For most projects the use of \gls{os} in balancing the sample data provided no difference in model performance. The second most common outcome was for trails that used \gls{os} to result in lower performance than without. Finally in some rare cases, 2 of the 23 projects saw a one of their trials perform slightly better with the use of \gls{os}. The results were not consistent for these projects since the first project was dagger saw the other corresponding trail decrease in performance. However the second project, smile, recorded no difference in result for the corresponding trail.
+Of course the final experiment with oversampling performed similar to the \gls{svm} experiments. For most repositories the use of \gls{os} in balancing the sample data provided no difference in model performance. The second most common outcome was for trails that used \gls{os} to result in lower performance than without. Finally in some rare cases, 2 of the 23 repositories saw a one of their trials perform slightly better with the use of \gls{os}. The results were not consistent for these repositories since the first repository was dagger saw the other corresponding trail decrease in performance. However the second repository, smile, recorded no difference in result for the corresponding trail.
 
-Overall for the experiments using \gls{rf}, the variable with the greatest impact was the \gls{swr}. However these variables were not consistent across projects. Even for projects that performed well the variable values differed. Projects that worked tended to be repositories that were long, small in size, with a small to medium number of developers and a low to medium rate of commits. This outcome is similar to the experiments conducted with \gls{svm}.
+Overall for the experiments using \gls{rf}, the variable with the greatest impact was the \gls{swr}. However these variables were not consistent across repositories. Even for repositories that performed well the variable values differed. Repositories that worked tended to be repositories that were long, small in size, with a small to medium number of developers and a low to medium rate of commits. This outcome is similar to the experiments conducted with \gls{svm}.
 
 \subsection{Experiment Discussions}
 
-The best performance each project out of the experiments conducted are shown in \autoref{tab:project_performance}. Therefore the best parameters are outlined for each project. The best result was calculated through multi-variable optimization. Since the performance measure consisted of three variables the best result would be one that maintained higher results for each. While not the most ideal, a weighted sum was taken of the precision, recall and accuracy outlined in \autoref{eq:project_ranking_formula}. The weight of precision ($w_{p}$) and accuracy ($w_{a}$) are closely related both were assigned a weight of $0.5$ while the weight for recall ($w_{r}$) was assigned $1.0$. The vectors; $p$, $r$ and $a$ consist of the precision, recall and accuracy respectively for each experimental trial. The higher the resultant summation of the performance measures the higher the ranking of the given performance. Therefore the trails that had the highest performance weighted sum were considered to have performed the best. The $rank_{x,i}$ is calculated per repository trial and the best performance ($best_{x}$) per project is calculated.
+The best performance each repository out of the experiments conducted are shown in \autoref{tab:repository_performance}. Therefore the best parameters are outlined for each repository. The best result was calculated through multi-variable optimization. Since the performance measure consisted of three variables the best result would be one that maintained higher results for each. While not the most ideal, a weighted sum was taken of the precision, recall and accuracy outlined in \autoref{eq:repository_ranking_formula}. The weight of precision ($w_{p}$) and accuracy ($w_{a}$) are closely related both were assigned a weight of $0.5$ while the weight for recall ($w_{r}$) was assigned $1.0$. The vectors; $p$, $r$ and $a$ consist of the precision, recall and accuracy respectively for each experimental trial. The higher the resultant summation of the performance measures the higher the ranking of the given performance. Therefore the trails that had the highest performance weighted sum were considered to have performed the best. The $rank_{x,i}$ is calculated per repository trial and the best performance ($best_{x}$) per repository is calculated.
 
 \begin{equation} 
-\label{eq:project_ranking_formula}
+\label{eq:repository_ranking_formula}
 \begin{matrix}
 rank_{x,i} = w_{pi} \times p_i + w_{ri} \times r_i + w_{ai} \times a_i \\
 best_{x} = max(rank_{x})
 \end{matrix}
 \end{equation}
 
-While the weighted sum did optimize each value, a common issue was that often a project would have one or two parameter perform well while the remaining performed poorly. For example blockly-android had the maximum value for recall but $0.51$ for precision and accuracy. The weighted sum of this vector would be $0.51 \times 0.5 + 1.0 \times 1.0 + 0.51 \times 0.5 = 1.51$. However in the event that another performance scored $0.7$ for each measure, the weighted sum would be $0.7 \times 0.5 + 0.7 \times 1.0 + 0.7 \times 0.5 = 1.4$. Since the goal is for multi-variable optimization a model that is generally good on each measure is better than a model performs well with one or two but terribly for the rest. Regardless though, some generally performed poorly and that is reflected in the table with a best performance that is quite low or very bias. 
+While the weighted sum did optimize each value, a common issue was that often a repository would have one or two parameter perform well while the remaining performed poorly. For example blockly-android had the maximum value for recall but $0.51$ for precision and accuracy. The weighted sum of this vector would be $0.51 \times 0.5 + 1.0 \times 1.0 + 0.51 \times 0.5 = 1.51$. However in the event that another performance scored $0.7$ for each measure, the weighted sum would be $0.7 \times 0.5 + 0.7 \times 1.0 + 0.7 \times 0.5 = 1.4$. Since the goal is for multi-variable optimization a model that is generally good on each measure is better than a model performs well with one or two but terribly for the rest. Regardless though, some generally performed poorly and that is reflected in the table with a best performance that is quite low or very bias. 
 
 \begin{table}
 \begin{center}
-    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c||c|c|c|c||c|c|c|}
         \hline
-        Project & AI & Feature Set & SWR & Test Setup & Precision & Recall & Accuracy \\
+        Repository & AI & Feature & SWR & Test & Precision & Recall & Accuracy \\
+         & & Set & & Setup & & & \\
         \hline
-        acra & SVM & 2 & 80 & test 1 & 0.74 & 0.92 & 0.8 \\          % top tier
-        arquillian-core & RF & 3 & 90 & test 2 & 0.53 & 0.98 & 0.55 \\
-        blockly-android & SVM & 2 & 60 & test 1 & 0.51 & 1.0 & 0.51 \\
-        brave & RF & 2 & 110 & test 1 & 0.59 & 0.97 & 0.65 \\
-        cardslib & SVM & 2 & 120 & test 1 & 0.5 & 1.0 & 0.5 \\
-        dagger & RF & 3 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
-        deeplearning4j & RF & 2 & 70 & test 1 & 0.55 & 0.96 & 0.58 \\
-        fresco & RF & 2 & 60 & test 1 & 0.52 & 1.0 & 0.53 \\
-        governator & RF & 2 & 60 & test 1 & 0.57 & 0.81 & 0.6 \\
-        greenDAO & SVM & 4 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
-        http-request & RF & 2 & 80 & test 1 & 0.87 & 0.79 & 0.84 \\   % top tier
-        ion & RF & 2 & 90 & test 2 & 0.72 & 0.73 & 0.72 \\            % top tier
-        jadx & SVM & 2 & 130 & test 1 & 0.55 & 0.82 & 0.58 \\
-        mapstruct & SVM & 2 & 70 & test 1 & 0.6 & 0.88 & 0.65 \\
-        nettosphere & RF & 2 & 110 & test 1 & 0.63 & 0.67 & 0.63 \\
-        parceler & SVM & 1 & 90 & test 2 & 0.57 & 0.92 & 0.61 \\
-        retrolambda & SVM & 2 & 130 & test 1 & 0.5 & 1.0 & 0.5 \\
-        ShowcaseView & SVM & 1 & 90 & test 2 & 0.73 & 0.89 & 0.78 \\  % top tier
-        smile & SVM & 2 & 70 & test 1 & 0.5 & 1.0 & 0.5 \\
-        spark & SVM & 4 & 90 & test 2 & 0.5 & 1.0 & 0.5 \\
-        storm & RF & 2 & 60 & test 1 & 0.61 & 0.89 & 0.66 \\
-        tempto & RF & 2 & 120 & test 1 & 0.53 & 0.73 & 0.55 \\
-        yardstick & SVM & 2 & 70 & test 1 & 0.55 & 0.79 & 0.57 \\
+        acra & SVM & 2 & 80 & exp 1 & 0.74 & 0.92 & 0.8 \\          % top tier
+        arquillian-core & RF & 3 & 90 & exp 2 & 0.53 & 0.98 & 0.55 \\
+        blockly-android & SVM & 2 & 60 & exp 1 & 0.51 & 1.0 & 0.51 \\
+        brave & RF & 2 & 110 & exp 1 & 0.59 & 0.97 & 0.65 \\
+        cardslib & SVM & 2 & 120 & exp 1 & 0.5 & 1.0 & 0.5 \\
+        dagger & RF & 3 & 90 & exp 2 & 0.5 & 1.0 & 0.5 \\
+        deeplearning4j & RF & 2 & 70 & exp 1 & 0.55 & 0.96 & 0.58 \\
+        fresco & RF & 2 & 60 & exp 1 & 0.52 & 1.0 & 0.53 \\
+        governator & RF & 2 & 60 & exp 1 & 0.57 & 0.81 & 0.6 \\
+        greenDAO & SVM & 4 & 90 & exp 2 & 0.5 & 1.0 & 0.5 \\
+        http-request & RF & 2 & 80 & exp 1 & 0.87 & 0.79 & 0.84 \\   % top tier
+        ion & RF & 2 & 90 & exp 2 & 0.72 & 0.73 & 0.72 \\            % top tier
+        jadx & SVM & 2 & 130 & exp 1 & 0.55 & 0.82 & 0.58 \\
+        mapstruct & SVM & 2 & 70 & exp 1 & 0.6 & 0.88 & 0.65 \\
+        nettosphere & RF & 2 & 110 & exp 1 & 0.63 & 0.67 & 0.63 \\
+        parceler & SVM & 1 & 90 & exp 2 & 0.57 & 0.92 & 0.61 \\
+        retrolambda & SVM & 2 & 130 & exp 1 & 0.5 & 1.0 & 0.5 \\
+        ShowcaseView & SVM & 1 & 90 & exp 2 & 0.73 & 0.89 & 0.78 \\  % top tier
+        smile & SVM & 2 & 70 & exp 1 & 0.5 & 1.0 & 0.5 \\
+        spark & SVM & 4 & 90 & exp 2 & 0.5 & 1.0 & 0.5 \\
+        storm & RF & 2 & 60 & exp 1 & 0.61 & 0.89 & 0.66 \\
+        tempto & RF & 2 & 120 & exp 1 & 0.53 & 0.73 & 0.55 \\
+        yardstick & SVM & 2 & 70 & exp 1 & 0.55 & 0.79 & 0.57 \\
         \hline
     \end{tabular}
 \end{center}
-\caption{Project Best Performance}
-\label{tab:project_performance}
+\caption{Repository Best Performance}
+\label{tab:repository_performance}
 \end{table}
 
-The number of projects that perform the best with \gls{svm} and \gls{rf} are 11 and 12 respectively. As noted above some of the performance results are still quite low for some of the projects because of a lack of success for that project for all of the trials run. All projects did perform better than $50\%$ which is quite a poor result since it is about as good as a coin toss. Out of the best performances, only 6 of the 23 projects have a trial that performs better than $60\%$ for all three measures. Of those 6 only 4 of those perform better than $70\%$ for each performance measure. Of the top 4, http-request performed the best followed by acra, ShowcaseView and ion in descending order. Both acra and ShowcaseView performed best with use of \gls{svm} while http-request and ion perform best with \gls{rf}. For both http-request and ShowcaseView the overall performance is better for \gls{rf} over \gls{svm}. Likewise, ion performed better for \gls{svm} over \gls{rf}. The results were more consistent between \gls{rf} and \gls{svm}. The second feature set used for acra, http-request and ion to gain the best performance while for ShowcaseView the first feature set performed the best. On a final note, each of these 4 repositories are classified as long in length, small in size, small to medium in number of developers and low to medium in commit rate.
+The number of repositories that perform the best with \gls{svm} and \gls{rf} are 11 and 12 respectively. As noted above some of the performance results are still quite low for some of the repositories because of a lack of success for that repository for all of the trials run. All repositories did perform better than $50\%$ which is quite a poor result since it is about as good as a coin toss. Out of the best performances, only 6 of the 23 repositories have a trial that performs better than $60\%$ for all three measures. Of those 6 only 4 of those perform better than $70\%$ for each performance measure. Of the top 4, http-request performed the best followed by acra, ShowcaseView and ion in descending order. Both acra and ShowcaseView performed best with use of \gls{svm} while http-request and ion perform best with \gls{rf}. For both http-request and ShowcaseView the overall performance is better for \gls{rf} over \gls{svm}. Likewise, ion performed better for \gls{svm} over \gls{rf}. The results were more consistent between \gls{rf} and \gls{svm}. The second feature set used for acra, http-request and ion to gain the best performance while for ShowcaseView the first feature set performed the best. On a final note, each of these 4 repositories are classified as long in length, small in size, small to medium in number of developers and low to medium in commit rate.
 
-The parameters setup for each experiment proved to vary in results. In order to determine which set of parameters are the most ideal the trails for each experimental parameters are ranked. In \autoref{eq:param_ranking_formula} the ranked score is calculated similar to that in \autoref{eq:project_ranking_formula}. However for \autoref{eq:param_ranking_formula}, the ranks are ordered in based on the parameter set ($s$) used for the trial. Therefore the weighted summation, $rank_{s,i}$ is taken for each project with the same parameter set up $s$. The average, $avg_{rank_{s,i}}$, is taken for each parameter set. The best ranked parameter is set is then selected by taking the maximum $avg_{rank_{s}}$.
+The parameters setup for each experiment proved to vary in results. In order to determine which set of parameters are the most ideal the trails for each experimental parameters are ranked. In \autoref{eq:param_ranking_formula} the ranked score is calculated similar to that in \autoref{eq:repository_ranking_formula}. However for \autoref{eq:param_ranking_formula}, the ranks are ordered in based on the parameter set ($s$) used for the trial. Therefore the weighted summation, $rank_{s,i}$ is taken for each repository with the same parameter set up $s$. The average, $avg_{rank_{s,i}}$, is taken for each parameter set. The best ranked parameter is set is then selected by taking the maximum $avg_{rank_{s}}$.
 
 \begin{equation} 
 \label{eq:param_ranking_formula}
@@ -1212,7 +1209,7 @@ best_{rank_{s}} = max(avg_{rank_{s}})
 \end{matrix}
 \end{equation}
 
-The complete order list of the ranked parameter sets are shown in \autoref{tab:setup_performance}. Out of all the parameter setups, \gls{rf} ranked higher for all setups except for one which ranked lower than the best parameter setup for \gls{svm}. This ranked list can be considered as a guide to identify the best performing parameter setup. Also the best parameter set can be used for any new repositories collected to attempt to get the best results.
+The complete order list of the ranked parameter sets are shown in \autoref{tab:best_parameter_performance}. Out of all the parameter setups, \gls{rf} ranked higher for all setups except for one which ranked lower than the best parameter setup for \gls{svm}. This ranked list can be considered as a guide to identify the best performing parameter setup. Also the best parameter set can be used for any new repositories collected to attempt to get the best results.
 
 \begin{table}
 \begin{center}
@@ -1220,37 +1217,37 @@ The complete order list of the ranked parameter sets are shown in \autoref{tab:s
         \hline
         AI & Feature Set & SWR & Test Setup & Rank Average \\
         \hline
-        rf & 100 & 2 & test 1 & 1.3013 \\
-        rf & 110 & 2 & test 1 & 1.2767 \\
-        rf & 60 & 2 & test 1 & 1.2648 \\
-        rf & 70 & 2 & test 1 & 1.2582 \\
-        rf & 120 & 2 & test 1 & 1.2579 \\
-        rf & 3 & 90 & test 2 & 1.2451 \\
-        rf & 130 & 2 & test 1 & 1.2423 \\
-        rf & 2 & 90 & test 2 & 1.2254 \\
-        rf & 90 & 2 & test 1 & 1.2233 \\
-        rf & 5 & 90 & test 2 & 1.2111 \\
-        rf & 80 & 2 & test 1 & 1.2082 \\
-        rf & 1 & 90 & test 2 & 1.2066 \\
-        svm & 5 & 90 & test 2 & 1.192 \\
-        rf & 4 & 90 & test 2 & 1.1844 \\
-        svm & 4 & 90 & test 2 & 1.1669 \\
-        svm & 70 & 2 & test 1 & 1.1576 \\
-        svm & 120 & 2 & test 1 & 1.1551 \\
-        svm & 130 & 2 & test 1 & 1.1529 \\
-        svm & 1 & 90 & test 2 & 1.1477 \\
-        svm & 60 & 2 & test 1 & 1.0962 \\
-        svm & 3 & 90 & test 2 & 1.0856 \\
-        svm & 90 & 2 & test 1 & 1.076 \\
-        svm & 100 & 2 & test 1 & 1.0688 \\
-        svm & 2 & 90 & test 2 & 1.0653 \\
-        svm & 80 & 2 & test 1 & 1.0365 \\
-        svm & 110 & 2 & test 1 & 1.0089 \\
+        rf & 2 & 100 & test-1 & 1.3013 \\
+        rf & 2 & 110 & test-1 & 1.2767 \\
+        rf & 2 & 60 & test-1 & 1.2648 \\
+        rf & 2 & 70 & test-1 & 1.2582 \\
+        rf & 2 & 120 & test-1 & 1.2579 \\
+        rf & 3 & 90 & test-2 & 1.2451 \\
+        rf & 2 & 130 & test-1 & 1.2423 \\
+        rf & 2 & 90 & test-2 & 1.2254 \\
+        rf & 2 & 90 & test-1 & 1.2233 \\
+        rf & 5 & 90 & test-2 & 1.2111 \\
+        rf & 2 & 80 & test-1 & 1.2082 \\
+        rf & 1 & 90 & test-2 & 1.2066 \\
+        svm & 5 & 90 & test-2 & 1.192 \\
+        rf & 4 & 90 & test-2 & 1.1844 \\
+        svm & 4 & 90 & test-2 & 1.1669 \\
+        svm & 2 & 70 & test-1 & 1.1576 \\
+        svm & 2 & 120 & test-1 & 1.1551 \\
+        svm & 2 & 130 & test-1 & 1.1529 \\
+        svm & 1 & 90 & test-2 & 1.1477 \\
+        svm & 2 & 60 & test-1 & 1.0962 \\
+        svm & 3 & 90 & test-2 & 1.0856 \\
+        svm & 2 & 90 & test-1 & 1.076 \\
+        svm & 2 & 100 & test-1 & 1.0688 \\
+        svm & 2 & 90 & test-2 & 1.0653 \\
+        svm & 2 & 80 & test-1 & 1.0365 \\
+        svm & 2 & 110 & test-1 & 1.0089 \\
         \hline
     \end{tabular}
 \end{center}
-\caption{Best Setup Performance}
-\label{tab:setup_performance}
+\caption{Best Parameter Performance}
+\label{tab:best_parameter_performance}
 \end{table}
 
  
@@ -1260,10 +1257,10 @@ The complete order list of the ranked parameter sets are shown in \autoref{tab:s
 
 % TODO finish off
 
-This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all projects. A concerted effort was made to contrasting positive results for one project with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area.
+This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all repositories. A concerted effort was made to contrasting positive results for one repository with negative results. Such a contrast may mitigate the impact of the positive results, however provide the full context and help direct future work in this area.
 
 Each experiment was designed to attempt to provide a robust setup to measure accurately the performance of the approach given the changes to the current factor. The setup was designed to attempt to preventing the influence of other variables beyond the independent variable. The factors that may have had an influence on the experimental results are the third experiment only sampling the extremes (best and worst).
 
 A major concern with the final experiment was that of the sampling of the best and worst results from the previous experiments to test the use of \gls{os}. While the results of the use of \gls{os} should not be discounted, only the sampling the extremes of the previous experiment may have limited the measurable impact of the use of \gls{os}. This experiment could be extended to test the middle performance or even test each trail from the previous experiments.
 
-The differences between the projects prevented a more direct comparison between the projects. Furthermore, as shown through the experiments, some projects (e.g. ShowcaseView) generally performed better than other projects (e.g. governator). This leads to the conclusion that certain project related factors have a large impact on the performance of the approach. Further investigation into these project specific factors could lead to improved results for the approach.
+The differences between the repositories prevented a more direct comparison between the repositories. Furthermore, as shown through the experiments, some repositories (e.g. ShowcaseView) generally performed better than other repositories (e.g. governator). This leads to the conclusion that certain repository related factors have a large impact on the performance of the approach. Further investigation into these repository specific factors could lead to improved results for the approach.
