@@ -147,7 +147,15 @@ Ying, Murphy, Ng and Chu-Carroll present a method that predicts which parts of t
 Many data source exist in states that are not convenient or feasible for use without leveraging data mining techniques to transform the data to a more accessible state. These sources of data can vary greatly based on the interests for the individual(s) collecting the data. Examples of data mining techniques have focused both on single source mining and mining of multiple data sources. One application area for data mining is on data collection from software repositories which can be either single or multiple source \cite{Dit2013, Hassan2006, Hemmati2013, Kagdi2007, Maletic2004, Zimmermann2005a}.%TODO list other msr based papers.
 
 %2*
-Hemmati, Nadi, Baysal, Kononenko, Wang, Holmes and Godfrey take a comprehensive review at the research related to \gls{msr}\cite{Hemmati2013}. Several best practices are proposed and areas of future work are identified. Best practices include % TODO fill this in.
+Hemmati, Nadi, Baysal, Kononenko, Wang, Holmes and Godfrey take a comprehensive review at the research related to \gls{msr}\cite{Hemmati2013}. Several best practices are proposed and areas of future work are identified. Best practices are divided into 4 categories and summarized below.
+
+The first category relates to the data mining which outlines several key points. Firstly, any assumptions or heuristics used in the data collection process require testing to ensure collection is valid. Secondly, the code extraction process is should be chosen based on needs of method as well as available resources. Thirdly, text based data can be expensive to use because of the need to pre-process the data through methods such as splitting, stemming, normalization and smoothing. Finally, any analysis applied to the data requires verification to ensure the outcome is accurate.
+
+The second category is related to use of the mined data in machine learning algorithms. Firstly, carefully tune parameters and perform sensitivity analyses to improve modeling. Secondly, a more complex objective will likely be less successful than a more simpler objective. Finally a good understanding of the assumptions made by the machine learning algorithm is important to overcoming particular issues within the data set.
+
+The third category outlines best practices related analysis of the data. Firstly, applying a correlation analysis can help determine the validity of the hypotheses prior to a full commitment. Second, use of other characteristics beyond precision and recall may be appropriate. Finally, ensure that research results, data, tools and techniques are shared to community to allow for stronger scientific work in the future
+
+
 Hassan discusses the value of data mining from software repositories. The possible uses of the data collected can be used towards are assisting developers or managers.%1*
 
 % MSR, guiding future changes
