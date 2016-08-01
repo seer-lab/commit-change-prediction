@@ -22,7 +22,7 @@ The raw data is kept unprocessed and stored directly in a relational database (M
 %<<< TODO create a table which outlines the data elements >>>
 % TODO create a figure of an api return
 
-Our collection method for mining data from GitHub repositories utilized GitHub's web \gls{api}\footnote{\ur{https://developer.github.com/v3/}}. The GitHub web \gls{api} allows automatic access to the complete data set of publicly available repositories. The collection process requires both the developer and repository names in order to work. To actually collect the data from GitHub a Ruby script, built around a Ruby library, \textit{github\_api}\footnote{\url{https://github.com/piotrmurach/github}}, was used as a convenient wrapper for GitHub's web \gls{api}. The script systematically collects all of the desired data related from a given developer's GitHub repository.
+Our collection method for mining data from GitHub repositories utilized GitHub's web \gls{api}\footnote{\url{https://developer.github.com/v3/}}. The GitHub web \gls{api} allows automatic access to the complete data set of publicly available repositories. The collection process requires both the developer and repository names in order to work. To actually collect the data from GitHub a Ruby script, built around a Ruby library, \textit{github\_api}\footnote{\url{https://github.com/piotrmurach/github}}, was used as a convenient wrapper for GitHub's web \gls{api}. The script systematically collects all of the desired data related from a given developer's GitHub repository.
 
 % TODO integrate this with above explanation of VCS and git
 Some unnecessary aspects of a GitHub repository's dataset are not collected but could be with a minor extension to the collection script. Aspects not collected include:
