@@ -1,14 +1,22 @@
 \chapter{Conclusions}
 \label{chap:conclusions}
 
+\section{Summary}
 
 We proposed a method that leverages the commit history to predict future changes within the project. The changes that are predicted are in the short term of 5 commits. The approach was then tested on 23 different \gls{oss} projects developed in Java. The tests investigated the different factors that impacted the performance of the approach. The results of the tests show that while the \gls{swr} had a strong impact on the performance, the projects themselves often had internal factors which caused differences in performance.
+
+\section{Contributions}
 
 The contributions of this work are:
 \begin{enumerate}
 \item Providing an approach that with some success can predict future changes within a project using the commit data. Both \gls{svm} and \gls{rf} are viable for some projects.
 \item Determined which factors more strongly influence the performance of the predictions. Out of the three factors investigated, the \gls{swr} proved to have the greatest impact for both \gls{svm} and \gls{rf}.
 \end{enumerate}
+
+\section{Limitations}
+%TODO fill out
+
+\section{Future Work}
 
 Future work includes investigating the projects and they differ in the way they change. The four projects that tended to do will together were acra, ShowcaseView, http-request and ion which also shared similar project characteristics. Finally a more extensive look at the other factors that were involved in the approach to determine their impact of the approach.
 
