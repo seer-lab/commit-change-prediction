@@ -8,7 +8,7 @@ The proposed research focuses on predicting changes within a software project. T
 \label{sec:data_mining}
 
 % Added in more details about the language specific aspects
-Before we can predict changes within a repository (see \autoref{chap:prediction}), we must first collect data. The data collection is targeted towards \gls{oss} projects that are predominately written in Java\footnote{A project would be predominately written in Java if it has over $75\%$ of the source code in Java.} and hosted on GitHub. Some of the these repositories, especially larger ones may be multilingual and include other programming languages for purposes such as a database schema outline. The purposed data collection approach is not language specific, however in order to simplify the implementation, the approach was restricted to only collect Java repositories. Generalizing our implementation for other languages may require a redesign especially with respect to collecting the prediction model features. The data collection process simply data mines the complete development history of the project through the commits stored in GitHub. The commit data includes:
+Before we can predict changes within a repository (see \Cref{chap:prediction}), we must first collect data. The data collection is targeted towards \gls{oss} projects that are predominately written in Java\footnote{A project would be predominately written in Java if it has over $75\%$ of the source code in Java.} and hosted on GitHub. Some of the these repositories, especially larger ones may be multilingual and include other programming languages for purposes such as a database schema outline. The purposed data collection approach is not language specific, however in order to simplify the implementation, the approach was restricted to only collect Java repositories. Generalizing our implementation for other languages may require a redesign especially with respect to collecting the prediction model features. The data collection process simply data mines the complete development history of the project through the commits stored in GitHub. The commit data includes:
 \begin{enumerate}
 \item Developers related.
 \item Source files.
@@ -59,7 +59,7 @@ As mentioned above the raw commit data is stored in a MySQL relational database 
 %TODO re-factor this
 The first database, \textit{github\_data}, stores the semi-raw data collected from GitHub's \gls{api}. This database contains 8 tables which store various aspects about the projects considered potentially important for the analysis later on. The tables of primary concern are \textit{repositories}, \textit{commits}, \textit{users}, \textit{files} and \textit{tags} tables. The complete schema is outlined in \autoref{fig:github_data_schema}. Other aspects are available from the \gls{api} and if needed the database could be extended to store more elements as necessary. In some cases, data from the \gls{api} is not available for one reason or another (usually inaccessible files or such) these are simply removed or a note is made of them depending on their importance. For example, non Java source files that are missing are not essential and if inaccessible are ignored. If a Java file is inaccessible, a note is made as this is a greater concern. These files can be retrieved if enough information is available (previous version and corresponding patch file). In the case that insufficient information is available, the analysis can still be applied but will likely adversely effect the result.
 
-After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the \autoref{sec:proccessing}. The results are then stored in the \textit{project\_stats} database that is very similar in layout to the first database except some extra tables have been added and a few data items have been removed. Mostly the storage expansions are designed to hold change information calculated from the analysis of the data. The complete schema is outlined in \autoref{fig:project_stats_schema}.
+After storing the data in the \textit{github\_data} database, the analysis process is done. The \textit{parsing} script is run next and discussed further in the \Cref{sec:proccessing}. The results are then stored in the \textit{project\_stats} database that is very similar in layout to the first database except some extra tables have been added and a few data items have been removed. Mostly the storage expansions are designed to hold change information calculated from the analysis of the data. The complete schema is outlined in \autoref{fig:project_stats_schema}.
 
 \begin{figure}[!ht]
     \centering
@@ -68,7 +68,7 @@ After storing the data in the \textit{github\_data} database, the analysis proce
     \label{fig:project_stats_schema}
 \end{figure}
 
-The third and final database uses PostgreSQL because of limitations within the MySQL implementation. The calculation of the candidate features, discussed in further detail in \autoref{sec:experimental_project_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL. Therefore the data was transferred over to PostgreSQL, using simple program called \textit{pgloader}\footnote{\url{http://pgloader.io/}}. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL, this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. After transferring the data over to PostgreSQL, the data change predictions are ready to be preformed.
+The third and final database uses PostgreSQL because of limitations within the MySQL implementation. The calculation of the candidate features, discussed in further detail in \Cref{sec:experimental_repository_data}, required a more versatile partitioning function and the ability to perform multiple inner queries. The first of which is more difficult to implement and the second is not available at all MySQL. Therefore the data was transferred over to PostgreSQL, using simple program called \textit{pgloader}\footnote{\url{http://pgloader.io/}}. Only one difficulty was encountered during the transferring process. One of the tables in the MySQL database was called \textit{user}, however in PostgreSQL, this is a reserved table name and therefore the table cannot be interacted with properly. The work around was to simply rename the table in MySQL prior to transferring to avoid any issues with the database. After transferring the data over to PostgreSQL, the data change predictions are ready to be preformed.
 
 \section{Processing}
 \label{sec:proccessing}
@@ -115,10 +115,12 @@ For each commit, this information is stored to allow for easier access and save 
 
 \section{Visualization}
 
+% TODO create a summary of the visualizations done.
+
 \subsection{Line Change}
 \label{subsec:line_change}
 
-The key features are extracted from the data set after performing the collection and analysis. Visualizations were used in order to to better understand resulting data. The first visualization simply showed the changes recorded on a per line basis. These changes were divided into several closely related subcategories of additions, deletions and modifications. Additions identify changes that are new and do not have a corresponding set of deleted code. Similarly, deletions refer to changes that remove lines of code without a corresponding set of additions. Finally modifications are a set of changes which contain a set of additions and deletions that are related.
+The key features are extracted from the data set after performing the collection and analysis. Visualizations were used in order to to better understand resulting data. The first visualization in \autoref{fig:line_visual_acra} simply showed the changes recorded on a per line basis. These changes were divided into several closely related subcategories of additions, deletions and modifications. Additions identify changes that are new and do not have a corresponding set of deleted code. Similarly, deletions refer to changes that remove lines of code without a corre sponding set of additions. Finally modifications are a set of changes which contain a set of additions and deletions that are related.
 
 % \lstloadlanguages{Ruby}
 
@@ -139,7 +141,7 @@ The key features are extracted from the data set after performing the collection
 % \lstinputlisting[language=Ruby]{listings/levenshtein.rb}
 
 
-The relationship between two sets of additions and deletions is determined through the \gls{ld} formula. The \gls{ld} calculation will determine the edit distance between two strings, where edit distance is defined as the number of characters difference between two different strings. For example, the \gls{ld} for \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. Normalization is used to allow for more general use of \gls{ld} for comparing strings of different length. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in \autoref{eq:normalized_ld}.
+The relationship between two sets of additions and deletions is determined through the \gls{ld} formula\footnote{\url{http://www.levenshtein.net/}} shown in \autoref{eq:normalized_ld}. The \gls{ld} calculation will determine the edit distance between two strings, where edit distance is defined as the number of characters difference between two different strings. For example, the \gls{ld} for \textit{happy} and \textit{mapper} would be 3, since h would be changed to m, y to e and r would be added at the end. Normalization is used to allow for more general use of \gls{ld} for comparing strings of different length. To calculate \gls{nld} the \gls{ld} would be divided by the larger of the two strings sizes shown in \autoref{eq:normalized_ld}.
 
 % TODO note that a_i is an addition line and that d_j is a deletion line
 % TODO clarify change block with picture
@@ -170,13 +172,20 @@ NLD(a_i, d_j) < \Delta_l & \text{otherwise}
 Only lines that are part of the same block of additions and deletions are selected for the similarity check to determine whether they can be classified as a modification. As noted before, line modifications will consist of one to many addition lines mapped to one to many lines of deletion. Therefore a modification is more easily referred to as a modification set. For addition lines that do not meet the threshold of similarity with all deletion line in the change block are classified as additions. Similarly, deletion lines that fail to meet the similarity threshold for all addition lines will be classified as deletions. A block of changes will therefore contain a set of added and deleted lines, some of which may be related.
 
 % comments.
-While creating the parsing method, both code and comments were considered separate entities. However each was analyzed with the same method. Therefore for the visualization below, the changes are separated into source code and comments. The comments were never used towards the prediction method presented later on in \autoref{chap:prediction} and will therefore not be covered as deeply. The comments however are available for use and could be used to extend the approach.
+While creating the parsing method, both code and comments were considered separate entities. However each was analyzed with the same method. Therefore for the visualization below, the changes are separated into source code and comments. The comments were never used towards the prediction method presented later on in \Cref{chap:prediction} and will therefore not be covered as deeply. The comments however are available for use and could be used to extend the approach.
 
 
 % Discuss the slight controls that each one allows and the special one just for this view. TODO place this better.
-Each of the following visualizations presented have a interactive component which is not available. Their capabilities are summarized to provide context to their use. The line change data is visualized in \autoref{fig:line_visual_acra}. The number of changes lines of source code added, deleted and modifications are all shown aggregated per month. A per commit view is available but is very cluttered because of the excess of data with in a project. The bottom half of the visualization shows the sum of changes up till the given point. Tags for the project are shown at the bottom of the graph to provide some context of the release cycle. Tags often mark points of significance within the project and therefore can be thought as road signs. The visualization also provides some options to refine or generalize the view. For all of the views, the user is allowed to select the project, package path, and the committers as desired. Specifically for the line level graph, a further option is provided to condense the data based on a monthly, weekly and commit summary. The commit message and a link to the commit on GitHub are provided when viewing either the commit view, method level or statement level. This information allows for a direct link to the project and can be a handy tool for referring back to the software repository.
+The visualizations are interactive providing a more rich experience when used. The visualizations are available online with some example repositories\footnote{\url{http://sqrlab.ca/gitview/}}. The interactions include:
+\begin{enumerate}
+\item Supplemental information on hover over.
+\item Adjustable data range through either set windows or manually adjusted windows.
+\item Customizable legend that allows for data sets to be set to hidden or shown.
+\end{enumerate}
+A snap shot is presented to outline and summarize their overall capabilities.  The line change data is visualized in \autoref{fig:line_visual_acra}. The number of changes lines of source code added, deleted and modifications are all shown aggregated per month. A per commit view is available but is very cluttered because of the excess of data with in a project. The bottom half of the visualization shows the sum of changes up till the given point. Tags for the project are shown at the bottom of the graph to provide some context of the release cycle. Tags often mark points of significance within the project and therefore can be thought as road signs. The visualization also provides some options to refine or generalize the view. For all of the views, the user is allowed to select the project, package path, and the committers as desired. Specifically for the line level graph, a further option is provided to condense the data based on a monthly, weekly and commit summary. The commit message and a link to the commit on GitHub are provided when viewing either the commit view, method level or statement level. This information allows for a direct link to the project and can be a handy tool for referring back to the software repository.
 
-Each view is also supplemented with a summary of key stats for the project. In \autoref{fig:project_summary_stats} the project stats are outlined for \textit{acra}. The ratio of comments to code for the history of the project is shown in a pie chart. Several table entries outline several top performers metrics are outlined with the top five for each category. The first set outlines top contributers for source code, which is broken down into the categories: coder, modifier and deleter. Coder, modifier and deleter all map to the top committer to provide additions, modifications and deletions respectively. The number of line added is also outlined as well next to the committer's name in square brackets. The second set of lists outlines the top commenters for additions, modification and deletions. Finally, the top committers and contributors are listed, where the committer is sum of commits contributed to the project, and contributer is the sum of total code and comments contributed.
+
+
 
 % \begin{figure}[!ht]
 %     \centering
@@ -197,24 +206,15 @@ Each view is also supplemented with a summary of key stats for the project. In \
 \end{landscape}
 \pagestyle{plain}
 
-% TODO put this in the right location
-% TODO talk about this.
-\begin{landscape}
-\thispagestyle{empty}
- \begin{figure}
-  \centering
-        \includegraphics[width=1.5\textwidth]{images/table_visual}
-    \caption{Project Summary Statistics for acra}
-    \label{fig:project_summary_stats}
- \end{figure}
-\end{landscape}
-\pagestyle{plain}
-
 \subsection{Method Change}
 
-The visualization of line changes was very noisy and proved difficult to use. Instead of viewing every line of change separately, the changes are grouped together based on the method from which they originate from. Similar classifications are used for method changes however their definitions vary slightly and are outlined in more detail in \autoref{sec:proccessing}. There are three types of method level changes that can occur. Firstly, a method is classified as newly added when that method had not existed in the previous version, consisting only of additions. Secondly, a deleted method implies that the method is completely removed from the current version, consisting only of deletions. Thirdly, a method is classified as modified if it contains two or more types of changes, either additions, deletions or no change.
-
-The method level change visualization, shown in \autoref{fig:method_visual_acra}, presents the amount of method changes that occurs in the project development over time for acra. The low level changes details are ignored in this view, instead the focus is placed on that of the three types of changes. The visualization for the method level uses a bar graph since it provided a more clear picture of the relationship between commits. Compared to the first visualization which implied that a relationship between different commits of the same type of changes. The contrast in magnitude between each type of change and each commit is also more clear and defines the visualization. The amount of change occurring over time is clearly visible and the amount of data available is not as overwhelming as the line change visualization.
+The visualization of line changes was very noisy and proved difficult to use. Instead of viewing every line of change separately, the changes are grouped together based on the method from which they originate from. Similar classifications are used for method changes however their definitions vary slightly and are outlined in more detail in \Cref{sec:proccessing}. There are three types of method level changes that can occur:
+\begin{enumerate}
+\item a method is classified as newly added when that method had not existed in the previous version, consisting only of additions.
+\item a deleted method implies that the method is completely removed from the current version, consisting only of deletions.
+\item a method is classified as modified if it contains two or more types of changes, either additions, deletions or no change.
+\end{enumerate}
+The method level change visualization, shown in \autoref{fig:method_visual_acra}, presents the amount of method changes that occurs in the project development over time for acra. The low level changes details are ignored in this view, instead the focus is placed on that of the three types of changes. The visualization for the method level uses a bar graph since it provided a more clear picture of the relationship between commits. Compared to the first visualization which implied that a relationship between different commits of the same type of changes. The contrast in granularity between each type of change and each commit is also more clear and defines the visualization. The amount of change occurring over time is clearly visible and the amount of data available is not as overwhelming as the line change visualization.
 
 % \begin{sidewaysfigure}[ht]
 %     \includegraphics[width=1.0\textwidth]{images/method_visual_acra}
@@ -242,7 +242,7 @@ The method level change visualization, shown in \autoref{fig:method_visual_acra}
 
 \subsection{Method Statement Change}
 
-The method statement level visualization is a more granular view of the method level view. By building on top of the method level view, the method statement level view provides more details similar to that of the line level view. The classifications are kept from the method level view for changes but are broken down into line changes made to comments and code. Therefore both methods consist of two parts, the comments and the code. So the previous classification added, deleted and modified are divided into new categories. Added and deleted methods are divided into two new categories each; added code, added comment, deleted code and deleted comment respectively. In \autoref{fig:statement_add_delete_visual_acra}, the added and removed method data is shown. The modifications are not shown in the visualization to reduce clutter in the view.
+The method statement level visualization is a more granular view of the method level view. By building on top of the method level view, the method statement level view provides more details similar to that of the line level view. The classifications are kept from the method level view for changes but are broken down into line changes made to comments and code. Therefore both methods consist of two parts, the comments and the code that are added, deleted and modified based on the previous classification and are divided into new categories. Added and deleted methods are divided into two new categories each; added code, added comment, deleted code and deleted comment respectively. In \autoref{fig:statement_add_delete_visual_acra}, the added and removed method data is shown. The modifications are disabled in the example visualization to simplify the view.
 
 In \autoref{fig:statement_modified_visual_acra} the modifications for method statement changes are shown for acra. Modifications are divided into four categories instead of two. The first two categories relate to modification of comments, and the second two relate to modifications of code. The comments changes are classified as either modified added or deleted comments. Likewise for source code modifications, the classification is either modified added or deleted code. Each line classified under modification is based on the change type of the method. Therefore if a line of source code is part of a method that is modified then it will fall into one of the four modification classifications. For example in \autoref{fig:changed_method}, there would be 5 lines classified as a modified deleted code, 5 lines of modified added code and 0 lines of modified added or deleted comments.
 
@@ -291,3 +291,35 @@ In \autoref{fig:statement_modified_visual_acra} the modifications for method sta
 
 % Decided whether to keep the other names or update them to these ones (on the site as well).
 %So finally we have the categories: \textit{Modified Code Addition}, \textit{Modified Comment Addition}, \textit{Modified Code Deletion} and \textit{Modified Comment Deletion}.
+
+\subsection{Repository Summary Statistics}
+
+For all of the visualizations a summary view was provided which outlines key statistics for the project. In \autoref{fig:project_summary_stats} the project stats are outlined for \textit{acra}. 
+\begin{itemize}
+\item The ratio of comments to code for the history of the project is shown in a pie chart.
+\item Several table entries outline several top performers metrics are outlined with the top five for each category. The value is shown with the developer's name in square brackets.
+    \begin{enumerate}
+    \item top contributers for adding source code
+    \item top contributers for deleting source code
+    \item top contributers for modifying source code
+    \item top contributers for adding comments
+    \item top contributers for deleting comments
+    \item top contributers for modifying comments
+    \item top overall contributers ($\sum code_{+} - \sum code_{-} + \sum doc_{+} - \sum doc_{-}$)
+    \item top overall committers
+    \end{enumerate}
+\item Customizable legend that allows for data sets to be set to hidden or shown.
+\end{itemize}
+
+\begin{landscape}
+\thispagestyle{empty}
+ \begin{figure}
+  \centering
+        \includegraphics[width=1.5\textwidth]{images/table_visual}
+    \caption{Project Summary Statistics for acra}
+    \label{fig:project_summary_stats}
+ \end{figure}
+\end{landscape}
+\pagestyle{plain}
+
+% TODO add summary of chapter.

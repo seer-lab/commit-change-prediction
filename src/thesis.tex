@@ -4,6 +4,13 @@
 \usepackage{hyperref}
 \usepackage{url}
 
+\usepackage{cleveref}
+\newcommand{\crefrangeconjunction}{ --~}
+
+\usepackage{etoolbox}
+\preto\chapter\glsresetall
+
+
 % \usepackage{graphicx}
 % \usepackage{wrapfig}
 % \usepackage{lscape}
