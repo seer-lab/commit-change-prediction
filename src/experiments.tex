@@ -1,7 +1,7 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
-Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} repository can be used towards predicting future changes within the repository. These experiments are based on the approach outlined in the previous chapter, \autoref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
+Experiments were conducted in order to provide some validation for the proposed approach. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} repository can be used towards predicting future changes within the repository. These experiments are based on the approach outlined in the previous chapter, \Cref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using \gls{os}. These three factors are explored for both machine learning algorithms.
 
 \section{Experimental Repository Data}
 \label{sec:experimental_repository_data}
@@ -328,7 +328,7 @@ Through investigating these factors a more clear picture of the performance of t
 %An issue that was necessary to address was the arbitrary sample size. For projects that are a lot bigger 100 vectors which map to 100 method changes could be very small. The sampling also seemed like a peculiar approach to picking the data since it would randomly pick values from over a period that could vary from a few months to a few years depending on the size. Therefore instead of dividing the project into four quarters based on time a number of commits is picked. 
 
 % TODO provide an actual start to this subsection
-The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the repository the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \autoref{sec:prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
+The experimental design to allow for the predictions made on historical data to be tested with available data. Therefore within the data collected for the repository the predictions must be made for values that are already known to allow for verification. Therefore the experimental sampling would build off of the prediction sampling outlined in \Cref{sec:prediction_data}. A second region defined as the prediction sample range. The \autoref{fig:data_range} outlines the updated layout. The size of the training range ($|s_t|$) and the size of the prediction ($|s_p|$) are able to be different sizes, however for each experiment they remain the same ($|s_t| = |s_p|$).
 
 %The population is sampled by percentage of the total available. This allows more flexibility and determining the sample size of a test by allowing for it to scale based on the size of the project. 
 
@@ -374,7 +374,7 @@ A data set with an extended sampling range will extend the sampling range beyond
 
 The training and testing sampling range are defined as the number of commits from which the samples can be taken. In \autoref{fig:data_range}, both the training and testing sample ranges are set to 30 commits. These two values can differ from one another but tend to be kept the same for most of the experiments.
 
-As discussed in \autoref{sec:prediction_data}, sample biasing can cause the distribution to favor the selection of one category over another. Undersampling and \gls{os} can prevent the model from simply classifying all samples as one category or the other.
+As discussed in \Cref{sec:prediction_data}, sample biasing can cause the distribution to favor the selection of one category over another. Undersampling and \gls{os} can prevent the model from simply classifying all samples as one category or the other.
 
 For each repository data set there are numerous windows that be can be used. The window number is setting which window is used broadly mapping to the position within the data set that the model will be trained on and then predicted on. In \autoref{fig:data_range} the \textit{current commit} is located at 45. This is the point from which predictions will be made after. The gap preceding the starting point is is 5 commits long and is followed by the sample window for the training data which is 30 commits long. To calculate the window offset simply using the starting position ($p_s$), the gap length ($g$), and the \gls{swr} can be calculated in \autoref{eq:window_offset}. Therefore in this case the window offset would be $45 - 5 - 30$ which is 10.
 
@@ -383,8 +383,7 @@ For each repository data set there are numerous windows that be can be used. The
 wo = p_s - g - swr 
 \end{equation}
 
-Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses two parameters; C and gamma. Picking the most suitable parameters is ideal to achieve good performance from the prediction model. For \gls{svm} a grid search technique is provided by the developers of the libsvm source % TODO cite easy.py
-for optimizing the parameters. For \gls{rf}, the size of the forest will have an impact but is far more manageable since it is a single parameter. A larger number of trees in the forest will generally provide better results, but will cause the algorithm to take longer to train.
+Finally, the last factor of note is the parameters used to configure each prediction method. \gls{rf} use a single parameter, the size of the forest. \gls{svm} meanwhile uses two parameters; C and gamma. Picking the most suitable parameters is ideal to achieve good performance from the prediction model. For \gls{svm} a grid search technique is provided by the developers of the libsvm source\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/libsvm/}} for optimizing the parameters. For \gls{rf}, the size of the forest will have an impact but is far more manageable since it is a single parameter. A larger number of trees in the forest will generally provide better results, but will cause the algorithm to take longer to train.
 
 \subsection{Prediction Performance}
 
@@ -453,12 +452,12 @@ P_{recall} = \frac{tp}{tp+fn}
 % TODO give a brief introduction to experiments. Reference the data discussed in previous sections in this chapter.
 % TODO reference the appendix which contains a complete set of figures related to the experiments conducted.
 
-For each experiment all of the data used to train and test the model is collected using a Ruby script to query a PostgreSQL database. The PostgreSQL database provides the raw data which is then processed into data vectors in an acceptable form for \gls{svm} or \gls{rf}. The data processing method is outlined more completely in \autoref{sec:prediction_method}.
+For each experiment all of the data used to train and test the model is collected using a Ruby script to query a PostgreSQL database. The PostgreSQL database provides the raw data which is then processed into data vectors in an acceptable form for \gls{svm} or \gls{rf}. The data processing method is outlined more completely in \Cref{sec:prediction_method}.
 
 \subsection{SVM Experiments}
 \label{subsec:svm_experiments}
 
-For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \autoref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
+For this set of experiments the machine learning algorithm \gls{svm} is used to provide the change predictions. As noted in \Cref{sec:prediction_method}, the implementation for \gls{svm} is a Ruby binding of the original library. The parameters used for all of the experiments with \gls{svm} are $C = 10$ and $gamma = 8$.
 
 
 \subsubsection{Window Range Experiments}
@@ -602,7 +601,7 @@ Repositories that were influenced more by \gls{swr} thus having a larger variati
 
 %The parameter for this experiment are outlined in \autoref{tab:window_range_experiment_setup}. The major difference between the \gls{svm} and this experiment, \gls{rf}, is the parameters used for the \gls{rf}. This allows for a fairly clear comparison between these two methods with the given independent variable, sample window size.
 
-This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{tab:svm_feature_experiment_setup}. The value of $90$ was selected for the \gls{swr} based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \autoref{sec:svm_swr_experiment}. 
+This experiment uses different sets of candidate feature to test to explore the available features. The remaining variables were kept constant to allow for the candidate feature sets to be viewed in isolation. These constants are provided in \autoref{tab:svm_feature_experiment_setup}. The value of $90$ was selected for the \gls{swr} based on the value being in the middle of the range experimented on for the previous experiment. The remaining variables are kept the same as the previous experiment in \Cref{sec:svm_swr_experiment}. 
 
 \begin{table}[ht]
 \begin{center}
@@ -625,7 +624,7 @@ This experiment uses different sets of candidate feature to test to explore the 
 \end{table}
 
 % TODO update the section below to only contain the key figures
-The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. These feature sets were selected from a larger set of features outlined in \autoref{sec:prediction_data}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row. Some of the repositories results are shown in figures below. The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
+The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_sets}. These feature sets were selected from a larger set of features outlined in \Cref{sec:prediction_data}. Each set is assigned an index value to allow for easier reference later on. For the remainder of this section the experiment sets will be referenced using the assigned index. Therefore if feature set 3 is referenced then that refers to the candidate feature set in the third row. Some of the repositories results are shown in figures below. The rest of this experiments performance results can be found in \autoref{app_sub:experiment_2_svm}.
 
 % Projects to show:
 % ShowcaseView
@@ -812,7 +811,7 @@ Overall \gls{swr} had the greatest impact on the performance of the prediction m
 \subsection{Random Forest Experiments}
 \label{sec:rf_experiments}
 
-The machine learning algorithm \gls{rf} is used for the second set of experiments. \gls{rf} was selected as an alternative to \gls{svm} for it's success in various data mining related tools. The implementation of \gls{rf} is in a python library \textit{scikit-learn} which is outlined in \autoref{sec:prediction_method}. Only one parameter is used for \gls{rf}, the forest size, which is set to $10000$ all of these experiments.
+The machine learning algorithm \gls{rf} is used for the second set of experiments. \gls{rf} was selected as an alternative to \gls{svm} for it's success in various data mining related tools. The implementation of \gls{rf} is in a python library \textit{scikit-learn} which is outlined in \Cref{sec:prediction_method}. Only one parameter is used for \gls{rf}, the forest size, which is set to $10000$ all of these experiments.
 
 \subsubsection{Window Range Experiments}
 \label{sec:rf_swr_experiment}
@@ -984,7 +983,7 @@ Some repositories experienced very little impact from variations of the \gls{swr
 % dagger (variable performance)
 % ion high all around performance
 
-Similar to the experiment using a \gls{svm} in \autoref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each repository which are discussed below. The following results are highlights of the larger set of experiments conducted on each repository. The remainder of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
+Similar to the experiment using a \gls{svm} in \Cref{sec:svm_feature_set_experiments}. The experiment parameters are outlined in \autoref{tab:rf_feature_experiment_setup}. The candidate features are likewise outlined in \autoref{tab:rf_feature_experiment_sets}. Each set is assigned an index value to allow for easier reference later on in this section. The candidate feature set will be referenced by the index assigned in the plots and discussions related. The candidate feature sets were used experimented on with each repository which are discussed below. The following results are highlights of the larger set of experiments conducted on each repository. The remainder of the results for this experiment are outlined in \autoref{app_sub:experiment_2_rf}.
 
 \begin{figure}[!ht]
     \centering
