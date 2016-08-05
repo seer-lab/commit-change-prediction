@@ -242,7 +242,14 @@ The method level change visualization, shown in \autoref{fig:method_visual_acra}
 
 \subsection{Method Statement Change}
 
-The method statement level visualization is a more granular view of the method level view. By building on top of the method level view, the method statement level view provides more details similar to that of the line level view. The classifications are kept from the method level view for changes but are broken down into line changes made to comments and code. Therefore both methods consist of two parts, the comments and the code that are added, deleted and modified based on the previous classification and are divided into new categories. Added and deleted methods are divided into two new categories each; added code, added comment, deleted code and deleted comment respectively. In \autoref{fig:statement_add_delete_visual_acra}, the added and removed method data is shown. The modifications are disabled in the example visualization to simplify the view.
+The method statement level visualization is a more granular view of the method level view. By building on top of the method level view, the method statement level view provides more details similar to that of the line level view. The classifications are kept from the method level view for changes but are broken down into line changes made to comments and code. Therefore both methods consist of two parts, the comments and the code that are added, deleted and modified based on the previous classification and are divided into new categories. Added and deleted methods are divided into two new categories each; added code, added comment, deleted code and deleted comment respectively. The list of classifications are outlined in \autoref{fig:method_statement_categories}, where the second tier is the new classifications of statement changes. In \autoref{fig:statement_add_delete_visual_acra}, the added and removed method data is shown. The modifications are disabled in the example visualization to simplify the view.
+
+\begin{figure}
+ \centering
+    \includegraphics[width=0.9\textwidth]{images/method_classification}
+    \caption{Method Statement Categories}
+    \label{fig:method_statement_categories}
+\end{figure}
 
 In \autoref{fig:statement_modified_visual_acra} the modifications for method statement changes are shown for acra. Modifications are divided into four categories instead of two. The first two categories relate to modification of comments, and the second two relate to modifications of code. The comments changes are classified as either modified added or deleted comments. Likewise for source code modifications, the classification is either modified added or deleted code. Each line classified under modification is based on the change type of the method. Therefore if a line of source code is part of a method that is modified then it will fall into one of the four modification classifications. For example in \autoref{fig:changed_method}, there would be 5 lines classified as a modified deleted code, 5 lines of modified added code and 0 lines of modified added or deleted comments.
 
@@ -322,4 +329,6 @@ For all of the visualizations a summary view was provided which outlines key sta
 \end{landscape}
 \pagestyle{plain}
 
-% TODO add summary of chapter.
+\section{Visualization Summary}
+
+The approach requires repository data to create the prediction model for future changes. The data is extracted from GitHub and stored in a local database. After the collection is complete the data is processed to extract key features and again stored in a local database. This data was explored through several visualizations that all focus on different aspects. The creation and use of these visualizations helped in the definition and selection of the candidate feature (in \autoref{tab:candidate_features}) used to train the prediction model.
