@@ -1,7 +1,7 @@
 \chapter{Experiments}
 \label{chap:experiments}
 
-Experiments were conducted in order to validate for the proposed approaches. The goal of these experiments is to test the whether the historical commit data from an \gls{oss} repository can be used towards predicting future changes within the repository. These experiments are based on the approach outlined in the previous chapter, \Cref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using oversampling. These three factors are explored for both machine learning algorithms.
+Experiments were conducted in order to validate for the proposed approaches. The goal of these experiments is to determine whether data from an \gls{oss} repository can predict changes that occur within the next 5 commits. These experiments are based on the approach outlined in the previous chapter, \Cref{chap:prediction}. The experiment was conducted through measuring the performance of each core factors varied in isolation. Specifically the \gls{swr}, the feature set and categorization balancing using oversampling. These three factors are explored for both machine learning algorithms.
 
 \section{Experimental Repository Data}
 \label{sec:experimental_repository_data}
@@ -308,7 +308,7 @@ While the purposed method was being developed ACRA's acra repository was primari
 \section{Experimental Setup}
 
 
-The experiment is setup to have a set of parameters that can be set. These parameters will remain constant to observe the difference that the independent variable will have on the dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a repository will be referred to as the performance of the approach. In order to reduce specific repository confounding factors numerous repositories were tested on. This will be discussed further in the discussions section. The experiments section only includes a small sample of the repositories that were experimented on. The repositories shown are ones that exhibited interesting patterns or results. The complete set of performance figures for every repository are shown in \autoref{app:experimental_data}.
+The experimental setup defines numerous parameters of different importance to conduct experiments. The majority of these parameters will remain constant to help observe the impact differences in the independent variable will have on the three dependent variables; precision, recall and accuracy. Each experiments will use one of the parameters as the independent variable. The three independent variables used in the experiments are outlined below. An experiment consists of a set of trails where the independent variable is modified to measure the resulting dependent variables. The results of a single trial or of the set of trails for a repository will be referred to as the performance of the approach. In order to reduce specific repository confounding factors numerous repositories were tested on. This will be discussed further in the discussions section. The experiments section only includes a small sample of the repositories that were experimented on. The repositories shown are ones that exhibited interesting patterns or results. The complete set of performance figures for every repository are shown in \autoref{app:experimental_data}.
 
 This thesis works to determine whether \gls{svm} or \gls{rf} can be used to effectively predict changes that will occur within the repository. To potentially provide an answer to this question the factors that are used for the prediction method are studied. The experiments attempt to determine what impact the different factors will have on the purposed methods. These factors include:
 \begin{enumerate}
@@ -1265,10 +1265,17 @@ The complete order list of the ranked parameter sets are shown in \autoref{tab:b
 
 % TODO finish off
 
-This wider experimentation also proved to be very beneficial for the analysis of the method since performance was not consistent across all repositories. A concerted effort was made to contrast positive results for one repository with negative results for other repositories. Such a contrast may mitigate the impact of the positive results, however provides the full context and help direct future work in this area.
+Sampling a larger set of repositories was more beneficial for the analysis of the method since performance was not consistent across all repositories. As done with the groups of repositories, more repositories allows for trends to be examined between repositories. A concerted effort was made to contrast positive results for one repository with negative results for other repositories. Such a contrast may mitigate the impact of the positive results, however provides the full context and help direct future work in this area.
 
 Each experiment was designed to attempt to provide a robust setup to measure accurately the performance of the approach given the changes to the current factor. The setup was designed to attempt to preventing the influence of other variables beyond the independent variable. The factors that may have had an influence on the experimental results are the third experiment only sampling the extremes (best and worst).
 
 A major concern with the final experiment was that of the sampling of the best and worst results from the previous experiments to test the use of oversampling. While the results of the use of oversampling should not be discounted, only the sampling the extremes of the previous experiment may have limited the measurable impact of the use of oversampling. This experiment could be extended to test the middle performance or even test each trail from the previous experiments.
 
 The differences between the repositories prevented a more direct comparison between the repositories. Furthermore, as shown through the experiments, some repositories (e.g. ShowcaseView) generally performed better than other repositories (e.g. governator). This leads to the conclusion that certain repository related factors have a large impact on the performance of the approach. Further investigation into these repository specific factors could lead to improved results for the approach.
+
+The repositories sampled may also not be representative of \gls{oss} repositories more generally as we first restricted the repositories in two respects:
+\being{enumerate}
+\item Repositories contained a majority Java source code. 
+\item Repositories contained $c$ commits where $300 < c < 4000$.
+\end{enumerate}
+Therefore while the experimentation was applied to several projects a large number of repositories do not meet these requirements. Furthermore, only \gls{oss} where considered and experimented on and therefore these experiments may be unrepresentative of closed source repositories as well. The major mitigating factor in both of these cases is that each repository prediction model is self contained and not reliant on any other repository for training.
