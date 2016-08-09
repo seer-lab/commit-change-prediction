@@ -3,22 +3,50 @@
 
 \section{Summary}
 
-We proposed a method that leverages the commit history to predict future changes within the project. The changes that are predicted are in the short term of 5 commits. The approach was then tested on 23 different \gls{oss} projects developed in Java. The tests investigated the different factors that impacted the performance of the approach. The results of the tests show that while the \gls{swr} had a strong impact on the performance, the projects themselves often had internal factors which caused differences in performance.
+We proposed a method that leverages the commit history to predict future changes within the repository. The data used for predictions was collected from \gls{oss} repositories on GitHub. The data was then visualized through several techniques to help identify key features for use in the prediction model. The features were selected and a model was created to predict whether change will occur in the short term of 5 commits. Three experiments were conducted on the approach using 23 different \gls{oss} repositories developed in Java. The experiments investigated the three different factors; sampling range, model features and data set balancing to identify measure the impact on the performance of the approach. The results of the experiments show that while the \gls{swr} had a strong impact on the performance, the repositories themselves often had internal factors which caused differences in performance.
 
 \section{Contributions}
 
 The contributions of this work are:
 \begin{enumerate}
-\item Providing an approach that with some success can predict future changes within a project using the commit data. Both \gls{svm} and \gls{rf} are viable for some projects.
-\item Determined which factors more strongly influence the performance of the predictions. Out of the three factors investigated, the \gls{swr} proved to have the greatest impact for both \gls{svm} and \gls{rf}.
+\item Determined which factors more strongly influence the performance of the predictions approach.
+\item Out of the three factors investigated, the \gls{swr} proved to have the greatest impact for both \gls{svm} and \gls{rf}.
+\item Providing an approach that with some success can predict future changes within a repository using the commit data. Both \gls{svm} and \gls{rf} are viable for a few repositories such as acra, http-request and ShowcaseView.
 \end{enumerate}
 
 \section{Limitations}
-%TODO fill out
+
+%http://dissertation.laerd.com/how-to-structure-the-research-limitations-section-of-your-dissertation.php
+%http://dissertation.laerd.com/what-readers-expect-from-the-research-limitations-section-of-your-dissertation.php
+%http://www.sicotests.com/darticle.asp?page=238
+
+The limitations placed on this approach often are divided into two categories; limitations used to simplify the approach and limitations inherent to the approach. The limitations used to simplify the approach are:
+\begin{itemize}
+\item Repositories are required to have a commit size of $300 < c < 4000$. The lower bound helped prevent experimentation on very small repositories which would not have had enough data. Likewise the upper bound helped restrict experimentation on huge repositories which will take longer to train and provide a more difficult challenge when modeling change.
+\item Repositories must consist of at least $75\%$ Java source code. The prediction model feature collection process required identifying language specific details and would require a reimplementation for any new language.
+\item Repositories had to be developed on GitHub and openly available. Since the goal was to extract the data from an entire repository the availability was essential. GitHub provides an easy to use interface for collecting repository data and used to collect the data. Another method for collection or another source could be devised as long as the method collects the necessary data and the source provides the necessary data.
+\end{itemize}
+While some of these restrictions are easily circumvented some are also inherent to the implementation. For example the second two would require fairly substantial reimplementation to overcome these limitations. These are however possible since creating a method for collecting from different sources would open the approach to more repositories and allow for further use. Likewise, implementations done in other languages would allow for more repositories to make use this approach.
+
+% - mitigating project internal factors causing differences between projects
+% 	- projects can't be compared as easily
+% 	- approach requires tailoring for each project. Aka no generalizable solution
+% - No guarantees about the good solution found will be the best.
+% 	- A guide is provided to help you find a good solution path (not the best).
+% - In order to achieve good results for throughout the life of a repository the parameters will likely require tunning over the life of the Repository
+%	- Repository development will change over time. Its very unlikely for the prediction model (even if a new model is created) will work effectively with the same parameters. Some of the experimentation done throughout the development of this approach showed as much.
+The other set of limitations outlines ones that are internal to the approach and are only discovered through experimentation. These limitations are:
+\begin{itemize}
+\item Repository internal factors play a large role in how well the repository performs. The experimental results showed that while some repositories may perform well others classified similarly will perform very differently. These factors were not effectively controlled by the parameters and therefore the results are unpredictable.
+\item Finding the optimal set of parameters for creating the prediction model is very difficult since these parameters will vary per repository. The extend of the impact of the parameters while investigated was not fully quantified. Therefore in order to find a better solution for a given repository tunning of the parameters is necessary. Finally, while a good solution may be found better solutions may be available but difficult to find.
+\item The prediction model is very sensitive to differences within a given repository which is easily shown in the variation between repository results for a given set of parameters. Therefore the ideal parameters for a given repository are only ideal for the current section of the data set investigated.
+\end{itemize}
+% TODO discuss how these can be mitigated and address in the future.
 
 \section{Future Work}
 
-Future work includes investigating the projects and they differ in the way they change. The four projects that tended to do will together were acra, ShowcaseView, http-request and ion which also shared similar project characteristics. Finally a more extensive look at the other factors that were involved in the approach to determine their impact of the approach.
+% TODO add more future work
+Future work includes investigating the repositories and they differ in the way they change. The four repositories that tended to do will together were acra, ShowcaseView, http-request and ion which also shared similar repository characteristics. Finally a more extensive look at the other factors that were involved in the approach to determine their impact of the approach.
 
 % TODO:
 % - summary
