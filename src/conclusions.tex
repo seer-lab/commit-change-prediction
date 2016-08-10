@@ -16,10 +16,6 @@ The contributions of this work are:
 
 \section{Limitations}
 
-%http://dissertation.laerd.com/how-to-structure-the-research-limitations-section-of-your-dissertation.php
-%http://dissertation.laerd.com/what-readers-expect-from-the-research-limitations-section-of-your-dissertation.php
-%http://www.sicotests.com/darticle.asp?page=238
-
 The limitations placed on this approach often are divided into two categories; limitations used to simplify the approach and limitations inherent to the approach. The limitations used to simplify the approach are:
 \begin{itemize}
 \item Repositories are required to have a commit size of $300 < c < 4000$. The lower bound helped prevent experimentation on very small repositories which would not have had enough data. Likewise the upper bound helped restrict experimentation on huge repositories which will take longer to train and provide a more difficult challenge when modeling change.
@@ -38,30 +34,11 @@ While some of these restrictions are easily circumvented some are also inherent 
 The other set of limitations outlines ones that are internal to the approach and are only discovered through experimentation. These limitations are:
 \begin{itemize}
 \item Repository internal factors play a large role in how well the repository performs. The experimental results showed that while some repositories may perform well others classified similarly will perform very differently. These factors were not effectively controlled by the parameters and therefore the results are unpredictable.
-\item Finding the optimal set of parameters for creating the prediction model is very difficult since these parameters will vary per repository. The extend of the impact of the parameters while investigated was not fully quantified. Therefore in order to find a better solution for a given repository tunning of the parameters is necessary. Finally, while a good solution may be found better solutions may be available but difficult to find.
 \item The prediction model is very sensitive to differences within a given repository which is easily shown in the variation between repository results for a given set of parameters. Therefore the ideal parameters for a given repository are only ideal for the current section of the data set investigated.
+\item Finding the optimal set of parameters for creating the prediction model is very difficult since these parameters will vary per repository. The extend of the impact of the parameters while investigated was not fully quantified. Therefore in order to find a better solution for a given repository tunning of the parameters is necessary. Finally, while a good solution may be found better solutions may be available but difficult to find.
 \end{itemize}
-% TODO discuss how these can be mitigated and address in the future.
+The issues outlined here are more difficult to overcome and may require a redesign of the approach to address. Specifically, the first two limitations are relate to impact of repository specific characteristics on the performance. Mitigating these characteristics with parameters would help allow for easier configuration of the method that achieves better results. Finally, achieving an optimal solution is very difficult because of how long it takes to train the model and a general rule is difficult to find with such differences between repositories. 
 
 \section{Future Work}
 
-% TODO add more future work
-Future work includes investigating the repositories and they differ in the way they change. The four repositories that tended to do will together were acra, ShowcaseView, http-request and ion which also shared similar repository characteristics. Finally a more extensive look at the other factors that were involved in the approach to determine their impact of the approach.
-
-% TODO:
-% - summary
-% - contribution
-%     - restated, in more depth
-% - limitations
-%     - Based around using GitHub data set
-%     - as well as limited data from git and open source
-% - future work
-% - conclusion section
-%     - summarize what we've done, what can we really learn about prediction and our our approach
-%     - how does this compare to results we've archived version other methods
-
-
-% TODO 
-% either talk about this here, or in the dicussions section of the rf and svm experiments.
-% - limited range of swr, wasn't exhaustive.
-% - limited set of factors, wasn't exhaustive.
+This work provides a starting area for creating a model for predicting changes within a source code repository. The approach focused on primarily Java \gls{oss} repositories found on GitHub. The approach could be extended to predict changes in other languages and also multi-language repositories. As well as investigating other languages an investigation into the repositories characteristics to help improve the prediction model. Repositories that tended to do well shared similar characteristics including: acra, ShowcaseView, http-request and ion. The approach could be extended to integrate source code metrics to help improve the model. A more expansive experimental result could be conducted to sample from a larger number of repositories could help provide more insight into the prediction model and best practices with respect to training new repositories. Finally a more extensive look at the other factors that were involved in the approach to determine their impact of the approach.
