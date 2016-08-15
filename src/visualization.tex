@@ -207,6 +207,7 @@ A snap shot is presented to outline and summarize their overall capabilities.  T
 \pagestyle{plain}
 
 \subsection{Method Change}
+\label{subsec:method_change}
 
 The visualization of line changes was very noisy and proved difficult to use. Instead of viewing every line of change separately, the changes are grouped together based on the method from which they originate from. Similar classifications are used for method changes however their definitions vary slightly and are outlined in more detail in \Cref{sec:proccessing}. There are three types of method level changes that can occur:
 \begin{enumerate}
@@ -241,6 +242,7 @@ The method level change visualization, shown in \autoref{fig:method_visual_acra}
 % \end{figure}
 
 \subsection{Method Statement Change}
+\label{subsec:method_statement_change}
 
 The method statement level visualization is a more granular view of the method level view. By building on top of the method level view, the method statement level view provides more details similar to that of the line level view. The classifications are kept from the method level view for changes but are broken down into line changes made to comments and code. Therefore both methods consist of two parts, the comments and the code that are added, deleted and modified based on the previous classification and are divided into new categories. Added and deleted methods are divided into two new categories each; added code, added comment, deleted code and deleted comment respectively. The list of classifications are outlined in \autoref{fig:method_statement_categories}, where the second tier is the new classifications of statement changes. In \autoref{fig:statement_add_delete_visual_acra}, the added and removed method data is shown. The modifications are disabled in the example visualization to simplify the view.
 
@@ -328,6 +330,41 @@ For all of the visualizations a summary view was provided which outlines key sta
  \end{figure}
 \end{landscape}
 \pagestyle{plain}
+
+\subsection{Method Change Type}
+%TODO outline what this visualization does.
+
+In order to provide a more in depth view of the changes that are applied to a repository was created. Unlike the previous three visualizations that showed count of each type of change changes that occurred per commit, this view presents the type of changes that occurred is per method per commit. Method level changes are the primary aspect feature shown similar to the Method Change View in \autoref{fig:method_visual_acra}.
+
+The method change type defines what type of change that occurred for that method, whether newly added, removed or modified. Each of these are defined in \Cref{subsec:method_change}. The method change type view is shown for acra in \autoref{fig:method_change_type_acra}. The view has a table structure where each line is a new row. The graph is divided into two columns with the vertical dashed line dividing these two columns. The first column, the series of numbers is the method unique identifier. The second column is the list of changes the method received per commit. In the example a snapshot of the view was taken and for spacing reasons full length of the second column was cut out. The list present in the second column is very long because it will contain one character per commit. Therefore in the case of acra which has $404$ commits, the full column length would be $404$.
+
+As noted one character is assigned per commit to identify what type of change was made on that method. The character mappings are as follows:
+\begin{itemize}
+\item \textbf{\textit{empty space}} denotes that the given method not existing in the corresponding commit. This may mean the method has not been created yet or was removed from the repository in the current or a previous commit.
+\item \textbf{+} A plus sign denotes that the given method was created in the corresponding commit.
+\item \textbf{=} A equal sign denotes that the given method was unchanged in the corresponding commit.
+\item \textbf{-} A minus sign denotes that the given method was not involved but still exists in the repository for the given commit.
+\item \textbf{\#} A hash sign denotes that the given method was modified in the corresponding commit.
+\end{itemize}
+
+An example of the data presented in \autoref{fig:method_change_type_acra} would be the row with a $method\_id$ of $9$. The changes made to this method starts in the first commit where the method is added. In the second commit the method was then changed. The following commit the method was not within the commit but still existing within the repository. Finally later on the method experienced either no change in the commit or was not present in the commit until the $104$th commit which contained the methods deletion.
+
+The view is quite detailed and allows for the comparison of the different changes made to a repository over the course of development. The list presented was sorted based on the first commit the method was added to. Therefore methods that were added at the same time will be closer together and available for more direct comparison.
+
+This view is less sophisticated compared to the previous ones the amount of data available and the potential for use. Currently, the view is presented in a textual form with only one sorting method. More work could be done to include a interactive user interface as well as sorting, group and filter features to help improve accessibility of the data.
+
+
+\begin{landscape}
+\thispagestyle{empty}
+    \begin{figure}
+      \centering
+            \includegraphics[width=1.5\textwidth]{images/text_visualization}
+        \caption{Method Change Type for acra}
+        \label{fig:method_change_type_acra}
+    \end{figure}
+\end{landscape}
+\pagestyle{plain}
+
 
 \section{Visualization Summary}
 
