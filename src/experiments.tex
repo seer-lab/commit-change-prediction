@@ -518,7 +518,7 @@ Each repository was tested on using these outlined parameters for an \gls{swr} v
 
 % TODO rework the following to be the key figures.
 
-The majority of the repositories using \gls{svm} did not perform well with accuracy and precision typically between $0.4$ and $0.6$. This repositories as well as others have very poor results and show the difficulty of this problem. Similarly, \autoref{fig:test_1_blockly-android_svm} shows low precision and accuracy while very high recall. The independent variable, \gls{swr} has very little impact on the performance for this repositories in particular.
+The majority of the repositories using \gls{svm} did not perform well with accuracy and precision typically between $0.4$ and $0.6$. This repositories as well as others have very poor results and show the difficulty of this problem. Similarly, \autoref{fig:test_1_blockly-android_svm-exp} shows low precision and accuracy while very high recall. The independent variable, \gls{swr} has very little impact on the performance for this repositories in particular.
 
 
 \begin{figure}[!ht]
@@ -526,7 +526,7 @@ The majority of the repositories using \gls{svm} did not perform well with accur
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/tempto_sample_range}
         \caption{\gls{swr} for tempto using \gls{svm}}
-        \label{fig:test_1_tempto_svm}
+        \label{fig:test_1_tempto_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -534,27 +534,27 @@ The majority of the repositories using \gls{svm} did not perform well with accur
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/blockly-android_sample_range}
         \caption{\gls{swr} for blockly-android using \gls{svm}}
-        \label{fig:test_1_blockly-android_svm}
+        \label{fig:test_1_blockly-android_svm-exp}
 \end{figure}
 
-Some of the repositories like http-request in \autoref{fig:test_1_http-request_svm} had a large amount of variation with the changes to the \gls{swr}. In one case http-request moderately well in \gls{swr} 80 while at 60 and 120 the accuracy and recall are $0$.
+Some of the repositories like http-request in \autoref{fig:test_1_http-request_svm-exp} had a large amount of variation with the changes to the \gls{swr}. In one case http-request moderately well in \gls{swr} 80 while at 60 and 120 the accuracy and recall are $0$.
 
 \begin{figure}[!ht]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/http-request_sample_range}
         \caption{\gls{swr} for http-request using \gls{svm}}
-        \label{fig:test_1_http-request_svm}
+        \label{fig:test_1_http-request_svm-exp}
 \end{figure}
 
-In \autoref{fig:test_1_acra_svm}, the repositories acra is shown with the best result for \gls{svm}. When the \gls{swr} is at 70-100 the performance is high, for the other cases the performance is lower but not by a large margin. The point of interest is that recall performs well for an \gls{swr} of 100 or lower but performs worse than the accuracy and precision after 100.
+In \autoref{fig:test_1_acra_svm-exp}, the repositories acra is shown with the best result for \gls{svm}. When the \gls{swr} is at 70-100 the performance is high, for the other cases the performance is lower but not by a large margin. The point of interest is that recall performs well for an \gls{swr} of 100 or lower but performs worse than the accuracy and precision after 100.
 
 \begin{figure}[!ht]
     \centering
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/acra_sample_range}
         \caption{\gls{swr} for acra using \gls{svm}}
-        \label{fig:test_1_acra_svm}
+        \label{fig:test_1_acra_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -562,7 +562,7 @@ In \autoref{fig:test_1_acra_svm}, the repositories acra is shown with the best r
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/smile_sample_range}
         \caption{\gls{swr} for smile using \gls{svm}}
-        \label{fig:test_1_smile_svm}
+        \label{fig:test_1_smile_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -570,15 +570,50 @@ In \autoref{fig:test_1_acra_svm}, the repositories acra is shown with the best r
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_1/spark_sample_range}
         \caption{\gls{swr} for spark using \gls{svm}}
-        \label{fig:test_1_spark_svm}
+        \label{fig:test_1_spark_svm-exp}
 \end{figure}
 
-Both smile in \autoref{fig:test_1_smile_svm} and spark performed poorly with each performance measure below $0.5$. In two cases (90 and 110) smile and 0 recall and undefined precision.
+Both smile in \autoref{fig:test_1_smile_svm-exp} and spark in \autoref{fig:test_1_spark_svm-exp} performed poorly each with performance measure below $0.5$. In two cases (90 and 110) smile and 0 recall and undefined precision.
 
-Overall there was no clear value for the \gls{swr} which held consistent positive results. Repositories from similar groups tended to perform similarly. For example acra, dagger and ShowcaseView all tended to perform well for similar parameters. 
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c||c|c||c|c|c|}
+        \hline
+        \textbf{Repository} & \textbf{AI} & \textbf{SWR} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
+        \hline
+        acra & SVM & 100 & 0.74 & 0.92 & 0.8 \\
+        arquillian-core & SVM & 70 & 0.55 & 0.71 & 0.57 \\
+        blockly-android & SVM & 60 & 0.51 & 1.0 & 0.51 \\
+        brave & SVM & 90 & 0.52 & 0.58 & 0.52 \\
+        cardslib & SVM & 90 & 0.58 & 0.5 & 0.57 \\
+        dagger & SVM & 60 & 0.65 & 0.68 & 0.66 \\
+        deeplearning4j & SVM & 120 & 0.58 & 0.55 & 0.58 \\
+        fresco & SVM & 130 & 0.57 & 0.67 & 0.58 \\
+        governator & SVM & 110 & 0.62 & 0.5 & 0.6 \\
+        greenDAO & SVM & 60 & 0.5 & 1.0 & 0.5 \\
+        http-request & SVM & 80 & 0.59 & 0.93 & 0.65 \\
+        ion & SVM & 70 & 0.56 & 0.62 & 0.57 \\
+        jadx & SVM & 130 & 0.55 & 0.82 & 0.58 \\
+        mapstruct & SVM & 70 & 0.6 & 0.88 & 0.65 \\
+        nettosphere & SVM & 100 & 0.57 & 0.64 & 0.58 \\
+        parceler & SVM & 70 & 0.66 & 0.54 & 0.63 \\
+        retrolambda & SVM & 80 & 0.52 & 0.96 & 0.53 \\
+        ShowcaseView & SVM & 120 & 0.59 & 0.85 & 0.63 \\
+        smile & SVM & 100 & 0.58 & 0.67 & 0.6 \\
+        spark & SVM & 130 & 0.56 & 0.86 & 0.6 \\
+        storm & SVM & 100 & 0.51 & 0.7 & 0.52 \\
+        tempto & SVM & 120 & 0.66 & 0.5 & 0.62 \\
+        yardstick & SVM & 70 & 0.55 & 0.79 & 0.57 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{\gls{swr} Repository Best Performance using \gls{svm}}
+\label{tab:svm_swr_repository_performance}
+\end{table}
+
+The best results for each repositories are outlined in \autoref{tab:svm_swr_repository_performance}. Overall there was no clear value for the \gls{swr} which held consistent positive results. Repositories from similar groups tended to perform similarly. For example acra, dagger and ShowcaseView all tended to perform well for similar parameters. 
 
 Repositories that were influenced more by \gls{swr} thus having a larger variation between values proved to have better results more often however this was not guaranteed. No value of \gls{swr} works across repositories and even for repositories that worked the correct value had to be found in order to obtain good results.
-
     
 \subsubsection{Feature Set Experiments}
 \label{sec:svm_feature_set_experiments}
@@ -647,43 +682,79 @@ The candidate feature sets are outlined in \autoref{tab:svm_feature_experiment_s
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/ShowcaseView_sample_range}
         \caption{Feature for ShowcaseView using \gls{svm}}
-        \label{fig:test_3_ShowcaseView_svm}
+        \label{fig:test_3_ShowcaseView_svm-exp}
 \end{figure}
-
-Show
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/deeplearning4j_sample_range}
     \caption{Feature for deeplearning4j using \gls{svm}}
-    \label{fig:test_3_deeplearning4j_svm}
+    \label{fig:test_3_deeplearning4j_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/ion_sample_range}
         \caption{Feature for ion using \gls{svm}}
-        \label{fig:test_3_ion_svm}
+        \label{fig:test_3_ion_svm-exp}
 \end{figure}
 
-The repositories ShowcaseView, deeplearning4j and ion were all greatly impacted by the different feature sets. ShowcaseView in \autoref{fig:test_3_ShowcaseView_svm} performed well for feature set 1 and 5 and terribly for feature set 3. 
-Similarly for ion in \autoref{fig:test_3_ion_svm}, feature sets 1 and 5 performed well with the rest of the feature sets performing poorly. Finally for deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm}, the best performance was for feature set 3 where as the remaining trails were not as good. There were a few repositories like these ones were one or two of the feature sets would perform well. One that performed well for certain feature sets tended to share similar repository classifications like ShowcaseView and ion do.
+The repositories ShowcaseView, deeplearning4j and ion were all greatly impacted by the different feature sets. ShowcaseView in \autoref{fig:test_3_ShowcaseView_svm-exp} performed well for feature set 1 and 5 and terribly for feature set 3. 
+Similarly for ion in \autoref{fig:test_3_ion_svm-exp}, feature sets 1 and 5 performed well with the rest of the feature sets performing poorly. Finally for deeplearning4j in \autoref{fig:test_3_deeplearning4j_svm-exp}, the best performance was for feature set 3 where as the remaining trails were not as good. There were a few repositories like these ones were one or two of the feature sets would perform well. One that performed well for certain feature sets tended to share similar repository classifications like ShowcaseView and ion do.
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/nettosphere_sample_range}
         \caption{Feature for nettosphere using \gls{svm}}
-        \label{fig:test_3_nettosphere_svm}
+        \label{fig:test_3_nettosphere_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_3/mapstruct_sample_range}
         \caption{Feature for mapstruct using \gls{svm}}
-        \label{fig:test_3_mapstruct_svm}
+        \label{fig:test_3_mapstruct_svm-exp}
 \end{figure}
 
-A lot of repositories did not vary greatly for different feature sets providing similar to results to that of nettosphere in \autoref{fig:test_3_nettosphere_svm}. All three performance measures show little variance and only small chances are present between repositories. Other repositories performed poorly for all the feature sets such as mapstruct in \autoref{fig:test_3_mapstruct_svm} which had 3 of the 5 trails score lower than $0.5$ in all performance measures. The feature sets are an influencing factor on the performance of the model however no single feature set found to stand out as the ideal candidate for all repositories.
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c||c|c||c|c|c|}
+        \hline
+        \textbf{Repository} & \textbf{AI} & \textbf{Feature} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
+         & & \textbf{Set} & & & \\
+        \hline
+        acra & SVM & 4 & 0.77 & 0.78 & 0.77 \\
+        arquillian-core & SVM & 4 & 0.55 & 0.83 & 0.57 \\
+        blockly-android & SVM & 2, 3, 4 & 0.5 & 1.0 & 0.5 \\
+        brave & SVM & 3, 4 & 0.6 & 0.51 & 0.58 \\
+        cardslib & SVM & 5 & 0.51 & 0.88 & 0.52 \\
+        dagger & SVM & 1 & 0.51 & 0.9 & 0.52 \\
+        deeplearning4j & SVM & 3 & 0.61 & 0.84 & 0.65 \\
+        fresco & SVM & 3 & 0.5 & 0.99 & 0.5 \\
+        governator & SVM & 1 & 0.65 & 0.57 & 0.63 \\
+        greenDAO & SVM & 3, 4 & 0.5 & 1.0 & 0.5 \\
+        http-request & SVM & 1 & 0.66 & 0.7 & 0.67 \\
+        ion & SVM & 5 & 0.58 & 0.83 & 0.61 \\
+        jadx & SVM & 3, 4 & 0.52 & 0.84 & 0.53 \\
+        mapstruct & SVM & 3 & 0.57 & 0.9 & 0.61 \\
+        nettosphere & SVM & 2 & 0.56 & 0.64 & 0.57 \\
+        parceler & SVM & 1 & 0.57 & 0.92 & 0.61 \\
+        retrolambda & SVM & 1 & 0.57 & 0.7 & 0.59 \\
+        ShowcaseView & SVM & 1 & 0.73 & 0.89 & 0.78 \\
+        smile & SVM & 5 & 0.53 & 0.96 & 0.55 \\
+        spark & SVM & 2, 4 & 0.5 & 1.0 & 0.5 \\
+        storm & SVM & 2 & 0.5 & 0.67 & 0.5 \\
+        tempto & SVM & 5 & 0.53 & 0.5 & 0.53 \\
+        yardstick & SVM & 3 & 0.53 & 0.68 & 0.54 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Feature Repository Best Performance using \gls{svm}}
+\label{tab:svm_fs_repository_performance}
+\end{table}
+
+
+A lot of repositories did not vary greatly for different feature sets providing similar to results to that of nettosphere in \autoref{fig:test_3_nettosphere_svm-exp}. All three performance measures show little variance and only small chances are present between repositories. Other repositories performed poorly for all the feature sets such as mapstruct in \autoref{fig:test_3_mapstruct_svm-exp} which had 3 of the 5 trails score lower than $0.5$ in all performance measures. In \autoref{tab:svm_fs_repository_performance} each repository is outlined with the best performance for this experiment. The feature sets are shown to be an influencing factor on the performance of the model however no single feature set found to stand out as the ideal candidate for all repositories.
 
 \subsubsection{SVM Oversampling Experiment}
 \label{sec:svm_os_experiment}
@@ -768,21 +839,21 @@ In some cases the best performing experiment may not have been entirely clear. F
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/fresco_sample_range}
         \caption{Oversampling for fresco using \gls{svm}}
-        \label{fig:test_4_fresco_svm}
+        \label{fig:test_4_fresco_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/blockly-android_sample_range}
         \caption{Oversampling for blockly-android using \gls{svm}}
-        \label{fig:test_4_blockly-android_svm}
+        \label{fig:test_4_blockly-android_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/deeplearning4j_sample_range}
     \caption{Oversampling for deeplearning4j using \gls{svm}}
-    \label{fig:test_4_deeplearning4j_svm}
+    \label{fig:test_4_deeplearning4j_svm-exp}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -790,11 +861,11 @@ In some cases the best performing experiment may not have been entirely clear. F
 
         \includegraphics[width=0.8\textwidth]{images/svm/test_4/acra_sample_range}
         \caption{Oversampling for acra using \gls{svm}}
-        \label{fig:test_4_acra_svm}
+        \label{fig:test_4_acra_svm-exp}
 \end{figure}
 
 
-Some repositories such as fresco \autoref{fig:test_4_fresco_svm} performed a little better for precision and accuracy while a little worse for precision. Unlike most repositories however blockly-android in \autoref{fig:test_4_blockly-android_svm} experienced very little change with the introduction of oversampling. Finally, the majority of the experiments showed oversampling to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm} and acra in \autoref{fig:test_4_acra_svm} performed worse for all measures for both trails.
+Some repositories such as fresco \autoref{fig:test_4_fresco_svm-exp} performed a little better for precision and accuracy while a little worse for precision. Unlike most repositories however blockly-android in \autoref{fig:test_4_blockly-android_svm-exp} experienced very little change with the introduction of oversampling. Finally, the majority of the experiments showed oversampling to provide a negative impact of the performance of the model. Both deeplearning4j in \autoref{fig:test_4_deeplearning4j_svm-exp} and acra in \autoref{fig:test_4_acra_svm-exp} performed worse for all measures for both trails.
 
 The overall impact of using oversampling for training the model proved detrimental with the vast majority of repositories performing worse with the use of oversampling. While some repositories experience increases in individual performance measures, other measures fall. Also, any performance seen by a repository is minimal at best while the loss of performance tends to be substantial.
 
@@ -872,75 +943,112 @@ The parameters for this experiment are outlined in \autoref{tab:rf_window_range_
 
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/http-request_sample_range}
         \caption{\gls{swr} for http-request using \gls{rf}}
-        \label{fig:test_1_http-request_rf}
+        \label{fig:test_1_http-request_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/http-request_importance}
         \caption{Feature Importance \gls{swr} for http-request using \gls{rf}}
-        \label{fig:test_1_http-request_rf_importance}
+        \label{fig:test_1_http-request_rf_importance-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_sample_range}
         \caption{\gls{swr} for dagger using \gls{rf}}
-        \label{fig:test_1_dagger_rf}
+        \label{fig:test_1_dagger_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/dagger_importance}
         \caption{Feature Importance \gls{swr} for dagger using \gls{rf}}
-        \label{fig:test_1_dagger_rf_importance}
+        \label{fig:test_1_dagger_rf_importance-exp}
 \end{figure}
 
 Each repositories experimental results are accompanied with a second figure that outlines the importance for each feature set variable in the creation of the prediction model. The importance of a feature only identifies how influential that feature was to the prediction and therefore necessitates the context of the results. So if a repository performs poorly in predicting the most influential features are more likely to not as useful for predictions with the repository. Likewise, if a repository performs well the corresponding feature importance can indicate highly influential features that helped produce positive results.
 
-Even in the case of where a repository performs well the feature set used may not be generalizable to other repositories. For example http-request in \autoref{fig:test_1_http-request_rf_importance} performs well with a \gls{swr} of 70 - 90 and places high importance on $Sig$, $Name$, $time$ and $length$. Alternatively, dagger in \autoref{fig:test_1_dagger_rf_importance} performs moderately well with an \gls{swr} of 60 and 100-110 while placing a higher importance on $Com$ and $time$. Even more interesting is that http-request placed nearly 0 importance on $Com$ while the same feature ranked second for dagger.
+Even in the case of where a repository performs well the feature set used may not be generalizable to other repositories. For example http-request in \autoref{fig:test_1_http-request_rf_importance-exp} performs well with a \gls{swr} of 70 - 90 and places high importance on $Sig$, $Name$, $time$ and $length$. Alternatively, dagger in \autoref{fig:test_1_dagger_rf_importance-exp} performs moderately well with an \gls{swr} of 60 and 100-110 while placing a higher importance on $Com$ and $time$. Even more interesting is that http-request placed nearly 0 importance on $Com$ while the same feature ranked second for dagger.
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/ShowcaseView_sample_range}
         \caption{\gls{swr} for ShowcaseView using \gls{rf}}
-        \label{fig:test_1_ShowcaseView_rf}
+        \label{fig:test_1_ShowcaseView_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/ShowcaseView_importance}
         \caption{Feature Importance \gls{swr} for ShowcaseView using \gls{rf}}
-        \label{fig:test_1_ShowcaseView_rf_importance}
+        \label{fig:test_1_ShowcaseView_rf_importance-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_sample_range}
     \caption{\gls{swr} for jadx using \gls{rf}}
-    \label{fig:test_1_jadx_rf}
+    \label{fig:test_1_jadx_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/jadx_importance}
         \caption{Feature Importance \gls{swr} for jadx using \gls{rf}}
-        \label{fig:test_1_jadx_rf_importance}
+        \label{fig:test_1_jadx_rf_importance-exp}
 \end{figure}
 
-The performance of each repository varied, with a few repositories performing well for some \gls{swr} like http-request in \autoref{fig:test_1_http-request_rf}, dagger in \autoref{fig:test_1_dagger_rf} and ShowcaseView in \autoref{fig:test_1_ShowcaseView_rf}. The impact of the changes to \gls{swr} is clearly visible as some trails perform poorly, while others perform a lot better. For example in ShowcaseView, use of a \gls{swr} of 100 or higher provides good performance but below the performance is a lot lower. For some repositories such as jadx in \autoref{fig:test_1_jadx_rf} the \gls{swr} had less of an impact causing little variation between precision and accuracy while offering only slight changes with the recall.
+The performance of each repository varied, with a few repositories performing well for some \gls{swr} like http-request in \autoref{fig:test_1_http-request_rf-exp}, dagger in \autoref{fig:test_1_dagger_rf-exp} and ShowcaseView in \autoref{fig:test_1_ShowcaseView_rf-exp}. The impact of the changes to \gls{swr} is clearly visible as some trails perform poorly, while others perform a lot better. For example in ShowcaseView, use of a \gls{swr} of 100 or higher provides good performance but below the performance is a lot lower. For some repositories such as jadx in \autoref{fig:test_1_jadx_rf-exp} the \gls{swr} had less of an impact causing little variation between precision and accuracy while offering only slight changes with the recall.
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_sample_range}
         \caption{\gls{swr} for storm using \gls{rf}}
-        \label{fig:test_1_storm_rf}
+        \label{fig:test_1_storm_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/storm_importance}
         \caption{Feature Importance \gls{swr} for storm using \gls{rf}}
-        \label{fig:test_1_storm_rf_importance}
+        \label{fig:test_1_storm_rf_importance-exp}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_1/parceler_sample_range}
         \caption{\gls{swr} for parceler using \gls{rf}}
-        \label{fig:test_1_parceler_rf}
+        \label{fig:test_1_parceler_rf-exp}
 
     \includegraphics[width=0.8\textwidth]{images/rf/test_1/parceler_importance}
         \caption{Feature Importance \gls{swr} for parceler using \gls{rf}}
-        \label{fig:test_1_parceler_rf_importance}
+        \label{fig:test_1_parceler_rf_importance-exp}
 \end{figure}
 
-Some repositories experienced very little impact from variations of the \gls{swr} for the performance. For example, storm in \autoref{fig:test_1_storm_rf} had higher recall but lower precision and accuracy. Other factors may provide more influence such smaller or larger values of \gls{swr} however those were outside the scope of the experiment. Finally, other repositories did not perform as well but experienced some variation to precision, recall and accuracy. One such repository would be \autoref{fig:test_1_parceler_rf} which had all three measures fairly close together for most trails but because of the size of the repository could not supply sufficient data for a \gls{swr} of 120 or 130. The importance of both storm and parceler was similar to that of http-request however as noted neither managed to perform as well as the best performance from http-request.
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c||c|c||c|c|c|}
+        \hline
+        \textbf{Repository} & \textbf{AI} & \textbf{SWR} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
+        % & & \textbf{Set} & & & \\
+        \hline
+        acra & RF & 90 & 0.78 & 0.75 & 0.77 \\
+        arquillian-core & RF & 90 & 0.52 & 0.98 & 0.54 \\
+        blockly-android & RF & 70 & 0.59 & 0.65 & 0.6 \\
+        brave & RF & 90 & 0.6 & 0.95 & 0.65 \\
+        cardslib & RF & 100 & 0.65 & 0.74 & 0.67 \\
+        dagger & RF & 110 & 0.72 & 0.69 & 0.71 \\
+        deeplearning4j & RF & 120 & 0.57 & 0.93 & 0.61 \\
+        fresco & RF & 60 & 0.52 & 1.0 & 0.53 \\
+        governator & RF & 60 & 0.57 & 0.81 & 0.6 \\
+        greenDAO & RF & 120 & 0.54 & 0.54 & 0.54 \\
+        http-request & RF & 80 & 0.87 & 0.79 & 0.84 \\
+        ion & RF & 90 & 0.71 & 0.73 & 0.72 \\
+        jadx & RF & 130 & 0.55 & 0.75 & 0.56 \\
+        mapstruct & RF & 110 & 0.58 & 0.88 & 0.62 \\
+        nettosphere & RF & 110 & 0.63 & 0.67 & 0.63 \\
+        parceler & RF & 100 & 0.77 & 0.63 & 0.72 \\
+        retrolambda & RF & 70 & 0.56 & 0.73 & 0.58 \\
+        ShowcaseView & RF & 130 & 0.78 & 0.83 & 0.8 \\
+        smile & RF & 100 & 0.53 & 0.84 & 0.54 \\
+        spark & RF & 110 & 0.54 & 0.91 & 0.57 \\
+        storm & RF & 60 & 0.61 & 0.89 & 0.66 \\
+        tempto & RF & 70 & 0.58 & 0.65 & 0.59 \\
+        yardstick & RF & 70 & 0.54 & 0.67 & 0.55 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{\gls{swr} Repository Best Performance using \gls{rf}}
+\label{tab:rf_swr_repository_performance}
+\end{table}
+
+In \autoref{tab:rf_swr_repository_performance}, the best performance is shown for each repository for this experiment. Some repositories experienced very little impact from variations of the \gls{swr} for the performance. For example, storm in \autoref{fig:test_1_storm_rf-exp} had higher recall but lower precision and accuracy. Other factors may provide more influence such smaller or larger values of \gls{swr} however those were outside the scope of the experiment. Finally, other repositories did not perform as well but experienced some variation to precision, recall and accuracy. One such repository would be \autoref{fig:test_1_parceler_rf-exp} which had all three measures fairly close together for most trails but because of the size of the repository could not supply sufficient data for a \gls{swr} of 120 or 130. The importance of both storm and parceler was similar to that of http-request however as noted neither managed to perform as well as the best performance from http-request.
 
 \subsubsection{Feature Set Experiments}
 \label{sec:feature_set_experiment_rf}
@@ -998,41 +1106,78 @@ Similar to the experiment using a \gls{svm} in \Cref{sec:svm_feature_set_experim
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/ShowcaseView_sample_range}
         \caption{Feature for ShowcaseView using \gls{rf}}
-        \label{fig:test_3_ShowcaseView_rf}
+        \label{fig:test_3_ShowcaseView_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/ion_sample_range}
     \caption{Feature for ion using \gls{rf}}
-    \label{fig:test_3_ion_rf}
+    \label{fig:test_3_ion_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/dagger_sample_range}
         \caption{Feature for dagger using \gls{rf}}
-        \label{fig:test_3_dagger_rf}
+        \label{fig:test_3_dagger_rf-exp}
 \end{figure}
 
-The repository to perform the best in this experiment was ShowcaseView in \autoref{fig:test_3_ShowcaseView_rf} which performed best for feature sets 1 and 5 and had minimal difference between the performance of feature sets 2, 3 and 4. Typically most repositories performed well with two feature sets or more which most likely is related to the similarity in the feature sets tested. A few of the successful repositories, such as ion in \autoref{fig:test_3_ion_rf}, performed well consistently for each feature set. Finally, other more successful repositories saw dramatic variations between the different feature sets. For example, dagger in \autoref{fig:test_3_dagger_rf}, performs well in the second feature set and poorly in the rest. The recall is especially volatile at dropping below $0.5$ for feature set 4. 
+The repository to perform the best in this experiment was ShowcaseView in \autoref{fig:test_3_ShowcaseView_rf-exp} which performed best for feature sets 1 and 5 and had minimal difference between the performance of feature sets 2, 3 and 4. Typically most repositories performed well with two feature sets or more which most likely is related to the similarity in the feature sets tested. A few of the successful repositories, such as ion in \autoref{fig:test_3_ion_rf-exp}, performed well consistently for each feature set. Finally, other more successful repositories saw dramatic variations between the different feature sets. For example, dagger in \autoref{fig:test_3_dagger_rf-exp}, performs well in the second feature set and poorly in the rest. The recall is especially volatile at dropping below $0.5$ for feature set 4. 
 
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/cardslib_sample_range}
         \caption{Feature for cardslib using \gls{rf}}
-        \label{fig:test_3_cardslib_rf}
+        \label{fig:test_3_cardslib_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_3/governator_sample_range}
     \caption{Feature for governator using \gls{rf}}
-    \label{fig:test_3_governator_rf}
+    \label{fig:test_3_governator_rf-exp}
 \end{figure}
 
-The majority of the repositories experimented on saw little difference for each feature set. For cardslib in \autoref{fig:test_3_cardslib_rf}, the precision and accuracy stay right above $0.5$ while the recall dips below $0.5$ for feature set 4. The performance is not great and overall the impact of the different feature sets appears quite low for this repository. Alternatively, governator in \autoref{fig:test_3_governator_rf}, is one of the few repositories to perform well for precision while low for accuracy and very low for recall. Each feature set again has only a small impact on the performance with the repository performing very poorly for every trial. Overall the results for this experiment were mixed since the impact of the feature set at least of these three features is less significant that the \gls{swr}.
+\begin{table}
+\begin{center}
+    \begin{tabular}{|c||c|c||c|c|c|}
+        \hline
+        \textbf{Repository} & \textbf{AI} & \textbf{Feature} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
+         & & \textbf{Set} & & & \\
+        \hline
+        acra & RF & 4 & 0.77 & 0.78 & 0.77 \\
+        arquillian-core & RF & 5 & 0.53 & 0.97 & 0.56 \\
+        blockly-android & RF & 2 & 0.56 & 0.73 & 0.58 \\
+        brave & RF & 2 & 0.53 & 0.92 & 0.55 \\
+        cardslib & RF & 5 & 0.53 & 0.68 & 0.54 \\
+        dagger & RF & 2 & 0.63 & 0.76 & 0.66 \\
+        deeplearning4j & RF & 3 & 0.54 & 0.91 & 0.56 \\
+        fresco & RF & 3 & 0.5 & 1.0 & 0.5 \\
+        governator & RF & 3 & 0.83 & 0.25 & 0.6 \\
+        greenDAO & RF & 3 & 0.52 & 0.47 & 0.52 \\
+        http-request & RF & 1 & 0.67 & 0.7 & 0.68 \\
+        ion & RF & 2 & 0.72 & 0.73 & 0.72 \\
+        jadx & RF & 3 & 0.51 & 0.67 & 0.52 \\
+        mapstruct & RF & 1 & 0.54 & 0.95 & 0.57 \\
+        nettosphere & RF & 5 & 0.76 & 0.42 & 0.64 \\
+        parceler & RF & 3 & 0.68 & 0.7 & 0.69 \\
+        retrolambda & RF & 1 & 0.59 & 0.17 & 0.53 \\
+        ShowcaseView & RF & 5 & 0.79 & 0.72 & 0.77 \\
+        smile & RF & 4 & 0.51 & 0.85 & 0.52 \\
+        spark & RF & 1 & 0.52 & 0.72 & 0.52 \\
+        storm & RF & 5 & 0.54 & 0.85 & 0.57 \\
+        tempto & RF & 4 & 0.51 & 0.67 & 0.52 \\
+        yardstick & RF & 2 & 0.62 & 0.24 & 0.55 \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Feature Repository Best Performance using \gls{rf}}
+\label{tab:rf_fs_repository_performance}
+\end{table}
+
+The majority of the repositories experimented on saw little difference for each feature set. The best performance for each repository is outlined in \autoref{tab:rf_fs_repository_performance}. For cardslib in \autoref{fig:test_3_cardslib_rf}, the precision and accuracy stay right above $0.5$ while the recall dips below $0.5$ for feature set 4. The performance is not great and overall the impact of the different feature sets appears quite low for this repository. Alternatively, governator in \autoref{fig:test_3_governator_rf}, is one of the few repositories to perform well for precision while low for accuracy and very low for recall. Each feature set again has only a small impact on the performance with the repository performing very poorly for every trial. Overall the results for this experiment were mixed since the impact of the feature set at least of these three features is less significant that the \gls{swr}.
 
 \subsubsection{Oversampling Experiment}
 \label{sec:oversampling_experiment_rf}
@@ -1112,33 +1257,33 @@ The result of a trail with oversampling are represented in the figures by either
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/dagger_sample_range}
         \caption{Oversampling for dagger using \gls{rf}}
-        \label{fig:test_4_dagger_rf}
+        \label{fig:test_4_dagger_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/yardstick_sample_range}
         \caption{Oversampling for yardstick using \gls{rf}}
-        \label{fig:test_4_yardstick_rf}
+        \label{fig:test_4_yardstick_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/arquillian-core_sample_range}
         \caption{Oversampling for arquillian-core using \gls{rf}}
-        \label{fig:test_4_arquillian-core_rf}
+        \label{fig:test_4_arquillian-core_rf-exp}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \includegraphics[width=0.8\textwidth]{images/rf/test_4/greenDAO_sample_range}
     \caption{Oversampling for greenDAO using \gls{rf}}
-    \label{fig:test_4_greenDAO_rf}
+    \label{fig:test_4_greenDAO_rf-exp}
 \end{figure}
 
-The results for the use of oversampling on the best and worst trails from each repository provide to have little effect on the results. In rare cases such as dagger in \autoref{fig:test_4_dagger_rf}, the performance marginally improved for the some measures while decreasing for others. However dagger also performed worse when oversampling was used on the worst trial. Similarly yardstick in \autoref{fig:test_4_yardstick_rf}, performed slightly better for best-O and dramatically worse for worst-O.
+The results for the use of oversampling on the best and worst trails from each repository provide to have little effect on the results. In rare cases such as dagger in \autoref{fig:test_4_dagger_rf-exp}, the performance marginally improved for the some measures while decreasing for others. However dagger also performed worse when oversampling was used on the worst trial. Similarly yardstick in \autoref{fig:test_4_yardstick_rf-exp}, performed slightly better for best-O and dramatically worse for worst-O.
 
-The majority of the repositories however saw no improvement or a slight decrease in performance. For example arquillian-core in \autoref{fig:test_4_arquillian-core_rf} performed around the same for best-O and slightly worse for worst-O. Generally the differences if any were very small for most. Finally, some repositories performed a lot worse for their worst-O trial including greenDAO in \autoref{fig:test_4_greenDAO_rf}. Overall the use of oversampling on either the best or worst case cause little difference. The only major difference was for worst-O which typically performed poor in compared to the trial without the use of oversampling.
+The majority of the repositories however saw no improvement or a slight decrease in performance. For example arquillian-core in \autoref{fig:test_4_arquillian-core_rf-exp} performed around the same for best-O and slightly worse for worst-O. Generally the differences if any were very small for most. Finally, some repositories performed a lot worse for their worst-O trial including greenDAO in \autoref{fig:test_4_greenDAO_rf-exp}. Overall the use of oversampling on either the best or worst case cause little difference. The only major difference was for worst-O which typically performed poor in compared to the trial without the use of oversampling.
 
 \subsubsection{Random Forest Discussion}
 \label{subsec:rf_discussion}
@@ -1171,8 +1316,8 @@ While the weighted sum did optimize each value, a common issue was that often a 
 \begin{center}
     \begin{tabular}{|c||c|c|c|c||c|c|c|}
         \hline
-        \textbf{Repository} & \textbf{AI} & \textbf{Feature} & \textbf{SWR} & \textbf{Test} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
-         & & \textbf{Set} & & \textbf{Setup} & & & \\
+        \textbf{Repository} & \textbf{AI} & \textbf{Feature} & \textbf{SWR} & \textbf{Setup} & \textbf{Precision} & \textbf{Recall} & \textbf{Accuracy} \\
+         & & \textbf{Set} & & & & & \\
         \hline
         acra & SVM & 2 & 80 & exp 1 & 0.74 & 0.92 & 0.8 \\          % top tier
         arquillian-core & RF & 3 & 90 & exp 2 & 0.53 & 0.98 & 0.55 \\
@@ -1223,34 +1368,34 @@ The complete order list of the ranked parameter sets are shown in \autoref{tab:b
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \textbf{AI} & \textbf{Feature Set} & \textbf{SWR} & \textbf{Test Setup} & \textbf{Rank Average} \\
+        \textbf{AI} & \textbf{Feature Set} & \textbf{SWR} & \textbf{Setup} & \textbf{Rank Average} \\
         \hline
-        rf & 2 & 100 & test-1 & 1.3013 \\
-        rf & 2 & 110 & test-1 & 1.2767 \\
-        rf & 2 & 60 & test-1 & 1.2648 \\
-        rf & 2 & 70 & test-1 & 1.2582 \\
-        rf & 2 & 120 & test-1 & 1.2579 \\
-        rf & 3 & 90 & test-2 & 1.2451 \\
-        rf & 2 & 130 & test-1 & 1.2423 \\
-        rf & 2 & 90 & test-2 & 1.2254 \\
-        rf & 2 & 90 & test-1 & 1.2233 \\
-        rf & 5 & 90 & test-2 & 1.2111 \\
-        rf & 2 & 80 & test-1 & 1.2082 \\
-        rf & 1 & 90 & test-2 & 1.2066 \\
-        svm & 5 & 90 & test-2 & 1.192 \\
-        rf & 4 & 90 & test-2 & 1.1844 \\
-        svm & 4 & 90 & test-2 & 1.1669 \\
-        svm & 2 & 70 & test-1 & 1.1576 \\
-        svm & 2 & 120 & test-1 & 1.1551 \\
-        svm & 2 & 130 & test-1 & 1.1529 \\
-        svm & 1 & 90 & test-2 & 1.1477 \\
-        svm & 2 & 60 & test-1 & 1.0962 \\
-        svm & 3 & 90 & test-2 & 1.0856 \\
-        svm & 2 & 90 & test-1 & 1.076 \\
-        svm & 2 & 100 & test-1 & 1.0688 \\
-        svm & 2 & 90 & test-2 & 1.0653 \\
-        svm & 2 & 80 & test-1 & 1.0365 \\
-        svm & 2 & 110 & test-1 & 1.0089 \\
+        rf & 2 & 100 & exp-1 & 0.65065 \\
+        rf & 2 & 110 & exp-1 & 0.63835 \\
+        rf & 2 & 60 & exp-1 & 0.6324 \\
+        rf & 2 & 70 & exp-1 & 0.6291 \\
+        rf & 2 & 120 & exp-1 & 0.62895 \\
+        rf & 3 & 90 & exp-2 & 0.62255 \\
+        rf & 2 & 130 & exp-1 & 0.62115 \\
+        rf & 2 & 90 & exp-2 & 0.6127 \\
+        rf & 2 & 90 & exp-1 & 0.61165 \\
+        rf & 5 & 90 & exp-2 & 0.60555 \\
+        rf & 2 & 80 & exp-1 & 0.6041 \\
+        rf & 1 & 90 & exp-2 & 0.6033 \\
+        svm & 5 & 90 & exp-2 & 0.596 \\
+        rf & 4 & 90 & exp-2 & 0.5922 \\
+        svm & 4 & 90 & exp-2 & 0.58345 \\
+        svm & 2 & 70 & exp-1 & 0.5788 \\
+        svm & 2 & 120 & exp-1 & 0.57755 \\
+        svm & 2 & 130 & exp-1 & 0.57645 \\
+        svm & 1 & 90 & exp-2 & 0.57385 \\
+        svm & 2 & 60 & exp-1 & 0.5481 \\
+        svm & 3 & 90 & exp-2 & 0.5428 \\
+        svm & 2 & 90 & exp-1 & 0.538 \\
+        svm & 2 & 100 & exp-1 & 0.5344 \\
+        svm & 2 & 90 & exp-2 & 0.53265 \\
+        svm & 2 & 80 & exp-1 & 0.51825 \\
+        svm & 2 & 110 & exp-1 & 0.50445 \\
         \hline
     \end{tabular}
 \end{center}
