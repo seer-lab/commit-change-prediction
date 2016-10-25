@@ -15,6 +15,42 @@ The data used to predict changes within a repository is the same data used in th
 
 The machine learning model requires data set samples to train from which allows for predictions of new elements. The training samples taken need to be categorized manually and then provided to the machine learning algorithm. This allows for machine learning algorithm to train based on the manual classifications to make future categorizations based on new input data. Since the categorization is whether a method will change, all methods sampled need to be able to collect data the next five commits following the current commit. This requirement provides some restrictions on which values can be included in the sampling. Therefore method changes that are within the last five commits of the training sample window are not included in the training set for the data model, they are instead used to automatically categorize the training data.
 
+\begin{table}
+\begin{center}
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \textbf{Project} & \textbf{1} & \textbf{2} & \textbf{5} & \textbf{10} \\
+        \hline
+        acra & 0.43 & 0.57 & 0.73 & 0.73 \\
+        arquillian-core & 0.06 & 0.1 & 0.16 & 0.16 \\
+        blockly-android & 0.4 & 0.48 & 0.6 & 0.6 \\
+        brave & 0.32 & 0.38 & 0.47 & 0.47 \\
+        cardslib & 0.17 & 0.26 & 0.39 & 0.39 \\
+        dagger & 0.51 & 0.58 & 0.68 & 0.68 \\
+        deeplearning4j & 0.29 & 0.41 & 0.56 & 0.56 \\
+        fresco & 0.04 & 0.07 & 0.14 & 0.14 \\
+        governator & 0.34 & 0.47 & 0.61 & 0.61 \\
+        greenDAO & 0.23 & 0.33 & 0.45 & 0.45 \\
+        http-request & 0.73 & 0.83 & 0.93 & 0.93 \\
+        ion & 0.34 & 0.46 & 0.67 & 0.67 \\
+        jadx & 0.15 & 0.21 & 0.37 & 0.37 \\
+        mapstruct & 0.17 & 0.26 & 0.38 & 0.38 \\
+        nettosphere & 0.31 & 0.44 & 0.65 & 0.65 \\
+        parceler & 0.3 & 0.39 & 0.53 & 0.53 \\
+        retrolambda & 0.35 & 0.46 & 0.62 & 0.62 \\
+        ShowcaseView & 0.6 & 0.74 & 0.86 & 0.86 \\
+        smile & 0.13 & 0.15 & 0.26 & 0.26 \\
+        spark & 0.26 & 0.36 & 0.53 & 0.53 \\
+        storm & 0.12 & 0.22 & 0.39 & 0.39 \\
+        tempto & 0.12 & 0.2 & 0.35 & 0.35 \\
+        yardstick & 0.23 & 0.39 & 0.62 & 0.62 \\
+        \hline
+    \end{tabular}
+\end{center}
+    \caption{Likelihood of a Method changing in N commits}
+    \label{tab:change_within_n_commits}
+\end{table}
+
 \begin{figure}[!ht]
     \centering
         %Generated from http://jsfiddle.net/u43dfLxp/1/
@@ -23,12 +59,13 @@ The machine learning model requires data set samples to train from which allows 
     \label{fig:training_data_range}
 \end{figure}
 
-As noted above, one of the key factors in the performance of the prediction approach is the size of the sample set. The sample set size is restricted by a variable value \gls{swr} which controls the number of commits considered to sample from. The data will only be sampled within a limited range of commits as outlined in \autoref{fig:training_data_range}. In this case, the \gls{swr} is 30 commits and the prediction gap is 5 commits.
+As noted above, one of the key factors in the performance of the prediction approach is the size of the sample set. The sample set size is restricted by a variable value \gls{swr} which controls the number of commits considered to sample from. The data will only be sampled within a limited range of commits as outlined in \autoref{fig:training_data_range}. In this case, the \gls{swr} is 30 commits and the prediction gap is 5 commits. This 5 commit gab was used for the remainder of the experiments however could be changed. A larger value $l$ would increasing the number of samples likely to change within $l$ commits. Conversely a smaller value, $s$, would decrease the number of samples likely to change within the next $s$ commits. This is illustrated in \autoref{tab:change_within_n_commits}.
+
 
 \subsection{Data Distribution}
 \label{subsec:data_distribution}
 
-Another consideration when sampling the data is the distribution of the categories. Most of the time, our data set will contain more samples in one category than the other. For example, a sample may contain $80\%$ methods with no change and $20\%$ methods with change in the next five commits. Ideally for training the number of methods with and without changes in the next five commits would be $50\%$. A bias training data set can adversely affect the model by biasing the predictions towards the over represented category. This is more apparent when the data set category distribution changes drastically between the training set and the testing set. As with our data, this can cause the model to be bias towards one data category and lead to low performance. owever in cases where the data is highly skewed to one classification over the other, the model will often predict the larger classification. This can be addressed by using one of the two techniques:
+Another consideration when sampling the data is the distribution of the categories. Most of the time, our data set will contain more samples in one category than the other. For example, a sample may contain $80\%$ methods with no change and $20\%$ methods with change in the next five commits. Ideally for training the number of methods with and without changes in the next five commits would be $50\%$. A bias training data set can adversely affect the model by biasing the predictions towards the over represented category. This is more apparent when the data set category distribution changes drastically between the training set and the testing set. As with our data, this can cause the model to be bias towards one data category and lead to low performance. However in cases where the data is highly skewed to one classification over the other, the model will often predict the larger classification. This can be addressed by using one of the two techniques:
 \begin{enumerate}
 \item Oversampling which will re-samples from the smaller classification to reduce the size difference with the larger classification. Oversampling increases the number of samples by calculating the number of samples in each category and expanding the smaller category by re-sampling values from the data set until both categories are equal in size. Both approaches can be used together so that the smaller category is expanded to at most twice its original size. If the initially smaller category is still smaller, the larger category set will be reduced to the size of the smaller category. When selecting values for re-sampling or removal, a randomized selection process is used to ensure the distribution of the data is preserved.
 \item Undersampling which will remove samples from the larger classification to reduce the difference in size with the smaller classification. Undersampling is applied to a data set by measuring the number of samples in each category. The larger of the two is reduced by discarding samples at random until the data set is the same size as the smaller data set. This will reduce the number of samples used to train the model and may reduce the performance of the model based on the decreased number of samples. In cases where there are a limited number of samples for the smaller category, undersampling may not be ideal.
