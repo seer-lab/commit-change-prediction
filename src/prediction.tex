@@ -59,7 +59,13 @@ The machine learning model requires data set samples to train from which allows 
     \label{fig:training_data_range}
 \end{figure}
 
-As noted above, one of the key factors in the performance of the prediction approach is the size of the sample set. The sample set size is restricted by a variable value \gls{swr} which controls the number of commits considered to sample from. The data will only be sampled within a limited range of commits as outlined in \autoref{fig:training_data_range}. In this case, the \gls{swr} is 30 commits and the prediction gap is 5 commits. This 5 commits gap was used for the remainder of our experiments for two reasons. Firstly, the sample categories were more balanced and therefore could prove easier to train a prediction model on. Secondly a gap of 5 provided a better focus on methods that was likely to change in the near future. A larger value $l$ would increase the number of samples likely to change within $l$ commits. Conversely a smaller value, $s$, would decrease the number of samples likely to change within the next $s$ commits. This is illustrated in \autoref{tab:change_within_n_commits}. Picking a gap value below 5 would prove difficult to train the model as the number of samples would be drastically unbalanced and require either undersampling or oversampling. Alternatively, picking a gap value above 5 had little impact on the number of samples that contained changes.
+As noted above, one of the key factors in the performance of the prediction approach is the size of the sample set. The sample set size is restricted by a variable value \gls{swr} which controls the number of commits considered to sample from. The data will only be sampled within a limited range of commits as outlined in \autoref{fig:training_data_range}. In this case, the \gls{swr} is 30 commits and the prediction gap is 5 commits. This 5 commits gap was used for the remainder of our experiments for two reasons:
+\begin{enumerate}
+\item It balanced the sample categories and improves the ability to train the prediction model.
+\item It was consistent with our goal of predicting changes that would occur "in the near future.
+\end{enumerate}
+A larger value $l$ would increase the number of samples likely to change within $l$ commits. Conversely a smaller value, $s$, would decrease the number of samples likely to change within the next $s$ commits. This is illustrated in \autoref{tab:change_within_n_commits}. Picking a gap value below 5 would prove difficult to train the model as the number of samples would be drastically unbalanced and require either undersampling or oversampling. Alternatively, picking a gap value above 5 had little impact on the number of samples that contained changes.
+
 
 
 \subsection{Data Distribution}

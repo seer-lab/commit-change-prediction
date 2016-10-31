@@ -42,11 +42,10 @@ The issues outlined here are more difficult to overcome and may require a redesi
 \section{Future Work}
 
 % Read through
-This work provides a starting point for creating a model for predicting changes within a source code repository. The approach focused on primarily Java \gls{oss} repositories found on GitHub.
+This work provided a starting point for predicting future code changes within a source code repository based on change history. In the future this work could be extended in the following directions:
 
 \begin{itemize}
-\item \textbf{Language} -- The approach could be extended to predict changes in other languages and also multi-language repositories.
-\item \textbf{Repository Characteristics} -- Investigation into repositories characteristics could help improve the prediction model. We observed that repositories that shared similar characteristics tended to perform similarly e.g. ShowcaseView, http-request and ion.
+\item \textbf{Language} -- Our approach focused primarily on Java \gls{oss} repositories found on GitHub. The approach could be extended to predict changes in other languages and also multi-language repositories. We observed that repositories that shared similar characteristics tended to perform similarly (e.g. ShowcaseView, http-request and ion).
 \item \textbf{Training Feature Weighting} -- The experiments used the same weighting for all features used to train the model. The use of different weighting could help fine tune the approach and improve the results.
 \item \textbf{Multi-Classification} -- Both \gls{svm} and \gls{rf} relied on making a simple binary classification and could be extended to make multi-classifications to provide more refined results. One such multi-classifications would be the size of change predicted to occur in the five commits.
 \item \textbf{Predictive Model} -- Use of different machine learning or \gls{ai} techniques to perform the predictions could influence the performance of a given project. Experimenting with a wider variety of techniques could achieve better results and is an avenue for further research. Specifically, use of deep learning algorithms could prove useful, given this approach looks at a single repository. However in the case of larger projects, such as storm and deeplearning4j, the machine learning techniques tended to perform poorly. Using a regressors to train on a larger data set could allow for stronger results, given that a regressor tends to require a larger data sample to train on to be more effective.
